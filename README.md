@@ -2,13 +2,13 @@
 
 Given a list of logs, display them in an user friendly format. Allow the user to query these logs in a variety of different parameters:
 
-  •	User
+    •	User
 
-  •	Date
+    •	Date
 
-  •	Type 
+    •	Type 
 
-  •	Project
+    •	Project
 
 Then, allow user’s to flag/save certain logs as important to view later. This field would be null if no one flagged it, and string of the username of the person marking as important if marked as important. Then add a query filter that allows you to search for logs marked as important by a certain person.
 

@@ -68,16 +68,16 @@ Then, allow user’s to flag/save certain logs as important to view later. This 
 
 6.	More Querying
 
-  a.	Add querying of type, Date, project, important.
-  
-    i.	Make sure query string is dynamically generated for each piece being queried (query string is added to for each parameter being queried one)
+      a.	Add querying of type, Date, project, important.
 
-  b.	GOAL: Querying for other parameters is completed and being generated correctly. The ability to add a new type of query is a simple process, as the string is just being added to.
+        i.	Make sure query string is dynamically generated for each piece being queried (query string is added to for each parameter being queried one)
+
+      b.	GOAL: Querying for other parameters is completed and being generated correctly. The ability to add a new type of query is a simple process, as the string is just being added to.
 
 7.	Beautification
 
     a.	Use CSS to make pages more aesthetically pleasing
-    
+
          i.	Make sure CSS is not done inline, but in a .css file so that it can be used across all pages
 
     b.	GOAL: Have a .css file with relevant styling in it. Make sure the items in the CSHTML are given the correct classes to utilize these CSS changes

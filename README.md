@@ -25,8 +25,11 @@ Then, allow user’s to flag/save certain logs as important to view later. This 
 2.	MVC Introduction
 
     a.	Learn how MVC/CSHTML works
+    
       i.	How to pass a model back to a view
+      
       ii.	How to create the right model for what you need in your view
+      
       iii.	Uses/benefits of using partial/shared views
 
     b.	Learn how to change pages in MVC
@@ -36,7 +39,9 @@ Then, allow user’s to flag/save certain logs as important to view later. This 
 3.	PetaPoco Introduction
 
     a.	Learn what PetaPoco is and how to use it
+    
       i.	Look at the Get() example provided in the code given to them
+      
       ii.	Look at the Update() example provided in the code
 
     b.	GOAL: Write a query that returns all logs for a given username and displays them on the screen
@@ -52,15 +57,19 @@ Then, allow user’s to flag/save certain logs as important to view later. This 
 5.	Marking Logs as Important
 
     a.	Understand how PetaPoco can be used to update a database row
+    
       i.	Don’t type in the update string
 
     b.	Add a field to each row that when pressed opens a modal dialog where you enter a username
+    
      i.	Once a name is entered and the modal dialog is pressed, the Log’s ‘important’ field is updated to save the name entered
+     
         1.	To update field, make sure an AJAX call is used
 
 6.	More Querying
 
   a.	Add querying of type, Date, project, important.
+  
     i.	Make sure query string is dynamically generated for each piece being queried (query string is added to for each parameter being queried one)
 
   b.	GOAL: Querying for other parameters is completed and being generated correctly. The ability to add a new type of query is a simple process, as the string is just being added to.
@@ -68,6 +77,7 @@ Then, allow user’s to flag/save certain logs as important to view later. This 
 7.	Beautification
 
     a.	Use CSS to make pages more aesthetically pleasing
+    
       i.	Make sure CSS is not done inline, but in a .css file so that it can be used across all pages
 
     b.	GOAL: Have a .css file with relevant styling in it. Make sure the items in the CSHTML are given the correct classes to utilize these CSS changes

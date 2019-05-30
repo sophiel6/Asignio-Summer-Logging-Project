@@ -58,13 +58,13 @@ Then, allow user’s to flag/save certain logs as important to view later. This 
 
     a.	Understand how PetaPoco can be used to update a database row
     
-       i.	Don’t type in the update string
+          i.	Don’t type in the update string
 
     b.	Add a field to each row that when pressed opens a modal dialog where you enter a username
     
-       i.	Once a name is entered and the modal dialog is pressed, the Log’s ‘important’ field is updated to save the name entered
+           i.	Once a name is entered and the modal dialog is pressed, the Log’s ‘important’ field is updated to save the name entered
 
-            1.	To update field, make sure an AJAX call is used
+                1.	To update field, make sure an AJAX call is used
 
 6.	More Querying
 
@@ -78,7 +78,7 @@ Then, allow user’s to flag/save certain logs as important to view later. This 
 
     a.	Use CSS to make pages more aesthetically pleasing
     
-       i.	Make sure CSS is not done inline, but in a .css file so that it can be used across all pages
+         i.	Make sure CSS is not done inline, but in a .css file so that it can be used across all pages
 
     b.	GOAL: Have a .css file with relevant styling in it. Make sure the items in the CSHTML are given the correct classes to utilize these CSS changes
 

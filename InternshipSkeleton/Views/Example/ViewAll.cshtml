@@ -1,0 +1,38 @@
+﻿@using AsignioInternship.Data.Example
+
+@model IEnumerable<ExampleDataModel>
+@{
+	ViewBag.Title = "ViewAll";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+	<table style="width:100%; text-align:center;">
+		<thead>
+			<tr>
+				<td>Name</td>
+				<td>Date Added</td>
+				<td>StringValue</td>
+				<td>IntValue</td>
+				<td>BoolValue</td>
+				<td>DoubleValue</td>
+				<td>Edit</td>
+			</tr>
+
+		</thead>
+		<tbody>
+
+			@foreach (ExampleDataModel currentRow in Model)
+			{
+			<tr>
+				<td>@currentRow.Name</td>
+				<td>@currentRow.DateAdded</td>
+				<td>@currentRow.StringValue</td>
+				<td>@currentRow.IntValue</td>
+				<td>@currentRow.BoolValue</td>
+				<td>@currentRow.DoubleValue</td>
+				<td>@Html.ActionLink("Edit", "Update", new { UserID = currentRow.ExampleID })</td>
+			</tr>
+
+			}
+		</tbody>
+	</table>

@@ -140,6 +140,7 @@
     <Compile Include="App_Start\StructuremapMvc.cs" />
     <Compile Include="Controllers\ExampleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LogController.cs" />
     <Compile Include="Controllers\LogExceptionController.cs" />
     <Compile Include="DependencyResolution\AppRegistry.cs" />
     <Compile Include="DependencyResolution\ControllerConvention.cs" />
@@ -195,6 +196,7 @@
     <Content Include="Views\Example\ViewAll.cshtml" />
     <Content Include="Views\Example\Update.cshtml" />
     <Content Include="Views\LogException\Index.cshtml" />
+    <Content Include="Views\Log\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

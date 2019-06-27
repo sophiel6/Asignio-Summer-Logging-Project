@@ -55,6 +55,11 @@
     <Compile Include="LogException\LogExceptionExtensions.cs" />
     <Compile Include="LogException\LogExceptionPoco.cs" />
     <Compile Include="LogException\LogExceptionRepository.cs" />
+    <Compile Include="Log\ILogRepository.cs" />
+    <Compile Include="Log\LogDataModel.cs" />
+    <Compile Include="Log\LogExtensions.cs" />
+    <Compile Include="Log\LogPoco.cs" />
+    <Compile Include="Log\LogRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

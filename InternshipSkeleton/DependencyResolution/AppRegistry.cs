@@ -3,6 +3,7 @@
 namespace AsignioInternship.DependencyResolution
 {
     using AsignioInternship.Data.Example;
+    using AsignioInternship.Data.Log;
     using AsignioInternship.Data.LogException;
     using StructureMap;
 
@@ -22,6 +23,8 @@ namespace AsignioInternship.DependencyResolution
 
             //added by Sophie
             For<ILogExceptionRepository>().Singleton().Use<LogExceptionRepository>();
+
+            For<ILogRepository>().Singleton().Use<LogRepository>();
         }
     }
 }

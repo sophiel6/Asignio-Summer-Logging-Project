@@ -1,0 +1,40 @@
+﻿@using AsignioInternship.Data.LogException
+
+@model IEnumerable<LogExceptionDataModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table style="width:100%; text-align:center;">
+    <thead>
+        <tr>
+            <td>Time Stamp</td>
+            <td>User ID</td>
+            <td>Web Request ID</td>
+            <td>Message</td>
+            <td>Method Name</td>
+            <td>Source</td>
+            <td>Stack Trace</td>
+        </tr>
+
+    </thead>
+    <tbody>
+
+        @foreach (LogExceptionDataModel currentRow in Model)
+        {
+            <tr>
+                <td>@currentRow.TimeStamp</td>
+                <td>@currentRow.UserID</td>
+                <td>@currentRow.WebRequestID</td>
+                <td>@currentRow.Message</td>
+                <td>@currentRow.MethodName</td>
+                <td>@currentRow.Source</td>
+                <td>@currentRow.StackTrace</td>
+               <!-- <td>@Html.ActionLink("Edit", "Update", new { UserID = currentRow.ExampleID })</td> -->
+            </tr>
+
+        }
+    </tbody>
+</table>
+

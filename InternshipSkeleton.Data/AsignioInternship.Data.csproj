@@ -50,6 +50,11 @@
     <Compile Include="Example\ExamplePoco.cs" />
     <Compile Include="Example\ExampleRepository.cs" />
     <Compile Include="Example\IExampleRepository.cs" />
+    <Compile Include="LogException\ILogExceptionRepository.cs" />
+    <Compile Include="LogException\LogExceptionDataModel.cs" />
+    <Compile Include="LogException\LogExceptionExtensions.cs" />
+    <Compile Include="LogException\LogExceptionPoco.cs" />
+    <Compile Include="LogException\LogExceptionRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -64,5 +69,6 @@
       <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

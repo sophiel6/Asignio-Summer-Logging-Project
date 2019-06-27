@@ -15,9 +15,9 @@ namespace AsignioInternship.Data.LogException
 
         internal static readonly string BaseSQL = @"
             SELECT
-           * from example";
-        internal static readonly string SelectByIDSQL = BaseSQL + " where ExampleID=@0;";
-        internal static readonly string SelectAll = BaseSQL + " ORDER BY DateAdded desc;";
+           * from logexception";
+        internal static readonly string SelectByIDSQL = BaseSQL + ""; // + " where ExampleID=@0;";
+        internal static readonly string SelectAll = BaseSQL + " ORDER BY TimeStamp desc;";
         #endregion
 
 

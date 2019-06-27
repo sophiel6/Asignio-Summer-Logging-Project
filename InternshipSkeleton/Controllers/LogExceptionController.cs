@@ -13,7 +13,9 @@ namespace AsignioInternship.Controllers
         }
         public ActionResult Index()
         {
-            return View();
+            IEnumerable<LogExceptionDataModel> result = m_logExceptionRepository.GetAll();
+            return View(result);
+            //return View();
         }
 
         public ActionResult ViewAll()

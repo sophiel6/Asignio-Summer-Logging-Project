@@ -4,7 +4,9 @@ namespace AsignioInternship.DependencyResolution
 {
     using AsignioInternship.Data.Example;
     using AsignioInternship.Data.Log;
+    using AsignioInternship.Data.LogControllerAction;
     using AsignioInternship.Data.LogException;
+    using AsignioInternship.Data.LogInfo;
     using StructureMap;
 
     public class AppRegistry : Registry
@@ -25,6 +27,8 @@ namespace AsignioInternship.DependencyResolution
             For<ILogExceptionRepository>().Singleton().Use<LogExceptionRepository>();
 
             For<ILogRepository>().Singleton().Use<LogRepository>();
+            For<ILogControllerActionRepository>().Singleton().Use<LogControllerActionRepository>();
+            For<ILogInfoRepository>().Singleton().Use<LogInfoRepository>();
         }
     }
 }

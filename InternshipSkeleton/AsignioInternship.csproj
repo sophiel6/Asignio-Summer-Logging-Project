@@ -141,7 +141,9 @@
     <Compile Include="Controllers\ExampleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LogController.cs" />
+    <Compile Include="Controllers\LogControllerActionController.cs" />
     <Compile Include="Controllers\LogExceptionController.cs" />
+    <Compile Include="Controllers\LogInfoController.cs" />
     <Compile Include="DependencyResolution\AppRegistry.cs" />
     <Compile Include="DependencyResolution\ControllerConvention.cs" />
     <Compile Include="DependencyResolution\DefaultRegistry.cs" />
@@ -197,6 +199,8 @@
     <Content Include="Views\Example\Update.cshtml" />
     <Content Include="Views\LogException\Index.cshtml" />
     <Content Include="Views\Log\Index.cshtml" />
+    <Content Include="Views\LogControllerAction\Index.cshtml" />
+    <Content Include="Views\LogInfo\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

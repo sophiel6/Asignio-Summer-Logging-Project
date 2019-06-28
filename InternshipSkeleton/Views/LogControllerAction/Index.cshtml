@@ -1,0 +1,37 @@
+﻿@using AsignioInternship.Data.LogControllerAction
+
+@model IEnumerable<LogControllerActionDataModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table style="width:100%; text-align:center;">
+    <thead>
+        <tr>
+            <td>Time Stamp</td>
+            <td>User ID</td>
+            <td>Web Request ID</td>
+            <td>Controller Name</td>
+            <td>Action Name</td>
+            <td>Parameters</td>
+        </tr>
+
+    </thead>
+    <tbody>
+
+        @foreach (LogControllerActionDataModel currentRow in Model)
+        {
+            <tr>
+                <td>@currentRow.TimeStamp</td>
+                <td>@currentRow.UserID</td>
+                <td>@currentRow.WebRequestID</td>
+                <td>@currentRow.ControllerName</td>
+                <td>@currentRow.ActionName</td>
+                <td>@currentRow.Parameters</td>
+                <!-- <td> (at) Html.ActionLink("Edit", "Update", new { UserID = currentRow.ExampleID })</td> -->
+            </tr>
+
+        }
+    </tbody>
+</table>

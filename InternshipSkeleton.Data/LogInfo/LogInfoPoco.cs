@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace AsignioInternship.Data.LogException
+namespace AsignioInternship.Data.LogInfo
 {
 
-    [PetaPoco.TableName("logexception")]
+    [PetaPoco.TableName("loginfo")]
     [PetaPoco.PrimaryKey("UserID", autoIncrement = false)] //is this what I should have as primary key? it said ExampleID before
-    internal class LogExceptionPoco
+    internal class LogInfoPoco
     {
-        //probably need to change this SQL stuff 
+
         #region SQL
 
         internal static readonly string BaseSQL = @"
             SELECT
-           * from logexception";
+           * from loginfo";
         internal static readonly string SelectByIDSQL = BaseSQL + ""; // + " where ExampleID=@0;";
         internal static readonly string SelectAll = BaseSQL + " ORDER BY TimeStamp desc;";
         #endregion
@@ -26,8 +26,7 @@ namespace AsignioInternship.Data.LogException
         public byte[] UserID { get; set; }
         public string Message { get; set; }
         public string MethodName { get; set; }
-        public string Source { get; set; }
-        public string StackTrace { get; set; }
-
+        public string Object { get; set; }
+        public byte[] ID { get; set; }
     }
 }

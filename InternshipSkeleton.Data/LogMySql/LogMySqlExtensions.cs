@@ -11,7 +11,7 @@ namespace AsignioInternship.Data.LogMySql
 
                 return new LogMySqlDataModel
                 {
-                    TimeStamp = source.TimeStamp,
+                    DateTimeStamp = source.DateTimeStamp,
                     Message = source.Message,
                     Function = source.Function,
                     Type = source.Type,
@@ -28,7 +28,7 @@ namespace AsignioInternship.Data.LogMySql
 
                 return new LogMySqlPoco
                 {
-                    TimeStamp = source.TimeStamp,
+                    DateTimeStamp = source.DateTimeStamp,
                     Message = source.Message,
                     Function = source.Function,
                     Type = source.Type,

@@ -18,6 +18,7 @@ namespace AsignioInternship.Data.LogMySql
         //	: base(typeof(ExampleRepository), connectionStringName)
         //{ }
 
+            /*
         public LogMySqlDataModel GetFromUserID(Guid UserID)
         {
             try
@@ -37,7 +38,7 @@ namespace AsignioInternship.Data.LogMySql
             return null;
 
         }
-
+        */
         public IEnumerable<LogMySqlDataModel> GetAll()
         {
             try

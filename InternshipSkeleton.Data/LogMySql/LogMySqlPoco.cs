@@ -7,7 +7,7 @@ namespace AsignioInternship.Data.LogMySql
 {
 
     [PetaPoco.TableName("logmysql")]
-   // [PetaPoco.PrimaryKey("Message", autoIncrement = false)] //is this what I should have as primary key? it said ExampleID before
+    [PetaPoco.PrimaryKey("DateTimeStamp", autoIncrement = false)] //is this what I should have as primary key? it said ExampleID before
     internal class LogMySqlPoco
     {
 
@@ -17,11 +17,11 @@ namespace AsignioInternship.Data.LogMySql
             SELECT
            * from logmysql";
         internal static readonly string SelectByIDSQL = BaseSQL + ""; // + " where ExampleID=@0;";
-        internal static readonly string SelectAll = BaseSQL + " ORDER BY TimeStamp desc;";
+        internal static readonly string SelectAll = BaseSQL + " ORDER BY DateTimeStamp desc;";
         #endregion
 
 
-        public DateTime TimeStamp { get; set; }
+        public DateTime DateTimeStamp { get; set; }
         public string Message { get; set; }
         public string Function { get; set; }
         public int Type { get; set; }

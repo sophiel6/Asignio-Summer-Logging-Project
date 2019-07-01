@@ -1,5 +1,6 @@
 ﻿@using AsignioInternship.Data.LogMySql
 
+
 @model IEnumerable<LogMySqlDataModel>
 @{
     ViewBag.Title = "Index";
@@ -9,7 +10,7 @@
 <table style="width:100%; text-align:center;">
     <thead>
         <tr>
-            <td>Time Stamp</td>
+            <td>Date-Time Stamp</td>
             <td>Message</td>
             <td>Function</td>
             <td>Type</td>
@@ -21,7 +22,7 @@
         @foreach (LogMySqlDataModel currentRow in Model)
         {
             <tr>
-                <td>@currentRow.TimeStamp</td>
+                <td>@currentRow.DateTimeStamp</td>
                 <td>@currentRow.Message</td>
                 <td>@currentRow.Function</td>
                 <td>@currentRow.Type</td>

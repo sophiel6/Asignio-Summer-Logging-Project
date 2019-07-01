@@ -5,7 +5,7 @@ namespace AsignioInternship.Data.LogMySql
 {
     public interface ILogMySqlRepository
     {
-        LogMySqlDataModel GetFromUserID(Guid UserID);
+        //LogMySqlDataModel GetFromUserID(Guid UserID);
         //LogExceptionDataModel Insert(LogExceptionDataModel dataModel);
 
         IEnumerable<LogMySqlDataModel> GetAll();

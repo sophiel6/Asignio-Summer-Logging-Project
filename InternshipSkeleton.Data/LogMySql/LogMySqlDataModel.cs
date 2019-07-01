@@ -8,7 +8,7 @@ namespace AsignioInternship.Data.LogMySql
 {
     public class LogMySqlDataModel
     {
-        public DateTime TimeStamp { get; set; }
+        public DateTime DateTimeStamp { get; set; }
         public string Message { get; set; }
         public string Function { get; set; }
         public int Type { get; set; }

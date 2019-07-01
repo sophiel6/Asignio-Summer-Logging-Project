@@ -1,0 +1,34 @@
+﻿@using AsignioInternship.Data.LogMySql
+
+@model IEnumerable<LogMySqlDataModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<table style="width:100%; text-align:center;">
+    <thead>
+        <tr>
+            <td>Time Stamp</td>
+            <td>Message</td>
+            <td>Function</td>
+            <td>Type</td>
+        </tr>
+
+    </thead>
+    <tbody>
+
+        @foreach (LogMySqlDataModel currentRow in Model)
+        {
+            <tr>
+                <td>@currentRow.TimeStamp</td>
+                <td>@currentRow.Message</td>
+                <td>@currentRow.Function</td>
+                <td>@currentRow.Type</td>
+                <!-- <td> (at) Html.ActionLink("Edit", "Update", new { UserID = currentRow.ExampleID })</td> -->
+            </tr>
+
+        }
+    </tbody>
+</table>
+

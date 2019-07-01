@@ -65,6 +65,11 @@
     <Compile Include="LogInfo\LogInfoExtensions.cs" />
     <Compile Include="LogInfo\LogInfoPoco.cs" />
     <Compile Include="LogInfo\LogInfoRepository.cs" />
+    <Compile Include="LogMySql\ILogMySqlRepository.cs" />
+    <Compile Include="LogMySql\LogMySqlDataModel.cs" />
+    <Compile Include="LogMySql\LogMySqlExtensions.cs" />
+    <Compile Include="LogMySql\LogMySqlPoco.cs" />
+    <Compile Include="LogMySql\LogMySqlRepository.cs" />
     <Compile Include="Log\ILogRepository.cs" />
     <Compile Include="Log\LogDataModel.cs" />
     <Compile Include="Log\LogExtensions.cs" />

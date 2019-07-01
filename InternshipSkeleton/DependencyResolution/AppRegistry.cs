@@ -7,6 +7,7 @@ namespace AsignioInternship.DependencyResolution
     using AsignioInternship.Data.LogControllerAction;
     using AsignioInternship.Data.LogException;
     using AsignioInternship.Data.LogInfo;
+    using AsignioInternship.Data.LogMySql;
     using StructureMap;
 
     public class AppRegistry : Registry
@@ -27,8 +28,12 @@ namespace AsignioInternship.DependencyResolution
             For<ILogExceptionRepository>().Singleton().Use<LogExceptionRepository>();
 
             For<ILogRepository>().Singleton().Use<LogRepository>();
+
             For<ILogControllerActionRepository>().Singleton().Use<LogControllerActionRepository>();
+
             For<ILogInfoRepository>().Singleton().Use<LogInfoRepository>();
+
+            For<ILogMySqlRepository>().Singleton().Use<LogMySqlRepository>();
         }
     }
 }

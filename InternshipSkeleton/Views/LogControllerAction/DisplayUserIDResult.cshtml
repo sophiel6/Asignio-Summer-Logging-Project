@@ -2,11 +2,10 @@
 
 @model IEnumerable<LogControllerActionDataModel>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "DisplayUserIDResult";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@Html.ActionLink("Search", "Search", "LogControllerAction");
 
 <table style="width:100%; text-align:center;">
     <thead>
@@ -33,7 +32,11 @@
                 <td>@currentRow.Parameters</td>
                 <!-- <td> (at) Html.ActionLink("Edit", "Update", new { UserID = currentRow.ExampleID })</td> -->
             </tr>
-
         }
-    </tbody>
+        </tbody>
 </table>
+
+<div>
+    @Html.ActionLink("Back to Search", "SearchByUserID")
+</div>
+

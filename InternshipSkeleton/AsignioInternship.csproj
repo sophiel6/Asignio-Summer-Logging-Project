@@ -210,6 +210,9 @@
     <Content Include="Views\Log\SearchByUserID.cshtml" />
     <Content Include="Views\Log\Search.cshtml" />
     <Content Include="Views\Log\DisplayUserIDResult.cshtml" />
+    <Content Include="Views\LogControllerAction\Search.cshtml" />
+    <Content Include="Views\LogControllerAction\SearchByUserID.cshtml" />
+    <Content Include="Views\LogControllerAction\DisplayUserIDResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

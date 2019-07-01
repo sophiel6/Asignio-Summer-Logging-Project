@@ -15,7 +15,6 @@ namespace AsignioInternship.Controllers
         {
             IEnumerable<LogControllerActionDataModel> result = m_logControllerActionRepository.GetAll();
             return View(result);
-            //return View();
         }
 
         public ActionResult ViewAll()
@@ -28,19 +27,23 @@ namespace AsignioInternship.Controllers
         {
             return View();
         }
-        /*
-        public ActionResult Update(Guid UserID)
+
+        public ActionResult Search()
         {
-            LogExceptionDataModel result = m_logExceptionRepository.GetFromID(UserID);
+            return View();
+        }
+
+        public ActionResult SearchByUserID()
+        {
+            return View();
+        }
+
+        public ActionResult DisplayUserIDResult(Guid UserID)
+        {
+            IEnumerable<LogControllerActionDataModel> result = m_logControllerActionRepository.GetAllFromUserID(UserID);
             return View(result);
         }
 
-        public ActionResult SubmitNewExample(ExampleDataModel model)
-        {
-            m_ExampleRepository.Insert(model);
-            return View();
-        }
-        */
         private readonly ILogControllerActionRepository m_logControllerActionRepository;
     }
 }

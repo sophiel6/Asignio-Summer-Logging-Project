@@ -35,7 +35,26 @@ namespace AsignioInternship.Data.LogControllerAction
             { }
 
             return null;
+        }
 
+        //Adding - get all from user ID method
+        public IEnumerable<LogControllerActionDataModel> GetAllFromUserID(Guid UserID)
+        {
+            try
+            {
+                using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
+                {
+                    return db.Fetch<LogControllerActionPoco>(LogControllerActionPoco.SelectByIDSQL, GuidMapper.Map(UserID)).Select(S => S.ToModel());
+                }
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = ex.Message;
+            }
+            finally
+            { }
+
+            return null;
         }
 
         public IEnumerable<LogControllerActionDataModel> GetAll()
@@ -56,37 +75,6 @@ namespace AsignioInternship.Data.LogControllerAction
 
             return null;
         }
-        /*
-        public ExampleDataModel Insert(ExampleDataModel dataModel) // always do insert and update together. Check if it already exists, if so update, if not insert
-        {
-            try
-            {
-                using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
-                {
-                    ExampleDataModel returnModel = GetFromID(dataModel.ExampleID);
-                    ExamplePoco poco = dataModel.ToPoco();
-                    if (returnModel != null)
-                    {
-                        db.Update(poco);
-                    }
-                    else
-                    {
-                        poco.ExampleID = GuidMapper.Map(Guid.NewGuid());
-                        poco.DateAdded = DateTime.Now;
-                        db.Insert(poco);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                string errorMessage = ex.Message;
-            }
-            finally
-            { }
 
-            return null;
-
-        }
-    */
     }
 }

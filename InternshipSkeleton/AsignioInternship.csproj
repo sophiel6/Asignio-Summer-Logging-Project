@@ -146,6 +146,7 @@
     <Compile Include="Controllers\LogInfoController.cs" />
     <Compile Include="Controllers\LogMySqlController.cs" />
     <Compile Include="Controllers\LogWebRequestController.cs" />
+    <Compile Include="Controllers\LogWebResponseController.cs" />
     <Compile Include="DependencyResolution\AppRegistry.cs" />
     <Compile Include="DependencyResolution\ControllerConvention.cs" />
     <Compile Include="DependencyResolution\DefaultRegistry.cs" />
@@ -205,6 +206,7 @@
     <Content Include="Views\LogInfo\Index.cshtml" />
     <Content Include="Views\LogMySql\Index.cshtml" />
     <Content Include="Views\LogWebRequest\Index.cshtml" />
+    <Content Include="Views\LogWebResponse\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

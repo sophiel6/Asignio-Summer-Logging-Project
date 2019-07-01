@@ -75,6 +75,11 @@
     <Compile Include="LogWebRequest\LogWebRequestExtensions.cs" />
     <Compile Include="LogWebRequest\LogWebRequestPoco.cs" />
     <Compile Include="LogWebRequest\LogWebRequestRepository.cs" />
+    <Compile Include="LogWebResponse\ILogWebResponseRepository.cs" />
+    <Compile Include="LogWebResponse\LogWebResponseDataModel.cs" />
+    <Compile Include="LogWebResponse\LogWebResponseExtensions.cs" />
+    <Compile Include="LogWebResponse\LogWebResponsePoco.cs" />
+    <Compile Include="LogWebResponse\LogWebResponseRepository.cs" />
     <Compile Include="Log\ILogRepository.cs" />
     <Compile Include="Log\LogDataModel.cs" />
     <Compile Include="Log\LogExtensions.cs" />

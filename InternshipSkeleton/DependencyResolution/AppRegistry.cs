@@ -9,6 +9,7 @@ namespace AsignioInternship.DependencyResolution
     using AsignioInternship.Data.LogInfo;
     using AsignioInternship.Data.LogMySql;
     using AsignioInternship.Data.LogWebRequest;
+    using AsignioInternship.Data.LogWebResponse;
     using StructureMap;
 
     public class AppRegistry : Registry
@@ -36,6 +37,9 @@ namespace AsignioInternship.DependencyResolution
             For<ILogMySqlRepository>().Singleton().Use<LogMySqlRepository>();
 
             For<ILogWebRequestRepository>().Singleton().Use<LogWebRequestRepository>();
+
+            For<ILogWebResponseRepository>().Singleton().Use<LogWebResponseRepository>();
+
         }
     }
 }

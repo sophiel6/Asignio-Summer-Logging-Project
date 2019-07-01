@@ -1,6 +1,6 @@
-﻿@using AsignioInternship.Data.LogException
+﻿@using AsignioInternship.Data.LogInfo
 
-@model IEnumerable<LogExceptionDataModel>
+@model IEnumerable<LogInfoDataModel>
 @{
     ViewBag.Title = "DisplayUserIDResult";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,27 +14,27 @@
     <thead>
         <tr>
             <td>Time Stamp</td>
-            <td>User ID</td>
             <td>Web Request ID</td>
+            <td>User ID</td>
             <td>Message</td>
             <td>Method Name</td>
-            <td>Source</td>
-            <td>Stack Trace</td>
+            <td>Object</td>
+            <td>ID</td>
         </tr>
 
     </thead>
     <tbody>
 
-        @foreach (LogExceptionDataModel currentRow in Model)
+        @foreach (LogInfoDataModel currentRow in Model)
         {
             <tr>
                 <td>@currentRow.TimeStamp</td>
-                <td>@currentRow.UserID</td>
                 <td>@currentRow.WebRequestID</td>
+                <td>@currentRow.UserID</td>
                 <td>@currentRow.Message</td>
                 <td>@currentRow.MethodName</td>
-                <td>@currentRow.Source</td>
-                <td>@currentRow.StackTrace</td>
+                <td>@currentRow.Object</td>
+                <td>@currentRow.ID</td>
             </tr>
         }
         </tbody>

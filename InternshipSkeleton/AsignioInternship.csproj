@@ -216,6 +216,9 @@
     <Content Include="Views\LogException\Search.cshtml" />
     <Content Include="Views\LogException\SearchByUserID.cshtml" />
     <Content Include="Views\LogException\DisplayUserIDResult.cshtml" />
+    <Content Include="Views\LogInfo\Search.cshtml" />
+    <Content Include="Views\LogInfo\SearchByUserID.cshtml" />
+    <Content Include="Views\LogInfo\DisplayUserIDResult.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

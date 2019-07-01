@@ -6,6 +6,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<!-- Added link to search the log-->
+@Html.ActionLink("Search", "Search", "LogInfo");
+
 <table style="width:100%; text-align:center;">
     <thead>
         <tr>
@@ -17,7 +20,7 @@
             <td>Object</td>
             <td>ID</td>
         </tr>
-        
+
     </thead>
     <tbody>
 
@@ -31,7 +34,6 @@
                 <td>@currentRow.MethodName</td>
                 <td>@currentRow.Object</td>
                 <td>@currentRow.ID</td>
-                <!-- <td> (at) Html.ActionLink("Edit", "Update", new { UserID = currentRow.ExampleID })</td> -->
             </tr>
 
         }

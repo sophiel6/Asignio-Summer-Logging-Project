@@ -70,6 +70,11 @@
     <Compile Include="LogMySql\LogMySqlExtensions.cs" />
     <Compile Include="LogMySql\LogMySqlPoco.cs" />
     <Compile Include="LogMySql\LogMySqlRepository.cs" />
+    <Compile Include="LogWebRequest\ILogWebRequestRepository.cs" />
+    <Compile Include="LogWebRequest\LogWebRequestDataModel.cs" />
+    <Compile Include="LogWebRequest\LogWebRequestExtensions.cs" />
+    <Compile Include="LogWebRequest\LogWebRequestPoco.cs" />
+    <Compile Include="LogWebRequest\LogWebRequestRepository.cs" />
     <Compile Include="Log\ILogRepository.cs" />
     <Compile Include="Log\LogDataModel.cs" />
     <Compile Include="Log\LogExtensions.cs" />

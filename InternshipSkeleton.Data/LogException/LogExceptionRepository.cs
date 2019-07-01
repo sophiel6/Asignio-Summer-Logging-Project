@@ -56,25 +56,14 @@ namespace AsignioInternship.Data.LogException
 
             return null;
         }
-        /*
-        public ExampleDataModel Insert(ExampleDataModel dataModel) // always do insert and update together. Check if it already exists, if so update, if not insert
+
+        public IEnumerable<LogExceptionDataModel> GetAllFromUserID(Guid UserID)
         {
             try
             {
                 using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
                 {
-                    ExampleDataModel returnModel = GetFromID(dataModel.ExampleID);
-                    ExamplePoco poco = dataModel.ToPoco();
-                    if (returnModel != null)
-                    {
-                        db.Update(poco);
-                    }
-                    else
-                    {
-                        poco.ExampleID = GuidMapper.Map(Guid.NewGuid());
-                        poco.DateAdded = DateTime.Now;
-                        db.Insert(poco);
-                    }
+                    return db.Fetch<LogExceptionPoco>(LogExceptionPoco.SelectByIDSQL, GuidMapper.Map(UserID)).Select(S => S.ToModel());
                 }
             }
             catch (Exception ex)
@@ -85,8 +74,6 @@ namespace AsignioInternship.Data.LogException
             { }
 
             return null;
-
         }
-    */
     }
 }

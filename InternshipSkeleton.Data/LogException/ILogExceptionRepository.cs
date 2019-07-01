@@ -8,6 +8,8 @@ namespace AsignioInternship.Data.LogException
         LogExceptionDataModel GetFromUserID(Guid UserID);
         //LogExceptionDataModel Insert(LogExceptionDataModel dataModel);
 
+        IEnumerable<LogExceptionDataModel> GetAllFromUserID(Guid UserID);
+
         IEnumerable<LogExceptionDataModel> GetAll();
     }
 }

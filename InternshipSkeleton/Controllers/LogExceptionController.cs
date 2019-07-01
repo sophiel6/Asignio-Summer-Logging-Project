@@ -28,19 +28,21 @@ namespace AsignioInternship.Controllers
         {
             return View();
         }
-        /*
-        public ActionResult Update(Guid UserID)
+        public ActionResult Search()
         {
-            LogExceptionDataModel result = m_logExceptionRepository.GetFromID(UserID);
-            return View(result);
-        }
-
-        public ActionResult SubmitNewExample(ExampleDataModel model)
-        {
-            m_ExampleRepository.Insert(model);
             return View();
         }
-        */
+
+        public ActionResult SearchByUserID()
+        {
+            return View();
+        }
+
+        public ActionResult DisplayUserIDResult(Guid UserID)
+        {
+            IEnumerable<LogExceptionDataModel> result = m_logExceptionRepository.GetAllFromUserID(UserID);
+            return View(result);
+        }
         private readonly ILogExceptionRepository m_logExceptionRepository;
     }
 }

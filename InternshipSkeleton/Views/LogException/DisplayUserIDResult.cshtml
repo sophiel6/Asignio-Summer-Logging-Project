@@ -2,12 +2,10 @@
 
 @model IEnumerable<LogExceptionDataModel>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "DisplayUserIDResult";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- Added link to search the log-->
-@Html.ActionLink("Search", "Search", "LogException");
 
 <table style="width:100%; text-align:center;">
     <thead>
@@ -36,8 +34,11 @@
                 <td>@currentRow.StackTrace</td>
                 <!-- <td> (at) Html.ActionLink("Edit", "Update", new { UserID = currentRow.ExampleID })</td> -->
             </tr>
-
         }
-    </tbody>
+        </tbody>
 </table>
+
+<div>
+    @Html.ActionLink("Back to Search", "SearchByUserID")
+</div>
 

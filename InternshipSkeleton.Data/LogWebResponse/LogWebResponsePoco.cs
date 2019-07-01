@@ -16,7 +16,7 @@ namespace AsignioInternship.Data.LogWebResponse
         internal static readonly string BaseSQL = @"
             SELECT
            * from logwebresponse";
-        internal static readonly string SelectByIDSQL = BaseSQL + ""; // + " where ExampleID=@0;";
+        internal static readonly string SelectByIDSQL = BaseSQL + "" + " where UserID=@0;";
         internal static readonly string SelectAll = BaseSQL + " ORDER BY TimeStamp desc;";
         #endregion
 

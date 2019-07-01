@@ -1,0 +1,44 @@
+﻿@using AsignioInternship.Data.LogWebResponse
+
+@model IEnumerable<LogWebResponseDataModel>
+@{
+    ViewBag.Title = "DisplayUserIDResult";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    @Html.ActionLink("Back to Search", "SearchByUserID")
+</div>
+
+<table style="width:100%; text-align:center;">
+    <thead>
+        <tr>
+            <td>Time Stamp</td>
+            <td>Web Request ID</td>
+            <td>User ID</td>
+            <td>Status</td>
+            <td>Status Code</td>
+            <td>Status Description</td>
+            <td>Redirect Location</td>
+        </tr>
+
+    </thead>
+    <tbody>
+
+        @foreach (LogWebResponseDataModel currentRow in Model)
+        {
+        <tr>
+            <td>@currentRow.TimeStamp</td>
+            <td>@currentRow.WebRequestID</td>
+            <td>@currentRow.UserID</td>
+            <td>@currentRow.Status</td>
+            <td>@currentRow.StatusCode</td>
+            <td>@currentRow.StatusDescription</td>
+            <td>@currentRow.RedirectLocation</td>
+        </tr>
+        }
+        </tbody>
+</table>
+
+
+

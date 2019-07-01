@@ -5,6 +5,10 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<!-- Added link to search the log
+    Also, realized that all the UserID's for LogWebRequest are null, so search by userID maybe isn't needed? -->
+
+@Html.ActionLink("Search", "Search", "LogWebRequest");
 
 <table style="width:100%; text-align:center;">
     <thead>

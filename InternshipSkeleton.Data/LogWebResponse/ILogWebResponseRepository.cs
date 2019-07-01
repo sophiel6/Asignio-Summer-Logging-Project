@@ -8,6 +8,8 @@ namespace AsignioInternship.Data.LogWebResponse
         LogWebResponseDataModel GetFromUserID(Guid UserID);
         //LogExceptionDataModel Insert(LogExceptionDataModel dataModel);
 
+        IEnumerable<LogWebResponseDataModel> GetAllFromUserID(Guid UserID);
+
         IEnumerable<LogWebResponseDataModel> GetAll();
     }
 }

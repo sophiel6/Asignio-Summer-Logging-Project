@@ -41,6 +41,25 @@ namespace AsignioInternship.Controllers
             return View();
         }
         */
+
+            //added by Sophie
+        public ActionResult Search()
+        {
+            return View();
+        }
+
+        public ActionResult SearchByUserID()
+        {
+            //LogDataModel result = m_logRepository.GetFromUserID(UserID);
+            return View();
+        }
+
+        public ActionResult DisplayUserIDResult(Guid UserID)
+        {
+            LogDataModel result = m_logRepository.GetFromUserID(UserID);
+            return View(result);
+        }
+
         private readonly ILogRepository m_logRepository;
     }
 }

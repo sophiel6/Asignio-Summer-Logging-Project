@@ -45,6 +45,7 @@
     <Compile Include="Base\AsignioDatabase.cs" />
     <Compile Include="Base\BaseRepository.cs" />
     <Compile Include="Base\PetaPoco.cs" />
+    <Compile Include="DataModelCollection.cs" />
     <Compile Include="Example\ExampleDataModel.cs" />
     <Compile Include="Example\ExampleExtensions.cs" />
     <Compile Include="Example\ExamplePoco.cs" />

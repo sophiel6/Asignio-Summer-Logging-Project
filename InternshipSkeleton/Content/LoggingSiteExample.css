@@ -1,0 +1,5 @@
+﻿#exampleTable, #exampleTable td, #exampleTable tr { /*removing the #exampleTable would set this style on all tables with the normal <table> tag*/
+    border: 1px solid;
+    overflow: auto;
+    table-layout: fixed;
+}

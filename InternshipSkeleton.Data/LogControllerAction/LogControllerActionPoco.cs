@@ -16,7 +16,7 @@ namespace AsignioInternship.Data.LogControllerAction
         internal static readonly string BaseSQL = @"
             SELECT
            * from logcontrolleraction";
-        internal static readonly string SelectByIDSQL = BaseSQL + ""+ " where UserID=@0;";
+        internal static readonly string SelectByIDSQL = BaseSQL + "" + " where UserID=@0;";
         internal static readonly string SelectAll = BaseSQL + " ORDER BY TimeStamp desc;";
         #endregion
 

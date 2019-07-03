@@ -8,6 +8,9 @@
 
 @Html.ActionLink("Search", "Search", "LogControllerAction");
 
+<!-- Note for LogControllerAction - when you search for a userID with all zeros, none appear because all the entries that look
+    like they have all zeros as their userID are actually null -->
+
 <table style="width:100%; text-align:center;">
     <thead>
         <tr>

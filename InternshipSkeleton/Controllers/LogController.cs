@@ -1,6 +1,8 @@
-﻿using AsignioInternship.Data.Log;
+﻿using AsignioInternship.Data;
+using AsignioInternship.Data.Log;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace AsignioInternship.Controllers

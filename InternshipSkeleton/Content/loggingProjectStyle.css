@@ -6,6 +6,13 @@ table, thead, td, tr {
     border: 1px solid;
     overflow: auto;
     table-layout: fixed;
+    text-align: left;
 }
 
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
 
+.tablestyle{
+
+}

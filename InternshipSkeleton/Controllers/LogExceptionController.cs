@@ -1,4 +1,5 @@
-﻿using AsignioInternship.Data.LogException;
+﻿using AsignioInternship.Data;
+using AsignioInternship.Data.LogException;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -14,8 +15,15 @@ namespace AsignioInternship.Controllers
         public ActionResult Index()
         {
             IEnumerable<LogExceptionDataModel> result = m_logExceptionRepository.GetAll();
-            return View(result);
-            //return View();
+            return View(result); 
+
+            /*
+            int pageNum = (int)pageNumber;
+            const int pageSize = 20;
+            PagedDataModelCollection<LogExceptionDataModel> result = m_logExceptionRepository.PageLogException("", 
+                                                                    pageSize, pageNum, "TimeStamp", "ASC");
+            return View(result.Items);
+            */
         }
 
         public ActionResult ViewAll()

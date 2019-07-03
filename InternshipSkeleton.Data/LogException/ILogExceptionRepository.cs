@@ -11,5 +11,9 @@ namespace AsignioInternship.Data.LogException
         IEnumerable<LogExceptionDataModel> GetAllFromUserID(Guid UserID);
 
         IEnumerable<LogExceptionDataModel> GetAll();
+
+        PagedDataModelCollection<LogExceptionDataModel> PageLogException(string nameSearchPattern, int pageSize, 
+            int pageNumber, string sortColumn, string sortDirection);
+
     }
 }

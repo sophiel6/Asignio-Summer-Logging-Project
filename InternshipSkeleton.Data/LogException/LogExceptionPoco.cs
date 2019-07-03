@@ -10,7 +10,6 @@ namespace AsignioInternship.Data.LogException
     [PetaPoco.PrimaryKey("UserID", autoIncrement = false)] //is this what I should have as primary key? it said ExampleID before
     internal class LogExceptionPoco
     {
-        //probably need to change this SQL stuff 
         #region SQL
 
         internal static readonly string BaseSQL = @"

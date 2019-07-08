@@ -122,7 +122,5 @@ namespace AsignioInternship.Data.LogException
 
             return null;
         }
-
-
     }
 }

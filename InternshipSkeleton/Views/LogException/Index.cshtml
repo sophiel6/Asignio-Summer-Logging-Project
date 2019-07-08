@@ -11,9 +11,10 @@
 <!-- Added link to search the log-->
 @Html.ActionLink("Search", "Search", "LogException");
 
-<!-- Next and previous buttons-->
-@Html.ActionLink("Previous", "Index", new {@id = Model.PageNumber - 1});
-@Html.ActionLink("Next", "Index", new { @id = Model.PageNumber + 1 });
+<!-- Previous button - if pagenumber would be 0, stay on same page -->
+@Html.ActionLink("Previous", "Index", new {@id = ((Model.PageNumber - 1) != 0) ? (Model.PageNumber - 1) : Model.PageNumber});
+<!-- Next button - if pagenumber would be >totalpages, stay on same page -->
+@Html.ActionLink("Next", "Index", new { @id = ((Model.PageNumber + 1) <= Model.TotalPages) ? (Model.PageNumber + 1) : Model.PageNumber });
 
 <table style="width:100%; text-align:center;">
     <thead>
@@ -40,7 +41,6 @@
                 <td>@currentRow.MethodName</td>
                 <td>@currentRow.Source</td>
                 <td>@currentRow.StackTrace</td>
-                <!-- <td> (at) Html.ActionLink("Edit", "Update", new { UserID = currentRow.ExampleID })</td> -->
             </tr>
 
         }

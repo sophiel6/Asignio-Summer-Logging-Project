@@ -95,7 +95,7 @@ namespace AsignioInternship.Data.LogException
                     sql.Append(LogExceptionPoco.BaseSQL);
                     sql.Append(string.Format("ORDER BY {0} {1}", sortColumn, sortDirection)); // sortColumn being the name of the column from the table, and sortDirection being ASC or DESC, for example
 
-                    PetaPoco.Page<LogExceptionDataModel> page = db.Page<LogExceptionDataModel>(pageNumber, pageSize, sql);
+                    PetaPoco.Page<LogExceptionPoco> page = db.Page<LogExceptionPoco>(pageNumber, pageSize, sql);
 
                     if (page == null)
                     {
@@ -104,7 +104,7 @@ namespace AsignioInternship.Data.LogException
 
                     return new PagedDataModelCollection<LogExceptionDataModel>()
                     {
-                        Items = page.Items,
+                        Items = page.Items.Select(s=>s.ToModel()),
                         PageNumber = pageNumber,
                         PageSize = pageSize,
                         TotalItems = page.TotalItems,

@@ -1,6 +1,8 @@
 ﻿@using AsignioInternship.Data.LogException
+@using AsignioInternship.Data 
 
-@model IEnumerable<LogExceptionDataModel>
+<!-- (at)model IEnumerable<LogExceptionDataModel> -->
+@model PagedDataModelCollection<LogExceptionDataModel>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,6 +10,10 @@
 
 <!-- Added link to search the log-->
 @Html.ActionLink("Search", "Search", "LogException");
+
+<!-- Next and previous buttons-->
+@Html.ActionLink("Previous", "Index", new {@id = Model.PageNumber - 1});
+@Html.ActionLink("Next", "Index", new { @id = Model.PageNumber + 1 });
 
 <table style="width:100%; text-align:center;">
     <thead>
@@ -24,7 +30,7 @@
     </thead>
     <tbody>
 
-        @foreach (LogExceptionDataModel currentRow in Model)
+        @foreach (LogExceptionDataModel currentRow in Model.Items)
         {
             <tr>
                 <td>@currentRow.TimeStamp</td>

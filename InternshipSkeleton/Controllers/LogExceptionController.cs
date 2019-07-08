@@ -14,11 +14,13 @@ namespace AsignioInternship.Controllers
         }
         public ActionResult Index()
         {
-            IEnumerable<LogExceptionDataModel> result = m_logExceptionRepository.GetAll();
-            return View(result); 
+           IEnumerable<LogExceptionDataModel> result = m_logExceptionRepository.GetAll();
+           return View(result); 
 
+            
+            //int pageNum = (int)id;
+            //int pageNum = 1;
             /*
-            int pageNum = (int)pageNumber;
             const int pageSize = 20;
             PagedDataModelCollection<LogExceptionDataModel> result = m_logExceptionRepository.PageLogException("", 
                                                                     pageSize, pageNum, "TimeStamp", "ASC");

@@ -34,17 +34,17 @@ namespace AsignioInternship.Controllers
 
         public ActionResult DisplayUserIDResult(Guid UserID, int? id)
         {
-            
+            /*
             IEnumerable<LogExceptionDataModel> result = m_logExceptionRepository.GetAllFromUserID(UserID);
             return View(result);
-            /*
+            */
             int pageNum = (id ?? 1);
             int pageSize = 20;
             string userIDstring = UserID.ToString("D");
             PagedDataModelCollection<LogExceptionDataModel> result = m_logExceptionRepository.PageLogException(userIDstring,
                                                                     pageSize, pageNum, "TimeStamp", "ASC");
             return View(result);
-            */
+            
         }
 
 

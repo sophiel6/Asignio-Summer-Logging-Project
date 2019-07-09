@@ -1,6 +1,7 @@
 ﻿@using AsignioInternship.Data.LogException
+@using AsignioInternship.Data
 
-@model IEnumerable<LogExceptionDataModel>
+@model PagedDataModelCollection<LogExceptionDataModel>
 @{
     ViewBag.Title = "DisplayUserIDResult";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,6 +9,17 @@
 
 <div>
     @Html.ActionLink("Back to Search", "SearchByUserID")
+</div>
+
+<div>
+    Current Page: @Model.PageNumber
+</div>
+
+<div>
+    <!-- Previous button - if pagenumber would be 0, stay on same page -->
+    @Html.ActionLink("Previous", "Index", new { @id = ((Model.PageNumber - 1) != 0) ? (Model.PageNumber - 1) : Model.PageNumber });
+    <!-- Next button - if pagenumber would be >totalpages, stay on same page -->
+    @Html.ActionLink("Next", "Index", new { @id = ((Model.PageNumber + 1) <= Model.TotalPages) ? (Model.PageNumber + 1) : Model.PageNumber });
 </div>
 
 <table style="width:100%; text-align:center;">
@@ -25,7 +37,7 @@
     </thead>
     <tbody>
 
-        @foreach (LogExceptionDataModel currentRow in Model)
+        @foreach (LogExceptionDataModel currentRow in Model.Items)
         {
             <tr>
                 <td>@currentRow.TimeStamp</td>
@@ -37,7 +49,7 @@
                 <td>@currentRow.StackTrace</td>
             </tr>
         }
-        </tbody>
+    </tbody>
 </table>
 
 

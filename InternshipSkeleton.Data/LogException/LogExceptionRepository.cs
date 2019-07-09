@@ -93,8 +93,9 @@ namespace AsignioInternship.Data.LogException
 
                     if (!string.IsNullOrWhiteSpace(nameSearchPattern))
                     {
-                        nameSearchPattern = string.Format("%{0}%", nameSearchPattern);
-                        sql.Append(" where UserID = @0 ", nameSearchPattern);
+                        nameSearchPattern = string.Format("\"{0}\"", nameSearchPattern);
+                        sql.Append(LogExceptionPoco.PageUsersByUserIDSearchSQL, nameSearchPattern);
+                        //sql.Append(string.Format("WHERE UserID = {0} ", nameSearchPattern));
                     }
 
                     sql.Append(string.Format("ORDER BY {0} {1}", sortColumn, sortDirection)); // sortColumn being the name of the column from the table, and sortDirection being ASC or DESC, for example

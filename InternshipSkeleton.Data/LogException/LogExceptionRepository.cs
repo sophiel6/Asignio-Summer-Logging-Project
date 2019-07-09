@@ -112,11 +112,12 @@ namespace AsignioInternship.Data.LogException
 
                     return new PagedDataModelCollection<LogExceptionDataModel>()
                     {
-                        Items = page.Items.Select(s=>s.ToModel()),
+                        Items = page.Items.Select(s => s.ToModel()),
                         PageNumber = pageNumber,
                         PageSize = pageSize,
                         TotalItems = page.TotalItems,
-                        TotalPages = page.TotalPages
+                        TotalPages = page.TotalPages,
+                        SortBy = sortColumn
                     };
                 }
                 catch (Exception ex)

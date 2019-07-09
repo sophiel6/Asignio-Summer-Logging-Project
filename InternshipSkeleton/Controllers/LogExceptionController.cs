@@ -19,7 +19,8 @@ namespace AsignioInternship.Controllers
             string sortColumn = (SortBy ?? "TimeStamp");
             PagedDataModelCollection<LogExceptionDataModel> result = m_logExceptionRepository.PageLogException("", 
                                                                     pageSize, pageNum, sortColumn, "ASC");
-            ViewBag.Sort = sortColumn;
+            result.SortBy = sortColumn;
+            //ViewBag.Sort = sortColumn;
             return View(result);
         }
 

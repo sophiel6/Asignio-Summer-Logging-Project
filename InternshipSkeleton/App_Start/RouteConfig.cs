@@ -13,11 +13,18 @@ namespace AsignioInternship
 		{
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-			routes.MapRoute(
-				name: "Default",
-				url: "{controller}/{action}/{id}",
-				defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-			);
+            routes.MapRoute(
+                name: "Default",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+            );
+            //adding a new route to use for different sort order 
+            /*
+            routes.MapRoute(
+                name: "Sort",
+                url: "{controller}/{action}/{id}/{SortBy}",
+                defaults: new {controller = "Home", action = "Index", id = UrlParameter.Optional, SortBy = "TimeStamp" }
+            ); */
         }
 	}
 }

@@ -8,19 +8,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div>
-        <!-- dropdown form to choose how to sort the data -->
-        @{
-            List<SelectListItem> listItems = new List<SelectListItem>();
-            listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
-            listItems.Add(new SelectListItem { Text = "Method Name", Value = "MethodName" });
-        }
-        @using (Html.BeginForm("Index", "LogException", FormMethod.Post, new { /*id = "sortform",*/ @SortBy = ViewBag.Sort }))
-        {
-            @Html.DropDownListFor(m => m.SortBy, listItems, new { onchange = "this.form.submit();" })
-        }
+<div>
+    <!-- dropdown form to choose how to sort the data -->
+    @{
+        List<SelectListItem> listItems = new List<SelectListItem>();
+        listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
+        listItems.Add(new SelectListItem { Text = "Method Name", Value = "MethodName" });
+    }
+    @using (Html.BeginForm("Index", "LogException", FormMethod.Post, new { @class = "form-control" }))
+    {
+        @Html.DropDownListFor(m => m.SortBy, listItems, new { onchange = "this.form.submit();" })
+    }
 
-    </div>
+</div>
 
 <div>
     <!-- Added link to search the log-->

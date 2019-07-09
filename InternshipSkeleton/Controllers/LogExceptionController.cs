@@ -12,30 +12,17 @@ namespace AsignioInternship.Controllers
         {
             m_logExceptionRepository = (logExceptionRepository != null) ? logExceptionRepository : throw new ArgumentNullException();
         }
-        public ActionResult Index(int? id)
+        public ActionResult Index(int? id, string SortBy)
         {
-            //IEnumerable<LogExceptionDataModel> result = m_logExceptionRepository.GetAll();
-            //return View(result); 
-
-
             int pageNum = (id ?? 1);
             int pageSize = 20;
+            string sortColumn = (SortBy ?? "TimeStamp");
             PagedDataModelCollection<LogExceptionDataModel> result = m_logExceptionRepository.PageLogException("", 
-                                                                    pageSize, pageNum, "TimeStamp", "ASC");
-            return View(result);
-            
-        }
-
-        public ActionResult ViewAll()
-        {
-            IEnumerable<LogExceptionDataModel> result = m_logExceptionRepository.GetAll();
+                                                                    pageSize, pageNum, sortColumn, "ASC");
+            ViewBag.Sort = sortColumn;
             return View(result);
         }
 
-        public ActionResult AddNew()
-        {
-            return View();
-        }
         public ActionResult Search()
         {
             return View();
@@ -46,10 +33,19 @@ namespace AsignioInternship.Controllers
             return View();
         }
 
-        public ActionResult DisplayUserIDResult(Guid UserID)
+        public ActionResult DisplayUserIDResult(Guid UserID, int? id)
         {
+            
             IEnumerable<LogExceptionDataModel> result = m_logExceptionRepository.GetAllFromUserID(UserID);
             return View(result);
+            /*
+            int pageNum = (id ?? 1);
+            int pageSize = 20;
+            string userIDstring = UserID.ToString("D");
+            PagedDataModelCollection<LogExceptionDataModel> result = m_logExceptionRepository.PageLogException(userIDstring,
+                                                                    pageSize, pageNum, "TimeStamp", "ASC");
+            return View(result);
+            */
         }
 
 

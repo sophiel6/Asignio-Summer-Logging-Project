@@ -16,5 +16,8 @@ namespace AsignioInternship.Data
         public long TotalItems { get; set; }
         public long TotalPages { get; set; }
 
+        //adding for sortby dropdown list
+        public string SortBy { get; set; }
+
     }
 }

@@ -83,7 +83,7 @@ namespace AsignioInternship.Data.LogException
                 try
                 {
                     PetaPoco.Sql sql = new PetaPoco.Sql();
-
+                    /*
                     if (!string.IsNullOrWhiteSpace(nameSearchPattern))
                     {
                         nameSearchPattern = string.Format("%{0}%", nameSearchPattern);
@@ -91,8 +91,16 @@ namespace AsignioInternship.Data.LogException
                         // You can add a PageUsersByUserIDSearchSQL or something similar to LogExceptionPoco.cs, like you did with BaseSQL, for example:
                         // sql.Append(LogExceptionDataModel.PageLogExceptionByXSearchSQL, nameSearchPattern);
                     }
+                    */
 
                     sql.Append(LogExceptionPoco.BaseSQL);
+
+                    if (!string.IsNullOrWhiteSpace(nameSearchPattern))
+                    {
+                        nameSearchPattern = string.Format("%{0}%", nameSearchPattern);
+                        sql.Append(" where UserID = @0 ", nameSearchPattern);
+                    }
+
                     sql.Append(string.Format("ORDER BY {0} {1}", sortColumn, sortDirection)); // sortColumn being the name of the column from the table, and sortDirection being ASC or DESC, for example
 
                     PetaPoco.Page<LogExceptionPoco> page = db.Page<LogExceptionPoco>(pageNumber, pageSize, sql);

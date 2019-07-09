@@ -14,10 +14,6 @@ namespace AsignioInternship.Data.LogException
                 : base(typeof(LogExceptionRepository))
         { }
 
-        //public ExampleRepository(string connectionStringName)
-        //	: base(typeof(ExampleRepository), connectionStringName)
-        //{ }
-
         public LogExceptionDataModel GetFromUserID(Guid UserID)
         {
             try

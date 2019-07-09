@@ -12,15 +12,13 @@ namespace AsignioInternship.Controllers
         {
             m_logExceptionRepository = (logExceptionRepository != null) ? logExceptionRepository : throw new ArgumentNullException();
         }
-        public ActionResult Index(int? id, string SortBy)
+        public ActionResult Index(int? id, PagedDataModelCollection<LogExceptionDataModel> model)
         {
             int pageNum = (id ?? 1);
             int pageSize = 20;
-            string sortColumn = (SortBy ?? "TimeStamp");
+            string sortColumn = (model.SortBy) ?? "TimeStamp";
             PagedDataModelCollection<LogExceptionDataModel> result = m_logExceptionRepository.PageLogException("", 
                                                                     pageSize, pageNum, sortColumn, "ASC");
-            result.SortBy = sortColumn;
-            //ViewBag.Sort = sortColumn;
             return View(result);
         }
 

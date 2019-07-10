@@ -20,7 +20,9 @@ namespace AsignioInternship.Controllers
             int pageNum = (id ?? 1);
             int pageSize = 20;
             string sortColumn = (model.SortBy) ?? "TimeStamp";
-            PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException("", 
+            string searchInfo = (model.SearchInput) ?? "";
+            string searchColumn = (model.SearchBy) ?? "";
+            PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException(searchInfo, searchColumn,
                                                                     pageSize, pageNum, sortColumn, "ASC");
             return View(result);
         }
@@ -42,16 +44,17 @@ namespace AsignioInternship.Controllers
             return View();
         }
 
-        public ActionResult DisplayMethodNameSearchResult(string MethodName, int? id)
+        public ActionResult DisplayMethodNameSearchResult(int? id, PagedDataModelCollection<LogExceptionDataModel> model)
         {
-
             int pageNum = (id ?? 1);
             int pageSize = 20;
-
-            PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException(MethodName,
-                                                                    pageSize, pageNum, "TimeStamp", "ASC");
+            string sortColumn = (model.SortBy) ?? "TimeStamp";
+            string searchInfo = (model.SearchInput) ?? "";
+            string searchColumn = (model.SearchBy) ?? "";
+            PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException(searchInfo, 
+                                                                            searchColumn, pageSize, pageNum, sortColumn, "ASC");
             return View(result);
-            
+
         }
 
 

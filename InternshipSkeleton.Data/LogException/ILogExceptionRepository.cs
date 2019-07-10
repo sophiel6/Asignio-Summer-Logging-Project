@@ -12,7 +12,7 @@ namespace AsignioInternship.Data.LogException
 
         IEnumerable<LogExceptionDataModel> GetAll();
 
-        PagedDataModelCollection<CombinedLogExceptionDataModel> CombinedPageLogException(string nameSearchPattern, 
+        PagedDataModelCollection<CombinedLogExceptionDataModel> CombinedPageLogException(string nameSearchPattern, string searchColumn,
                                             int pageSize, int pageNumber, string sortColumn, string sortDirection);
 
         //PagedDataModelCollection<LogExceptionDataModel> PageLogException(string nameSearchPattern, int pageSize, 

@@ -18,6 +18,9 @@ namespace AsignioInternship.Data
 
         //adding for sortby dropdown list
         public string SortBy { get; set; }
+        //adding for search dropdown list
+        public string SearchBy { get; set; }
+        public string SearchInput { get; set; }
 
     }
 }

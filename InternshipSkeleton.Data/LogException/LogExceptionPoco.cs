@@ -20,7 +20,6 @@ namespace AsignioInternship.Data.LogException
         internal static readonly string PageUsersByMethodNameSearchSQL = " where MethodName=@0";
         #endregion
 
-
         public DateTime TimeStamp { get; set; }
         public byte[] WebRequestID { get; set; }
         public byte[] UserID { get; set; }

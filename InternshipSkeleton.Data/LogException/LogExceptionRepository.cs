@@ -154,9 +154,9 @@ namespace AsignioInternship.Data.LogException
         }
         */
 
-        public PagedDataModelCollection<CombinedLogExceptionDataModel> CombinedPageLogException(string nameSearchPattern, int pageSize, int pageNumber, string sortColumn, string sortDirection)
+        public PagedDataModelCollection<CombinedLogExceptionDataModel> CombinedPageLogException(string nameSearchPattern, 
+                                string searchColumn, int pageSize, int pageNumber, string sortColumn, string sortDirection)
         {
-            /* 7/10 - going to start working on searching by MethodName rather than UserID - can change it later if need to */
             using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
             {
                 try
@@ -168,10 +168,11 @@ namespace AsignioInternship.Data.LogException
                     sql.Append(" from logexception ");
                     sql.Append(" INNER JOIN user on user.userID = logexception.userID ");
                     
-                    if (!string.IsNullOrWhiteSpace(nameSearchPattern))
+                    if (!string.IsNullOrWhiteSpace(nameSearchPattern) && !string.IsNullOrWhiteSpace(searchColumn))
                     {
                         nameSearchPattern = string.Format("{0}", nameSearchPattern);
-                        sql.Append(LogExceptionPoco.PageUsersByMethodNameSearchSQL, nameSearchPattern);
+                        sql.Append(string.Format("where {0}={1} ", searchColumn, nameSearchPattern));
+                        //sql.Append(LogExceptionPoco.PageUsersByMethodNameSearchSQL, nameSearchPattern);
                     }
                     
                     sql.Append(string.Format("ORDER BY {0} {1}", sortColumn, sortDirection));

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AsignioInternship.Data.CombinedLogException;
+using AsignioInternship.Data.User;
 using IntershipSkeleton.Demos.Data.Repositories;
 using Utilities;
 
@@ -91,7 +93,7 @@ namespace AsignioInternship.Data.LogException
                         sql.Append(LogExceptionPoco.PageUsersByUserIDSearchSQL, nameSearchPattern);
                     }
 
-                    sql.Append(string.Format("ORDER BY {0} {1}", sortColumn, sortDirection)); 
+                    sql.Append(string.Format("ORDER BY {0} {1}", sortColumn, sortDirection));
 
                     PetaPoco.Page<LogExceptionPoco> page = db.Page<LogExceptionPoco>(pageNumber, pageSize, sql);
 
@@ -121,5 +123,44 @@ namespace AsignioInternship.Data.LogException
 
             return null;
         }
+
+        private IEnumerable<CombinedLogExceptionDataModel> PageCombinedLogException()
+        {
+            try
+            {
+                using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
+                {
+                    IEnumerable<LogExceptionDataModel> LogExceptionList = db.Fetch<LogExceptionPoco>(LogExceptionPoco.SelectAll).Select(S => S.ToModel());
+                    IEnumerable<UserDataModel> UsersList = db.Fetch<UserPoco>(UserPoco.SelectAll).Select(S => S.ToModel());
+                    IEnumerable<CombinedLogExceptionDataModel> CombinedLogExceptionList =
+                            LogExceptionList.Join(UsersList, user => user.UserID,
+                            logexception => logexception.UserID,
+                            (logexception, user) => new CombinedLogExceptionDataModel
+                            {
+                                EmailAddress = user.EmailAddress,
+                                TimeStamp = logexception.TimeStamp,
+                                WebRequestID = logexception.WebRequestID,
+                                UserID = logexception.UserID,
+                                Message = logexception.Message,
+                                MethodName = logexception.MethodName,
+                                Source = logexception.Source,
+                                StackTrace = logexception.StackTrace,
+                            });
+
+                    //adding paging stuff - do I need a CombinedLogExceptionPoco and CombinedLogExceptionExtensions? 
+                    //PetaPoco.Page<LogExceptionPoco> page = db.Page<LogExceptionPoco>(pageNumber, pageSize, sql);
+
+
+                    return (CombinedLogExceptionList);
+                }
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = ex.Message;
+            }
+            return null;
+        }
     }
 }
+
+

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AsignioInternship.Data.CombinedLogException;
+using System;
 using System.Collections.Generic;
 
 namespace AsignioInternship.Data.LogException
@@ -13,7 +14,12 @@ namespace AsignioInternship.Data.LogException
         IEnumerable<LogExceptionDataModel> GetAll();
 
         PagedDataModelCollection<LogExceptionDataModel> PageLogException(string nameSearchPattern, int pageSize, 
-            int pageNumber, string sortColumn, string sortDirection);
+                                                        int pageNumber, string sortColumn, string sortDirection);
+        IEnumerable<CombinedLogExceptionDataModel> ExampleQuery();
+        PagedDataModelCollection<CombinedLogExceptionDataModel> CombinedPageLogException(string nameSearchPattern, 
+                                            int pageSize, int pageNumber, string sortColumn, string sortDirection);
+
+
 
     }
 }

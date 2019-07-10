@@ -1,8 +1,9 @@
 ﻿@using AsignioInternship.Data.LogException
+@using AsignioInternship.Data.CombinedLogException 
 @using AsignioInternship.Data
 
-<!-- (at)model IEnumerable<LogExceptionDataModel> -->
-@model PagedDataModelCollection<LogExceptionDataModel>
+
+@model PagedDataModelCollection<CombinedLogExceptionDataModel>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -21,16 +22,14 @@
         {
             @Html.DropDownListFor(m => m.SortBy, listItems, new { onchange = "this.form.submit();" })
         }
-
-    </div>
-
+    </div> 
 <div>
     <!-- Added link to search the log-->
     @Html.ActionLink("Search", "Search", "LogException");
 </div>
 
 <div>
-    Current Page: @Model.PageNumber
+   Current Page: @Model.PageNumber 
 </div>
 
 <div>
@@ -43,30 +42,29 @@
 <table style="width:100%; text-align:center;">
     <thead>
         <tr>
+            <td>Email Address</td>
             <td>Time Stamp</td>
-            <td>User ID</td>
             <td>Web Request ID</td>
             <td>Message</td>
             <td>Method Name</td>
             <td>Source</td>
             <td>Stack Trace</td>
         </tr>
-
     </thead>
     <tbody>
 
-        @foreach (LogExceptionDataModel currentRow in Model.Items)
+       <!-- (at)foreach (LogExceptionDataModel currentRow in Model.Items) -->
+        @foreach (CombinedLogExceptionDataModel currentRow in Model.Items)
         {
             <tr>
+                <td>@currentRow.EmailAddress</td>
                 <td>@currentRow.TimeStamp</td>
-                <td>@currentRow.UserID</td>
                 <td>@currentRow.WebRequestID</td>
                 <td>@currentRow.Message</td>
                 <td>@currentRow.MethodName</td>
                 <td>@currentRow.Source</td>
                 <td>@currentRow.StackTrace</td>
             </tr>
-
         }
     </tbody>
 </table>

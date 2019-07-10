@@ -45,6 +45,8 @@
     <Compile Include="Base\AsignioDatabase.cs" />
     <Compile Include="Base\BaseRepository.cs" />
     <Compile Include="Base\PetaPoco.cs" />
+    <Compile Include="CombinedLogException\CombinedLogExceptionExtensions.cs" />
+    <Compile Include="CombinedLogException\CombinedLogExceptionPoco.cs" />
     <Compile Include="DataModelCollection.cs" />
     <Compile Include="Example\ExampleDataModel.cs" />
     <Compile Include="Example\ExampleExtensions.cs" />
@@ -56,6 +58,7 @@
     <Compile Include="LogControllerAction\LogControllerActionExtensions.cs" />
     <Compile Include="LogControllerAction\LogControllerActionPoco.cs" />
     <Compile Include="LogControllerAction\LogControllerActionRepository.cs" />
+    <Compile Include="CombinedLogException\CombinedLogExceptionDataModel.cs" />
     <Compile Include="LogException\ILogExceptionRepository.cs" />
     <Compile Include="LogException\LogExceptionDataModel.cs" />
     <Compile Include="LogException\LogExceptionExtensions.cs" />
@@ -87,6 +90,9 @@
     <Compile Include="Log\LogPoco.cs" />
     <Compile Include="Log\LogRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="User\UserDataModel.cs" />
+    <Compile Include="User\UserExtensions.cs" />
+    <Compile Include="User\UserPoco.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

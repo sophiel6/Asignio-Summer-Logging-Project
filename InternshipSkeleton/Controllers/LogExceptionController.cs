@@ -1,4 +1,5 @@
 ﻿using AsignioInternship.Data;
+using AsignioInternship.Data.CombinedLogException;
 using AsignioInternship.Data.LogException;
 using System;
 using System.Collections.Generic;
@@ -13,15 +14,23 @@ namespace AsignioInternship.Controllers
         {
             m_logExceptionRepository = (logExceptionRepository != null) ? logExceptionRepository : throw new ArgumentNullException();
         }
+        
         public ActionResult Index(int? id, PagedDataModelCollection<LogExceptionDataModel> model)
         {
             int pageNum = (id ?? 1);
             int pageSize = 20;
             string sortColumn = (model.SortBy) ?? "TimeStamp";
-            PagedDataModelCollection<LogExceptionDataModel> result = m_logExceptionRepository.PageLogException("", 
+            PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException("", 
                                                                     pageSize, pageNum, sortColumn, "ASC");
             return View(result);
         }
+        
+        /*
+        public ActionResult Index(int? id)
+        {
+            IEnumerable<CombinedLogExceptionDataModel> result = m_logExceptionRepository.ExampleQuery();
+            return View(result);
+        } */
 
         public ActionResult Search()
         {

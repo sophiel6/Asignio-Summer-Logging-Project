@@ -17,8 +17,7 @@ namespace AsignioInternship.Data.LogException
            * from logexception";
         internal static readonly string SelectByIDSQL = BaseSQL + "" + " where UserID=@0;";
         internal static readonly string SelectAll = BaseSQL + " ORDER BY TimeStamp desc;";
-        //internal static readonly string SelectAll = BaseSQL + " ORDER BY ";
-        internal static readonly string PageUsersByUserIDSearchSQL = " where UserID={0}";
+        internal static readonly string PageUsersByUserIDSearchSQL = " where UserID=@0";
         #endregion
 
 

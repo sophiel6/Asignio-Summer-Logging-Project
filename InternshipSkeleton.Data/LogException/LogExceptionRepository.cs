@@ -79,26 +79,19 @@ namespace AsignioInternship.Data.LogException
                 try
                 {
                     PetaPoco.Sql sql = new PetaPoco.Sql();
-                    /*
-                    if (!string.IsNullOrWhiteSpace(nameSearchPattern))
-                    {
-                        nameSearchPattern = string.Format("%{0}%", nameSearchPattern);
-
-                        // You can add a PageUsersByUserIDSearchSQL or something similar to LogExceptionPoco.cs, like you did with BaseSQL, for example:
-                        // sql.Append(LogExceptionDataModel.PageLogExceptionByXSearchSQL, nameSearchPattern);
-                    }
-                    */
 
                     sql.Append(LogExceptionPoco.BaseSQL);
 
                     if (!string.IsNullOrWhiteSpace(nameSearchPattern))
                     {
-                        nameSearchPattern = string.Format("\"{0}\"", nameSearchPattern);
+                        nameSearchPattern = string.Format("{0}", nameSearchPattern);
+                        //I think because nameSearchPattern is a string but UserID is a byte[], this isn't working as is
+                        //I decided to convert the Guid into a byte[], then into a string (that happens in the controller), 
+                        //then pass it in here - still doesn't seem to be working 
                         sql.Append(LogExceptionPoco.PageUsersByUserIDSearchSQL, nameSearchPattern);
-                        //sql.Append(string.Format("WHERE UserID = {0} ", nameSearchPattern));
                     }
 
-                    sql.Append(string.Format("ORDER BY {0} {1}", sortColumn, sortDirection)); // sortColumn being the name of the column from the table, and sortDirection being ASC or DESC, for example
+                    sql.Append(string.Format("ORDER BY {0} {1}", sortColumn, sortDirection)); 
 
                     PetaPoco.Page<LogExceptionPoco> page = db.Page<LogExceptionPoco>(pageNumber, pageSize, sql);
 

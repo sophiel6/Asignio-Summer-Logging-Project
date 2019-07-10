@@ -2,6 +2,7 @@
 using AsignioInternship.Data.LogException;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Web.Mvc;
 
 namespace AsignioInternship.Controllers
@@ -40,7 +41,9 @@ namespace AsignioInternship.Controllers
             */
             int pageNum = (id ?? 1);
             int pageSize = 20;
-            string userIDstring = UserID.ToString("D");
+            //string userIDstring = UserID.ToString();
+            byte[] userID = UserID.ToByteArray();
+            string userIDstring = Encoding.UTF8.GetString(userID, 0, userID.Length);
             PagedDataModelCollection<LogExceptionDataModel> result = m_logExceptionRepository.PageLogException(userIDstring,
                                                                     pageSize, pageNum, "TimeStamp", "ASC");
             return View(result);

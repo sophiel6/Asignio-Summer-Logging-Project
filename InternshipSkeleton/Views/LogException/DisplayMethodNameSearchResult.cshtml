@@ -1,14 +1,14 @@
-﻿@using AsignioInternship.Data.LogException
+﻿@using AsignioInternship.Data.CombinedLogException
 @using AsignioInternship.Data
 
-@model PagedDataModelCollection<LogExceptionDataModel>
+@model PagedDataModelCollection<CombinedLogExceptionDataModel>
 @{
-    ViewBag.Title = "DisplayUserIDResult";
+    ViewBag.Title = "DisplayMethodNameSearchResult";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div>
-    @Html.ActionLink("Back to Search", "SearchByUserID")
+    @Html.ActionLink("Back to Search", "SearchByMethodName")
 </div>
 
 <div>
@@ -25,8 +25,8 @@
 <table style="width:100%; text-align:center;">
     <thead>
         <tr>
+            <td>Email Address</td>
             <td>Time Stamp</td>
-            <td>User ID</td>
             <td>Web Request ID</td>
             <td>Message</td>
             <td>Method Name</td>
@@ -37,11 +37,11 @@
     </thead>
     <tbody>
 
-        @foreach (LogExceptionDataModel currentRow in Model.Items)
+        @foreach (CombinedLogExceptionDataModel currentRow in Model.Items)
         {
             <tr>
+                <td>@currentRow.EmailAddress</td>
                 <td>@currentRow.TimeStamp</td>
-                <td>@currentRow.UserID</td>
                 <td>@currentRow.WebRequestID</td>
                 <td>@currentRow.Message</td>
                 <td>@currentRow.MethodName</td>

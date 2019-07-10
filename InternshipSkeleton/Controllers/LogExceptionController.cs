@@ -37,23 +37,18 @@ namespace AsignioInternship.Controllers
             return View();
         }
 
-        public ActionResult SearchByUserID()
+        public ActionResult SearchByMethodName()
         {
             return View();
         }
 
-        public ActionResult DisplayUserIDResult(Guid UserID, int? id)
+        public ActionResult DisplayMethodNameSearchResult(string MethodName, int? id)
         {
-            /*
-            IEnumerable<LogExceptionDataModel> result = m_logExceptionRepository.GetAllFromUserID(UserID);
-            return View(result);
-            */
+
             int pageNum = (id ?? 1);
             int pageSize = 20;
-            string userIDstring = UserID.ToString();
-            //byte[] userID = UserID.ToByteArray();
-            //string userIDstring = Encoding.UTF8.GetString(userID, 0, userID.Length);
-            PagedDataModelCollection<LogExceptionDataModel> result = m_logExceptionRepository.PageLogException(userIDstring,
+
+            PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException(MethodName,
                                                                     pageSize, pageNum, "TimeStamp", "ASC");
             return View(result);
             

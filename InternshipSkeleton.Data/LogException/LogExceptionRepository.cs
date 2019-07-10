@@ -74,7 +74,7 @@ namespace AsignioInternship.Data.LogException
             return null;
         }
 
-        public PagedDataModelCollection<LogExceptionDataModel> PageLogException(string nameSearchPattern, int pageSize, int pageNumber, string sortColumn, string sortDirection)
+        /*public PagedDataModelCollection<LogExceptionDataModel> PageLogException(string nameSearchPattern, int pageSize, int pageNumber, string sortColumn, string sortDirection)
         {
             using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
             {
@@ -152,9 +152,11 @@ namespace AsignioInternship.Data.LogException
             }
             return null;
         }
+        */
 
         public PagedDataModelCollection<CombinedLogExceptionDataModel> CombinedPageLogException(string nameSearchPattern, int pageSize, int pageNumber, string sortColumn, string sortDirection)
         {
+            /* 7/10 - going to start working on searching by MethodName rather than UserID - can change it later if need to */
             using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
             {
                 try
@@ -165,13 +167,13 @@ namespace AsignioInternship.Data.LogException
                     sql.Append("user.EmailAddress, logexception.TimeStamp, logexception.WebRequestID, logexception.Message, logexception.MethodName, logexception.Source, logexception.StackTrace");
                     sql.Append(" from logexception ");
                     sql.Append(" INNER JOIN user on user.userID = logexception.userID ");
-                    /*
+                    
                     if (!string.IsNullOrWhiteSpace(nameSearchPattern))
                     {
                         nameSearchPattern = string.Format("{0}", nameSearchPattern);
-                        sql.Append(LogExceptionPoco.PageUsersByUserIDSearchSQL, nameSearchPattern);
+                        sql.Append(LogExceptionPoco.PageUsersByMethodNameSearchSQL, nameSearchPattern);
                     }
-                    */
+                    
                     sql.Append(string.Format("ORDER BY {0} {1}", sortColumn, sortDirection));
 
                     PetaPoco.Page<CombinedLogExceptionPoco> page = db.Page<CombinedLogExceptionPoco>(pageNumber, pageSize, sql);

@@ -161,20 +161,17 @@ namespace AsignioInternship.Data.LogException
                 {
                     PetaPoco.Sql sql = new PetaPoco.Sql();
 
-                    //sql.Append(LogExceptionPoco.BaseSQL);
-
                     sql.Append("SELECT ");
                     sql.Append("user.EmailAddress, logexception.TimeStamp, logexception.WebRequestID, logexception.Message, logexception.MethodName, logexception.Source, logexception.StackTrace");
                     sql.Append(" from logexception ");
                     sql.Append(" INNER JOIN user on user.userID = logexception.userID ");
-
                     /*
-                    if (!string.(IsNullOrWhiteSpace(nameSearchPattern))
+                    if (!string.IsNullOrWhiteSpace(nameSearchPattern))
                     {
                         nameSearchPattern = string.Format("{0}", nameSearchPattern);
                         sql.Append(LogExceptionPoco.PageUsersByUserIDSearchSQL, nameSearchPattern);
-                    }*/
-
+                    }
+                    */
                     sql.Append(string.Format("ORDER BY {0} {1}", sortColumn, sortDirection));
 
                     PetaPoco.Page<CombinedLogExceptionPoco> page = db.Page<CombinedLogExceptionPoco>(pageNumber, pageSize, sql);

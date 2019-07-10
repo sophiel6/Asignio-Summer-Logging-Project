@@ -45,6 +45,9 @@
     <Compile Include="Base\AsignioDatabase.cs" />
     <Compile Include="Base\BaseRepository.cs" />
     <Compile Include="Base\PetaPoco.cs" />
+    <Compile Include="CombinedLogControllerAction\CombinedLogControllerActionDataModel.cs" />
+    <Compile Include="CombinedLogControllerAction\CombinedLogControllerActionExtensions.cs" />
+    <Compile Include="CombinedLogControllerAction\CombinedLogControllerActionPoco.cs" />
     <Compile Include="CombinedLogException\CombinedLogExceptionExtensions.cs" />
     <Compile Include="CombinedLogException\CombinedLogExceptionPoco.cs" />
     <Compile Include="DataModelCollection.cs" />

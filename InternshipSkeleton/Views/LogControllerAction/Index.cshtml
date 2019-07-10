@@ -1,21 +1,48 @@
-﻿@using AsignioInternship.Data.LogControllerAction
+﻿@using AsignioInternship.Data.CombinedLogControllerAction
+@using AsignioInternship.Data
 
-@model IEnumerable<LogControllerActionDataModel>
+@model PagedDataModelCollection<CombinedLogControllerActionDataModel>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@Html.ActionLink("Search", "Search", "LogControllerAction");
 
-<!-- Note for LogControllerAction - when you search for a userID with all zeros, none appear because all the entries that look
-    like they have all zeros as their userID are actually null -->
+<div>
+    <!-- dropdown form to choose how to sort the data -->
+    Sort data by:
+    @{
+        List<SelectListItem> listItems = new List<SelectListItem>();
+        listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp", Selected = ("TimeStamp" == Model.SortBy) });
+        listItems.Add(new SelectListItem { Text = "Action Name", Value = "ActionName", Selected = ("ActionName" == Model.SortBy) });
+    }
+
+    @using (Html.BeginForm("Index", "LogControllerAction", FormMethod.Post, new { id = "sortby", @class = "form-control" }))
+    {
+        @Html.DropDownListFor(m => m.SortBy, listItems, new { onchange = "this.form.submit();" })
+    }
+</div>
+<div>
+    <!-- Added link to search the log-->
+    @Html.ActionLink("Search", "Search", "LogControllerAction");
+</div>
+
+<div>
+    Current Page: @Model.PageNumber/@Model.TotalPages
+</div>
+
+<div>
+    <!-- Previous button - if pagenumber would be 0, stay on same page -->
+    @Html.ActionLink("Previous", "Index", new { @id = ((Model.PageNumber - 1) != 0) ? (Model.PageNumber - 1) : Model.PageNumber });
+    <!-- Next button - if pagenumber would be >totalpages, stay on same page -->
+    @Html.ActionLink("Next", "Index", new { @id = ((Model.PageNumber + 1) <= Model.TotalPages) ? (Model.PageNumber + 1) : Model.PageNumber });
+</div>
 
 <table style="width:100%; text-align:center;">
     <thead>
         <tr>
+            <td>Email Address</td>
             <td>Time Stamp</td>
-            <td>User ID</td>
             <td>Web Request ID</td>
             <td>Controller Name</td>
             <td>Action Name</td>
@@ -25,18 +52,16 @@
     </thead>
     <tbody>
 
-        @foreach (LogControllerActionDataModel currentRow in Model)
+        @foreach (CombinedLogControllerActionDataModel currentRow in Model.Items)
         {
             <tr>
+                <td>@currentRow.EmailAddress</td>
                 <td>@currentRow.TimeStamp</td>
-                <td>@currentRow.UserID</td>
                 <td>@currentRow.WebRequestID</td>
                 <td>@currentRow.ControllerName</td>
                 <td>@currentRow.ActionName</td>
                 <td>@currentRow.Parameters</td>
-                <!-- <td> (at) Html.ActionLink("Edit", "Update", new { UserID = currentRow.ExampleID })</td> -->
             </tr>
-
         }
     </tbody>
 </table>

@@ -14,13 +14,11 @@ namespace AsignioInternship.Data.CombinedLogException
                     EmailAddress = source.EmailAddress,
                     TimeStamp = source.TimeStamp,
                     WebRequestID = GuidMapper.Map(source.WebRequestID),
-                    UserID = GuidMapper.Map(source.UserID),
                     Message = source.Message,
                     MethodName = source.MethodName,
                     Source = source.Source,
                     StackTrace = source.StackTrace,
-
-    };
+                };
             }
 
             return null;
@@ -35,7 +33,6 @@ namespace AsignioInternship.Data.CombinedLogException
                     EmailAddress = source.EmailAddress,
                     TimeStamp = source.TimeStamp,
                     WebRequestID = GuidMapper.Map(source.WebRequestID),
-                    UserID = GuidMapper.Map(source.UserID),
                     Message = source.Message,
                     MethodName = source.MethodName,
                     Source = source.Source,

@@ -138,7 +138,6 @@ namespace AsignioInternship.Data.LogException
                                 EmailAddress = user.EmailAddress,
                                 TimeStamp = logexception.TimeStamp,
                                 WebRequestID = logexception.WebRequestID,
-                                UserID = logexception.UserID,
                                 Message = logexception.Message,
                                 MethodName = logexception.MethodName,
                                 Source = logexception.Source,
@@ -165,7 +164,7 @@ namespace AsignioInternship.Data.LogException
                     //sql.Append(LogExceptionPoco.BaseSQL);
 
                     sql.Append("SELECT ");
-                    sql.Append("user.EmailAddress, logexception.TimeStamp, logexception.WebRequestID, logexception.UserID, logexception.Message, logexception.MethodName, logexception.Source, logexception.StackTrace");
+                    sql.Append("user.EmailAddress, logexception.TimeStamp, logexception.WebRequestID, logexception.Message, logexception.MethodName, logexception.Source, logexception.StackTrace");
                     sql.Append(" from logexception ");
                     sql.Append(" INNER JOIN user on user.userID = logexception.userID ");
 

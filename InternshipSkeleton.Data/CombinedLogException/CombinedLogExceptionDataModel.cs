@@ -12,7 +12,6 @@ namespace AsignioInternship.Data.CombinedLogException
         public string EmailAddress { get; set; }
         public DateTime TimeStamp { get; set; }
         public Guid WebRequestID { get; set; }
-        public Guid UserID { get; set; }
         public string Message { get; set; }
         public string MethodName { get; set; }
         public string Source { get; set; }

@@ -50,6 +50,9 @@
     <Compile Include="CombinedLogControllerAction\CombinedLogControllerActionPoco.cs" />
     <Compile Include="CombinedLogException\CombinedLogExceptionExtensions.cs" />
     <Compile Include="CombinedLogException\CombinedLogExceptionPoco.cs" />
+    <Compile Include="CombinedLogInfo\CombinedLogInfoDataModel.cs" />
+    <Compile Include="CombinedLogInfo\CombinedLogInfoExtensions.cs" />
+    <Compile Include="CombinedLogInfo\CombinedLogInfoPoco.cs" />
     <Compile Include="DataModelCollection.cs" />
     <Compile Include="Example\ExampleDataModel.cs" />
     <Compile Include="Example\ExampleExtensions.cs" />

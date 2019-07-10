@@ -1,41 +1,67 @@
-﻿@using AsignioInternship.Data.LogInfo
+﻿@using AsignioInternship.Data.CombinedLogInfo
+@using AsignioInternship.Data
 
-@model IEnumerable<LogInfoDataModel>
+<!-- (at)model IEnumerable<LogInfoDataModel> -->
+@model PagedDataModelCollection<CombinedLogInfoDataModel>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- Added link to search the log-->
-@Html.ActionLink("Search", "Search", "LogInfo");
+<div>
+    <!-- dropdown form to choose how to sort the data -->
+    Sort data by:
+    @{
+        List<SelectListItem> listItems = new List<SelectListItem>();
+        listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp", Selected = ("TimeStamp" == Model.SortBy) });
+        listItems.Add(new SelectListItem { Text = "Method Name", Value = "MethodName", Selected = ("MethodName" == Model.SortBy) });
+    }
+
+    @using (Html.BeginForm("Index", "LogInfo", FormMethod.Post, new { id = "sortby", @class = "form-control" }))
+    {
+        @Html.DropDownListFor(m => m.SortBy, listItems, new { onchange = "this.form.submit();" })
+    }
+</div>
+<div>
+    <!-- Added link to search the log-->
+    @Html.ActionLink("Search", "Search", "LogInfo");
+</div>
+
+<div>
+    Current Page: @Model.PageNumber/@Model.TotalPages
+</div>
+
+<div>
+    <!-- Previous button - if pagenumber would be 0, stay on same page -->
+    @Html.ActionLink("Previous", "Index", new { @id = ((Model.PageNumber - 1) != 0) ? (Model.PageNumber - 1) : Model.PageNumber });
+    <!-- Next button - if pagenumber would be >totalpages, stay on same page -->
+    @Html.ActionLink("Next", "Index", new { @id = ((Model.PageNumber + 1) <= Model.TotalPages) ? (Model.PageNumber + 1) : Model.PageNumber });
+</div>
 
 <table style="width:100%; text-align:center;">
     <thead>
         <tr>
+            <td>Email Address</td>
             <td>Time Stamp</td>
             <td>Web Request ID</td>
-            <td>User ID</td>
             <td>Message</td>
             <td>Method Name</td>
             <td>Object</td>
-            <td>ID</td>
         </tr>
 
     </thead>
     <tbody>
 
-        @foreach (LogInfoDataModel currentRow in Model)
+        @foreach (CombinedLogInfoDataModel currentRow in Model.Items)
         {
             <tr>
+                <td>@currentRow.EmailAddress</td>
                 <td>@currentRow.TimeStamp</td>
                 <td>@currentRow.WebRequestID</td>
-                <td>@currentRow.UserID</td>
                 <td>@currentRow.Message</td>
                 <td>@currentRow.MethodName</td>
                 <td>@currentRow.Object</td>
-                <td>@currentRow.ID</td>
             </tr>
-
         }
     </tbody>
 </table>

@@ -52,7 +52,6 @@ namespace AsignioInternship.Data.Log
             return null;
         }
        
-        //Adding - get all from user ID method
         public IEnumerable<LogDataModel> GetAllFromUserID(Guid UserID)
         {
             try

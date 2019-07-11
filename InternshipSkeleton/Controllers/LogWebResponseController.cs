@@ -1,4 +1,6 @@
-﻿using AsignioInternship.Data.LogWebResponse;
+﻿using AsignioInternship.Data;
+using AsignioInternship.Data.CombinedLogWebResponse;
+using AsignioInternship.Data.LogWebResponse;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -11,11 +13,22 @@ namespace AsignioInternship.Controllers
         {
             m_logRepository = (logRepository != null) ? logRepository : throw new ArgumentNullException();
         }
-        public ActionResult Index()
+        /*public ActionResult Index()
         {
             IEnumerable<LogWebResponseDataModel> result = m_logRepository.GetAll();
             return View(result);
-            //return View();
+        }*/
+
+        public ActionResult Index(int? id, PagedDataModelCollection<LogWebResponseDataModel> model)
+        {
+            int pageNum = (id ?? 1);
+            int pageSize = 20;
+            string sortColumn = (model.SortBy) ?? "TimeStamp";
+            string searchInfo = (model.SearchInput) ?? "";
+            string searchColumn = (model.SearchBy) ?? "";
+            PagedDataModelCollection<CombinedLogWebResponseDataModel> result = m_logRepository.CombinedPageLogWebResponse(searchInfo, 
+                                                                                searchColumn, pageSize, pageNum, sortColumn, "ASC");
+            return View(result);
         }
 
         public ActionResult ViewAll()

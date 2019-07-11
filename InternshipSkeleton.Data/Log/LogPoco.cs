@@ -7,7 +7,7 @@ namespace AsignioInternship.Data.Log
 {
 
     [PetaPoco.TableName("log")]
-    [PetaPoco.PrimaryKey("UserID", autoIncrement = false)] //is thC:\Users\Asignio Intern\Work\Asignio-Interns-Logging\InternshipSkeleton.Data\Log\LogPoco.csis what I should have as primary key? it said ExampleID before
+    [PetaPoco.PrimaryKey("UserID", autoIncrement = false)] //is this what I should have as primary key?
     internal class LogPoco
     {
 

@@ -53,6 +53,9 @@
     <Compile Include="CombinedLogInfo\CombinedLogInfoDataModel.cs" />
     <Compile Include="CombinedLogInfo\CombinedLogInfoExtensions.cs" />
     <Compile Include="CombinedLogInfo\CombinedLogInfoPoco.cs" />
+    <Compile Include="CombinedLogWebResponse\CombinedLogWebResponseDataModel.cs" />
+    <Compile Include="CombinedLogWebResponse\CombinedLogWebResponseExtensions.cs" />
+    <Compile Include="CombinedLogWebResponse\CombinedLogWebResponsePoco.cs" />
     <Compile Include="CombinedLog\CombinedLogDataModel.cs" />
     <Compile Include="CombinedLog\CombinedLogExtensions.cs" />
     <Compile Include="CombinedLog\CombinedLogPoco.cs" />

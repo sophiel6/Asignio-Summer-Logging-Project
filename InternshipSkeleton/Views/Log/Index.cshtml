@@ -1,43 +1,68 @@
-﻿@using AsignioInternship.Data.Log
+﻿@using AsignioInternship.Data.CombinedLog
+@using AsignioInternship.Data
 
 
-@model IEnumerable<LogDataModel>
+@model PagedDataModelCollection<CombinedLogDataModel>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- Added link to search the log-->
-@Html.ActionLink("Search", "Search", "Log");
+<div>
+    <!-- dropdown form to choose how to sort the data -->
+    Sort data by:
+    @{
+        List<SelectListItem> listItems = new List<SelectListItem>();
+        listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp", Selected = ("TimeStamp" == Model.SortBy) });
+        listItems.Add(new SelectListItem { Text = "Email Address", Value = "EmailAddress", Selected = ("EmailAddress" == Model.SortBy) });
+    }
+
+    @using (Html.BeginForm("Index", "Log", FormMethod.Post, new { id = "sortby", @class = "form-control" }))
+    {
+        @Html.DropDownListFor(m => m.SortBy, listItems, new { onchange = "this.form.submit();" })
+    }
+</div>
+
+<div>
+    <!-- Added link to search the log-->
+    @Html.ActionLink("Search", "Search", "Log");
+</div>
+
+<div>
+    Current Page: @Model.PageNumber/@Model.TotalPages
+</div>
+
+<div>
+    <!-- Previous button - if pagenumber would be 0, stay on same page -->
+    @Html.ActionLink("Previous", "Index", new { @id = ((Model.PageNumber - 1) != 0) ? (Model.PageNumber - 1) : Model.PageNumber });
+    <!-- Next button - if pagenumber would be >totalpages, stay on same page -->
+    @Html.ActionLink("Next", "Index", new { @id = ((Model.PageNumber + 1) <= Model.TotalPages) ? (Model.PageNumber + 1) : Model.PageNumber });
+</div>
 
 <table style="width:100%; text-align:center;">
     <thead>
         <tr>
+            <td>Email Address</td>
             <td>Time Stamp</td>
-            <td>User ID</td>
             <td>Log ID</td>
-            <td>Message</td>
-            <td>Username</td>
-            <td>Source</td>
             <td>Level</td>
+            <td>Message</td>
+            <td>Source</td>
         </tr>
 
     </thead>
     <tbody>
 
-        @foreach (LogDataModel currentRow in Model)
+        @foreach (CombinedLogDataModel currentRow in Model.Items)
         {
             <tr>
+                <td>@currentRow.EmailAddress</td>
                 <td>@currentRow.TimeStamp</td>
-                <td>@currentRow.UserID</td>
                 <td>@currentRow.LogID</td>
-                <td>@currentRow.Message</td>
-                <td>@currentRow.Username</td>
-                <td>@currentRow.Source</td>
                 <td>@currentRow.Level</td>
-                <!-- <td> (at) Html.ActionLink("Edit", "Update", new { UserID = currentRow.ExampleID })</td> -->
+                <td>@currentRow.Message</td>
+                <td>@currentRow.Source</td>
             </tr>
-
         }
     </tbody>
 </table>

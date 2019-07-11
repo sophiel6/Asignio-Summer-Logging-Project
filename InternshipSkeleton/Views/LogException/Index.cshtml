@@ -8,20 +8,21 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div>
-        <!-- dropdown form to choose how to sort the data -->
-        Sort data by:
-        @{
-            List<SelectListItem> listItems = new List<SelectListItem>();
-            listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp", Selected = ("TimeStamp"== Model.SortBy) });
-            listItems.Add(new SelectListItem { Text = "Method Name", Value = "MethodName", Selected = ("MethodName" == Model.SortBy) });
-        }
+<div>
+    <!-- dropdown form to choose how to sort the data -->
+    Sort data by:
+    @{
+        List<SelectListItem> listItems = new List<SelectListItem>();
+        listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp", Selected = ("TimeStamp"== Model.SortBy) });
+        listItems.Add(new SelectListItem { Text = "Method Name", Value = "MethodName", Selected = ("MethodName" == Model.SortBy) });
+    }
 
-        @using (Html.BeginForm("Index", "LogException", FormMethod.Post, new { id = "sortby", @class = "form-control"  }))
-        {
-            @Html.DropDownListFor(m => m.SortBy, listItems, new { onchange = "this.form.submit();" })
-        }
-    </div> 
+    @using (Html.BeginForm("Index", "LogException", FormMethod.Post, new { id = "sortby", @class = "form-control"  }))
+    {
+        @Html.DropDownListFor(m => m.SortBy, listItems, new { onchange = "this.form.submit();" })
+    }
+</div> 
+
 <div>
     <!-- Added link to search the log-->
     @Html.ActionLink("Search", "Search", "LogException");

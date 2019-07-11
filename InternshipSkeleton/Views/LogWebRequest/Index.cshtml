@@ -1,14 +1,39 @@
 ﻿@using AsignioInternship.Data.LogWebRequest
+@using AsignioInternship.Data
 
-@model IEnumerable<LogWebRequestDataModel>
+@model PagedDataModelCollection<LogWebRequestDataModel>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<!-- Added link to search the log
-    Also, realized that all the UserID's for LogWebRequest are null, so search by userID maybe isn't needed? -->
+
+<div>
+    <!-- dropdown form to choose how to sort the data -->
+    Sort data by:
+    @{
+        List<SelectListItem> listItems = new List<SelectListItem>();
+        listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp", Selected = ("TimeStamp" == Model.SortBy) });
+        listItems.Add(new SelectListItem { Text = "Web Request ID", Value = "WebRequestID", Selected = ("WebRequestID" == Model.SortBy) });
+    }
+
+    @using (Html.BeginForm("Index", "LogWebRequest", FormMethod.Post, new { id = "sortby", @class = "form-control" }))
+    {
+        @Html.DropDownListFor(m => m.SortBy, listItems, new { onchange = "this.form.submit();" })
+    }
+</div>
 
 @Html.ActionLink("Search", "Search", "LogWebRequest");
+
+<div>
+    Current Page: @Model.PageNumber/@Model.TotalPages
+</div>
+
+<div>
+    <!-- Previous button - if pagenumber would be 0, stay on same page -->
+    @Html.ActionLink("Previous", "Index", new { @id = ((Model.PageNumber - 1) != 0) ? (Model.PageNumber - 1) : Model.PageNumber });
+    <!-- Next button - if pagenumber would be >totalpages, stay on same page -->
+    @Html.ActionLink("Next", "Index", new { @id = ((Model.PageNumber + 1) <= Model.TotalPages) ? (Model.PageNumber + 1) : Model.PageNumber });
+</div>
 
 <table style="width:100%; text-align:center;">
     <thead>
@@ -16,33 +41,20 @@
             <td>Time Stamp</td>
             <td>Web Request ID</td>
             <td>User ID</td>
-            <td>HostAddress</td>
-            <td>ServerIP</td>
             <td>RawURL</td>
             <td>Parameters</td>
-            <td>UserAgent</td>
-            <td>UserLanguages</td>
-
         </tr>
-
     </thead>
     <tbody>
-
-        @foreach (LogWebRequestDataModel currentRow in Model)
+        @foreach (LogWebRequestDataModel currentRow in Model.Items)
         {
             <tr>
                 <td>@currentRow.TimeStamp</td>
                 <td>@currentRow.WebRequestID</td>
                 <td>@currentRow.UserID</td>
-                <td>@currentRow.HostAddress</td>
-                <td>@currentRow.ServerIP</td>
                 <td>@currentRow.RawURL</td>
                 <td>@currentRow.Parameters</td>
-                <td>@currentRow.UserAgent</td>
-                <td>@currentRow.UserLanguages</td>
-                <!-- <td> (at) Html.ActionLink("Edit", "Update", new { UserID = currentRow.ExampleID })</td> -->
             </tr>
-
         }
     </tbody>
 </table>

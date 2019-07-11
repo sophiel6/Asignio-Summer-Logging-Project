@@ -11,5 +11,9 @@ namespace AsignioInternship.Data.LogWebRequest
         IEnumerable<LogWebRequestDataModel> GetAllFromUserID(Guid UserID);
 
         IEnumerable<LogWebRequestDataModel> GetAll();
+
+        PagedDataModelCollection<LogWebRequestDataModel> PageLogWebRequest(string nameSearchPattern, 
+                            int pageSize, int pageNumber, string sortColumn, string sortDirection);
+
     }
 }

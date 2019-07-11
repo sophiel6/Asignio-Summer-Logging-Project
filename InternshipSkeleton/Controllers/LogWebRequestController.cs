@@ -1,4 +1,5 @@
-﻿using AsignioInternship.Data.LogWebRequest;
+﻿using AsignioInternship.Data;
+using AsignioInternship.Data.LogWebRequest;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -11,11 +12,23 @@ namespace AsignioInternship.Controllers
         {
             m_logWebRequestRepository = (logWebRequestRepository != null) ? logWebRequestRepository : throw new ArgumentNullException();
         }
-        public ActionResult Index()
+        /*public ActionResult Index()
         {
             IEnumerable<LogWebRequestDataModel> result = m_logWebRequestRepository.GetAll();
             return View(result);
             //return View();
+        }*/
+
+        public ActionResult Index(int? id, PagedDataModelCollection<LogWebRequestDataModel> model)
+        {
+            int pageNum = (id ?? 1);
+            int pageSize = 20;
+            string sortColumn = (model.SortBy) ?? "TimeStamp";
+            string searchInfo = (model.SearchInput) ?? "";
+            string searchColumn = (model.SearchBy) ?? "";
+            PagedDataModelCollection<LogWebRequestDataModel> result = m_logWebRequestRepository.PageLogWebRequest(searchInfo, 
+                                                                    pageSize, pageNum, sortColumn, "ASC");
+            return View(result);
         }
 
         public ActionResult ViewAll()

@@ -14,10 +14,6 @@ namespace AsignioInternship.Data.LogWebRequest
                 : base(typeof(LogWebRequestRepository))
         { }
 
-        //public ExampleRepository(string connectionStringName)
-        //	: base(typeof(ExampleRepository), connectionStringName)
-        //{ }
-
         public LogWebRequestDataModel GetFromUserID(Guid UserID)
         {
             try
@@ -75,5 +71,54 @@ namespace AsignioInternship.Data.LogWebRequest
 
             return null;
         }
+
+        public PagedDataModelCollection<LogWebRequestDataModel> PageLogWebRequest(string nameSearchPattern, int pageSize, int pageNumber, string sortColumn, string sortDirection)
+        {
+            using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
+            {
+                try
+                {
+                    PetaPoco.Sql sql = new PetaPoco.Sql();
+
+                    sql.Append(LogWebRequestPoco.BaseSQL);
+
+                    if (!string.IsNullOrWhiteSpace(nameSearchPattern))
+                    {
+                        nameSearchPattern = string.Format("{0}", nameSearchPattern);
+
+                        //sql.Append(LogWebRequestPoco.PageUsersByUserIDSearchSQL, nameSearchPattern);
+                    }
+
+                    sql.Append(string.Format("ORDER BY {0} {1}", sortColumn, sortDirection));
+
+                    PetaPoco.Page<LogWebRequestPoco> page = db.Page<LogWebRequestPoco>(pageNumber, pageSize, sql);
+
+                    if (page == null)
+                    {
+                        return null;
+                    }
+
+                    return new PagedDataModelCollection<LogWebRequestDataModel>()
+                    {
+                        Items = page.Items.Select(s => s.ToModel()),
+                        PageNumber = pageNumber,
+                        PageSize = pageSize,
+                        TotalItems = page.TotalItems,
+                        TotalPages = page.TotalPages,
+                        SortBy = sortColumn
+                    };
+                }
+                catch (Exception ex)
+                {
+                    string errorMessage = ex.Message;
+                }
+                finally
+                {
+                }
+            }
+
+            return null;
+        }
     }
 }
+ 

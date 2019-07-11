@@ -46,7 +46,11 @@ namespace AsignioInternship.Controllers
 
         public ActionResult DisplayMethodNameSearchResult(int? id, PagedDataModelCollection<LogExceptionDataModel> model)
         {
-            int pageNum = (id ?? 1);
+            int pageNum;
+            if (model.PageNumber == 0)
+                { pageNum = (id ?? 1); }
+            else
+                { pageNum = model.PageNumber; }
             int pageSize = 20;
             string sortColumn = (model.SortBy) ?? "TimeStamp";
             string searchInfo = (model.SearchInput) ?? "";

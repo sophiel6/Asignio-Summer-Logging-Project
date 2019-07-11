@@ -54,10 +54,7 @@ namespace AsignioInternship.Controllers
             PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException(searchInfo, 
                                                                             searchColumn, pageSize, pageNum, sortColumn, "ASC");
             return View(result);
-
         }
-
-
         private readonly ILogExceptionRepository m_logExceptionRepository;
     }
 }

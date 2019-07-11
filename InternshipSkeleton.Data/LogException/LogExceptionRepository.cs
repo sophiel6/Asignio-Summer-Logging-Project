@@ -33,7 +33,6 @@ namespace AsignioInternship.Data.LogException
             { }
 
             return null;
-
         }
 
         public IEnumerable<LogExceptionDataModel> GetAll()
@@ -181,9 +180,7 @@ namespace AsignioInternship.Data.LogException
                             sections[1] = sections[1].Insert(0, "@@");
                             nameSearchPattern = string.Join("", sections);
                         }
-
                         sql.Append(string.Format("WHERE {0}={1} ", searchColumn, nameSearchPattern));
-                        //sql.Append(LogExceptionPoco.PageUsersByMethodNameSearchSQL, nameSearchPattern);
                     }
                     
                     sql.Append(string.Format("ORDER BY {0} {1}", sortColumn, sortDirection));

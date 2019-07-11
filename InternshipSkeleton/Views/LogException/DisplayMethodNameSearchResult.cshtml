@@ -8,18 +8,18 @@
 }
 
 <div>
-    @Html.ActionLink("Back to Search", "SearchByMethodName")
+    @Html.ActionLink("Back to Search", "Search")
 </div>
 
 <div>
-    Current Page: @Model.PageNumber
+    Current Page: @Model.PageNumber/@Model.TotalPages
 </div>
 
 <div>
     <!-- Previous button - if pagenumber would be 0, stay on same page -->
-    @Html.ActionLink("Previous", "Index", new { @id = ((Model.PageNumber - 1) != 0) ? (Model.PageNumber - 1) : Model.PageNumber });
+    @Html.ActionLink("Previous", "DisplayMethodNameSearchResult", new { @id = ((Model.PageNumber - 1) != 0) ? (Model.PageNumber - 1) : Model.PageNumber });
     <!-- Next button - if pagenumber would be >totalpages, stay on same page -->
-    @Html.ActionLink("Next", "Index", new { @id = ((Model.PageNumber + 1) <= Model.TotalPages) ? (Model.PageNumber + 1) : Model.PageNumber });
+    @Html.ActionLink("Next", "DisplayMethodNameSearchResult", new { @id = ((Model.PageNumber + 1) <= Model.TotalPages) ? (Model.PageNumber + 1) : Model.PageNumber });
 </div>
 
 <table style="width:100%; text-align:center;">

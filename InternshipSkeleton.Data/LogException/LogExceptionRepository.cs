@@ -170,8 +170,19 @@ namespace AsignioInternship.Data.LogException
                     
                     if (!string.IsNullOrWhiteSpace(nameSearchPattern) && !string.IsNullOrWhiteSpace(searchColumn))
                     {
-                        nameSearchPattern = string.Format("{0}", nameSearchPattern);
-                        sql.Append(string.Format("where {0}={1} ", searchColumn, nameSearchPattern));
+                        //I think if the search pattern is a TimeStamp, it needs to be converted to DateTime
+                        //however, TimeStamp works if you search it in the format that it's in in the Sql table 
+
+                        nameSearchPattern = string.Format("\"{0}\"", nameSearchPattern);
+
+                        if (searchColumn == "EmailAddress")
+                        {
+                            string[] sections = nameSearchPattern.Split(new[] { '@' });
+                            sections[1] = sections[1].Insert(0, "@@");
+                            nameSearchPattern = string.Join("", sections);
+                        }
+
+                        sql.Append(string.Format("WHERE {0}={1} ", searchColumn, nameSearchPattern));
                         //sql.Append(LogExceptionPoco.PageUsersByMethodNameSearchSQL, nameSearchPattern);
                     }
                     

@@ -9,5 +9,9 @@ namespace AsignioInternship.Data.LogMySql
         //LogExceptionDataModel Insert(LogExceptionDataModel dataModel);
 
         IEnumerable<LogMySqlDataModel> GetAll();
+
+        PagedDataModelCollection<LogMySqlDataModel> PageLogMySql(string nameSearchPattern,
+            int pageSize, int pageNumber, string sortColumn, string sortDirection);
+
     }
 }

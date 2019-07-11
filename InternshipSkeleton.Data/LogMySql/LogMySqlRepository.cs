@@ -14,9 +14,6 @@ namespace AsignioInternship.Data.LogMySql
                 : base(typeof(LogMySqlRepository))
         { }
 
-        //public ExampleRepository(string connectionStringName)
-        //	: base(typeof(ExampleRepository), connectionStringName)
-        //{ }
 
             /*
         public LogMySqlDataModel GetFromUserID(Guid UserID)
@@ -57,37 +54,51 @@ namespace AsignioInternship.Data.LogMySql
 
             return null;
         }
-        /*
-        public ExampleDataModel Insert(ExampleDataModel dataModel) // always do insert and update together. Check if it already exists, if so update, if not insert
+        public PagedDataModelCollection<LogMySqlDataModel> PageLogMySql(string nameSearchPattern, int pageSize, int pageNumber, string sortColumn, string sortDirection)
         {
-            try
+            using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
             {
-                using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
+                try
                 {
-                    ExampleDataModel returnModel = GetFromID(dataModel.ExampleID);
-                    ExamplePoco poco = dataModel.ToPoco();
-                    if (returnModel != null)
+                    PetaPoco.Sql sql = new PetaPoco.Sql();
+
+                    sql.Append(LogMySqlPoco.BaseSQL);
+
+                    if (!string.IsNullOrWhiteSpace(nameSearchPattern))
                     {
-                        db.Update(poco);
+                        nameSearchPattern = string.Format("{0}", nameSearchPattern);
+
+                        //sql.Append(LogWebRequestPoco.PageUsersByUserIDSearchSQL, nameSearchPattern);
                     }
-                    else
+
+                    sql.Append(string.Format("ORDER BY {0} {1}", sortColumn, sortDirection));
+
+                    PetaPoco.Page<LogMySqlPoco> page = db.Page<LogMySqlPoco>(pageNumber, pageSize, sql);
+
+                    if (page == null)
                     {
-                        poco.ExampleID = GuidMapper.Map(Guid.NewGuid());
-                        poco.DateAdded = DateTime.Now;
-                        db.Insert(poco);
+                        return null;
                     }
+
+                    return new PagedDataModelCollection<LogMySqlDataModel>()
+                    {
+                        Items = page.Items.Select(s => s.ToModel()),
+                        PageNumber = pageNumber,
+                        PageSize = pageSize,
+                        TotalItems = page.TotalItems,
+                        TotalPages = page.TotalPages,
+                        SortBy = sortColumn
+                    };
+                }
+                catch (Exception ex)
+                {
+                    string errorMessage = ex.Message;
+                }
+                finally
+                {
                 }
             }
-            catch (Exception ex)
-            {
-                string errorMessage = ex.Message;
-            }
-            finally
-            { }
-
             return null;
-
         }
-    */
     }
 }

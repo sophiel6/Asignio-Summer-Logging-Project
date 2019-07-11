@@ -1,13 +1,28 @@
 ﻿@using AsignioInternship.Data.LogMySql
+@using AsignioInternship.Data 
 
 
-@model IEnumerable<LogMySqlDataModel>
+@model PagedDataModelCollection<LogMySqlDataModel>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!-- LogMySql table doesn't have UserID, so for now I won't implement search by userID -->
+<div>
+    <!-- dropdown form to choose how to sort the data -->
+    Sort data by:
+    @{
+        List<SelectListItem> listItems = new List<SelectListItem>();
+        listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "DateTimeStamp", Selected = ("DateTimeStamp" == Model.SortBy) });
+        listItems.Add(new SelectListItem { Text = "Message", Value = "Message", Selected = ("Message" == Model.SortBy )});
+        listItems.Add(new SelectListItem { Text = "Type", Value = "Type", Selected = ("Type" == Model.SortBy) });
+    }
+
+    @using (Html.BeginForm("Index", "LogMySql", FormMethod.Post, new { id = "sortby", @class = "form-control" }))
+    {
+        @Html.DropDownListFor(m => m.SortBy, listItems, new { onchange = "this.form.submit();" })
+    }
+</div>
 
 <table style="width:100%; text-align:center;">
     <thead>
@@ -21,14 +36,13 @@
     </thead>
     <tbody>
 
-        @foreach (LogMySqlDataModel currentRow in Model)
+        @foreach (LogMySqlDataModel currentRow in Model.Items)
         {
             <tr>
                 <td>@currentRow.DateTimeStamp</td>
                 <td>@currentRow.Message</td>
                 <td>@currentRow.Function</td>
                 <td>@currentRow.Type</td>
-                <!-- <td> (at) Html.ActionLink("Edit", "Update", new { UserID = currentRow.ExampleID })</td> -->
             </tr>
 
         }

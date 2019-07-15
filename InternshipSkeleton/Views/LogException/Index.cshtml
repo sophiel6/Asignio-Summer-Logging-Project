@@ -13,25 +13,11 @@
     var searchInput = Model.SearchInput;
     var sortBy = Model.SortBy;
     var id = Model.PageNumber;
-}
 
-<div>
-    <!-- dropdown form to choose how to sort the data -->
-    Sort data by:
-    @{
-        List<SelectListItem> listItems = new List<SelectListItem>();
-        listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp", Selected = ("TimeStamp" == Model.SortBy) });
-        listItems.Add(new SelectListItem { Text = "Method Name", Value = "MethodName", Selected = ("MethodName" == Model.SortBy) });
-    }
+    List<SelectListItem> listItems = new List<SelectListItem>();
+    listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp", Selected = ("TimeStamp" == Model.SortBy) });
+    listItems.Add(new SelectListItem { Text = "Method Name", Value = "MethodName", Selected = ("MethodName" == Model.SortBy) });
 
-    @using (Html.BeginForm("Index", "LogException", FormMethod.Post, new { id = "sortby", @class = "form-control" }))
-    {
-        <!-- Figure out how to make search values stay in place when a different sort order is selected -->
-        @Html.DropDownList("sortBy", listItems, new { onchange = "this.form.submit();" })
-    }
-</div>
-
-@{ 
     List<SelectListItem> searchCategories = new List<SelectListItem>();
     searchCategories.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
     searchCategories.Add(new SelectListItem { Text = "Email Address", Value = "EmailAddress" });
@@ -45,6 +31,10 @@
 @using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }))
 {
     <div>
+        @Html.Label("Sort by: ")
+        @Html.DropDownList("sortBy", listItems)
+    </div>
+    <div>
         @Html.Label("Search by: ")
         @Html.DropDownList("searchBy", searchCategories)
     </div>
@@ -57,19 +47,20 @@
         @Html.TextBox("id")
     </div>
     <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" />
+
 }
 
 <div>
     @Html.ActionLink(linkText: "Previous",
                      actionName: "Index",
                      controllerName: "LogException",
-                     routeValues: new { searchBy = searchBy, searchInput = searchInput, id = ((id - 1)!=0) ? (id-1) : id },
+                     routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput, id = ((id - 1) != 0) ? (id - 1) : id },
                      htmlAttributes: null)
 
     @Html.ActionLink(linkText: "Next",
                      actionName: "Index",
                      controllerName: "LogException",
-                     routeValues: new { searchBy = searchBy, searchInput = searchInput, id = ((id + 1)<= Model.TotalPages) ? (id+1) : id },
+                     routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput, id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
                      htmlAttributes: null)
 </div>
 

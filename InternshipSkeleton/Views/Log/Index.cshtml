@@ -8,35 +8,65 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div>
-    <!-- dropdown form to choose how to sort the data -->
-    Sort data by:
-    @{
-        List<SelectListItem> listItems = new List<SelectListItem>();
-        listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp", Selected = ("TimeStamp" == Model.SortBy) });
-        listItems.Add(new SelectListItem { Text = "Email Address", Value = "EmailAddress", Selected = ("EmailAddress" == Model.SortBy) });
-    }
+@{
+    var searchBy = Model.SearchBy;
+    var searchInput = Model.SearchInput;
+    var sortBy = Model.SortBy;
+    var id = Model.PageNumber;
 
-    @using (Html.BeginForm("Index", "Log", FormMethod.Post, new { id = "sortby", @class = "form-control" }))
-    {
-        @Html.DropDownListFor(m => m.SortBy, listItems, new { onchange = "this.form.submit();" })
-    }
+    List<SelectListItem> listItems = new List<SelectListItem>();
+    listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
+    listItems.Add(new SelectListItem { Text = "Level", Value = "Level" });
+    listItems.Add(new SelectListItem { Text = "Email Address", Value = "EmailAddress" });
+    listItems.Add(new SelectListItem { Text = "Message", Value = "Message" });
+    listItems.Add(new SelectListItem { Text = "Source", Value = "Source" });
+
+    List<SelectListItem> searchCategories = new List<SelectListItem>();
+    searchCategories.Add(new SelectListItem { Text = "Email Address", Value = "EmailAddress" });
+    searchCategories.Add(new SelectListItem { Text = "Message", Value = "Message" });
+    searchCategories.Add(new SelectListItem { Text = "Level", Value = "Level" });
+    searchCategories.Add(new SelectListItem { Text = "Source", Value = "Source" });
+}
+
+@using (Html.BeginRouteForm("Search", new { controller = "Log", action = "Index" }))
+{
+    <div>
+        @Html.Label("Sort by: ")
+        @Html.DropDownList("sortBy", listItems)
+    </div>
+    <div>
+        @Html.Label("Search by: ")
+        @Html.DropDownList("searchBy", searchCategories)
+    </div>
+    <div>
+        @Html.Label("Search for: ")
+        @Html.TextBox("searchInput")
+    </div>
+    <div>
+        @Html.Label("Page: ")
+        @Html.TextBox("id")
+    </div>
+    <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" />
+}
+
+<div>
+    @Html.ActionLink(linkText: "Previous",
+                     actionName: "Index",
+                     controllerName: "Log",
+                     routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput, id = ((id - 1) != 0) ? (id - 1) : id },
+                     htmlAttributes: null)
+</div>
+<div>
+    @Html.ActionLink(linkText: "Next",
+                     actionName: "Index",
+                     controllerName: "Log",
+                     routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput, id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
+                     htmlAttributes: null)
 </div>
 
-<div>
-    <!-- Added link to search the log-->
-    @Html.ActionLink("Search", "Search", "Log");
-</div>
 
 <div>
     Current Page: @Model.PageNumber/@Model.TotalPages
-</div>
-
-<div>
-    <!-- Previous button - if pagenumber would be 0, stay on same page -->
-    @Html.ActionLink("Previous", "Index", new { @id = ((Model.PageNumber - 1) != 0) ? (Model.PageNumber - 1) : Model.PageNumber });
-    <!-- Next button - if pagenumber would be >totalpages, stay on same page -->
-    @Html.ActionLink("Next", "Index", new { @id = ((Model.PageNumber + 1) <= Model.TotalPages) ? (Model.PageNumber + 1) : Model.PageNumber });
 </div>
 
 <table style="width:100%; text-align:center;">

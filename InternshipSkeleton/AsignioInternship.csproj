@@ -224,6 +224,7 @@
     <Content Include="Views\LogWebResponse\Search.cshtml" />
     <Content Include="Views\LogWebResponse\SearchByUserID.cshtml" />
     <Content Include="Views\LogWebResponse\DisplayUserIDResult.cshtml" />
+    <Content Include="Views\LogException\Update.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -15,24 +15,18 @@ namespace AsignioInternship.Controllers
             m_logRepository = (logRepository != null) ? logRepository : throw new ArgumentNullException();
         }
 
-        public ActionResult Index(int? id, PagedDataModelCollection<LogDataModel> model)
+        public ActionResult Index(int? id, string searchBy, string searchInput, string sortBy)
         {
-            int pageNum = (id ?? 1);
+            int pageNum;
+            pageNum = (id ?? 1);
             int pageSize = 20;
-            string sortColumn = (model.SortBy) ?? "TimeStamp";
-            string searchInfo = (model.SearchInput) ?? "";
-            string searchColumn = (model.SearchBy) ?? "";
-            PagedDataModelCollection<CombinedLogDataModel> result = m_logRepository.CombinedPageLog(searchInfo, searchColumn,
-                                                                    pageSize, pageNum, sortColumn, "ASC");
+            string sortColumn = sortBy ?? "TimeStamp";
+            string searchInfo = searchInput ?? "";
+            string searchColumn = searchBy ?? "";
+            PagedDataModelCollection<CombinedLogDataModel> result = m_logRepository.CombinedPageLog(searchInfo,
+                                                                            searchColumn, pageSize, pageNum, sortColumn, "ASC");
             return View(result);
         }
-        /*
-        public ActionResult Index()
-        {
-            IEnumerable<LogDataModel> result = m_logRepository.GetAll();
-            return View(result);
-        }
-        */
 
         public ActionResult ViewAll()
         {

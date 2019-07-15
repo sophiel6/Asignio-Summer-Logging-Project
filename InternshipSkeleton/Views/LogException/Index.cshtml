@@ -1,4 +1,4 @@
-﻿@using AsignioInternship.Data.CombinedLogException 
+﻿@using AsignioInternship.Data.CombinedLogException
 @using AsignioInternship.Data
 
 
@@ -8,28 +8,69 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@{
+    var searchBy = Model.SearchBy;
+    var searchInput = Model.SearchInput;
+    var sortBy = Model.SortBy;
+    var id = Model.PageNumber;
+}
+
 <div>
     <!-- dropdown form to choose how to sort the data -->
     Sort data by:
     @{
         List<SelectListItem> listItems = new List<SelectListItem>();
-        listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp", Selected = ("TimeStamp"== Model.SortBy) });
+        listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp", Selected = ("TimeStamp" == Model.SortBy) });
         listItems.Add(new SelectListItem { Text = "Method Name", Value = "MethodName", Selected = ("MethodName" == Model.SortBy) });
     }
 
-    @using (Html.BeginForm("Index", "LogException", FormMethod.Post, new { id = "sortby", @class = "form-control"  }))
+    @using (Html.BeginForm("Index", "LogException", FormMethod.Post, new { id = "sortby", @class = "form-control" }))
     {
         @Html.DropDownListFor(m => m.SortBy, listItems, new { onchange = "this.form.submit();" })
     }
-</div> 
+</div>
+
+
+@using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "DisplayMethodNameSearchResult" }))
+{
+    <div> <!--
+        (at)Html.Label("Search category: ")
+        (at)Html.TextBox("searchBy") -->
+    </div>
+    <!-- (at)Html.DropDownListFor(m => m.SortBy, listItems, new { onchange = "this.form.submit();" }) -->
+        @Html.DropDownList("searchBy", listItems, "Search by:" )
+    <div>
+        @Html.Label("Search for: ")
+        @Html.TextBox("searchInput")
+    </div>
+    <div>
+        @Html.Label("Page: ")
+        @Html.TextBox("id")
+    </div>
+    <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" />
+}
 
 <div>
-    <!-- Added link to search the log-->
-    @Html.ActionLink("Search", "Search", "LogException");
+    @Html.ActionLink(linkText: "Previous",
+                     actionName: "DisplayMethodNameSearchResult",
+                     controllerName: "LogException",
+                     routeValues: new { searchBy = searchBy, searchInput = searchInput, id = id - 1, },
+                     htmlAttributes: null)
+
+    @Html.ActionLink(linkText: "Next",
+                     actionName: "DisplayMethodNameSearchResult",
+                     controllerName: "LogException",
+                     routeValues: new { searchBy = searchBy, searchInput = searchInput, id = id + 1, },
+                     htmlAttributes: null)
 </div>
 
 <div>
-   Current Page: @Model.PageNumber/@Model.TotalPages
+    <!-- Added link to search the log-->
+   <!-- (at)Html.ActionLink("Search", "Search", "LogException"); -->
+</div>
+
+<div>
+    Current Page: @Model.PageNumber/@Model.TotalPages
 </div>
 
 <div>
@@ -53,7 +94,7 @@
     </thead>
     <tbody>
 
-       <!-- (at)foreach (LogExceptionDataModel currentRow in Model.Items) -->
+        <!-- (at)foreach (LogExceptionDataModel currentRow in Model.Items) -->
         @foreach (CombinedLogExceptionDataModel currentRow in Model.Items)
         {
             <tr>

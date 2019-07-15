@@ -15,13 +15,13 @@ namespace AsignioInternship.Controllers
             m_logExceptionRepository = (logExceptionRepository != null) ? logExceptionRepository : throw new ArgumentNullException();
         }
         
-        public ActionResult Index(int? id, PagedDataModelCollection<LogExceptionDataModel> model)
+        public ActionResult Index(int? id, string sortBy)
         {
             int pageNum = (id ?? 1);
             int pageSize = 20;
-            string sortColumn = (model.SortBy) ?? "TimeStamp";
-            string searchInfo = (model.SearchInput) ?? "";
-            string searchColumn = (model.SearchBy) ?? "";
+            string sortColumn = (sortBy) ?? "TimeStamp";
+            string searchInfo = "";
+            string searchColumn = "";
             PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException(searchInfo, searchColumn,
                                                                     pageSize, pageNum, sortColumn, "ASC");
             return View(result);
@@ -44,17 +44,15 @@ namespace AsignioInternship.Controllers
             return View();
         }
 
-        public ActionResult DisplayMethodNameSearchResult(int? id, PagedDataModelCollection<LogExceptionDataModel> model)
+        public ActionResult DisplayMethodNameSearchResult(int? id, string searchBy, string searchInput, string sortBy)
         {
             int pageNum;
-            if (model.PageNumber == 0)
-                { pageNum = (id ?? 1); }
-            else
-                { pageNum = model.PageNumber; }
+            pageNum = (id ?? 1);
+
             int pageSize = 20;
-            string sortColumn = (model.SortBy) ?? "TimeStamp";
-            string searchInfo = (model.SearchInput) ?? "";
-            string searchColumn = (model.SearchBy) ?? "";
+            string sortColumn = sortBy ?? "TimeStamp";
+            string searchInfo = searchInput ?? "";
+            string searchColumn = searchBy ?? "";
             PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException(searchInfo, 
                                                                             searchColumn, pageSize, pageNum, sortColumn, "ASC");
             return View(result);

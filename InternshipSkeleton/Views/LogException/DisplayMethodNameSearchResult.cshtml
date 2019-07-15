@@ -7,6 +7,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@{ 
+    var searchBy = Model.SearchBy;
+    var searchInput = Model.SearchInput;
+    var sortBy = Model.SortBy;
+    var id = Model.PageNumber;
+}
+
 <div>
     @Html.ActionLink("Back to Search", "Search")
 </div>
@@ -15,59 +22,65 @@
     Current Page: @Model.PageNumber/@Model.TotalPages
 </div>
 
-Go to page:
-<!-- (at)using (Html.BeginForm("DisplayMethodNameSearchResult", "LogException", FormMethod.Post, new { (at)class = "form-control" })) -->
+
+@using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "DisplayMethodNameSearchResult" }))
 {
-    <!-- (at) Html.Editor(m => m.PageNumber, "DisplayMethodNameSearchResult", new { htmlAttributes = new { (at)class = "form-control" } })
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Go" class="btn btn-default" />
-        </div>
-    </div> -->
-}
-
-@using (Html.BeginForm("DisplayMethodNameSearchResult", "LogException", FormMethod.Get))
-{
-    @Html.TextBox("id")
-    <input type="submit" name="btnSubmit" value="Go" />
-}
-
-
     <div>
-        <!-- Previous button - if pagenumber would be 0, stay on same page -->
-        @Html.ActionLink("Previous", "DisplayMethodNameSearchResult", new { @id = ((Model.PageNumber - 1) != 0) ? (Model.PageNumber - 1) : Model.PageNumber });
-        <!-- Next button - if pagenumber would be >totalpages, stay on same page -->
-        @Html.ActionLink("Next", "DisplayMethodNameSearchResult", new { @id = ((Model.PageNumber + 1) <= Model.TotalPages) ? (Model.PageNumber + 1) : Model.PageNumber });
+        @Html.Label("Search category: ")
+        @Html.TextBox("searchBy")
     </div>
+    <div>
+        @Html.Label("Search for: ")
+        @Html.TextBox("searchInput")
+    </div>
+    <div>
+        @Html.Label("Page: ")
+        @Html.TextBox("id")
+    </div>
+    <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" />
+}
 
-    <table style="width:100%; text-align:center;">
-        <thead>
+<div>
+    @Html.ActionLink(linkText: "Previous",
+                     actionName: "DisplayMethodNameSearchResult",
+                     controllerName: "LogException",
+                     routeValues: new { searchBy = searchBy, searchInput = searchInput, id = id-1, },
+                     htmlAttributes: null)
+
+    @Html.ActionLink(linkText: "Next",
+                     actionName: "DisplayMethodNameSearchResult",
+                     controllerName: "LogException",
+                     routeValues: new { searchBy = searchBy, searchInput = searchInput, id = id+1, },
+                     htmlAttributes: null)
+</div>
+
+<table style="width:100%; text-align:center;">
+    <thead>
+        <tr>
+            <td>Email Address</td>
+            <td>Time Stamp</td>
+            <td>Web Request ID</td>
+            <td>Message</td>
+            <td>Method Name</td>
+            <td>Source</td>
+            <td>Stack Trace</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (CombinedLogExceptionDataModel currentRow in Model.Items)
+        {
             <tr>
-                <td>Email Address</td>
-                <td>Time Stamp</td>
-                <td>Web Request ID</td>
-                <td>Message</td>
-                <td>Method Name</td>
-                <td>Source</td>
-                <td>Stack Trace</td>
+                <td>@currentRow.EmailAddress</td>
+                <td>@currentRow.TimeStamp</td>
+                <td>@currentRow.WebRequestID</td>
+                <td>@currentRow.Message</td>
+                <td>@currentRow.MethodName</td>
+                <td>@currentRow.Source</td>
+                <td>@currentRow.StackTrace</td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (CombinedLogExceptionDataModel currentRow in Model.Items)
-            {
-                <tr>
-                    <td>@currentRow.EmailAddress</td>
-                    <td>@currentRow.TimeStamp</td>
-                    <td>@currentRow.WebRequestID</td>
-                    <td>@currentRow.Message</td>
-                    <td>@currentRow.MethodName</td>
-                    <td>@currentRow.Source</td>
-                    <td>@currentRow.StackTrace</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>
 
 
 

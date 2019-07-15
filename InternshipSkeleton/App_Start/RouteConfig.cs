@@ -18,13 +18,13 @@ namespace AsignioInternship
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
-            //adding a new route to use for different sort order 
-            /*
+            
+            //adding a new route to use for searching and sorting data 
             routes.MapRoute(
-                name: "Sort",
-                url: "{controller}/{action}/{id}/{SortBy}",
-                defaults: new {controller = "Home", action = "Index", id = UrlParameter.Optional, SortBy = "TimeStamp" }
-            ); */
+                name: "Search",
+                url: "{controller}/{action}/{searchBy}/{searchInput}/{sortBy}/{id}",
+                defaults: new {controller = "Home", action = "Index", id = UrlParameter.Optional, searchBy = "", searchInput="", sortBy = "TimeStamp" }
+            ); 
         }
 	}
 }

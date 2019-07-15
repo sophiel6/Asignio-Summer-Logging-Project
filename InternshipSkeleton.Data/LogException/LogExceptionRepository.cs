@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AsignioInternship.Data.CombinedLogException;
 using AsignioInternship.Data.User;
 using IntershipSkeleton.Demos.Data.Repositories;
@@ -163,7 +161,8 @@ namespace AsignioInternship.Data.LogException
                     PetaPoco.Sql sql = new PetaPoco.Sql();
 
                     sql.Append("SELECT ");
-                    sql.Append("user.EmailAddress, logexception.TimeStamp, logexception.WebRequestID, logexception.Message, logexception.MethodName, logexception.Source, logexception.StackTrace");
+                    sql.Append("user.EmailAddress, logexception.TimeStamp, logexception.WebRequestID, logexception.Message, " +
+                               "logexception.MethodName, logexception.Source, logexception.StackTrace, logexception.Important ");
                     sql.Append(" from logexception ");
                     sql.Append(" INNER JOIN user on user.userID = logexception.userID ");
                     
@@ -216,10 +215,8 @@ namespace AsignioInternship.Data.LogException
                 {
                 }
             }
-
             return null;
         }
-
     }
 }
 

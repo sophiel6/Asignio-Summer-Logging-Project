@@ -27,13 +27,6 @@ namespace AsignioInternship.Controllers
                                                                             searchColumn, pageSize, pageNum, sortColumn, "ASC");
             return View(result);
         }
-        
-        /*
-        public ActionResult Index(int? id)
-        {
-            IEnumerable<CombinedLogExceptionDataModel> result = m_logExceptionRepository.ExampleQuery();
-            return View(result);
-        } */
 
         public ActionResult Search()
         {

@@ -18,6 +18,7 @@ namespace AsignioInternship.Data.CombinedLogException
                     MethodName = source.MethodName,
                     Source = source.Source,
                     StackTrace = source.StackTrace,
+                    Important = source.Important,
                 };
             }
 
@@ -37,6 +38,7 @@ namespace AsignioInternship.Data.CombinedLogException
                     MethodName = source.MethodName,
                     Source = source.Source,
                     StackTrace = source.StackTrace,
+                    Important = source.Important,
                 };
             }
 

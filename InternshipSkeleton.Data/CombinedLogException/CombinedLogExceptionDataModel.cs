@@ -15,6 +15,7 @@ namespace AsignioInternship.Data.CombinedLogException
         public string MethodName { get; set; }
         public string Source { get; set; }
         public string StackTrace { get; set; }
+        public string Important { get; set; }
 
     }
 }

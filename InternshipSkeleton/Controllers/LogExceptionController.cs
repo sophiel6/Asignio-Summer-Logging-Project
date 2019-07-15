@@ -14,18 +14,6 @@ namespace AsignioInternship.Controllers
         {
             m_logExceptionRepository = (logExceptionRepository != null) ? logExceptionRepository : throw new ArgumentNullException();
         }
-        
-        /*public ActionResult Index(int? id, string sortBy)
-        {
-            int pageNum = (id ?? 1);
-            int pageSize = 20;
-            string sortColumn = (sortBy) ?? "TimeStamp";
-            string searchInfo = "";
-            string searchColumn = "";
-            PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException(searchInfo, searchColumn,
-                                                                    pageSize, pageNum, sortColumn, "ASC");
-            return View(result);
-        } */
 
         public ActionResult Index(int? id, string searchBy, string searchInput, string sortBy)
         {

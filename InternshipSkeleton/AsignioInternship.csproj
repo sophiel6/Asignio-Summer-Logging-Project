@@ -215,8 +215,6 @@
     <Content Include="Views\LogControllerAction\Search.cshtml" />
     <Content Include="Views\LogControllerAction\SearchByUserID.cshtml" />
     <Content Include="Views\LogControllerAction\DisplayUserIDResult.cshtml" />
-    <Content Include="Views\LogException\Search.cshtml" />
-    <Content Include="Views\LogException\DisplayMethodNameSearchResult.cshtml" />
     <Content Include="Views\LogInfo\Search.cshtml" />
     <Content Include="Views\LogInfo\SearchByUserID.cshtml" />
     <Content Include="Views\LogInfo\DisplayUserIDResult.cshtml" />

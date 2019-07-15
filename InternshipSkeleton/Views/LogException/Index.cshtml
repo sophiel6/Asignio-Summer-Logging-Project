@@ -26,19 +26,28 @@
 
     @using (Html.BeginForm("Index", "LogException", FormMethod.Post, new { id = "sortby", @class = "form-control" }))
     {
-        @Html.DropDownListFor(m => m.SortBy, listItems, new { onchange = "this.form.submit();" })
+        <!-- Figure out how to make search values stay in place when a different sort order is selected -->
+        @Html.DropDownList("sortBy", listItems, new { onchange = "this.form.submit();" })
     }
 </div>
 
+@{ 
+    List<SelectListItem> searchCategories = new List<SelectListItem>();
+    searchCategories.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
+    searchCategories.Add(new SelectListItem { Text = "Email Address", Value = "EmailAddress" });
+    searchCategories.Add(new SelectListItem { Text = "Message", Value = "Message" });
+    searchCategories.Add(new SelectListItem { Text = "Method Name", Value = "MethodName" });
+    searchCategories.Add(new SelectListItem { Text = "Source", Value = "Source" });
+    searchCategories.Add(new SelectListItem { Text = "Stack Trace", Value = "StackTrace" });
+}
 
-@using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "DisplayMethodNameSearchResult" }))
+<!-- Try to make searching by "contains" possible; also if there are no data in the query result, display "No results" -->
+@using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }))
 {
-    <div> <!--
-        (at)Html.Label("Search category: ")
-        (at)Html.TextBox("searchBy") -->
+    <div>
+        @Html.Label("Search by: ")
+        @Html.DropDownList("searchBy", searchCategories)
     </div>
-    <!-- (at)Html.DropDownListFor(m => m.SortBy, listItems, new { onchange = "this.form.submit();" }) -->
-        @Html.DropDownList("searchBy", listItems, "Search by:" )
     <div>
         @Html.Label("Search for: ")
         @Html.TextBox("searchInput")
@@ -52,33 +61,22 @@
 
 <div>
     @Html.ActionLink(linkText: "Previous",
-                     actionName: "DisplayMethodNameSearchResult",
+                     actionName: "Index",
                      controllerName: "LogException",
-                     routeValues: new { searchBy = searchBy, searchInput = searchInput, id = id - 1, },
+                     routeValues: new { searchBy = searchBy, searchInput = searchInput, id = ((id - 1)!=0) ? (id-1) : id },
                      htmlAttributes: null)
 
     @Html.ActionLink(linkText: "Next",
-                     actionName: "DisplayMethodNameSearchResult",
+                     actionName: "Index",
                      controllerName: "LogException",
-                     routeValues: new { searchBy = searchBy, searchInput = searchInput, id = id + 1, },
+                     routeValues: new { searchBy = searchBy, searchInput = searchInput, id = ((id + 1)<= Model.TotalPages) ? (id+1) : id },
                      htmlAttributes: null)
-</div>
-
-<div>
-    <!-- Added link to search the log-->
-   <!-- (at)Html.ActionLink("Search", "Search", "LogException"); -->
 </div>
 
 <div>
     Current Page: @Model.PageNumber/@Model.TotalPages
 </div>
 
-<div>
-    <!-- Previous button - if pagenumber would be 0, stay on same page -->
-    @Html.ActionLink("Previous", "Index", new { @id = ((Model.PageNumber - 1) != 0) ? (Model.PageNumber - 1) : Model.PageNumber });
-    <!-- Next button - if pagenumber would be >totalpages, stay on same page -->
-    @Html.ActionLink("Next", "Index", new { @id = ((Model.PageNumber + 1) <= Model.TotalPages) ? (Model.PageNumber + 1) : Model.PageNumber });
-</div>
 
 <table style="width:100%; text-align:center;">
     <thead>
@@ -93,8 +91,6 @@
         </tr>
     </thead>
     <tbody>
-
-        <!-- (at)foreach (LogExceptionDataModel currentRow in Model.Items) -->
         @foreach (CombinedLogExceptionDataModel currentRow in Model.Items)
         {
             <tr>

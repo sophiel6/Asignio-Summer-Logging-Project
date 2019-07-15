@@ -8,7 +8,6 @@ namespace AsignioInternship.Data.CombinedLogException
 {
     public class CombinedLogExceptionDataModel
     {
-        //not 100% sure about which fields to include in this data model (besides email and userID)
         public string EmailAddress { get; set; }
         public DateTime TimeStamp { get; set; }
         public Guid WebRequestID { get; set; }

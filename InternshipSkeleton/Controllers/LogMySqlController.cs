@@ -18,7 +18,7 @@ namespace AsignioInternship.Controllers
             return View(result);
         }*/
 
-        public ActionResult Index(int? id, PagedDataModelCollection<LogMySqlDataModel> model)
+        /*public ActionResult Index(int? id, PagedDataModelCollection<LogMySqlDataModel> model)
         {
             int pageNum = (id ?? 1);
             int pageSize = 68;
@@ -27,6 +27,19 @@ namespace AsignioInternship.Controllers
             string searchColumn = (model.SearchBy) ?? "";
             PagedDataModelCollection<LogMySqlDataModel> result = m_logMySqlRepository.PageLogMySql(searchInfo,
                                                                     pageSize, pageNum, sortColumn, "ASC");
+            return View(result);
+        }*/
+
+        public ActionResult Index(int? id, string searchBy, string searchInput, string sortBy)
+        {
+            int pageNum;
+            pageNum = (id ?? 1);
+            int pageSize = 20;
+            string sortColumn = sortBy ?? "DateTimeStamp";
+            string searchInfo = searchInput ?? "";
+            string searchColumn = searchBy ?? "";
+            PagedDataModelCollection<LogMySqlDataModel> result = m_logMySqlRepository.PageLogMySql(searchInfo,
+                                                                            searchColumn, pageSize, pageNum, sortColumn, "ASC");
             return View(result);
         }
 

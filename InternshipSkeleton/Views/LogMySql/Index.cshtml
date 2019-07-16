@@ -1,5 +1,5 @@
 ﻿@using AsignioInternship.Data.LogMySql
-@using AsignioInternship.Data 
+@using AsignioInternship.Data
 
 
 @model PagedDataModelCollection<LogMySqlDataModel>
@@ -8,22 +8,74 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div>
-    <!-- dropdown form to choose how to sort the data -->
-    Sort data by:
-    @{
-        List<SelectListItem> listItems = new List<SelectListItem>();
-        listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "DateTimeStamp", Selected = ("DateTimeStamp" == Model.SortBy) });
-        listItems.Add(new SelectListItem { Text = "Message", Value = "Message", Selected = ("Message" == Model.SortBy )});
-        listItems.Add(new SelectListItem { Text = "Type", Value = "Type", Selected = ("Type" == Model.SortBy) });
-    }
+@{
+    var searchBy = Model.SearchBy;
+    var searchInput = Model.SearchInput;
+    var sortBy = Model.SortBy;
+    var id = Model.PageNumber;
 
-    @using (Html.BeginForm("Index", "LogMySql", FormMethod.Post, new { id = "sortby", @class = "form-control" }))
-    {
-        @Html.DropDownListFor(m => m.SortBy, listItems, new { onchange = "this.form.submit();" })
-    }
+    bool noResults = (Model.TotalItems) == 0;
+
+    List<SelectListItem> listItems = new List<SelectListItem>();
+    listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "DateTimeStamp" });
+    listItems.Add(new SelectListItem { Text = "Message", Value = "Message" });
+    listItems.Add(new SelectListItem { Text = "Type", Value = "Type" });
+    listItems.Add(new SelectListItem { Text = "Function", Value = "Function" });
+
+
+    List<SelectListItem> searchCategories = new List<SelectListItem>();
+    searchCategories.Add(new SelectListItem { Text = "Message", Value = "Message" });
+    searchCategories.Add(new SelectListItem { Text = "Type", Value = "Type" });
+    searchCategories.Add(new SelectListItem { Text = "Function", Value = "Function" });
+}
+
+<!-- if there are no data in the query result, try to make it display "No results" -->
+@using (Html.BeginRouteForm("Search", new { controller = "LogMySql", action = "Index" }))
+{
+    <div class="container">
+        <div class="block" style="width: 20% !important; display: inline;">
+            @Html.Label("Sort by: ")
+            @Html.DropDownList("sortBy", listItems)
+        </div>
+        <div class="block" style="width: 20% !important; display: inline;">
+            @Html.Label("Search by: ")
+            @Html.DropDownList("searchBy", searchCategories)
+        </div>
+        <div class="block" style="width: 20% !important; display: inline;">
+            @Html.Label("Search for: ")
+            @Html.TextBox("searchInput")
+        </div>
+        <div class="block" style="width: 20% !important; display: inline;">
+            @Html.Label("Page: ")
+            @Html.TextBox("id")
+        </div>
+        <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" style="width: 20% !important; display:inline;" />
+    </div>
+}
+
+<div>
+    @Html.ActionLink(linkText: "Previous",
+                        actionName: "Index",
+                        controllerName: "LogMySql",
+                        routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput,
+                                                                    id = ((id - 1) != 0) ? (id - 1) : id },
+                        htmlAttributes: null)
+</div>
+<div>
+    @Html.ActionLink(linkText: "Next",
+                        actionName: "Index",
+                        controllerName: "LogMySql",
+                        routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput,
+                                                     id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
+                        htmlAttributes: null)
 </div>
 
+<div>
+    Current Page: @Model.PageNumber/@Model.TotalPages
+</div>
+
+@if (!noResults)
+{
 <table style="width:100%; text-align:center;">
     <thead>
         <tr>
@@ -44,8 +96,11 @@
                 <td>@currentRow.Function</td>
                 <td>@currentRow.Type</td>
             </tr>
-
         }
     </tbody>
 </table>
-
+}
+else
+{
+    <h2> No results found. </h2>
+}

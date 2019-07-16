@@ -14,28 +14,6 @@ namespace AsignioInternship.Data.LogMySql
                 : base(typeof(LogMySqlRepository))
         { }
 
-
-            /*
-        public LogMySqlDataModel GetFromUserID(Guid UserID)
-        {
-            try
-            {
-                using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
-                {
-                    return db.FirstOrDefault<LogMySqlPoco>(LogMySqlPoco.SelectByIDSQL, GuidMapper.Map(UserID)).ToModel();
-                }
-            }
-            catch (Exception ex)
-            {
-                string errorMessage = ex.Message;
-            }
-            finally
-            { }
-
-            return null;
-
-        }
-        */
         public IEnumerable<LogMySqlDataModel> GetAll()
         {
             try
@@ -54,7 +32,8 @@ namespace AsignioInternship.Data.LogMySql
 
             return null;
         }
-        public PagedDataModelCollection<LogMySqlDataModel> PageLogMySql(string nameSearchPattern, int pageSize, int pageNumber, string sortColumn, string sortDirection)
+        public PagedDataModelCollection<LogMySqlDataModel> PageLogMySql(string nameSearchPattern, string searchColumn, 
+                                                int pageSize, int pageNumber, string sortColumn, string sortDirection)
         {
             using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
             {
@@ -64,13 +43,21 @@ namespace AsignioInternship.Data.LogMySql
 
                     sql.Append(LogMySqlPoco.BaseSQL);
 
-                    if (!string.IsNullOrWhiteSpace(nameSearchPattern))
+                    if (!string.IsNullOrWhiteSpace(nameSearchPattern) && !string.IsNullOrWhiteSpace(searchColumn))
                     {
-                        nameSearchPattern = string.Format("{0}", nameSearchPattern);
+                        if (nameSearchPattern[0] != '\'')
+                        {
+                            nameSearchPattern = string.Format("\'%{0}%\'", nameSearchPattern);
+                        }
 
-                        //sql.Append(LogWebRequestPoco.PageUsersByUserIDSearchSQL, nameSearchPattern);
+                        if (nameSearchPattern.Contains("@")) //if search pattern is an email
+                        {
+                            string[] sections = nameSearchPattern.Split(new[] { '@' });
+                            sections[1] = sections[1].Insert(0, "@@");
+                            nameSearchPattern = string.Join("", sections);
+                        }
+                        sql.Append(string.Format("WHERE {0} LIKE {1} ", searchColumn, nameSearchPattern));
                     }
-
                     sql.Append(string.Format("ORDER BY {0} {1}", sortColumn, sortDirection));
 
                     PetaPoco.Page<LogMySqlPoco> page = db.Page<LogMySqlPoco>(pageNumber, pageSize, sql);
@@ -87,7 +74,9 @@ namespace AsignioInternship.Data.LogMySql
                         PageSize = pageSize,
                         TotalItems = page.TotalItems,
                         TotalPages = page.TotalPages,
-                        SortBy = sortColumn
+                        SortBy = sortColumn,
+                        SearchBy = searchColumn,
+                        SearchInput = nameSearchPattern
                     };
                 }
                 catch (Exception ex)

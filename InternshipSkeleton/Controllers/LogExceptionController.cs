@@ -52,5 +52,10 @@ namespace AsignioInternship.Controllers
             return View(result);
         }
         private readonly ILogExceptionRepository m_logExceptionRepository;
+
+        public ActionResult Update()
+        {
+            return View();
+        }
     }
 }

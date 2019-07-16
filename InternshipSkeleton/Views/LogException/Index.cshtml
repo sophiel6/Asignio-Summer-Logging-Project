@@ -29,27 +29,26 @@
     searchCategories.Add(new SelectListItem { Text = "Stack Trace", Value = "StackTrace" });
 }
 
-<!-- if there are no data in the query result, try to make it display "No results" -->
 @using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }))
 {
     <div class="container">
-        <div class="block">
+        <div class="block" style="width: 20% !important; display: inline;">
             @Html.Label("Sort by: ")
             @Html.DropDownList("sortBy", listItems)
         </div>
-        <div class="block">
+        <div class="block" style="width: 20% !important; display: inline;">
             @Html.Label("Search by: ")
             @Html.DropDownList("searchBy", searchCategories)
         </div>
-        <div class="block">
+        <div class="block" style="width: 20% !important; display: inline;">
             @Html.Label("Search for: ")
             @Html.TextBox("searchInput")
         </div>
-        <div class="block">
+        <div class="block" style="width: 20% !important; display: inline;">
             @Html.Label("Page: ")
             @Html.TextBox("id")
         </div>
-        <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" />
+        <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" style="width: 20% !important; display: inline;" />
     </div>
 }
 
@@ -113,7 +112,7 @@
                     <td>@currentRow.Source</td>
                     <td>@currentRow.StackTrace</td>
                     <td>@currentRow.Important</td>
-                    <td>@Html.ActionLink("Mark as Important", "Update")</td>
+                    <td>@Html.ActionLink("Mark as Important", "Update", "LogException")</td>
                 </tr>
             }
         </tbody>

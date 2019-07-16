@@ -27,41 +27,57 @@
     searchCategories.Add(new SelectListItem { Text = "Stack Trace", Value = "StackTrace" });
 }
 
-<!-- Try to make searching by "contains" possible; also if there are no data in the query result, display "No results" -->
+<!-- if there are no data in the query result, try to make it display "No results" -->
 @using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }))
 {
-    <div>
-        @Html.Label("Sort by: ")
-        @Html.DropDownList("sortBy", listItems)
+    <div class="container">
+        <div class="block">
+            @Html.Label("Sort by: ")
+            @Html.DropDownList("sortBy", listItems)
+        </div>
+        <div class="block">
+            @Html.Label("Search by: ")
+            @Html.DropDownList("searchBy", searchCategories)
+        </div>
+        <div class="block">
+            @Html.Label("Search for: ")
+            @Html.TextBox("searchInput")
+        </div>
+        <div class="block">
+            @Html.Label("Page: ")
+            @Html.TextBox("id")
+        </div>
+        <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" />
     </div>
-    <div>
-        @Html.Label("Search by: ")
-        @Html.DropDownList("searchBy", searchCategories)
-    </div>
-    <div>
-        @Html.Label("Search for: ")
-        @Html.TextBox("searchInput")
-    </div>
-    <div>
-        @Html.Label("Page: ")
-        @Html.TextBox("id")
-    </div>
-    <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" />
 }
 
-<div>
-    @Html.ActionLink(linkText: "Previous",
-                     actionName: "Index",
-                     controllerName: "LogException",
-                     routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput, id = ((id - 1) != 0) ? (id - 1) : id },
-                     htmlAttributes: null)
-</div>
-<div>
-    @Html.ActionLink(linkText: "Next",
-                     actionName: "Index",
-                     controllerName: "LogException",
-                     routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput, id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
-                     htmlAttributes: null)
+<div class="container">
+    <div class="block">
+        @Html.ActionLink(linkText: "Previous",
+                         actionName: "Index",
+                         controllerName: "LogException",
+                         routeValues: new
+                             {
+                                 sortBy = sortBy,
+                                 searchBy = searchBy,
+                                 searchInput = searchInput,
+                                 id = ((id - 1) != 0) ? (id - 1) : id
+                             },
+                         htmlAttributes: null)
+    </div>
+    <div class="block">
+        @Html.ActionLink(linkText: "Next",
+                         actionName: "Index",
+                         controllerName: "LogException",
+                         routeValues: new
+                             {
+                                 sortBy = sortBy,
+                                 searchBy = searchBy,
+                                 searchInput = searchInput,
+                                 id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id
+                             },
+                         htmlAttributes: null)
+    </div>
 </div>
 
 <div>
@@ -98,6 +114,6 @@
             <td>@Html.ActionLink("Mark as Important", "Update")</td>
 
         </tr>
-        }
+        } 
     </tbody>
 </table>

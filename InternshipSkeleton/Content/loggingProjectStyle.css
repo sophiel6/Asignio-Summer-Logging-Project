@@ -15,6 +15,16 @@ tr:nth-child(even) {
     background-color: #dddddd;
 }
 
-.tablestyle {
+.container {
+    width: 100%;
+
 
 }
+
+.block {
+    width: 100px;
+    float: left;
+    margin: auto;
+}
+
+​

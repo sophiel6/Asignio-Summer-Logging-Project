@@ -7,34 +7,73 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@{
+    var searchBy = Model.SearchBy;
+    var searchInput = Model.SearchInput;
+    var sortBy = Model.SortBy;
+    var id = Model.PageNumber;
+
+    bool noResults = (Model.TotalItems) == 0;
+
+    List<SelectListItem> listItems = new List<SelectListItem>();
+    listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
+    listItems.Add(new SelectListItem { Text = "WebRequest ID", Value = "WebRequestID" });
+    listItems.Add(new SelectListItem { Text = "Raw URL", Value = "RawURL" });
+    listItems.Add(new SelectListItem { Text = "Parameters", Value = "Parameters" });
+
+
+    List<SelectListItem> searchCategories = new List<SelectListItem>();
+    searchCategories.Add(new SelectListItem { Text = "Raw URL", Value = "RawURL" });
+    searchCategories.Add(new SelectListItem { Text = "Parameters", Value = "Parameters" });
+}
+
+<!-- if there are no data in the query result, try to make it display "No results" -->
+@using (Html.BeginRouteForm("Search", new { controller = "LogWebRequest", action = "Index" }))
+{
+    <div class="container">
+        <div class="block">
+            @Html.Label("Sort by: ")
+            @Html.DropDownList("sortBy", listItems)
+        </div>
+        <div class="block">
+            @Html.Label("Search by: ")
+            @Html.DropDownList("searchBy", searchCategories)
+        </div>
+        <div class="block">
+            @Html.Label("Search for: ")
+            @Html.TextBox("searchInput")
+        </div>
+        <div class="block">
+            @Html.Label("Page: ")
+            @Html.TextBox("id")
+        </div>
+        <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" />
+    </div>
+}
+
 <div>
-    <!-- dropdown form to choose how to sort the data -->
-    Sort data by:
-    @{
-        List<SelectListItem> listItems = new List<SelectListItem>();
-        listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp", Selected = ("TimeStamp" == Model.SortBy) });
-        listItems.Add(new SelectListItem { Text = "Web Request ID", Value = "WebRequestID", Selected = ("WebRequestID" == Model.SortBy) });
-    }
-
-    @using (Html.BeginForm("Index", "LogWebRequest", FormMethod.Post, new { id = "sortby", @class = "form-control" }))
-    {
-        @Html.DropDownListFor(m => m.SortBy, listItems, new { onchange = "this.form.submit();" })
-    }
+    @Html.ActionLink(linkText: "Previous",
+                        actionName: "Index",
+                        controllerName: "LogWebRequest",
+                        routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput,
+                                                                    id = ((id - 1) != 0) ? (id - 1) : id },
+                        htmlAttributes: null)
 </div>
-
-@Html.ActionLink("Search", "Search", "LogWebRequest");
+<div>
+    @Html.ActionLink(linkText: "Next",
+                        actionName: "Index",
+                        controllerName: "LogWebRequest",
+                        routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput,
+                                                     id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
+                        htmlAttributes: null)
+</div>
 
 <div>
     Current Page: @Model.PageNumber/@Model.TotalPages
 </div>
 
-<div>
-    <!-- Previous button - if pagenumber would be 0, stay on same page -->
-    @Html.ActionLink("Previous", "Index", new { @id = ((Model.PageNumber - 1) != 0) ? (Model.PageNumber - 1) : Model.PageNumber });
-    <!-- Next button - if pagenumber would be >totalpages, stay on same page -->
-    @Html.ActionLink("Next", "Index", new { @id = ((Model.PageNumber + 1) <= Model.TotalPages) ? (Model.PageNumber + 1) : Model.PageNumber });
-</div>
-
+@if (!noResults)
+{
 <table style="width:100%; text-align:center;">
     <thead>
         <tr>
@@ -58,4 +97,9 @@
         }
     </tbody>
 </table>
+}
+else
+{
+    <h2> No results found. </h2>
+}
 

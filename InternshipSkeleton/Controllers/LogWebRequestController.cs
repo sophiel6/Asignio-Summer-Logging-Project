@@ -19,7 +19,7 @@ namespace AsignioInternship.Controllers
             //return View();
         }*/
 
-        public ActionResult Index(int? id, PagedDataModelCollection<LogWebRequestDataModel> model)
+        /* public ActionResult Index(int? id, PagedDataModelCollection<LogWebRequestDataModel> model)
         {
             int pageNum = (id ?? 1);
             int pageSize = 20;
@@ -28,6 +28,18 @@ namespace AsignioInternship.Controllers
             string searchColumn = (model.SearchBy) ?? "";
             PagedDataModelCollection<LogWebRequestDataModel> result = m_logWebRequestRepository.PageLogWebRequest(searchInfo, 
                                                                     pageSize, pageNum, sortColumn, "ASC");
+            return View(result);
+        } */
+        public ActionResult Index(int? id, string searchBy, string searchInput, string sortBy)
+        {
+            int pageNum;
+            pageNum = (id ?? 1);
+            int pageSize = 20;
+            string sortColumn = sortBy ?? "TimeStamp";
+            string searchInfo = searchInput ?? "";
+            string searchColumn = searchBy ?? "";
+            PagedDataModelCollection<LogWebRequestDataModel> result = m_logWebRequestRepository.PageLogWebRequest(searchInfo,
+                                                                            searchColumn, pageSize, pageNum, sortColumn, "ASC");
             return View(result);
         }
 

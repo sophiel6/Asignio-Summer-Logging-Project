@@ -7,7 +7,6 @@ namespace AsignioInternship.Data.LogWebResponse
     public interface ILogWebResponseRepository
     {
         LogWebResponseDataModel GetFromUserID(Guid UserID);
-        //LogExceptionDataModel Insert(LogExceptionDataModel dataModel);
 
         IEnumerable<LogWebResponseDataModel> GetAllFromUserID(Guid UserID);
 

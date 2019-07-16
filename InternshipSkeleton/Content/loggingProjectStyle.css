@@ -24,7 +24,5 @@ tr:nth-child(even) {
 .block {
     width: 100px;
     float: left;
-    margin: 20 px;
+    margin: 20px;
 }
-
-​

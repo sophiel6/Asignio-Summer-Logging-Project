@@ -5,8 +5,6 @@ using System.Text;
 
 namespace AsignioInternship.Data.CombinedLogException
 {
-    //this Poco file doesn't have TableName or PrimaryKey; I also took out the BaseSQL/etc. strings 
-
     internal class CombinedLogExceptionPoco
     {
         public string EmailAddress { get; set; }

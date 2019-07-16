@@ -23,6 +23,7 @@
 
     List<SelectListItem> searchCategories = new List<SelectListItem>();
     searchCategories.Add(new SelectListItem { Text = "Email Address", Value = "EmailAddress" });
+    searchCategories.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
     searchCategories.Add(new SelectListItem { Text = "Message", Value = "Message" });
     searchCategories.Add(new SelectListItem { Text = "Method Name", Value = "MethodName" });
     searchCategories.Add(new SelectListItem { Text = "Source", Value = "Source" });
@@ -41,7 +42,7 @@
             @Html.DropDownList("searchBy", searchCategories)
         </div>
         <div class="block" style="width: 20% !important; display: inline;">
-            @Html.Label("Search for: ")
+            @Html.Label("*Search for: ")
             @Html.TextBox("searchInput")
         </div>
         <div class="block" style="width: 20% !important; display: inline;">
@@ -51,6 +52,7 @@
         <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" style="width: 20% !important; display: inline;" />
     </div>
 }
+*If searching by TimeStamp, make sure the format is YYYY-MM-DD
 
 <div>
     @Html.ActionLink(linkText: "Previous",

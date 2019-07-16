@@ -8,7 +8,6 @@ namespace AsignioInternship.Data.CombinedLogException
         {
             if (null != source)
             {
-
                 return new CombinedLogExceptionDataModel
                 {
                     EmailAddress = source.EmailAddress,
@@ -21,7 +20,6 @@ namespace AsignioInternship.Data.CombinedLogException
                     Important = source.Important,
                 };
             }
-
             return null;
         }
 
@@ -41,7 +39,6 @@ namespace AsignioInternship.Data.CombinedLogException
                     Important = source.Important,
                 };
             }
-
             return null;
         }
     }

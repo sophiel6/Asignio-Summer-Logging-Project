@@ -14,6 +14,8 @@
     var sortBy = Model.SortBy;
     var id = Model.PageNumber;
 
+    bool noResults = (Model.TotalItems == 0);
+
     List<SelectListItem> listItems = new List<SelectListItem>();
     listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
     listItems.Add(new SelectListItem { Text = "Level", Value = "Level" });
@@ -69,28 +71,35 @@
     Current Page: @Model.PageNumber/@Model.TotalPages
 </div>
 
-<table style="width:100%; text-align:center;">
-    <thead>
-        <tr>
-            <td>Email Address</td>
-            <td>Time Stamp</td>
-            <td>Log ID</td>
-            <td>Level</td>
-            <td>Message</td>
-            <td>Source</td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (CombinedLogDataModel currentRow in Model.Items)
-        {
+@if (!noResults)
+{
+    <table style="width:100%; text-align:center;">
+        <thead>
             <tr>
-                <td>@currentRow.EmailAddress</td>
-                <td>@currentRow.TimeStamp</td>
-                <td>@currentRow.LogID</td>
-                <td>@currentRow.Level</td>
-                <td>@currentRow.Message</td>
-                <td>@currentRow.Source</td>
+                <td>Email Address</td>
+                <td>Time Stamp</td>
+                <td>Log ID</td>
+                <td>Level</td>
+                <td>Message</td>
+                <td>Source</td>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (CombinedLogDataModel currentRow in Model.Items)
+            {
+                <tr>
+                    <td>@currentRow.EmailAddress</td>
+                    <td>@currentRow.TimeStamp</td>
+                    <td>@currentRow.LogID</td>
+                    <td>@currentRow.Level</td>
+                    <td>@currentRow.Message</td>
+                    <td>@currentRow.Source</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h2> No results found. </h2>
+}

@@ -13,7 +13,7 @@ namespace AsignioInternship.Data.LogControllerAction
 
         IEnumerable<LogControllerActionDataModel> GetAll();
 
-        PagedDataModelCollection<CombinedLogControllerActionDataModel> CombinedPageLogControllerAction(string nameSearchPattern, int pageSize, int pageNumber, string sortColumn, string sortDirection);
-
+        PagedDataModelCollection<CombinedLogControllerActionDataModel> CombinedPageLogControllerAction(string nameSearchPattern,
+                                                string searchColumn, int pageSize, int pageNumber, string sortColumn, string sortDirection);
     }
 }

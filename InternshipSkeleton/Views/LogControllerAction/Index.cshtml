@@ -13,6 +13,8 @@
     var sortBy = Model.SortBy;
     var id = Model.PageNumber;
 
+    bool noResults = (Model.TotalItems == 0);
+
     List<SelectListItem> listItems = new List<SelectListItem>();
     listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
     listItems.Add(new SelectListItem { Text = "Email Address", Value = "EmailAddress" });
@@ -67,28 +69,35 @@
     Current Page: @Model.PageNumber/@Model.TotalPages
 </div>
 
-<table style="width:100%; text-align:center;">
-    <thead>
-        <tr>
-            <td>Email Address</td>
-            <td>Time Stamp</td>
-            <td>Web Request ID</td>
-            <td>Controller Name</td>
-            <td>Action Name</td>
-            <td>Parameters</td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (CombinedLogControllerActionDataModel currentRow in Model.Items)
-        {
+@if (!noResults)
+{
+    <table style="width:100%; text-align:center;">
+        <thead>
             <tr>
-                <td>@currentRow.EmailAddress</td>
-                <td>@currentRow.TimeStamp</td>
-                <td>@currentRow.WebRequestID</td>
-                <td>@currentRow.ControllerName</td>
-                <td>@currentRow.ActionName</td>
-                <td>@currentRow.Parameters</td>
+                <td>Email Address</td>
+                <td>Time Stamp</td>
+                <td>Web Request ID</td>
+                <td>Controller Name</td>
+                <td>Action Name</td>
+                <td>Parameters</td>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (CombinedLogControllerActionDataModel currentRow in Model.Items)
+            {
+                <tr>
+                    <td>@currentRow.EmailAddress</td>
+                    <td>@currentRow.TimeStamp</td>
+                    <td>@currentRow.WebRequestID</td>
+                    <td>@currentRow.ControllerName</td>
+                    <td>@currentRow.ActionName</td>
+                    <td>@currentRow.Parameters</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h2> No results found. </h2>
+}

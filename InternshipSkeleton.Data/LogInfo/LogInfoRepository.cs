@@ -73,7 +73,8 @@ namespace AsignioInternship.Data.LogInfo
             return null;
         }
 
-        public PagedDataModelCollection<CombinedLogInfoDataModel> CombinedPageLogException(string nameSearchPattern, int pageSize, int pageNumber, string sortColumn, string sortDirection)
+        public PagedDataModelCollection<CombinedLogInfoDataModel> CombinedPageLogInfo(string nameSearchPattern,
+                                       string searchColumn, int pageSize, int pageNumber, string sortColumn, string sortDirection)
         {
             using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
             {
@@ -85,13 +86,26 @@ namespace AsignioInternship.Data.LogInfo
                     sql.Append("user.EmailAddress, loginfo.TimeStamp, loginfo.WebRequestID, loginfo.Message, loginfo.MethodName, loginfo.Object ");
                     sql.Append("from loginfo ");
                     sql.Append("INNER JOIN user on user.userID = loginfo.userID ");
-                    /*
-                    if (!string.IsNullOrWhiteSpace(nameSearchPattern))
+
+                    if (!string.IsNullOrWhiteSpace(nameSearchPattern) && !string.IsNullOrWhiteSpace(searchColumn))
                     {
-                        nameSearchPattern = string.Format("{0}", nameSearchPattern);
-                        sql.Append(LogExceptionPoco.PageUsersByUserIDSearchSQL, nameSearchPattern);
+                        //format nameSearchPattern to be in '%_%' format 
+                        if (nameSearchPattern[0] != '\'')
+                        {
+                            //nameSearchPattern = string.Format("\"{0}\"", nameSearchPattern);
+                            nameSearchPattern = string.Format("\'%{0}%\'", nameSearchPattern);
+                        }
+
+                        if (/*searchColumn == "EmailAddress"*/ nameSearchPattern.Contains("@"))
+                        {
+                            string[] sections = nameSearchPattern.Split(new[] { '@' });
+                            sections[1] = sections[1].Insert(0, "@@");
+                            nameSearchPattern = string.Join("", sections);
+                        }
+                        //sql.Append(string.Format("WHERE {0}={1} ", searchColumn, nameSearchPattern));   
+
+                        sql.Append(string.Format("WHERE {0} LIKE {1} ", searchColumn, nameSearchPattern));
                     }
-                    */
                     sql.Append(string.Format("ORDER BY {0} {1}", sortColumn, sortDirection));
 
                     PetaPoco.Page<CombinedLogInfoPoco> page = db.Page<CombinedLogInfoPoco>(pageNumber, pageSize, sql);
@@ -108,7 +122,9 @@ namespace AsignioInternship.Data.LogInfo
                         PageSize = pageSize,
                         TotalItems = page.TotalItems,
                         TotalPages = page.TotalPages,
-                        SortBy = sortColumn
+                        SortBy = sortColumn,
+                        SearchBy = searchColumn,
+                        SearchInput = nameSearchPattern
                     };
                 }
                 catch (Exception ex)

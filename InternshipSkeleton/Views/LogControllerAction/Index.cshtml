@@ -31,23 +31,27 @@
 
 @using (Html.BeginRouteForm("Search", new { controller = "LogControllerAction", action = "Index" }))
 {
-    <div>
-        @Html.Label("Sort by: ")
-        @Html.DropDownList("sortBy", listItems)
+    <div class="container">
+        <div class="block">
+            @Html.Label("Sort by: ")
+            @Html.DropDownList("sortBy", listItems)
+        </div>
+        <div class="block">
+            @Html.Label("Search by: ")
+            @Html.DropDownList("searchBy", searchCategories)
+        </div>
+        <div class="block">
+            @Html.Label("Search for: ")
+            @Html.TextBox("searchInput")
+        </div>
+        <div class="block">
+            @Html.Label("Page: ")
+            @Html.TextBox("id")
+        </div>
+        <div class="block">
+            <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" />
+        </div>
     </div>
-    <div>
-        @Html.Label("Search by: ")
-        @Html.DropDownList("searchBy", searchCategories)
-    </div>
-    <div>
-        @Html.Label("Search for: ")
-        @Html.TextBox("searchInput")
-    </div>
-    <div>
-        @Html.Label("Page: ")
-        @Html.TextBox("id")
-    </div>
-    <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" />
 }
 
 <div>

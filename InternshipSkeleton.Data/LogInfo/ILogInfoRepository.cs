@@ -13,7 +13,7 @@ namespace AsignioInternship.Data.LogInfo
 
         IEnumerable<LogInfoDataModel> GetAll();
 
-        PagedDataModelCollection<CombinedLogInfoDataModel> CombinedPageLogException(string nameSearchPattern, int pageSize, int pageNumber, string sortColumn, string sortDirection);
-
+        PagedDataModelCollection<CombinedLogInfoDataModel> CombinedPageLogInfo(string nameSearchPattern,
+                                       string searchColumn, int pageSize, int pageNumber, string sortColumn, string sortDirection);
     }
 }

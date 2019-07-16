@@ -19,13 +19,25 @@ namespace AsignioInternship.Controllers
             IEnumerable<LogInfoDataModel> result = m_logInfoRepository.GetAll();
             return View(result);
         }*/
-        public ActionResult Index(int? id, PagedDataModelCollection<CombinedLogInfoDataModel> model)
+        /* public ActionResult Index(int? id, PagedDataModelCollection<CombinedLogInfoDataModel> model)
         {
             int pageNum = (id ?? 1);
             int pageSize = 20;
             string sortColumn = (model.SortBy) ?? "TimeStamp";
             PagedDataModelCollection<CombinedLogInfoDataModel> result = m_logInfoRepository.CombinedPageLogException("",
                                                                     pageSize, pageNum, sortColumn, "ASC");
+            return View(result);
+        } */
+        public ActionResult Index(int? id, string searchBy, string searchInput, string sortBy)
+        {
+            int pageNum;
+            pageNum = (id ?? 1);
+            int pageSize = 20;
+            string sortColumn = sortBy ?? "TimeStamp";
+            string searchInfo = searchInput ?? "";
+            string searchColumn = searchBy ?? "";
+            PagedDataModelCollection<CombinedLogInfoDataModel> result = m_logInfoRepository.CombinedPageLogInfo(searchInfo,
+                                                                            searchColumn, pageSize, pageNum, sortColumn, "ASC");
             return View(result);
         }
 

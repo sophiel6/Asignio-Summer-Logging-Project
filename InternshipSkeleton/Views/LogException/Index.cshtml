@@ -53,34 +53,33 @@
     </div>
 }
 
-<div class="container">
-    <div class="block">
-        @Html.ActionLink(linkText: "Previous",
-                         actionName: "Index",
-                         controllerName: "LogException",
-                         routeValues: new
-                             {
-                                 sortBy = sortBy,
-                                 searchBy = searchBy,
-                                 searchInput = searchInput,
-                                 id = ((id - 1) != 0) ? (id - 1) : id
-                             },
-                         htmlAttributes: null)
-    </div>
-    <div class="block">
-        @Html.ActionLink(linkText: "Next",
-                         actionName: "Index",
-                         controllerName: "LogException",
-                         routeValues: new
-                             {
-                                 sortBy = sortBy,
-                                 searchBy = searchBy,
-                                 searchInput = searchInput,
-                                 id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id
-                             },
-                         htmlAttributes: null)
-    </div>
+<div>
+    @Html.ActionLink(linkText: "Previous",
+                        actionName: "Index",
+                        controllerName: "LogException",
+                        routeValues: new
+                            {
+                                sortBy = sortBy,
+                                searchBy = searchBy,
+                                searchInput = searchInput,
+                                id = ((id - 1) != 0) ? (id - 1) : id
+                            },
+                        htmlAttributes: null)
 </div>
+<div>
+    @Html.ActionLink(linkText: "Next",
+                        actionName: "Index",
+                        controllerName: "LogException",
+                        routeValues: new
+                            {
+                                sortBy = sortBy,
+                                searchBy = searchBy,
+                                searchInput = searchInput,
+                                id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id
+                            },
+                        htmlAttributes: null)
+</div>
+
 
 <div>
     Current Page: @Model.PageNumber/@Model.TotalPages

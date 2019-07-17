@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="DatabaseScripts\alterLogException_addImportantColumn.sql" />
     <Content Include="DatabaseScripts\exampleInnerJoin.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

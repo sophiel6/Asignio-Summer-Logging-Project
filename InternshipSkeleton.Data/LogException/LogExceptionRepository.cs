@@ -226,7 +226,7 @@ namespace AsignioInternship.Data.LogException
         }
 
 
-        public void Update(CombinedLogExceptionDataModel LogToUpdate, Guid UserID, string username)
+        public void Update(CombinedLogExceptionDataModel LogToUpdate, Guid UserID)
         {
             try
             {
@@ -237,9 +237,8 @@ namespace AsignioInternship.Data.LogException
 
                     if (UserID != allZeros)
                     {
-                        //LogToUpdate.Important = username;
                         CombinedLogExceptionPoco poco = LogToUpdate.ToPoco();
-                        db.Update(poco);
+                        db.Update(poco); //I think for some reason the UserID of the poco doesn't match the userID in the sql database?
                     }
                     else
                     {
@@ -269,6 +268,12 @@ namespace AsignioInternship.Data.LogException
                     sql.Append("from logexception ");
                     sql.Append("INNER JOIN user on user.UserID = logexception.UserID ");
 
+                    if (username.Contains("@")) //format email
+                    {
+                        string[] sections = username.Split(new[] { '@' });
+                        sections[1] = sections[1].Insert(0, "@@");
+                        username = string.Join("", sections);
+                    }
                     username = string.Format("\"{0}\" ", username);
                     sql.Append(string.Format("WHERE user.EmailAddress = {0} ", username));
                     CombinedLogExceptionPoco poco = db.FirstOrDefault<CombinedLogExceptionPoco>(sql);

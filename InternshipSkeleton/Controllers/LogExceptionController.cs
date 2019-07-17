@@ -61,7 +61,7 @@ namespace AsignioInternship.Controllers
         {
             Guid UserID = m_logExceptionRepository.GetUserIDFromUsername(logToUpdate.EmailAddress); 
  
-            m_logExceptionRepository.Update(logToUpdate, UserID, logToUpdate.EmailAddress);
+            m_logExceptionRepository.Update(logToUpdate, UserID);
             return View();
         }
 

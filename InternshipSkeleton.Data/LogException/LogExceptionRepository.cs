@@ -161,7 +161,7 @@ namespace AsignioInternship.Data.LogException
                     PetaPoco.Sql sql = new PetaPoco.Sql();
 
                     sql.Append("SELECT ");
-                    sql.Append("user.EmailAddress, logexception.TimeStamp, logexception.WebRequestID, logexception.Message, " +
+                    sql.Append("user.EmailAddress, logexception.UserID, logexception.TimeStamp, logexception.WebRequestID, logexception.Message, " +
                                "logexception.MethodName, logexception.Source, logexception.StackTrace, logexception.Important ");
                     sql.Append(" from logexception ");
                     sql.Append(" INNER JOIN user on user.userID = logexception.userID ");
@@ -257,24 +257,22 @@ namespace AsignioInternship.Data.LogException
         }
 
         public Guid GetUserIDFromUsername(string username)
-        {
-            /* This function will search the user db for this username/Email - if it is found, it'll 
-             * return the corresponding UserID; if not, it'll return some default Guid
-             */
+        {   /* This function will search the user db for this username/Email - if it is found, it'll 
+             * return the corresponding UserID; if not, it'll return some default Guid */
             try
             {
                 using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
                 {
                     PetaPoco.Sql sql = new PetaPoco.Sql();
 
-                    sql.Append("SELECT *");
-                    //sql.Append("user.UserID ");
+                    sql.Append("SELECT user.EmailAddress, logexception.* ");
                     sql.Append("from logexception ");
                     sql.Append("INNER JOIN user on user.UserID = logexception.UserID ");
 
                     username = string.Format("\"{0}\" ", username);
-                    sql.Append("WHERE user.EmailAddress = @0 ", username);
-                    CombinedLogExceptionDataModel model = db.FirstOrDefault<CombinedLogExceptionPoco>(sql).ToModel();
+                    sql.Append(string.Format("WHERE user.EmailAddress = {0} ", username));
+                    CombinedLogExceptionPoco poco = db.FirstOrDefault<CombinedLogExceptionPoco>(sql);
+                    CombinedLogExceptionDataModel model = poco.ToModel();
 
                     if (model != null)
                     {
@@ -282,8 +280,9 @@ namespace AsignioInternship.Data.LogException
                     }
                     else
                     {
-                        //not sure - maybe create and return a new guid?
-                        return Guid.NewGuid();
+                        //not sure - for now returning a guid of all zeros
+                        Byte[] allZeroByte = new Byte[16];
+                        return new Guid(allZeroByte);
                     }
                 }
             }

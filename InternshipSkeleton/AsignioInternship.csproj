@@ -164,6 +164,15 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\foundation-6.5.1-complete\css\app.css" />
+    <Content Include="Content\foundation-6.5.1-complete\css\foundation.css" />
+    <Content Include="Content\foundation-6.5.1-complete\css\foundation.min.css" />
+    <Content Include="Content\foundation-6.5.1-complete\index.html" />
+    <Content Include="Content\foundation-6.5.1-complete\js\app.js" />
+    <Content Include="Content\foundation-6.5.1-complete\js\vendor\foundation.js" />
+    <Content Include="Content\foundation-6.5.1-complete\js\vendor\foundation.min.js" />
+    <Content Include="Content\foundation-6.5.1-complete\js\vendor\jquery.js" />
+    <Content Include="Content\foundation-6.5.1-complete\js\vendor\what-input.js" />
     <Content Include="Content\loggingProjectStyle.css" />
     <Content Include="Content\LoggingSiteExample.css" />
     <Content Include="favicon.ico" />

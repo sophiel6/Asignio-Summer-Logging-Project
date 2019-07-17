@@ -7,6 +7,12 @@ namespace AsignioInternship.Data.CombinedLogException
 {
     internal class CombinedLogExceptionPoco
     {
+        internal static readonly string BaseSQL = @"
+            SELECT
+           * from logexception";
+        internal static readonly string SelectByEmail = BaseSQL + "" + " where UserID=@0;";
+
+        public byte[] UserID { get; set; }
         public string EmailAddress { get; set; }
         public DateTime TimeStamp { get; set; }
         public byte[] WebRequestID { get; set; }

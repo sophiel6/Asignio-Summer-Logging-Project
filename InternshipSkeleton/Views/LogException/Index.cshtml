@@ -58,29 +58,18 @@
     @Html.ActionLink(linkText: "Previous",
                         actionName: "Index",
                         controllerName: "LogException",
-                        routeValues: new
-                            {
-                                sortBy = sortBy,
-                                searchBy = searchBy,
-                                searchInput = searchInput,
-                                id = ((id - 1) != 0) ? (id - 1) : id
-                            },
+                        routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput,
+                                                                    id = ((id - 1) != 0) ? (id - 1) : id },
                         htmlAttributes: null)
 </div>
 <div>
     @Html.ActionLink(linkText: "Next",
                         actionName: "Index",
                         controllerName: "LogException",
-                        routeValues: new
-                            {
-                                sortBy = sortBy,
-                                searchBy = searchBy,
-                                searchInput = searchInput,
-                                id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id
-                            },
+                        routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput,
+                                                     id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
                         htmlAttributes: null)
 </div>
-
 
 <div>
     Current Page: @Model.PageNumber/@Model.TotalPages
@@ -105,17 +94,19 @@
         <tbody>
             @foreach (CombinedLogExceptionDataModel currentRow in Model.Items)
             {
-                <tr>
-                    <td>@currentRow.EmailAddress</td>
-                    <td>@currentRow.TimeStamp</td>
-                    <td>@currentRow.WebRequestID</td>
-                    <td>@currentRow.Message</td>
-                    <td>@currentRow.MethodName</td>
-                    <td>@currentRow.Source</td>
-                    <td>@currentRow.StackTrace</td>
-                    <td>@currentRow.Important</td>
-                    <td>@Html.ActionLink("Mark as Important", "Update", "LogException")</td>
-                </tr>
+            <tr>
+                <td>@currentRow.EmailAddress</td>
+                <td>@currentRow.TimeStamp</td>
+                <td>@currentRow.WebRequestID</td>
+                <td>@currentRow.Message</td>
+                <td>@currentRow.MethodName</td>
+                <td>@currentRow.Source</td>
+                <td>@currentRow.StackTrace</td>
+                <td>@currentRow.Important</td>
+                <td>@Html.ActionLink("Mark as Important", "MarkAsImportant", currentRow )</td> 
+                
+                
+            </tr>
             }
         </tbody>
     </table>

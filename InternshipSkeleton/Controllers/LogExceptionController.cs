@@ -51,11 +51,21 @@ namespace AsignioInternship.Controllers
                                                                             searchColumn, pageSize, pageNum, sortColumn, "ASC");
             return View(result);
         }
-        private readonly ILogExceptionRepository m_logExceptionRepository;
 
-        public ActionResult Update()
+        public ActionResult MarkAsImportant(CombinedLogExceptionDataModel logToUpdate)
         {
+            return View(logToUpdate);
+        }
+
+        public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate, string username)
+        {
+            Guid UserID = m_logExceptionRepository.GetUserIDFromUsername(username); 
+ 
+            m_logExceptionRepository.Update(logToUpdate, UserID, username);
             return View();
         }
+
+        private readonly ILogExceptionRepository m_logExceptionRepository;
+
     }
 }

@@ -10,6 +10,7 @@ namespace AsignioInternship.Data.CombinedLogException
             {
                 return new CombinedLogExceptionDataModel
                 {
+                    UserID = GuidMapper.Map(source.UserID),
                     EmailAddress = source.EmailAddress,
                     TimeStamp = source.TimeStamp,
                     WebRequestID = GuidMapper.Map(source.WebRequestID),
@@ -29,6 +30,7 @@ namespace AsignioInternship.Data.CombinedLogException
             {
                 return new CombinedLogExceptionPoco
                 {
+                    UserID = GuidMapper.Map(source.UserID),
                     EmailAddress = source.EmailAddress,
                     TimeStamp = source.TimeStamp,
                     WebRequestID = GuidMapper.Map(source.WebRequestID),

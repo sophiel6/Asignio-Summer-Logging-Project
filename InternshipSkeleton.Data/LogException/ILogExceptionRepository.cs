@@ -15,9 +15,7 @@ namespace AsignioInternship.Data.LogException
         PagedDataModelCollection<CombinedLogExceptionDataModel> CombinedPageLogException(string nameSearchPattern, string searchColumn,
                                             int pageSize, int pageNumber, string sortColumn, string sortDirection);
 
-        //PagedDataModelCollection<LogExceptionDataModel> PageLogException(string nameSearchPattern, int pageSize, 
-        //int pageNumber, string sortColumn, string sortDirection);
-        //IEnumerable<CombinedLogExceptionDataModel> ExampleQuery();
-
+        void Update(CombinedLogExceptionDataModel LogToUpdate, Guid UserID, string username);
+        Guid GetUserIDFromUsername(string username);
     }
 }

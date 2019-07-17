@@ -1,0 +1,41 @@
+﻿@model AsignioInternship.Data.CombinedLogException.CombinedLogExceptionDataModel
+
+@{
+    ViewBag.Title = "MarkAsImportant";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{ 
+    var log = Model;
+}
+Enter username of person marking as important
+
+@using (Html.BeginForm("ImportantUpdated", "LogException", FormMethod.Post, new { logToUpdate = log }))
+{
+    <div class="form-group">
+        <!-- supposed to send the model parameters to the controller -->
+        @Html.HiddenFor(model => model.UserID, new { htmlAttributes = new { @class = "form-control" } });
+        @Html.HiddenFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } });
+        @Html.HiddenFor(model => model.TimeStamp, new { htmlAttributes = new { @class = "form-control" } });
+        @Html.HiddenFor(model => model.WebRequestID, new { htmlAttributes = new { @class = "form-control" } });
+        @Html.HiddenFor(model => model.Message, new { htmlAttributes = new { @class = "form-control" } });
+        @Html.HiddenFor(model => model.MethodName, new { htmlAttributes = new { @class = "form-control" } });
+        @Html.HiddenFor(model => model.Source, new { htmlAttributes = new { @class = "form-control" } });
+        @Html.HiddenFor(model => model.StackTrace, new { htmlAttributes = new { @class = "form-control" } });
+        <!-- (at) Html.HiddenFor(model => model.Important, new { htmlAttributes = new { (at)class = "form-control" } }); -->
+    </div>
+
+    <!-- box to enter username/email - doesn't directly update model.Important, just gets sent to Update function -->
+    <div class="form-group">
+        <!-- (at)Html.TextBox("username") -->
+        @Html.EditorFor(model => model.Important, new { @class = "form-control" });
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Mark as Important" class="btn btn-default" />
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to Home", "Index")
+</div>

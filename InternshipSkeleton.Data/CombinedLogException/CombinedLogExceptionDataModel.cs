@@ -8,6 +8,7 @@ namespace AsignioInternship.Data.CombinedLogException
 {
     public class CombinedLogExceptionDataModel
     {
+        public Guid UserID { get; set; }
         public string EmailAddress { get; set; }
         public DateTime TimeStamp { get; set; }
         public Guid WebRequestID { get; set; }
@@ -16,6 +17,7 @@ namespace AsignioInternship.Data.CombinedLogException
         public string Source { get; set; }
         public string StackTrace { get; set; }
         public string Important { get; set; }
+
     }
 }
 

@@ -224,7 +224,79 @@ namespace AsignioInternship.Data.LogException
             }
             return null;
         }
-    }
+
+
+        public void Update(CombinedLogExceptionDataModel LogToUpdate, Guid UserID, string username)
+        {
+            try
+            {
+                using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
+                {
+                    Byte[] bytes = new Byte[16];
+                    Guid allZeros = new Guid(bytes);
+
+                    if (UserID != allZeros)
+                    {
+                        //LogToUpdate.Important = username;
+                        CombinedLogExceptionPoco poco = LogToUpdate.ToPoco();
+                        db.Update(poco);
+                    }
+                    else
+                    {
+                        //what happens if the username entered doesn't match a userID? 
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = ex.Message;
+            }
+            finally
+            { }
+        }
+
+        public Guid GetUserIDFromUsername(string username)
+        {
+            /* This function will search the user db for this username/Email - if it is found, it'll 
+             * return the corresponding UserID; if not, it'll return some default Guid
+             */
+            try
+            {
+                using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
+                {
+                    PetaPoco.Sql sql = new PetaPoco.Sql();
+
+                    sql.Append("SELECT *");
+                    //sql.Append("user.UserID ");
+                    sql.Append("from logexception ");
+                    sql.Append("INNER JOIN user on user.UserID = logexception.UserID ");
+
+                    username = string.Format("\"{0}\" ", username);
+                    sql.Append("WHERE user.EmailAddress = @0 ", username);
+                    CombinedLogExceptionDataModel model = db.FirstOrDefault<CombinedLogExceptionPoco>(sql).ToModel();
+
+                    if (model != null)
+                    {
+                        return model.UserID;
+                    }
+                    else
+                    {
+                        //not sure - maybe create and return a new guid?
+                        return Guid.NewGuid();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = ex.Message;
+            }
+            finally
+            { }
+
+            //returning an all-0 guid
+            Byte[] bytes = new Byte[16];
+            return new Guid(bytes);
+        }
+    }   
 }
-
-

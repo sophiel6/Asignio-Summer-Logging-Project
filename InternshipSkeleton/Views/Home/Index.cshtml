@@ -1,6 +1,56 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<body>
+    <div style="padding-top: 100px;">
+        <button onclick="openModal()">
+            Click me to open the modal
+        </button> <br />
+    </div>
+
+    <div class="reveal" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out" style="display:none;">
+        <div>
+            Hello this is an example modal. <br />
+
+            <button onclick="closeModal()">OK</button>
+        </div>
+    </div>
+</body>
 
 @Html.ActionLink("About", "About", "Home");
 @Html.ActionLink("Contact", "Contact", "Home");
+
+@section scripts {
+
+    <script language="javascript" type="text/javascript">
+
+        var exampleModal;
+        var exampleModalVisible = false;
+
+        function openModal() {
+            event.preventDefault;
+            exampleModal.open();
+        }
+
+        function closeModal() {
+            event.preventDefault;
+            exampleModal.close();
+        }
+
+        $(document).ready(function () {
+
+            exampleModal = new Foundation.Reveal($("#example-modal"));
+
+            $("#example-modal").on("open.zf.reveal", function () {
+                exampleModalVisible = true;
+            });
+
+            $("#example-modal").on("closed.zf.reveal", function () {
+                exampleModalVisible = false;
+            });
+        });
+
+    </script>
+}

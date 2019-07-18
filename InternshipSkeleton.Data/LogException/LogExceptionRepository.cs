@@ -271,20 +271,22 @@ namespace AsignioInternship.Data.LogException
                     sql.Append("from logexception ");
                     sql.Append("INNER JOIN user on user.UserID = logexception.UserID "); */
 
-                    sql.Append("Select user.UserID, user.EmailAddress ");
-                    sql.Append("FROM user ");
-                    
+                    sql.Append("SELECT user.UserID, user.EmailAddress FROM user ");
 
                     if (username.Contains("@")) //format email
                     {
                         string[] sections = username.Split(new[] { '@' });
                         sections[1] = sections[1].Insert(0, "@@");
                         username = string.Join("", sections);
-                    }
+                    } 
+
                     username = string.Format("\"{0}\" ", username);
-                    sql.Append(string.Format("WHERE user.EmailAddress = {0} ", username));
+                    //sql.Append(string.Format("WHERE user.EmailAddress = {0} ", username));
+                    sql.Append("Where user.EmailAddress = @0 ", username);
+
                     //CombinedLogExceptionPoco poco = db.FirstOrDefault<CombinedLogExceptionPoco>(sql);
                     //CombinedLogExceptionDataModel model = poco.ToModel();
+
                     UserPoco poco = db.FirstOrDefault<UserPoco>(sql);
                     UserDataModel model = poco.ToModel();
 

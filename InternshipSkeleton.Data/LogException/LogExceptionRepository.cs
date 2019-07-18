@@ -255,7 +255,7 @@ namespace AsignioInternship.Data.LogException
 
                         sql.Append("SET SQL_SAFE_UPDATES = 0;");
                         sql.Append(string.Format("UPDATE logexception SET Important = \"{0}\"", username2));                        
-                        sql.Append(string.Format("WHERE  TimeStamp = \"{0}\" AND WebRequestID = asignioauth.GuidToBinary(\"{1}\") AND UserID = asignioauth.GuidToBinary(\"{2}\") AND Message = \"{3}\" AND MethodName = \"{4}\" AND Source = \"{5}\"",
+                        sql.Append(string.Format("WHERE  TimeStamp = \"{0}\" AND WebRequestID = GuidToBinary(\"{1}\") AND UserID = GuidToBinary(\"{2}\") AND Message = \"{3}\" AND MethodName = \"{4}\" AND Source = \"{5}\"",
                             sqlFormattedTimeStamp, LogToUpdate.WebRequestID, LogToUpdate.UserID, LogToUpdate.Message, LogToUpdate.MethodName, LogToUpdate.Source));
                         sql.Append(";");
                         sql.Append("SET SQL_SAFE_UPDATES = 1;");

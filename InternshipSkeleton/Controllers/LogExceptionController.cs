@@ -59,11 +59,24 @@ namespace AsignioInternship.Controllers
 
         public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
         {
-            Guid UserID = m_logExceptionRepository.GetUserIDFromUsername(logToUpdate.EmailAddress); 
+            Guid UserID = m_logExceptionRepository.GetUserIDFromUsername(logToUpdate.Important); 
  
             m_logExceptionRepository.Update(logToUpdate, UserID);
             return View();
         }
+
+        //Ajax call UpdateImportance method
+        [HttpPost]
+        public JsonResult UpdateImportance(string username, CombinedLogExceptionDataModel logToUpdate)
+        {
+            logToUpdate.Important = username;
+            Guid UserID = m_logExceptionRepository.GetUserIDFromUsername(logToUpdate.Important);
+            m_logExceptionRepository.Update(logToUpdate, UserID);
+            
+            //what does this function need to return in the JsonResult? 
+            return Json(null);
+        }   
+
 
         private readonly ILogExceptionRepository m_logExceptionRepository;
 

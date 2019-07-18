@@ -228,7 +228,7 @@ namespace AsignioInternship.Data.LogException
 
         public void Update(CombinedLogExceptionDataModel LogToUpdate, Guid UserID)
         {
-            // ^ This function will need its parameters changed to take in the user-entered value from the form
+            // ^ This function will need its parameters changed to take in the user-entered value from the form, which you'll format below like you did in the "GetUserIDFromUsername" function
             try
             {
                 using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
@@ -238,8 +238,7 @@ namespace AsignioInternship.Data.LogException
 
                     if (UserID != allZeros)
                     {
-
-                        string username = "UserEnteredEmailAddressFormVariable";
+                        string username = "UserEnteredEmailAddressFormVariable"; // this will replace the placeholder username2 below
                         if (username.Contains("@")) //format email
                         {
                             string[] sections = username.Split(new[] { '@' });
@@ -276,6 +275,38 @@ namespace AsignioInternship.Data.LogException
             finally
             { }
         }
+
+        // old Update() kept in just in case/for reference:
+        /*
+         public void Update(CombinedLogExceptionDataModel LogToUpdate, Guid UserID)
+        {
+            try
+            {
+                using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
+                {
+                    Byte[] bytes = new Byte[16];
+                    Guid allZeros = new Guid(bytes);
+
+                    if (UserID != allZeros)
+                    {
+                        CombinedLogExceptionPoco poco = LogToUpdate.ToPoco();
+                        db.Update(poco); //I think for some reason the UserID of the poco doesn't match the userID in the sql database?
+                    }
+                    else
+                    {
+                        //what happens if the username entered doesn't match a userID? 
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = ex.Message;
+            }
+            finally
+            { }
+        } 
+        */
 
         public Guid GetUserIDFromUsername(string username)
         {   /* This function will search the user db for this username/Email - if it is found, it'll 
@@ -324,5 +355,6 @@ namespace AsignioInternship.Data.LogException
             Byte[] bytes = new Byte[16];
             return new Guid(bytes);
         }
-    }   
-}
+    }
+
+}   

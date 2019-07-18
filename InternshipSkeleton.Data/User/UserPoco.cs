@@ -13,11 +13,9 @@ namespace AsignioInternship.Data.User
         #region SQL
 
         internal static readonly string BaseSQL = @"
-            SELECT
-           * from user";
-        //internal static readonly string SelectByIDSQL = BaseSQL + "" + " where UserID=@0;";
+            SELECT EmailAddress, UserID from user";
+
         internal static readonly string SelectAll = BaseSQL;
-        //internal static readonly string PageUsersByUserIDSearchSQL = " where UserID=@0";
         #endregion
 
 

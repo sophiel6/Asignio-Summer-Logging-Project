@@ -67,7 +67,7 @@
                         actionName: "Index",
                         controllerName: "LogException",
                         routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput,
-                                                     id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
+                                                        id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
                         htmlAttributes: null)
 </div>
 
@@ -89,24 +89,52 @@
                 <td>Stack Trace</td>
                 <td>Important</td>
                 <td>Mark as Important</td>
+                <td>Mark as Important - modal</td>
             </tr>
         </thead>
         <tbody>
             @foreach (CombinedLogExceptionDataModel currentRow in Model.Items)
             {
-            <tr>
-                <td>@currentRow.EmailAddress</td>
-                <td>@currentRow.TimeStamp</td>
-                <td>@currentRow.WebRequestID</td>
-                <td>@currentRow.Message</td>
-                <td>@currentRow.MethodName</td>
-                <td>@currentRow.Source</td>
-                <td>@currentRow.StackTrace</td>
-                <td>@currentRow.Important</td>
-                <td>@Html.ActionLink("Mark as Important", "MarkAsImportant", currentRow )</td> 
-                
-                
-            </tr>
+                <tr>
+                    <td>@currentRow.EmailAddress</td>
+                    <td>@currentRow.TimeStamp</td>
+                    <td>@currentRow.WebRequestID</td>
+                    <td>@currentRow.Message</td>
+                    <td>@currentRow.MethodName</td>
+                    <td>@currentRow.Source</td>
+                    <td>@currentRow.StackTrace</td>
+                    <td>@currentRow.Important</td>
+                    <td>@Html.ActionLink("Mark as Important", "MarkAsImportant", currentRow)</td>
+                    <td>
+                        <button onclick="openModal()">
+                            Click me to mark as important
+                        </button>
+                        <div class="reveal" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" 
+                             data-animation-out="fade-out" style="display:none;">
+                            This is where a user will enter their email address 
+                            <!-- Make a form to take in username from user - called usernameForm-->
+                            <form name="usernameForm">
+                                <div class="form-group">
+                                    @Html.TextBox("username")
+                                </div>
+                                <button onclick="UpdateImportance()">Update</button>
+                            </form>
+                            <form name="modelForm">
+                                <!-- supposed to send the model parameters to the controller -->
+                                @Html.HiddenFor(model => currentRow.UserID, new { htmlAttributes = new { @class = "form-control" } });
+                                @Html.HiddenFor(model => currentRow.EmailAddress, new { htmlAttributes = new { @class = "form-control" } });
+                                @Html.HiddenFor(model => currentRow.TimeStamp, new { htmlAttributes = new { @class = "form-control" } });
+                                @Html.HiddenFor(model => currentRow.WebRequestID, new { htmlAttributes = new { @class = "form-control" } });
+                                @Html.HiddenFor(model => currentRow.Message, new { htmlAttributes = new { @class = "form-control" } });
+                                @Html.HiddenFor(model => currentRow.MethodName, new { htmlAttributes = new { @class = "form-control" } });
+                                @Html.HiddenFor(model => currentRow.Source, new { htmlAttributes = new { @class = "form-control" } });
+                                @Html.HiddenFor(model => currentRow.StackTrace, new { htmlAttributes = new { @class = "form-control" } });
+                                @Html.HiddenFor(model => currentRow.Important, new { htmlAttributes = new { @class = "form-control" } });
+                            </form>
+                            <button onclick="closeModal()">Cancel</button> 
+                        </div>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -116,3 +144,57 @@ else
     <h2> No results found. </h2>
 }
 
+@section scripts
+{
+    <script language="javascript" type="text/javascript">
+
+        var exampleModal;
+        var exampleModalVisible = false;
+
+        function openModal() {
+            event.preventDefault;
+            exampleModal.open();
+        }
+
+        function closeModal() {
+            event.preventDefault;
+            exampleModal.close();
+        }
+
+        $(document).ready(function () {
+
+            exampleModal = new Foundation.Reveal($("#example-modal"));
+
+            $("#example-modal").on("open.zf.reveal", function () {
+                exampleModalVisible = true;
+            });
+
+            $("#example-modal").on("closed.zf.reveal", function () {
+                exampleModalVisible = false;
+            });
+        });
+
+        function UpdateImportance() {
+
+            var modelData = $('modelForm').serialize();
+
+            $.ajax({
+                method: "POST",
+                url: "@Url.Action("UpdateImportance", "LogException")", 
+                dataType: "json",
+                data: {
+                    username: $("[name=usernameForm]").val(),
+
+                    //is this right to get the log to send to function?
+                    //logToUpdate: $(this).serialize(),
+                    logToUpdate: modelData,
+		        },
+                success: function (result) {
+                    //here you'll add more JavaScript that will execute after the Ajax call is done. 
+                    //You could clear all of the form fields back to blank, for example:
+		            document.getElementById("usernameForm").reset();
+                }
+            });
+        }
+    </script>
+}

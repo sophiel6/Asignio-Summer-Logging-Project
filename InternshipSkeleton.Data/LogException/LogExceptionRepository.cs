@@ -226,9 +226,10 @@ namespace AsignioInternship.Data.LogException
         }
 
 
-        public void Update(CombinedLogExceptionDataModel LogToUpdate, Guid UserID)
+        public void Update(CombinedLogExceptionDataModel LogToUpdate, string username)
         {
-            // ^ This function will need its parameters changed to take in the user-entered value from the form, which you'll format below like you did in the "GetUserIDFromUsername" function
+            // ^ This function will need its parameters changed to take in the user-entered value from the form, 
+            //which you'll format below like you did in the "GetUserIDFromUsername" function
             try
             {
                 using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
@@ -236,9 +237,11 @@ namespace AsignioInternship.Data.LogException
                     Byte[] bytes = new Byte[16];
                     Guid allZeros = new Guid(bytes);
 
+                    Guid UserID = GetUserIDFromUsername(username);
+
                     if (UserID != allZeros)
                     {
-                        string username = "UserEnteredEmailAddressFormVariable"; // this will replace the placeholder username2 below
+                        //string username = "UserEnteredEmailAddressFormVariable"; // this will replace the placeholder username2 below
                         if (username.Contains("@")) //format email
                         {
                             string[] sections = username.Split(new[] { '@' });
@@ -246,24 +249,27 @@ namespace AsignioInternship.Data.LogException
                             username = string.Join("", sections);
                         }
 
-                        string username2 = "kevin22@@asignio.com"; // for now we're going to use this as an example -- any log you click on will have its "Important" value changed to this
+                        //string username2 = "kevin22@@asignio.com"; // for now we're going to use this as an example -- any log you click on will have its "Important" value changed to this
 
                         string sqlFormattedTimeStamp = LogToUpdate.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss");
 
                         PetaPoco.Sql sql = new PetaPoco.Sql();
 
-                        sql.Append("SET SQL_SAFE_UPDATES = 0;");
-                        sql.Append(string.Format("UPDATE logexception SET Important = \"{0}\"", username2));                        
-                        sql.Append(string.Format("WHERE  TimeStamp = \"{0}\" AND WebRequestID = GuidToBinary(\"{1}\") AND UserID = GuidToBinary(\"{2}\") AND Message = \"{3}\" AND MethodName = \"{4}\" AND Source = \"{5}\"",
-                            sqlFormattedTimeStamp, LogToUpdate.WebRequestID, LogToUpdate.UserID, LogToUpdate.Message, LogToUpdate.MethodName, LogToUpdate.Source));
-                        sql.Append(";");
-                        sql.Append("SET SQL_SAFE_UPDATES = 1;");
+                        username = string.Format("\"{0}\"", username);
+
+                        sql.Append("SET SQL_SAFE_UPDATES = 0; ");
+                        sql.Append(string.Format("UPDATE logexception SET Important = {0} ", username));
+                        string where = string.Format("WHERE  TimeStamp = \"{0}\" AND WebRequestID = GuidToBinary(\"{1}\") AND UserID = GuidToBinary(\"{2}\") AND Message = \"{3}\" AND MethodName = \"{4}\" AND Source = \"{5}\" ",
+                            sqlFormattedTimeStamp, LogToUpdate.WebRequestID, LogToUpdate.UserID, LogToUpdate.Message, LogToUpdate.MethodName, LogToUpdate.Source);
+                        sql.Append(where);
+                        sql.Append("SET SQL_SAFE_UPDATES = 1; ");
 
                         db.Execute(sql);
                     }
                     else
                     {
-                        // error-handling
+                        // error-handling - if Guid is all zeros, that means the user-entered email isn't in the User table
+                        //maybe have the user enter another username? 
                     }
 
                 }

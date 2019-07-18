@@ -22,7 +22,6 @@ Enter username of person marking as important
         @Html.HiddenFor(model => model.MethodName, new { htmlAttributes = new { @class = "form-control" } });
         @Html.HiddenFor(model => model.Source, new { htmlAttributes = new { @class = "form-control" } });
         @Html.HiddenFor(model => model.StackTrace, new { htmlAttributes = new { @class = "form-control" } });
-        <!-- (at) Html.HiddenFor(model => model.Important, new { htmlAttributes = new { (at)class = "form-control" } }); -->
     </div>
 
     <!-- box to enter username/email - doesn't directly update model.Important, just gets sent to Update function -->

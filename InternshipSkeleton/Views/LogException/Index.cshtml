@@ -15,6 +15,7 @@
     var id = Model.PageNumber;
 
     bool noResults = (Model.TotalItems) == 0;
+    int currRow = 0;
 
     List<SelectListItem> listItems = new List<SelectListItem>();
     listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
@@ -135,6 +136,7 @@
                         </div>
                     </td>
                 </tr>
+                currRow++;
             }
         </tbody>
     </table>

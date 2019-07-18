@@ -238,7 +238,9 @@ namespace AsignioInternship.Data.LogException
                     if (UserID != allZeros)
                     {
                         CombinedLogExceptionPoco poco = LogToUpdate.ToPoco();
-                        db.Update(poco); //I think for some reason the UserID of the poco doesn't match the userID in the sql database?
+                        db.Update(poco);
+
+                        //Set Important = @0 where (WebRequestID=@1, UserID=@2, TimeStamp=@3, Message=@4, MethodName=@5, Source=@6, StackTrace=@7)
                     }
                     else
                     {

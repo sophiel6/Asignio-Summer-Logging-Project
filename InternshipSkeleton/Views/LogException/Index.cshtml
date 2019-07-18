@@ -109,16 +109,31 @@
                         <button onclick="openModal()">
                             Click me to mark as important
                         </button>
-                        <div class="reveal" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out" style="display:none;">
-                            <div>
-                                Hello this is an example modal. <br />
-
-                                <button onclick="closeModal()">Cancel</button>
-                            </div>
+                        <div class="reveal" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" 
+                             data-animation-out="fade-out" style="display:none;">
+                            This is where a user will enter their email address 
+                            <!-- Make a form to take in username from user - called usernameForm-->
+                            <form name="usernameForm">
+                                <div class="form-group">
+                                    @Html.TextBox("username")
+                                </div>
+                                <button onclick="UpdateImportance()">Update</button>
+                            </form>
+                            <form name="modelForm">
+                                <!-- supposed to send the model parameters to the controller -->
+                                @Html.HiddenFor(model => currentRow.UserID, new { htmlAttributes = new { @class = "form-control" } });
+                                @Html.HiddenFor(model => currentRow.EmailAddress, new { htmlAttributes = new { @class = "form-control" } });
+                                @Html.HiddenFor(model => currentRow.TimeStamp, new { htmlAttributes = new { @class = "form-control" } });
+                                @Html.HiddenFor(model => currentRow.WebRequestID, new { htmlAttributes = new { @class = "form-control" } });
+                                @Html.HiddenFor(model => currentRow.Message, new { htmlAttributes = new { @class = "form-control" } });
+                                @Html.HiddenFor(model => currentRow.MethodName, new { htmlAttributes = new { @class = "form-control" } });
+                                @Html.HiddenFor(model => currentRow.Source, new { htmlAttributes = new { @class = "form-control" } });
+                                @Html.HiddenFor(model => currentRow.StackTrace, new { htmlAttributes = new { @class = "form-control" } });
+                                @Html.HiddenFor(model => currentRow.Important, new { htmlAttributes = new { @class = "form-control" } });
+                            </form>
+                            <button onclick="closeModal()">Cancel</button> 
                         </div>
                     </td>
-
-
                 </tr>
             }
         </tbody>
@@ -159,26 +174,27 @@ else
             });
         });
 
-    </script>
+        function UpdateImportance() {
 
-    <script language="javascript" type="text/javascript">
-        function ExampleAjaxButtonFunc() {
+            var modelData = $('modelForm').serialize();
+
             $.ajax({
                 method: "POST",
-                url: "@Url.Action("DoExampleAjaxFunction", "LogException")", // these two are the function name and controller name from your C#
+                url: "@Url.Action("UpdateImportance", "LogException")", 
                 dataType: "json",
                 data: {
-		            exampleVar1: $("[name=exampleVar1Form]").val(), // this is where you assign the variables you're passing in. Here, you'd need an HTML form called "exampleVar1Form" that the user would fill out before hitting the button. Any JavaScript variable passed in will work, so setting var exampleVar1 = 2 and passing that in would work as well, for example.
-		            exampleVar2: $("[name=exampleVar2Form]").val(),
-		    // you'll do the above assignments for each variable passed into the function (so if the C# function called for exampleVar3 and 4, you'd do the same for them)
+                    username: $("[name=usernameForm]").val(),
+
+                    //is this right to get the log to send to function?
+                    //logToUpdate: $(this).serialize(),
+                    logToUpdate: modelData,
 		        },
                 success: function (result) {
-
-                    // here you'll add more JavaScript that will execute after the Ajax call is done. You could clear all of the form fields back to blank, for example:
-		    // document.getElementById("exampleVar2Form").reset();
+                    //here you'll add more JavaScript that will execute after the Ajax call is done. 
+                    //You could clear all of the form fields back to blank, for example:
+		            document.getElementById("usernameForm").reset();
                 }
             });
         }
     </script>
-
 }

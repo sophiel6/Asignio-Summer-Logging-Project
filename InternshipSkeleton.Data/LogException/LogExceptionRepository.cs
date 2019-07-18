@@ -264,9 +264,16 @@ namespace AsignioInternship.Data.LogException
                 {
                     PetaPoco.Sql sql = new PetaPoco.Sql();
 
-                    sql.Append("SELECT user.EmailAddress, logexception.* ");
+                    //is this query doing the right search? maybe just need to search for the username in "user" table
+                    //and return its associated UserID? 
+
+                    /*sql.Append("SELECT user.EmailAddress, logexception.* ");
                     sql.Append("from logexception ");
-                    sql.Append("INNER JOIN user on user.UserID = logexception.UserID ");
+                    sql.Append("INNER JOIN user on user.UserID = logexception.UserID "); */
+
+                    sql.Append("Select user.UserID, user.EmailAddress ");
+                    sql.Append("FROM user ");
+                    
 
                     if (username.Contains("@")) //format email
                     {
@@ -276,8 +283,10 @@ namespace AsignioInternship.Data.LogException
                     }
                     username = string.Format("\"{0}\" ", username);
                     sql.Append(string.Format("WHERE user.EmailAddress = {0} ", username));
-                    CombinedLogExceptionPoco poco = db.FirstOrDefault<CombinedLogExceptionPoco>(sql);
-                    CombinedLogExceptionDataModel model = poco.ToModel();
+                    //CombinedLogExceptionPoco poco = db.FirstOrDefault<CombinedLogExceptionPoco>(sql);
+                    //CombinedLogExceptionDataModel model = poco.ToModel();
+                    UserPoco poco = db.FirstOrDefault<UserPoco>(sql);
+                    UserDataModel model = poco.ToModel();
 
                     if (model != null)
                     {

@@ -59,7 +59,7 @@ namespace AsignioInternship.Controllers
 
         public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
         {
-            Guid UserID = m_logExceptionRepository.GetUserIDFromUsername(logToUpdate.EmailAddress); 
+            Guid UserID = m_logExceptionRepository.GetUserIDFromUsername(logToUpdate.Important); 
  
             m_logExceptionRepository.Update(logToUpdate, UserID);
             return View();

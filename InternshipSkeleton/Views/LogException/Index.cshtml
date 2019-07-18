@@ -67,7 +67,7 @@
                         actionName: "Index",
                         controllerName: "LogException",
                         routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput,
-                                                     id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
+                                                        id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
                         htmlAttributes: null)
 </div>
 
@@ -89,24 +89,37 @@
                 <td>Stack Trace</td>
                 <td>Important</td>
                 <td>Mark as Important</td>
+                <td>Mark as Important - modal</td>
             </tr>
         </thead>
         <tbody>
             @foreach (CombinedLogExceptionDataModel currentRow in Model.Items)
             {
-            <tr>
-                <td>@currentRow.EmailAddress</td>
-                <td>@currentRow.TimeStamp</td>
-                <td>@currentRow.WebRequestID</td>
-                <td>@currentRow.Message</td>
-                <td>@currentRow.MethodName</td>
-                <td>@currentRow.Source</td>
-                <td>@currentRow.StackTrace</td>
-                <td>@currentRow.Important</td>
-                <td>@Html.ActionLink("Mark as Important", "MarkAsImportant", currentRow )</td> 
-                
-                
-            </tr>
+                <tr>
+                    <td>@currentRow.EmailAddress</td>
+                    <td>@currentRow.TimeStamp</td>
+                    <td>@currentRow.WebRequestID</td>
+                    <td>@currentRow.Message</td>
+                    <td>@currentRow.MethodName</td>
+                    <td>@currentRow.Source</td>
+                    <td>@currentRow.StackTrace</td>
+                    <td>@currentRow.Important</td>
+                    <td>@Html.ActionLink("Mark as Important", "MarkAsImportant", currentRow)</td>
+                    <td>
+                        <button onclick="openModal()">
+                            Click me to mark as important
+                        </button>
+                        <div class="reveal" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out" style="display:none;">
+                            <div>
+                                Hello this is an example modal. <br />
+
+                                <button onclick="closeModal()">Cancel</button>
+                            </div>
+                        </div>
+                    </td>
+
+
+                </tr>
             }
         </tbody>
     </table>
@@ -116,3 +129,56 @@ else
     <h2> No results found. </h2>
 }
 
+@section scripts
+{
+    <script language="javascript" type="text/javascript">
+
+        var exampleModal;
+        var exampleModalVisible = false;
+
+        function openModal() {
+            event.preventDefault;
+            exampleModal.open();
+        }
+
+        function closeModal() {
+            event.preventDefault;
+            exampleModal.close();
+        }
+
+        $(document).ready(function () {
+
+            exampleModal = new Foundation.Reveal($("#example-modal"));
+
+            $("#example-modal").on("open.zf.reveal", function () {
+                exampleModalVisible = true;
+            });
+
+            $("#example-modal").on("closed.zf.reveal", function () {
+                exampleModalVisible = false;
+            });
+        });
+
+    </script>
+
+    <script language="javascript" type="text/javascript">
+        function ExampleAjaxButtonFunc() {
+            $.ajax({
+                method: "POST",
+                url: "@Url.Action("DoExampleAjaxFunction", "LogException")", // these two are the function name and controller name from your C#
+                dataType: "json",
+                data: {
+		            exampleVar1: $("[name=exampleVar1Form]").val(), // this is where you assign the variables you're passing in. Here, you'd need an HTML form called "exampleVar1Form" that the user would fill out before hitting the button. Any JavaScript variable passed in will work, so setting var exampleVar1 = 2 and passing that in would work as well, for example.
+		            exampleVar2: $("[name=exampleVar2Form]").val(),
+		    // you'll do the above assignments for each variable passed into the function (so if the C# function called for exampleVar3 and 4, you'd do the same for them)
+		        },
+                success: function (result) {
+
+                    // here you'll add more JavaScript that will execute after the Ajax call is done. You could clear all of the form fields back to blank, for example:
+		    // document.getElementById("exampleVar2Form").reset();
+                }
+            });
+        }
+    </script>
+
+}

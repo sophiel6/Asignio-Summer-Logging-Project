@@ -264,31 +264,20 @@ namespace AsignioInternship.Data.LogException
                 {
                     PetaPoco.Sql sql = new PetaPoco.Sql();
 
-                    //is this query doing the right search? maybe just need to search for the username in "user" table
-                    //and return its associated UserID? 
-
-                    /*sql.Append("SELECT user.EmailAddress, logexception.* ");
-                    sql.Append("from logexception ");
-                    sql.Append("INNER JOIN user on user.UserID = logexception.UserID "); */
-
-                    sql.Append("SELECT user.UserID, user.EmailAddress FROM user ");
+                    sql.Append("SELECT UserID");
+                    sql.Append("from user");
 
                     if (username.Contains("@")) //format email
                     {
                         string[] sections = username.Split(new[] { '@' });
                         sections[1] = sections[1].Insert(0, "@@");
                         username = string.Join("", sections);
-                    } 
-
+                    }
                     username = string.Format("\"{0}\" ", username);
-                    //sql.Append(string.Format("WHERE user.EmailAddress = {0} ", username));
-                    sql.Append("Where user.EmailAddress = @0 ", username);
-
-                    //CombinedLogExceptionPoco poco = db.FirstOrDefault<CombinedLogExceptionPoco>(sql);
-                    //CombinedLogExceptionDataModel model = poco.ToModel();
-
-                    UserPoco poco = db.FirstOrDefault<UserPoco>(sql);
-                    UserDataModel model = poco.ToModel();
+                    sql.Append(string.Format("WHERE EmailAddress = {0} ", username));
+                    sql.Append(";");
+                    CombinedLogExceptionPoco poco = db.FirstOrDefault<CombinedLogExceptionPoco>(sql);
+                    CombinedLogExceptionDataModel model = poco.ToModel();
 
                     if (model != null)
                     {
@@ -313,5 +302,6 @@ namespace AsignioInternship.Data.LogException
             Byte[] bytes = new Byte[16];
             return new Guid(bytes);
         }
-    }   
-}
+    }
+
+}   

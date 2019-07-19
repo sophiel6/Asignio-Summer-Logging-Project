@@ -66,16 +66,16 @@ namespace AsignioInternship.Controllers
         }
 
         //Ajax call UpdateImportance method
-       /* [HttpPost]
+        [HttpPost]
         public JsonResult UpdateImportance(string username, CombinedLogExceptionDataModel logToUpdate)
         {
             logToUpdate.Important = username;
-            Guid UserID = m_logExceptionRepository.GetUserIDFromUsername(logToUpdate.Important);
-            m_logExceptionRepository.Update(logToUpdate, UserID);
+            //Guid UserID = m_logExceptionRepository.GetUserIDFromUsername(logToUpdate.Important);
+            m_logExceptionRepository.Update(logToUpdate, username);
             
             //what does this function need to return in the JsonResult? 
             return Json(null);
-        }   */
+        }   
 
 
         private readonly ILogExceptionRepository m_logExceptionRepository;

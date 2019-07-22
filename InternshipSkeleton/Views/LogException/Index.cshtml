@@ -1,4 +1,4 @@
-﻿<body>
+<body>
     @using AsignioInternship.Data.CombinedLogException
     @using AsignioInternship.Data
 
@@ -19,7 +19,7 @@
         var id = Model.PageNumber;
 
         bool noResults = (Model.TotalItems) == 0;
-        int currRow = 0;
+        //int currRow = 0;
 
         List<SelectListItem> listItems = new List<SelectListItem>();
         listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
@@ -123,13 +123,13 @@
                         <td>@currentRow.Important</td>
                         <td>@Html.ActionLink("Mark as Important", "MarkAsImportant", currentRow)</td>
                         <td>
-                            <button class="openModalButton" onclick="openModal('@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')">
+                            <button class="openModalButton" onclick="openModal('@currentRow.UserID.ToString()', '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()', '@currentRow.StackTrace.ToString()')">
                                 Click me to mark as important
                             </button>
 
                         </td>
                     </tr>
-                    currRow++;
+                    //currRow++;
                 }
             </tbody>
         </table>
@@ -146,21 +146,12 @@
             Your Email: <input type="text" name="usernameEntry" />
             <button onclick="UpdateImportance()">Update</button>
         </form>
-        <form name="modelForm">
-            <!-- supposed to send the model parameters to the controller -->
-            @*@Html.HiddenFor(model => model.Items.ElementAt(currRow).UserID, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.HiddenFor(model => model.Items.ElementAt(currRow).EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.HiddenFor(model => model.Items.ElementAt(currRow).TimeStamp, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.HiddenFor(model => model.Items.ElementAt(currRow).WebRequestID, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.HiddenFor(model => model.Items.ElementAt(currRow).Message, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.HiddenFor(model => model.Items.ElementAt(currRow).MethodName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.HiddenFor(model => model.Items.ElementAt(currRow).Source, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.HiddenFor(model => model.Items.ElementAt(currRow).StackTrace, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.HiddenFor(model => model.Items.ElementAt(currRow).Important, new { htmlAttributes = new { @class = "form-control" } })*@
-        </form>
+
         <button onclick="closeModal()">Cancel</button>
     </div>
 </body>
+
+
 
 @section scripts
 {
@@ -169,6 +160,7 @@
         var exampleModal;
         var exampleModalVisible = false;
 
+        var currentUserID = null;
         var currentEmailAddress = null;
         var currentTimeStamp = null;
         var currentWebRequestID = null;
@@ -178,17 +170,19 @@
         var currentStackTrace = null;
 
 
-        function openModal(EmailAddress, TimeStamp, WebRequestID, Message, MethodName, Source) {        
+        function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, Message, MethodName, Source, StackTrace) {        
             event.preventDefault;
 
             debugger;
             // These are global so we'll be able to call them in UpdateImportance()
+            currentUserID = UserID;
             currentEmailAddress = EmailAddress;
             currentTimeStamp = TimeStamp;
             currentWebRequestID = WebRequestID;
             currentMessage = Message;
             currentMethodName = MethodName;
             currentSource = Source;
+            currentStackTrace = StackTrace;
 
             exampleModal.open();
         }
@@ -196,12 +190,14 @@
         function closeModal() {
             event.preventDefault;
 
+            currentUserID = null;
             currentEmailAddress = null;
             currentTimeStamp = null;
             currentWebRequestID = null;
             currentMessage = null;
             currentMethodName = null;
             currentSource = null;
+            currentStackTrace = null;
 
             exampleModal.close();
         }
@@ -223,28 +219,44 @@
             debugger;
             usernameValue = $("[name=usernameEntry]").val();
             alert(usernameValue); // leaving this and the debugger in for testing for now
-            usernameValue = document.getElementById('usernameEntry');
-            //var modelData = $('modelForm').serialize(); // we'll have to change this up
+            //usernameValue = document.getElementById('usernameEntry');
 
-            @*$.ajax({
+            var model = {
+                UserID: currentUserID,
+                EmailAddress: currentEmailAddress,
+                TimeStamp: currentTimeStamp,
+                WebRequestID: currentWebRequestID,
+                Message: currentMessage,
+                MethodName: currentMethodName,
+                Source: currentSource,
+                StackTrace: currentStackTrace
+            };
+            //var modelData = JSON.stringify(model);
+
+            $.ajax({
+            //var modelData = $('#modelForm').serialize();
+
                 method: "POST",
                 url: "@Url.Action("UpdateImportance", "LogException")",
                 dataType: "json",
                 data: {
                     username: usernameValue,
+                    logToUpdate: JSON.stringify(model),
+		        },
 
-                    //is this right to get the log to send to function?
-                    //logToUpdate: $(this).serialize(),
-                    logToUpdate: modelData,
-                },
                 success: function (result) {
-                    //here you'll add more JavaScript that will execute after the Ajax call is done.
-                    //You could clear all of the form fields back to blank, for example:
                     document.getElementById("usernameForm").reset();
 
-                    // we'll probably want to set currentEmailAddress and all of those = null here
+                    currentUserID = null;
+                    currentEmailAddress = null;
+                    currentTimeStamp = null;
+                    currentWebRequestID = null;
+                    currentMessage = null;
+                    currentMethodName = null;
+                    currentSource = null;
+                    currentStackTrace = null;
                 }
-            });*@
+            });
         };
 
     </script>

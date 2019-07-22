@@ -69,15 +69,20 @@ namespace AsignioInternship.Controllers
         public JsonResult UpdateImportance(string username, [System.Web.Http.FromBody]CombinedLogExceptionDataModel logToUpdate)
         {
             logToUpdate.Important = username;
-            //Guid UserID = m_logExceptionRepository.GetUserIDFromUsername(logToUpdate.Important);
-            m_logExceptionRepository.Update(logToUpdate, username);
+            int updatePerformed = m_logExceptionRepository.Update(logToUpdate, username); 
             
-            //what does this function need to return in the JsonResult? 
-            return Json(null);
+            if (updatePerformed == 1) //update successfull
+            {
+                string success = "Successfully marked as important";
+                return Json(success);
+            }
+            else //update failed 
+            {
+                string failed = "Email entered by the user was not found in user database";
+                return Json(failed, JsonRequestBehavior.AllowGet);
+            }
         }   
 
-
         private readonly ILogExceptionRepository m_logExceptionRepository;
-
     }
 }

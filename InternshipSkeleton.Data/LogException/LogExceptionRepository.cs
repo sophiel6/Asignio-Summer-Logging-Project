@@ -226,10 +226,8 @@ namespace AsignioInternship.Data.LogException
         }
 
 
-        public void Update(CombinedLogExceptionDataModel LogToUpdate, string username)
+        public int Update(CombinedLogExceptionDataModel LogToUpdate, string username)
         {
-            // ^ This function will need its parameters changed to take in the user-entered value from the form, 
-            //which you'll format below like you did in the "GetUserIDFromUsername" function
             try
             {
                 using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
@@ -241,15 +239,12 @@ namespace AsignioInternship.Data.LogException
 
                     if (UserID != allZeros)
                     {
-                        //string username = "UserEnteredEmailAddressFormVariable"; // this will replace the placeholder username2 below
                         if (username.Contains("@")) //format email
                         {
                             string[] sections = username.Split(new[] { '@' });
                             sections[1] = sections[1].Insert(0, "@@");
                             username = string.Join("", sections);
                         }
-
-                        //string username2 = "kevin22@@asignio.com"; // for now we're going to use this as an example -- any log you click on will have its "Important" value changed to this
 
                         string sqlFormattedTimeStamp = LogToUpdate.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss");
 
@@ -265,11 +260,12 @@ namespace AsignioInternship.Data.LogException
                         sql.Append("SET SQL_SAFE_UPDATES = 1; ");
 
                         db.Execute(sql);
+                        return 1;
                     }
+
                     else
                     {
-                        // error-handling - if Guid is all zeros, that means the user-entered email isn't in the User table
-                        //maybe have the user enter another username? 
+                        return 0;
                     }
 
                 }
@@ -280,6 +276,7 @@ namespace AsignioInternship.Data.LogException
             }
             finally
             { }
+            return 0;
         }
 
         // old Update() kept in just in case/for reference:

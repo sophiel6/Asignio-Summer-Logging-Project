@@ -19,7 +19,6 @@
         var id = Model.PageNumber;
 
         bool noResults = (Model.TotalItems) == 0;
-        //int currRow = 0;
 
         List<SelectListItem> listItems = new List<SelectListItem>();
         listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
@@ -34,8 +33,6 @@
         searchCategories.Add(new SelectListItem { Text = "Source", Value = "Source" });
         searchCategories.Add(new SelectListItem { Text = "Stack Trace", Value = "StackTrace" });
     }
-
-
 
     @using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }))
     {
@@ -126,10 +123,8 @@
                             <button class="openModalButton" onclick="openModal('@currentRow.UserID.ToString()', '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()', '@currentRow.StackTrace.ToString()')">
                                 Click me to mark as important
                             </button>
-
                         </td>
                     </tr>
-                    //currRow++;
                 }
             </tbody>
         </table>
@@ -146,17 +141,13 @@
             Your Email: <input type="text" name="usernameEntry" />
             <button onclick="UpdateImportance()">Update</button>
         </form>
-
         <button onclick="closeModal()">Cancel</button>
     </div>
 </body>
 
-
-
 @section scripts
 {
     <script language="javascript" type="text/javascript">
-
         var exampleModal;
         var exampleModalVisible = false;
 
@@ -174,7 +165,6 @@
             event.preventDefault;
 
             debugger;
-            // These are global so we'll be able to call them in UpdateImportance()
             currentUserID = UserID;
             currentEmailAddress = EmailAddress;
             currentTimeStamp = TimeStamp;
@@ -218,8 +208,6 @@
         function UpdateImportance() {
             debugger;
             usernameValue = $("[name=usernameEntry]").val();
-            alert(usernameValue); // leaving this and the debugger in for testing for now
-            //usernameValue = document.getElementById('usernameEntry');
 
             var model = {
                 UserID: currentUserID,
@@ -238,7 +226,6 @@
                 dataType: "json",
                 data: {
                     username: usernameValue,
-                    //logToUpdate: JSON.stringify(model),
                     logToUpdate: model,
 		        },
 
@@ -253,7 +240,13 @@
                     currentMethodName = null;
                     currentSource = null;
                     currentStackTrace = null;
-                } 
+
+                    alert(result);
+                },
+
+                error: function (result) {
+                    alert(result);
+                }
             });
         };
 

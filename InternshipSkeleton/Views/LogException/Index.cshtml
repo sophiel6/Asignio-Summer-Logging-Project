@@ -1,150 +1,166 @@
-﻿@using AsignioInternship.Data.CombinedLogException
-@using AsignioInternship.Data
+﻿<body>
+    @using AsignioInternship.Data.CombinedLogException
+    @using AsignioInternship.Data
 
 
-@model PagedDataModelCollection<CombinedLogExceptionDataModel>
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
+    @model PagedDataModelCollection<CombinedLogExceptionDataModel>
+    @{
+        ViewBag.Title = "Index";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    @{
+        var searchBy = Model.SearchBy;
+        var searchInput = Model.SearchInput;
+        var sortBy = Model.SortBy;
+        var id = Model.PageNumber;
 
-@{
-    var searchBy = Model.SearchBy;
-    var searchInput = Model.SearchInput;
-    var sortBy = Model.SortBy;
-    var id = Model.PageNumber;
+        bool noResults = (Model.TotalItems) == 0;
+        int currRow = 0;
 
-    bool noResults = (Model.TotalItems) == 0;
-    int currRow = 0;
+        List<SelectListItem> listItems = new List<SelectListItem>();
+        listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
+        listItems.Add(new SelectListItem { Text = "Method Name", Value = "MethodName" });
+        listItems.Add(new SelectListItem { Text = "Email Address", Value = "EmailAddress" });
 
-    List<SelectListItem> listItems = new List<SelectListItem>();
-    listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
-    listItems.Add(new SelectListItem { Text = "Method Name", Value = "MethodName" });
-    listItems.Add(new SelectListItem { Text = "Email Address", Value = "EmailAddress" });
+        List<SelectListItem> searchCategories = new List<SelectListItem>();
+        searchCategories.Add(new SelectListItem { Text = "Email Address", Value = "EmailAddress" });
+        searchCategories.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
+        searchCategories.Add(new SelectListItem { Text = "Message", Value = "Message" });
+        searchCategories.Add(new SelectListItem { Text = "Method Name", Value = "MethodName" });
+        searchCategories.Add(new SelectListItem { Text = "Source", Value = "Source" });
+        searchCategories.Add(new SelectListItem { Text = "Stack Trace", Value = "StackTrace" });
+    }
 
-    List<SelectListItem> searchCategories = new List<SelectListItem>();
-    searchCategories.Add(new SelectListItem { Text = "Email Address", Value = "EmailAddress" });
-    searchCategories.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
-    searchCategories.Add(new SelectListItem { Text = "Message", Value = "Message" });
-    searchCategories.Add(new SelectListItem { Text = "Method Name", Value = "MethodName" });
-    searchCategories.Add(new SelectListItem { Text = "Source", Value = "Source" });
-    searchCategories.Add(new SelectListItem { Text = "Stack Trace", Value = "StackTrace" });
-}
 
-@using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }))
-{
-    <div class="container">
-        <div class="block" style="width: 20% !important; display: inline;">
-            @Html.Label("Sort by: ")
-            @Html.DropDownList("sortBy", listItems)
+
+    @using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }))
+    {
+        <div class="container">
+            <div class="block" style="width: 20% !important; display: inline;">
+                @Html.Label("Sort by: ")
+                @Html.DropDownList("sortBy", listItems)
+            </div>
+            <div class="block" style="width: 20% !important; display: inline;">
+                @Html.Label("Search by: ")
+                @Html.DropDownList("searchBy", searchCategories)
+            </div>
+            <div class="block" style="width: 20% !important; display: inline;">
+                @Html.Label("*Search for: ")
+                @Html.TextBox("searchInput")
+            </div>
+            <div class="block" style="width: 20% !important; display: inline;">
+                @Html.Label("Page: ")
+                @Html.TextBox("id")
+            </div>
+            <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" style="width: 20% !important; display: inline;" />
         </div>
-        <div class="block" style="width: 20% !important; display: inline;">
-            @Html.Label("Search by: ")
-            @Html.DropDownList("searchBy", searchCategories)
-        </div>
-        <div class="block" style="width: 20% !important; display: inline;">
-            @Html.Label("*Search for: ")
-            @Html.TextBox("searchInput")
-        </div>
-        <div class="block" style="width: 20% !important; display: inline;">
-            @Html.Label("Page: ")
-            @Html.TextBox("id")
-        </div>
-        <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" style="width: 20% !important; display: inline;" />
+    }
+    *If searching by TimeStamp, make sure the format is YYYY-MM-DD
+
+    <div>
+        @Html.ActionLink(linkText: "Previous",
+                            actionName: "Index",
+                            controllerName: "LogException",
+                            routeValues: new
+                                {
+                                    sortBy = sortBy,
+                                    searchBy = searchBy,
+                                    searchInput = searchInput,
+                                    id = ((id - 1) != 0) ? (id - 1) : id
+                                },
+                            htmlAttributes: null)
     </div>
-}
-*If searching by TimeStamp, make sure the format is YYYY-MM-DD
+    <div>
+        @Html.ActionLink(linkText: "Next",
+                            actionName: "Index",
+                            controllerName: "LogException",
+                            routeValues: new
+                                {
+                                    sortBy = sortBy,
+                                    searchBy = searchBy,
+                                    searchInput = searchInput,
+                                    id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id
+                                },
+                            htmlAttributes: null)
+    </div>
 
-<div>
-    @Html.ActionLink(linkText: "Previous",
-                        actionName: "Index",
-                        controllerName: "LogException",
-                        routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput,
-                                                                    id = ((id - 1) != 0) ? (id - 1) : id },
-                        htmlAttributes: null)
-</div>
-<div>
-    @Html.ActionLink(linkText: "Next",
-                        actionName: "Index",
-                        controllerName: "LogException",
-                        routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput,
-                                                        id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
-                        htmlAttributes: null)
-</div>
+    <div>
+        Current Page: @Model.PageNumber/@Model.TotalPages
+    </div>
 
-<div>
-    Current Page: @Model.PageNumber/@Model.TotalPages
-</div>
-
-@if (!noResults)
-{
-    <table style="width:100%; text-align:center;">
-        <thead>
-            <tr>
-                <td>Email Address</td>
-                <td>Time Stamp</td>
-                <td>Web Request ID</td>
-                <td>Message</td>
-                <td>Method Name</td>
-                <td>Source</td>
-                <td>Stack Trace</td>
-                <td>Important</td>
-                <td>Mark as Important</td>
-                <td>Mark as Important - modal</td>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (CombinedLogExceptionDataModel currentRow in Model.Items)
-            {
+    @if (!noResults)
+    {
+        <table style="width:100%; text-align:center;">
+            <thead>
                 <tr>
-                    <td>@currentRow.EmailAddress</td>
-                    <td>@currentRow.TimeStamp</td>
-                    <td>@currentRow.WebRequestID</td>
-                    <td>@currentRow.Message</td>
-                    <td>@currentRow.MethodName</td>
-                    <td>@currentRow.Source</td>
-                    <td>@currentRow.StackTrace</td>
-                    <td>@currentRow.Important</td>
-                    <td>@Html.ActionLink("Mark as Important", "MarkAsImportant", currentRow)</td>
-                    <td>
-                        <button onclick="openModal()">
-                            Click me to mark as important
-                        </button>
-                        <div class="reveal" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" 
-                             data-animation-out="fade-out" style="display:none;">
-                            This is where a user will enter their email address 
-                            <!-- Make a form to take in username from user - called usernameForm-->
-                            <form name="usernameForm">
-                                <div class="form-group">
-                                    @Html.TextBox("username")
-                                </div>
-                                <button onclick="UpdateImportance()">Update</button>
-                            </form>
-                            <form name="modelForm">
-                                <!-- supposed to send the model parameters to the controller -->
-                                @Html.HiddenFor(model => model.Items.ElementAt(currRow).UserID, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.HiddenFor(model => model.Items.ElementAt(currRow).EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.HiddenFor(model => model.Items.ElementAt(currRow).TimeStamp, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.HiddenFor(model => model.Items.ElementAt(currRow).WebRequestID, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.HiddenFor(model => model.Items.ElementAt(currRow).Message, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.HiddenFor(model => model.Items.ElementAt(currRow).MethodName, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.HiddenFor(model => model.Items.ElementAt(currRow).Source, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.HiddenFor(model => model.Items.ElementAt(currRow).StackTrace, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.HiddenFor(model => model.Items.ElementAt(currRow).Important, new { htmlAttributes = new { @class = "form-control" } })
-                            </form>
-                            <button onclick="closeModal()">Cancel</button> 
-                        </div>
-                    </td>
+                    <td>Email Address</td>
+                    <td>Time Stamp</td>
+                    <td>Web Request ID</td>
+                    <td>Message</td>
+                    <td>Method Name</td>
+                    <td>Source</td>
+                    <td>Stack Trace</td>
+                    <td>Important</td>
+                    <td>Mark as Important</td>
+                    <td>Mark as Important - modal</td>
                 </tr>
-                currRow++;
-            }
-        </tbody>
-    </table>
-}
-else
-{
-    <h2> No results found. </h2>
-}
+            </thead>
+            <tbody>
+                @foreach (CombinedLogExceptionDataModel currentRow in Model.Items)
+                {
+                    <tr>
+                        <td>@currentRow.EmailAddress</td>
+                        <td>@currentRow.TimeStamp</td>
+                        <td>@currentRow.WebRequestID</td>
+                        <td>@currentRow.Message</td>
+                        <td>@currentRow.MethodName</td>
+                        <td>@currentRow.Source</td>
+                        <td>@currentRow.StackTrace</td>
+                        <td>@currentRow.Important</td>
+                        <td>@Html.ActionLink("Mark as Important", "MarkAsImportant", currentRow)</td>
+                        <td>
+                            <button class="openModalButton" onclick="openModal('@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')">
+                                Click me to mark as important
+                            </button>
+
+                        </td>
+                    </tr>
+                    currRow++;
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <h2> No results found. </h2>
+    }
+
+    <div class="reveal" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out" style="display:none;">
+        This is where a user will enter their email address
+
+        <form id="usernameForm">
+            Your Email: <input type="text" name="usernameEntry" />
+            <button onclick="UpdateImportance()">Update</button>
+        </form>
+        <form name="modelForm">
+            <!-- supposed to send the model parameters to the controller -->
+            @*@Html.HiddenFor(model => model.Items.ElementAt(currRow).UserID, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.HiddenFor(model => model.Items.ElementAt(currRow).EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.HiddenFor(model => model.Items.ElementAt(currRow).TimeStamp, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.HiddenFor(model => model.Items.ElementAt(currRow).WebRequestID, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.HiddenFor(model => model.Items.ElementAt(currRow).Message, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.HiddenFor(model => model.Items.ElementAt(currRow).MethodName, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.HiddenFor(model => model.Items.ElementAt(currRow).Source, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.HiddenFor(model => model.Items.ElementAt(currRow).StackTrace, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.HiddenFor(model => model.Items.ElementAt(currRow).Important, new { htmlAttributes = new { @class = "form-control" } })*@
+        </form>
+        <button onclick="closeModal()">Cancel</button>
+    </div>
+</body>
 
 @section scripts
 {
@@ -153,13 +169,40 @@ else
         var exampleModal;
         var exampleModalVisible = false;
 
-        function openModal() {
+        var currentEmailAddress = null;
+        var currentTimeStamp = null;
+        var currentWebRequestID = null;
+        var currentMessage = null;
+        var currentMethodName = null;
+        var currentSource = null;
+        var currentStackTrace = null;
+
+
+        function openModal(EmailAddress, TimeStamp, WebRequestID, Message, MethodName, Source) {        
             event.preventDefault;
+
+            debugger;
+            // These are global so we'll be able to call them in UpdateImportance()
+            currentEmailAddress = EmailAddress;
+            currentTimeStamp = TimeStamp;
+            currentWebRequestID = WebRequestID;
+            currentMessage = Message;
+            currentMethodName = MethodName;
+            currentSource = Source;
+
             exampleModal.open();
         }
 
         function closeModal() {
             event.preventDefault;
+
+            currentEmailAddress = null;
+            currentTimeStamp = null;
+            currentWebRequestID = null;
+            currentMessage = null;
+            currentMethodName = null;
+            currentSource = null;
+
             exampleModal.close();
         }
 
@@ -177,26 +220,32 @@ else
         });
 
         function UpdateImportance() {
+            debugger;
+            usernameValue = $("[name=usernameEntry]").val();
+            alert(usernameValue); // leaving this and the debugger in for testing for now
+            usernameValue = document.getElementById('usernameEntry');
+            //var modelData = $('modelForm').serialize(); // we'll have to change this up
 
-            var modelData = $('modelForm').serialize();
-
-            $.ajax({
+            @*$.ajax({
                 method: "POST",
-                url: "@Url.Action("UpdateImportance", "LogException")", 
+                url: "@Url.Action("UpdateImportance", "LogException")",
                 dataType: "json",
                 data: {
-                    username: $("[name=usernameForm]").val(),
+                    username: usernameValue,
 
                     //is this right to get the log to send to function?
                     //logToUpdate: $(this).serialize(),
                     logToUpdate: modelData,
-		        },
+                },
                 success: function (result) {
-                    //here you'll add more JavaScript that will execute after the Ajax call is done. 
+                    //here you'll add more JavaScript that will execute after the Ajax call is done.
                     //You could clear all of the form fields back to blank, for example:
-		            document.getElementById("usernameForm").reset();
+                    document.getElementById("usernameForm").reset();
+
+                    // we'll probably want to set currentEmailAddress and all of those = null here
                 }
-            });
-        }
+            });*@
+        };
+
     </script>
 }

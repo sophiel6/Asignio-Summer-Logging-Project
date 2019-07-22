@@ -231,17 +231,15 @@
                 Source: currentSource,
                 StackTrace: currentStackTrace
             };
-            //var modelData = JSON.stringify(model);
 
             $.ajax({
-            //var modelData = $('#modelForm').serialize();
-
                 method: "POST",
                 url: "@Url.Action("UpdateImportance", "LogException")",
                 dataType: "json",
                 data: {
                     username: usernameValue,
-                    logToUpdate: JSON.stringify(model),
+                    //logToUpdate: JSON.stringify(model),
+                    logToUpdate: model,
 		        },
 
                 success: function (result) {
@@ -255,7 +253,7 @@
                     currentMethodName = null;
                     currentSource = null;
                     currentStackTrace = null;
-                }
+                } 
             });
         };
 

@@ -2,8 +2,7 @@
 using AsignioInternship.Data.CombinedLogException;
 using AsignioInternship.Data.LogException;
 using System;
-using System.Collections.Generic;
-using System.Text;
+//using System.Web.Http;
 using System.Web.Mvc;
 
 namespace AsignioInternship.Controllers
@@ -67,7 +66,7 @@ namespace AsignioInternship.Controllers
 
         //Ajax call UpdateImportance method
         [HttpPost]
-        public JsonResult UpdateImportance(string username, CombinedLogExceptionDataModel logToUpdate)
+        public JsonResult UpdateImportance(string username, [System.Web.Http.FromBody]CombinedLogExceptionDataModel logToUpdate)
         {
             logToUpdate.Important = username;
             //Guid UserID = m_logExceptionRepository.GetUserIDFromUsername(logToUpdate.Important);

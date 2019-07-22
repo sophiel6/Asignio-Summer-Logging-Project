@@ -362,5 +362,4 @@ namespace AsignioInternship.Data.LogException
             return new Guid(bytes);
         }
     }
-
 }   

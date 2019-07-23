@@ -64,7 +64,6 @@ namespace AsignioInternship.Controllers
             return View();
         }
 
-        //Ajax call UpdateImportance method
         [HttpPost]
         public JsonResult UpdateImportance(string username, [System.Web.Http.FromBody]CombinedLogExceptionDataModel logToUpdate)
         {
@@ -79,10 +78,19 @@ namespace AsignioInternship.Controllers
             else //update failed 
             {
                 string failed = "Email entered by the user was not found in user database";
-                return Json(failed, JsonRequestBehavior.AllowGet);
+                return Json(failed);
             }
         }   
 
         private readonly ILogExceptionRepository m_logExceptionRepository;
     }
 }
+
+/*
+ * To do: 
+ * -maybe make a function to unmark as important 
+ * -change display of Important from email to an image
+ * -make sorting by importance possible 
+ * -make querying by multiple categories possible? 
+ * -implement changes for the other tables 
+ */

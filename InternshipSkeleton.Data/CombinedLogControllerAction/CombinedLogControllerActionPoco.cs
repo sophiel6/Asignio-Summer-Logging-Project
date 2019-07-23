@@ -5,8 +5,6 @@ using System.Text;
 
 namespace AsignioInternship.Data.CombinedLogControllerAction
 {
-    //this Poco file doesn't have TableName or PrimaryKey; I also took out the BaseSQL/etc. strings 
-
     internal class CombinedLogControllerActionPoco
     {
         public string EmailAddress { get; set; }
@@ -15,5 +13,7 @@ namespace AsignioInternship.Data.CombinedLogControllerAction
         public string ControllerName { get; set; }
         public string ActionName { get; set; }
         public string Parameters { get; set; }
+        public byte[] UserID { get; set; }
+        public string Important { get; set; }
     }
 }

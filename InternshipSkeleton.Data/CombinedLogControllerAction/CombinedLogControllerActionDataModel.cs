@@ -14,6 +14,8 @@ namespace AsignioInternship.Data.CombinedLogControllerAction
         public string ControllerName { get; set; }
         public string ActionName { get; set; }
         public string Parameters { get; set; }
+        public Guid UserID { get; set; }
+        public string Important { get; set; }
     }
 }
 

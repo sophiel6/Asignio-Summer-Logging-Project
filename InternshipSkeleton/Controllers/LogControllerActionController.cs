@@ -13,20 +13,6 @@ namespace AsignioInternship.Controllers
         {
             m_logControllerActionRepository = (logControllerActionRepository != null) ? logControllerActionRepository : throw new ArgumentNullException();
         }
-        /*public ActionResult Index()
-        {
-            IEnumerable<LogControllerActionDataModel> result = m_logControllerActionRepository.GetAll();
-            return View(result);
-        }*/
-        /*public ActionResult Index(int? id, PagedDataModelCollection<CombinedLogControllerActionDataModel> model)
-        {
-            int pageNum = (id ?? 1);
-            int pageSize = 20;
-            string sortColumn = (model.SortBy) ?? "TimeStamp";
-            PagedDataModelCollection<CombinedLogControllerActionDataModel> result = m_logControllerActionRepository.
-                                            CombinedPageLogControllerAction("", pageSize, pageNum, sortColumn, "ASC");
-            return View(result);
-        } */
 
         public ActionResult Index(int? id, string searchBy, string searchInput, string sortBy)
         {
@@ -41,31 +27,40 @@ namespace AsignioInternship.Controllers
             return View(result);
         }
 
-        public ActionResult ViewAll()
+        [HttpPost]
+        public JsonResult UpdateImportance(string username, [System.Web.Http.FromBody]CombinedLogControllerActionDataModel logToUpdate)
         {
-            IEnumerable<LogControllerActionDataModel> result = m_logControllerActionRepository.GetAll();
-            return View(result);
+            logToUpdate.Important = username;
+            int updatePerformed = m_logControllerActionRepository.Update(logToUpdate, username);
+
+            if (updatePerformed == 1) //update successfull
+            {
+                string success = "Successfully marked as important";
+                return Json(success);
+            }
+            else //update failed 
+            {
+                string failed = "Email entered by the user was not found in user database";
+                return Json(failed);
+            }
         }
 
-        public ActionResult AddNew()
+        [HttpPost]
+        public JsonResult MarkUnimportant([System.Web.Http.FromBody]CombinedLogControllerActionDataModel logToUpdate)
         {
-            return View();
-        }
+            logToUpdate.Important = null;
+            int updatePerformed = m_logControllerActionRepository.UndoUpdate(logToUpdate);
 
-        public ActionResult Search()
-        {
-            return View();
-        }
-
-        public ActionResult SearchByUserID()
-        {
-            return View();
-        }
-
-        public ActionResult DisplayUserIDResult(Guid UserID)
-        {
-            IEnumerable<LogControllerActionDataModel> result = m_logControllerActionRepository.GetAllFromUserID(UserID);
-            return View(result);
+            if (updatePerformed == 1)
+            {
+                string success = "Successfully unmarked as important";
+                return Json(success);
+            }
+            else
+            {
+                string failed = "Error";
+                return Json(failed);
+            }
         }
 
         private readonly ILogControllerActionRepository m_logControllerActionRepository;

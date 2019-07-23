@@ -120,6 +120,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="DatabaseScripts\alterLogControllerAction_addImportantColumn.sql" />
     <Content Include="DatabaseScripts\alterLog_addImportantColumn.sql" />
     <Content Include="DatabaseScripts\alterLogException_addImportantColumn.sql" />
     <Content Include="DatabaseScripts\exampleInnerJoin.sql" />

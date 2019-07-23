@@ -17,6 +17,8 @@ namespace AsignioInternship.Data.CombinedLogControllerAction
                     ControllerName = source.ControllerName,
                     ActionName = source.ActionName,
                     Parameters = source.Parameters,
+                    UserID = GuidMapper.Map(source.UserID),
+                    Important = source.Important,
                 };
             }
 
@@ -35,6 +37,8 @@ namespace AsignioInternship.Data.CombinedLogControllerAction
                     ControllerName = source.ControllerName,
                     ActionName = source.ActionName,
                     Parameters = source.Parameters,
+                    UserID = GuidMapper.Map(source.UserID),
+                    Important = source.Important,
                 };
             }
 

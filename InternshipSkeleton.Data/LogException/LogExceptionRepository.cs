@@ -311,7 +311,7 @@ namespace AsignioInternship.Data.LogException
         } 
         */
 
-        public void undoUpdate(CombinedLogExceptionDataModel LogToUpdate)
+        public int UndoUpdate(CombinedLogExceptionDataModel LogToUpdate)
         {
             try
             {
@@ -331,11 +331,13 @@ namespace AsignioInternship.Data.LogException
                     sql.Append("SET SQL_SAFE_UPDATES = 1; ");
 
                     db.Execute(sql);
+                    return 1;
                 }  
             }
             catch (Exception ex)
             {
                 string errorMessage = ex.Message;
+                return 0;
             }
             finally
             { }

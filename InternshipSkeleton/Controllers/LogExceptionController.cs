@@ -83,12 +83,21 @@ namespace AsignioInternship.Controllers
         }  
         
         [HttpPost]
-        public JsonResult markUnimportant([System.Web.Http.FromBody]CombinedLogExceptionDataModel logToUpdate)
+        public JsonResult MarkUnimportant([System.Web.Http.FromBody]CombinedLogExceptionDataModel logToUpdate)
         {
             logToUpdate.Important = null;
-            m_logExceptionRepository.undoUpdate(logToUpdate);
+            int updatePerformed = m_logExceptionRepository.UndoUpdate(logToUpdate);
 
-            return Json(null);
+            if (updatePerformed == 1)
+            {
+                string success = "Successfully unmarked as important";
+                return Json(success);
+            }
+            else
+            {
+                string failed = "Error";
+                return Json(failed);
+            }
         }
 
         private readonly ILogExceptionRepository m_logExceptionRepository;
@@ -97,8 +106,7 @@ namespace AsignioInternship.Controllers
 
 /*
  * To do: 
- * -change display of Important from email to an image
- * -make sorting by importance possible 
+ * -change display of Important from email to an image 
  * -make querying by multiple categories possible? 
  * -implement changes for the other tables 
  */

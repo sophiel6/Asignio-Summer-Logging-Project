@@ -11,9 +11,14 @@ body {
 .openModalButton {
     background-color: grey;
     color: white;
-    font-size: 12px;
+    font-size: 20px;
 }
 
+.markUnimportantButton {
+    background-color: orangered;
+    color: white;
+    font-size: 20px;
+}
 
 table, thead, td, tr {
     border: 1px solid;

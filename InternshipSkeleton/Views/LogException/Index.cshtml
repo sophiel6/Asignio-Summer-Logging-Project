@@ -118,9 +118,24 @@
                     <td>@currentRow.StackTrace</td>
                     <td>@currentRow.Important</td>
                     <td>
-                        <button class="openModalButton" onclick="openModal('@currentRow.UserID.ToString()', '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()', '@currentRow.StackTrace.ToString()')">
-                            Click me to mark as important
-                        </button>
+                        @if (currentRow.Important == null) //button to mark as important
+                        {
+                            <button class="openModalButton" onclick="openModal('@currentRow.UserID.ToString()',
+                            '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
+                            '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()',
+                            '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()', '@currentRow.StackTrace.ToString()')">
+                                Mark as important
+                            </button>
+                        }
+                        else //button to unmark as important 
+                        {
+                            <button class="markUnimportantButton" onclick="markUnimportant('@currentRow.UserID.ToString()',
+                            '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
+                            '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()',
+                            '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()', '@currentRow.StackTrace.ToString()')">
+                            Undo
+                            </button>
+                        }
                     </td>
                 </tr>
             }
@@ -142,109 +157,148 @@ else
 
 
 @section scripts
-{
-    <script language="javascript" type="text/javascript">
-        var exampleModal;
-        var exampleModalVisible = false;
+{ <script language="javascript" type="text/javascript">
+    var exampleModal;
+    var exampleModalVisible = false;
 
-        var currentUserID = null;
-        var currentEmailAddress = null;
-        var currentTimeStamp = null;
-        var currentWebRequestID = null;
-        var currentMessage = null;
-        var currentMethodName = null;
-        var currentSource = null;
-        var currentStackTrace = null;
+    var currentUserID = null;
+    var currentEmailAddress = null;
+    var currentTimeStamp = null;
+    var currentWebRequestID = null;
+    var currentMessage = null;
+    var currentMethodName = null;
+    var currentSource = null;
+    var currentStackTrace = null;
 
 
-        function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, Message, MethodName, Source, StackTrace) {        
-            event.preventDefault;
+    function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, Message, MethodName, Source, StackTrace) {        
+        event.preventDefault;
 
-            debugger;
-            currentUserID = UserID;
-            currentEmailAddress = EmailAddress;
-            currentTimeStamp = TimeStamp;
-            currentWebRequestID = WebRequestID;
-            currentMessage = Message;
-            currentMethodName = MethodName;
-            currentSource = Source;
-            currentStackTrace = StackTrace;
+        debugger;
+        currentUserID = UserID;
+        currentEmailAddress = EmailAddress;
+        currentTimeStamp = TimeStamp;
+        currentWebRequestID = WebRequestID;
+        currentMessage = Message;
+        currentMethodName = MethodName;
+        currentSource = Source;
+        currentStackTrace = StackTrace;
 
-            exampleModal.open();
-        }
+        exampleModal.open();
+    }
 
-        function closeModal() {
-            event.preventDefault;
+    function closeModal() {
+        event.preventDefault;
 
-            currentUserID = null;
-            currentEmailAddress = null;
-            currentTimeStamp = null;
-            currentWebRequestID = null;
-            currentMessage = null;
-            currentMethodName = null;
-            currentSource = null;
-            currentStackTrace = null;
+        currentUserID = null;
+        currentEmailAddress = null;
+        currentTimeStamp = null;
+        currentWebRequestID = null;
+        currentMessage = null;
+        currentMethodName = null;
+        currentSource = null;
+        currentStackTrace = null;
 
-            exampleModal.close();
-        }
+        exampleModal.close();
+    }
 
-        $(document).ready(function () {
+    $(document).ready(function () {
 
-            exampleModal = new Foundation.Reveal($("#example-modal"));
+        exampleModal = new Foundation.Reveal($("#example-modal"));
 
-            $("#example-modal").on("open.zf.reveal", function () {
-                exampleModalVisible = true;
-            });
-
-            $("#example-modal").on("closed.zf.reveal", function () {
-                exampleModalVisible = false;
-            });
+        $("#example-modal").on("open.zf.reveal", function () {
+            exampleModalVisible = true;
         });
 
-        function UpdateImportance() {
-            debugger;
-            usernameValue = $("[name=usernameEntry]").val();
+        $("#example-modal").on("closed.zf.reveal", function () {
+            exampleModalVisible = false;
+        });
+    });
 
-            var model = {
-                UserID: currentUserID,
-                EmailAddress: currentEmailAddress,
-                TimeStamp: currentTimeStamp,
-                WebRequestID: currentWebRequestID,
-                Message: currentMessage,
-                MethodName: currentMethodName,
-                Source: currentSource,
-                StackTrace: currentStackTrace
-            };
+    function UpdateImportance() {
+        debugger;
+        usernameValue = $("[name=usernameEntry]").val();
 
-            $.ajax({
-                method: "POST",
-                url: "@Url.Action("UpdateImportance", "LogException")",
-                dataType: "json",
-                data: {
-                    username: usernameValue,
-                    logToUpdate: model,
-		        },
-
-                success: function (result) {
-                    document.getElementById("usernameForm").reset();
-
-                    currentUserID = null;
-                    currentEmailAddress = null;
-                    currentTimeStamp = null;
-                    currentWebRequestID = null;
-                    currentMessage = null;
-                    currentMethodName = null;
-                    currentSource = null;
-                    currentStackTrace = null;
-
-                    alert(result);
-                },
-
-                error: function (result) {
-                    alert(result);
-                }
-            });
+        var model = {
+            UserID: currentUserID,
+            EmailAddress: currentEmailAddress,
+            TimeStamp: currentTimeStamp,
+            WebRequestID: currentWebRequestID,
+            Message: currentMessage,
+            MethodName: currentMethodName,
+            Source: currentSource,
+            StackTrace: currentStackTrace
         };
+
+        $.ajax({
+            method: "POST",
+            url: "@Url.Action("UpdateImportance", "LogException")",
+            dataType: "json",
+            data: {
+                username: usernameValue,
+                logToUpdate: model,
+		    },
+
+            success: function (result) {
+                document.getElementById("usernameForm").reset();
+
+                currentUserID = null;
+                currentEmailAddress = null;
+                currentTimeStamp = null;
+                currentWebRequestID = null;
+                currentMessage = null;
+                currentMethodName = null;
+                currentSource = null;
+                currentStackTrace = null;
+
+                alert(result);
+            },
+
+            error: function (result) {
+                alert(result);
+            }
+        });
+    };
+
+    function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentWebRequestID, currentMessage,
+        currentMethodName, currentSource, currentStackTrace) {
+        var model = {
+            UserID: currentUserID,
+            EmailAddress: currentEmailAddress,
+            TimeStamp: currentTimeStamp,
+            WebRequestID: currentWebRequestID,
+            Message: currentMessage,
+            MethodName: currentMethodName,
+            Source: currentSource,
+            StackTrace: currentStackTrace
+        };
+
+        $.ajax({
+            method: "POST",
+            url: "@Url.Action("markUnimportant", "LogException")",
+            dataType: "json",
+            data: {
+                logToUpdate: model,
+            },
+
+            success: function (result) {
+                currentUserID = null;
+                currentEmailAddress = null;
+                currentTimeStamp = null;
+                currentWebRequestID = null;
+                currentMessage = null;
+                currentMethodName = null;
+                currentSource = null;
+                currentStackTrace = null;
+
+                alert(result);
+            },
+
+            error: function (result) {
+                alert(result);
+            }
+        });
+    }
 
     </script>
 }

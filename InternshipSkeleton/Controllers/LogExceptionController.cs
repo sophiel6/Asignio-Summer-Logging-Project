@@ -80,7 +80,16 @@ namespace AsignioInternship.Controllers
                 string failed = "Email entered by the user was not found in user database";
                 return Json(failed);
             }
-        }   
+        }  
+        
+        [HttpPost]
+        public JsonResult markUnimportant([System.Web.Http.FromBody]CombinedLogExceptionDataModel logToUpdate)
+        {
+            logToUpdate.Important = null;
+            m_logExceptionRepository.undoUpdate(logToUpdate);
+
+            return Json(null);
+        }
 
         private readonly ILogExceptionRepository m_logExceptionRepository;
     }
@@ -88,7 +97,6 @@ namespace AsignioInternship.Controllers
 
 /*
  * To do: 
- * -maybe make a function to unmark as important 
  * -change display of Important from email to an image
  * -make sorting by importance possible 
  * -make querying by multiple categories possible? 

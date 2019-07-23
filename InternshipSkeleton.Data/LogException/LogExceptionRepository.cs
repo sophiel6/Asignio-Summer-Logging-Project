@@ -311,6 +311,36 @@ namespace AsignioInternship.Data.LogException
         } 
         */
 
+        public void undoUpdate(CombinedLogExceptionDataModel LogToUpdate)
+        {
+            try
+            {
+                using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
+                {
+                    string sqlFormattedTimeStamp = LogToUpdate.TimeStamp.ToString("yyyy-MM-dd HH:mm:ss");
+
+                    PetaPoco.Sql sql = new PetaPoco.Sql();
+
+                    string nullString = "null";
+
+                    sql.Append("SET SQL_SAFE_UPDATES = 0; ");
+                    sql.Append(string.Format("UPDATE logexception SET Important = {0} ", nullString));
+                    string where = string.Format("WHERE  TimeStamp = \"{0}\" AND WebRequestID = GuidToBinary(\"{1}\") AND UserID = GuidToBinary(\"{2}\") AND Message = \"{3}\" AND MethodName = \"{4}\" AND Source = \"{5}\"; ",
+                        sqlFormattedTimeStamp, LogToUpdate.WebRequestID, LogToUpdate.UserID, LogToUpdate.Message, LogToUpdate.MethodName, LogToUpdate.Source);
+                    sql.Append(where);
+                    sql.Append("SET SQL_SAFE_UPDATES = 1; ");
+
+                    db.Execute(sql);
+                }  
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = ex.Message;
+            }
+            finally
+            { }
+        }
+
         public Guid GetUserIDFromUsername(string username)
         {   /* This function will search the user db for this username/Email - if it is found, it'll 
              * return the corresponding UserID; if not, it'll return some default Guid */

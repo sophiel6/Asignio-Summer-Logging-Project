@@ -17,5 +17,6 @@ namespace AsignioInternship.Data.LogException
 
         int Update(CombinedLogExceptionDataModel LogToUpdate, string username);
         Guid GetUserIDFromUsername(string username);
+        void undoUpdate(CombinedLogExceptionDataModel logToUpdate);
     }
 }

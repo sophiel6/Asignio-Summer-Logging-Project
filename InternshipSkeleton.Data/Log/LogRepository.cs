@@ -13,64 +13,6 @@ namespace AsignioInternship.Data.Log
                 : base(typeof(LogRepository))
         { }
 
-        public LogDataModel GetFromUserID(Guid UserID)
-        {
-            try
-            {
-                using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
-                {
-                    return db.FirstOrDefault<LogPoco>(LogPoco.SelectByIDSQL, GuidMapper.Map(UserID)).ToModel();
-                }
-            }
-            catch (Exception ex)
-            {
-                string errorMessage = ex.Message;
-            }
-            finally
-            { }
-
-            return null;
-
-        }
-
-        public IEnumerable<LogDataModel> GetAll()
-        {
-            try
-            {
-                using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
-                {
-                    return db.Fetch<LogPoco>(LogPoco.SelectAll).Select(S => S.ToModel());
-                }
-            }
-            catch (Exception ex)
-            {
-                string errorMessage = ex.Message;
-            }
-            finally
-            { }
-
-            return null;
-        }
-       
-        public IEnumerable<LogDataModel> GetAllFromUserID(Guid UserID)
-        {
-            try
-            {
-                using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
-                {
-                    return db.Fetch<LogPoco>(LogPoco.SelectByIDSQL, GuidMapper.Map(UserID)).Select(S => S.ToModel());
-                }
-            }
-            catch (Exception ex)
-            {
-                string errorMessage = ex.Message;
-            }
-            finally
-            { }
-
-            return null;
-        }
-
         public PagedDataModelCollection<CombinedLogDataModel> CombinedPageLog(string nameSearchPattern,
                                 string searchColumn, int pageSize, int pageNumber, string sortColumn, string sortDirection)
         {

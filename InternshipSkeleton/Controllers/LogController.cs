@@ -28,33 +28,6 @@ namespace AsignioInternship.Controllers
             return View(result);
         }
 
-        public ActionResult ViewAll()
-        {
-            IEnumerable<LogDataModel> result = m_logRepository.GetAll();
-            return View(result);
-        }
-
-        public ActionResult AddNew()
-        {
-            return View();
-        }
-
-        public ActionResult Search()
-        {
-            return View();
-        }
-
-        public ActionResult SearchByUserID()
-        {
-            return View();
-        }
-
-        public ActionResult DisplayUserIDResult(Guid UserID)
-        {
-            IEnumerable<LogDataModel> result = m_logRepository.GetAllFromUserID(UserID);
-            return View(result);
-        }
-
         [HttpPost]
         public JsonResult UpdateImportance(string username, [System.Web.Http.FromBody]CombinedLogDataModel logToUpdate)
         {

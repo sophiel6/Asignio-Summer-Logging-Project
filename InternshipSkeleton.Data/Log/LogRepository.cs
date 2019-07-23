@@ -81,7 +81,7 @@ namespace AsignioInternship.Data.Log
                     PetaPoco.Sql sql = new PetaPoco.Sql();
 
                     sql.Append("SELECT ");
-                    sql.Append("user.EmailAddress, log.UserID, log.TimeStamp, log.LogID, log.Level, log.Message, log.Source ");
+                    sql.Append("user.EmailAddress, log.UserID, log.TimeStamp, log.LogID, log.Level, log.Message, log.Source, log.Important ");
                     sql.Append("from log ");
                     sql.Append(" INNER JOIN user on user.userID = log.userID ");
 
@@ -163,8 +163,8 @@ namespace AsignioInternship.Data.Log
 
                         sql.Append("SET SQL_SAFE_UPDATES = 0; ");
                         sql.Append(string.Format("UPDATE log SET Important = {0} ", username));
-                        string where = string.Format("WHERE TimeStamp = \"{0}\" AND LogID = GuidToBinary(\"{1}\") AND Level = \"{2}\" AND Message = \"{3}\" AND Source = \"{4}\" AND UserID = GuidToBinary(\"{5}\"); ",
-                            sqlFormattedTimeStamp, LogToUpdate.LogID, LogToUpdate.Level, LogToUpdate.Message, LogToUpdate.Source, LogToUpdate.UserID);
+                        string where = string.Format("WHERE TimeStamp = \"{0}\" AND LogID = GuidToBinary(\"{1}\") AND Level = \"{2}\" AND Message = \"{3}\" AND Source = \"{4}\" ; ",
+                            sqlFormattedTimeStamp, LogToUpdate.LogID, LogToUpdate.Level, LogToUpdate.Message, LogToUpdate.Source);
                         sql.Append(where);
                         sql.Append("SET SQL_SAFE_UPDATES = 1;");
 

@@ -14,5 +14,8 @@ namespace AsignioInternship.Data.Log
 
         PagedDataModelCollection<CombinedLogDataModel> CombinedPageLog(string nameSearchPattern,
                         string searchColumn, int pageSize, int pageNumber, string sortColumn, string sortDirection);
+        int UndoUpdate(CombinedLogDataModel logToUpdate);
+        int Update(CombinedLogDataModel LogToUpdate, string username);
+        Guid GetUserIDFromUsername(string username);
     }
 }

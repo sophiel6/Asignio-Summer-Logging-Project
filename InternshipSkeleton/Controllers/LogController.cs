@@ -55,6 +55,42 @@ namespace AsignioInternship.Controllers
             return View(result);
         }
 
+        [HttpPost]
+        public JsonResult UpdateImportance(string username, [System.Web.Http.FromBody]CombinedLogDataModel logToUpdate)
+        {
+            logToUpdate.Important = username;
+            int updatePerformed = m_logRepository.Update(logToUpdate, username);
+
+            if (updatePerformed == 1) //update successfull
+            {
+                string success = "Successfully marked as important";
+                return Json(success);
+            }
+            else //update failed 
+            {
+                string failed = "Email entered by the user was not found in user database";
+                return Json(failed);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult MarkUnimportant([System.Web.Http.FromBody]CombinedLogDataModel logToUpdate)
+        {
+            logToUpdate.Important = null;
+            int updatePerformed = m_logRepository.UndoUpdate(logToUpdate);
+
+            if (updatePerformed == 1)
+            {
+                string success = "Successfully unmarked as important";
+                return Json(success);
+            }
+            else
+            {
+                string failed = "Error";
+                return Json(failed);
+            }
+        }
+
         private readonly ILogRepository m_logRepository;
     }
 }

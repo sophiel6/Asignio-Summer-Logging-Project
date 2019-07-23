@@ -10,6 +10,8 @@ namespace AsignioInternship.Data.CombinedLog
         public int Level { get; set; }
         public string Message { get; set; }
         public string Source { get; set; }
+        public string Important { get; set; }
+        public Guid UserID { get; set; }
     }
 }
 

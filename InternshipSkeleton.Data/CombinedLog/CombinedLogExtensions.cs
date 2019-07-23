@@ -11,12 +11,14 @@ namespace AsignioInternship.Data.CombinedLog
 
                 return new CombinedLogDataModel
                 {
+                    UserID = GuidMapper.Map(source.UserID),
                     EmailAddress = source.EmailAddress,
                     TimeStamp = source.TimeStamp,
                     LogID = GuidMapper.Map(source.LogID),
                     Message = source.Message,
                     Level = source.Level,
                     Source = source.Source,
+                    Important = source.Important,
                 };
             }
 
@@ -29,12 +31,14 @@ namespace AsignioInternship.Data.CombinedLog
             {
                 return new CombinedLogPoco
                 {
+                    UserID = GuidMapper.Map(source.UserID),
                     EmailAddress = source.EmailAddress,
                     TimeStamp = source.TimeStamp,
                     LogID = GuidMapper.Map(source.LogID),
                     Message = source.Message,
                     Level = source.Level,
                     Source = source.Source,
+                    Important = source.Important,
                 };
             }
 

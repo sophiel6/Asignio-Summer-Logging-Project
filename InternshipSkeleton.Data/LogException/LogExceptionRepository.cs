@@ -279,38 +279,6 @@ namespace AsignioInternship.Data.LogException
             return 0;
         }
 
-        // old Update() kept in just in case/for reference:
-        /*
-         public void Update(CombinedLogExceptionDataModel LogToUpdate, Guid UserID)
-        {
-            try
-            {
-                using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
-                {
-                    Byte[] bytes = new Byte[16];
-                    Guid allZeros = new Guid(bytes);
-
-                    if (UserID != allZeros)
-                    {
-                        CombinedLogExceptionPoco poco = LogToUpdate.ToPoco();
-                        db.Update(poco); //I think for some reason the UserID of the poco doesn't match the userID in the sql database?
-                    }
-                    else
-                    {
-                        //what happens if the username entered doesn't match a userID? 
-                    }
-
-                }
-            }
-            catch (Exception ex)
-            {
-                string errorMessage = ex.Message;
-            }
-            finally
-            { }
-        } 
-        */
-
         public int UndoUpdate(CombinedLogExceptionDataModel LogToUpdate)
         {
             try
@@ -390,5 +358,37 @@ namespace AsignioInternship.Data.LogException
             Byte[] bytes = new Byte[16];
             return new Guid(bytes);
         }
+
+        // old Update() kept in just in case/for reference:
+        /*
+         public void Update(CombinedLogExceptionDataModel LogToUpdate, Guid UserID)
+        {
+            try
+            {
+                using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
+                {
+                    Byte[] bytes = new Byte[16];
+                    Guid allZeros = new Guid(bytes);
+
+                    if (UserID != allZeros)
+                    {
+                        CombinedLogExceptionPoco poco = LogToUpdate.ToPoco();
+                        db.Update(poco); //I think for some reason the UserID of the poco doesn't match the userID in the sql database?
+                    }
+                    else
+                    {
+                        //what happens if the username entered doesn't match a userID? 
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                string errorMessage = ex.Message;
+            }
+            finally
+            { }
+        } 
+        */
     }
 }   

@@ -2,7 +2,6 @@
 using AsignioInternship.Data.CombinedLogException;
 using AsignioInternship.Data.LogException;
 using System;
-//using System.Web.Http;
 using System.Web.Mvc;
 
 namespace AsignioInternship.Controllers

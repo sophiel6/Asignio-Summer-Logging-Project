@@ -6,14 +6,13 @@ namespace AsignioInternship.Data.LogInfo
 {
     public interface ILogInfoRepository
     {
-        LogInfoDataModel GetFromUserID(Guid UserID);
-        //LogExceptionDataModel Insert(LogExceptionDataModel dataModel);
-
-        IEnumerable<LogInfoDataModel> GetAllFromUserID(Guid UserID);
-
-        IEnumerable<LogInfoDataModel> GetAll();
-
         PagedDataModelCollection<CombinedLogInfoDataModel> CombinedPageLogInfo(string nameSearchPattern,
                                        string searchColumn, int pageSize, int pageNumber, string sortColumn, string sortDirection);
+
+        int Update(CombinedLogInfoDataModel LogToUpdate, string username);
+
+        int UndoUpdate(CombinedLogInfoDataModel LogToUpdate);
+
+        Guid GetUserIDFromUsername(string username);
     }
 }

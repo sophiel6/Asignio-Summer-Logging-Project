@@ -17,6 +17,8 @@ namespace AsignioInternship.Data.CombinedLogInfo
                     Message = source.Message,
                     MethodName = source.MethodName,
                     Object = source.Object,
+                    UserID = GuidMapper.Map(source.UserID),
+                    Important = source.Important,
                 };
             }
 
@@ -35,6 +37,8 @@ namespace AsignioInternship.Data.CombinedLogInfo
                     Message = source.Message,
                     MethodName = source.MethodName,
                     Object = source.Object,
+                    UserID = GuidMapper.Map(source.UserID),
+                    Important = source.Important,
                 };
             }
 

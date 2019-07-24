@@ -6,7 +6,10 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 @{
     var searchBy = Model.SearchBy;
     var searchInput = Model.SearchInput;
@@ -21,49 +24,64 @@
     listItems.Add(new SelectListItem { Text = "Message", Value = "Message" });
     listItems.Add(new SelectListItem { Text = "Method Name", Value = "MethodName" });
     listItems.Add(new SelectListItem { Text = "Object", Value = "Object" });
+    listItems.Add(new SelectListItem { Text = "Importance", Value = "Important" });
+
 
     List<SelectListItem> searchCategories = new List<SelectListItem>();
     searchCategories.Add(new SelectListItem { Text = "Email Address", Value = "EmailAddress" });
     searchCategories.Add(new SelectListItem { Text = "Message", Value = "Message" });
     searchCategories.Add(new SelectListItem { Text = "Method Name", Value = "MethodName" });
     searchCategories.Add(new SelectListItem { Text = "Object", Value = "Object" });
+    searchCategories.Add(new SelectListItem { Text = "Importance", Value = "Important" });
 }
 
-@using (Html.BeginRouteForm("Search", new { controller = "Log", action = "Index" }))
+@using (Html.BeginRouteForm("Search", new { controller = "LogInfo", action = "Index" }))
 {
-    <div class="container">
-        <div class="block" style="width: 20% !important; display: inline;">
-            @Html.Label("Sort by: ")
-            @Html.DropDownList("sortBy", listItems)
+    <div class="container" style="padding-top: 50px !important;">
+        <div class="block" style="width: 25% !important; display: inline-block;">
+            @Html.Label("Sort by: ", new { @class = "mydropdown" })
+            @Html.DropDownList("sortBy", listItems, new { @class = "mydropdown" })
         </div>
-        <div class="block" style="width: 20% !important; display: inline;">
-            @Html.Label("Search by: ")
-            @Html.DropDownList("searchBy", searchCategories)
+        <div class="block" style="width: 25% !important; display: inline-block; ">
+            @Html.Label("Search by: ", new { @class = "mydropdown" })
+            @Html.DropDownList("searchBy", searchCategories, new { @class = "mydropdown" })
         </div>
-        <div class="block" style="width: 20% !important; display: inline;">
-            @Html.Label("Search for: ")
-            @Html.TextBox("searchInput")
+        <div class="block" style="width: 25% !important; display: inline-block; ">
+            @Html.Label("*Search for: ", new { @class = "mydropdown" })
+            @Html.TextBox("searchInput", null, new { @class = "mydropdown" })
         </div>
-        <div class="block" style="width: 20% !important; display: inline;">
-            @Html.Label("Page: ")
-            @Html.TextBox("id")
+        <div class="block" style="width: 25% !important; display: inline-block; ">
+            @Html.Label("Page: ", new { @class = "mydropdown" })
+            @Html.TextBox("id", null, new { @class = "mydropdown" })
         </div>
-            <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" style="width: 20% !important; display: inline;"/>
+        <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" style="width: 20% !important; display: inline-block;" />
     </div>
 }
 
 <div>
     @Html.ActionLink(linkText: "Previous",
                      actionName: "Index",
-                     controllerName: "Log",
-                     routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput, id = ((id - 1) != 0) ? (id - 1) : id },
+                     controllerName: "LogInfo",
+                     routeValues: new
+                         {
+                             sortBy = sortBy,
+                             searchBy = searchBy,
+                             searchInput = searchInput,
+                         id = ((id - 1) != 0) ? (id - 1) : id
+                         },
                      htmlAttributes: null)
 </div>
 <div>
     @Html.ActionLink(linkText: "Next",
                      actionName: "Index",
-                     controllerName: "Log",
-                     routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput, id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
+                     controllerName: "LogInfo",
+                     routeValues: new
+                         {
+                             sortBy = sortBy,
+                             searchBy = searchBy,
+                             searchInput = searchInput,
+                         id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id
+                         },
                      htmlAttributes: null)
 </div>
 
@@ -73,33 +91,201 @@
 
 @if (!noResults)
 {
-<table style="width:100%; text-align:center;">
-    <thead>
-        <tr>
-            <td>Email Address</td>
-            <td>Time Stamp</td>
-            <td>Web Request ID</td>
-            <td>Message</td>
-            <td>Method Name</td>
-            <td>Object</td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (CombinedLogInfoDataModel currentRow in Model.Items)
-        {
+    <table style="width:100%; text-align:center;">
+        <thead>
             <tr>
-                <td>@currentRow.EmailAddress</td>
-                <td>@currentRow.TimeStamp</td>
-                <td>@currentRow.WebRequestID</td>
-                <td>@currentRow.Message</td>
-                <td>@currentRow.MethodName</td>
-                <td>@currentRow.Object</td>
+                <td>Email Address</td>
+                <td>Time Stamp</td>
+                <td>Web Request ID</td>
+                <td>Message</td>
+                <td>Method Name</td>
+                <td>Object</td>
+                <td>Important</td>
+                <td>Mark as Important</td>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (CombinedLogInfoDataModel currentRow in Model.Items)
+            {
+                <tr>
+                    <td>@currentRow.EmailAddress</td>
+                    <td>@currentRow.TimeStamp</td>
+                    <td>@currentRow.WebRequestID</td>
+                    <td>@currentRow.Message</td>
+                    <td>@currentRow.MethodName</td>
+                    <td>@currentRow.Object</td>
+                    <td>@currentRow.Important</td>
+                    <td>
+                        @if (currentRow.Important == null) //button to mark as important
+                        {
+                            <button class="openModalButton" onclick="openModal('@currentRow.UserID.ToString()',
+                            '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
+                            '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()',
+                            '@currentRow.MethodName.ToString()', '@currentRow.Object.ToString()')">
+                                Mark as important
+                            </button>
+                        }
+                        else //button to unmark as important
+                        {
+                            <button class="markUnimportantButton" onclick="markUnimportant('@currentRow.UserID.ToString()',
+                            '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
+                            '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()',
+                            '@currentRow.MethodName.ToString()', '@currentRow.Object.ToString()')">
+                                Undo
+                            </button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 else
 {
     <h2> No results found. </h2>
+}
+
+<div class="reveal" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out" style="display:none;">
+    <form id="usernameForm">
+        Your Email: <input type="text" name="usernameEntry" />
+        <button onclick="UpdateImportance()">Update</button>
+    </form>
+    <button onclick="closeModal()">Cancel</button>
+</div>
+
+@section scripts
+{
+    <script language="javascript" type="text/javascript">
+    var exampleModal;
+    var exampleModalVisible = false;
+
+    var currentUserID = null;
+    var currentEmailAddress = null;
+    var currentTimeStamp = null;
+    var currentWebRequestID = null;
+    var currentMessage = null;
+    var currentMethodName = null;
+    var currentObject = null;
+
+    function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, Message, MethodName, Object) {
+        event.preventDefault;
+
+        currentUserID = UserID;
+        currentEmailAddress = EmailAddress;
+        currentTimeStamp = TimeStamp;
+        currentWebRequestID = WebRequestID;
+        currentMessage = Message;
+        currentMethodName = MethodName;
+        currentObject = Object;
+
+        exampleModal.open();
+    }
+
+    function closeModal() {
+        event.preventDefault;
+
+        currentUserID = null;
+        currentEmailAddress = null;
+        currentTimeStamp = null;
+        currentWebRequestID = null;
+        currentMessage = null;
+        currentMethodName = null;
+        currentObject = null;
+
+        exampleModal.close();
+    }
+
+    $(document).ready(function () {
+
+        exampleModal = new Foundation.Reveal($("#example-modal"));
+
+        $("#example-modal").on("open.zf.reveal", function () {
+            exampleModalVisible = true;
+        });
+
+        $("#example-modal").on("closed.zf.reveal", function () {
+            exampleModalVisible = false;
+        });
+    });
+
+    function UpdateImportance() {
+        usernameValue = $("[name=usernameEntry]").val();
+
+        var model = {
+            UserID: currentUserID,
+            EmailAddress: currentEmailAddress,
+            TimeStamp: currentTimeStamp,
+            WebRequestID: currentWebRequestID,
+            Message: currentMessage,
+            MethodName: currentMethodName,
+            Object: currentObject,
+        };
+
+        $.ajax({
+            method: "POST",
+            url: "@Url.Action("UpdateImportance", "LogInfo")",
+            dataType: "json",
+            data: {
+                username: usernameValue,
+                logToUpdate: model,
+		    },
+
+            success: function (result) {
+                document.getElementById("usernameForm").reset();
+
+                currentUserID = null;
+                currentEmailAddress = null;
+                currentTimeStamp = null;
+                currentWebRequestID = null;
+                currentMessage = null;
+                currentMethodName = null;
+                currentObject = null;
+
+                alert(result);
+            },
+
+            error: function (result) {
+                alert(result);
+            }
+        });
+    };
+
+    function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentWebRequestID, currentMessage,
+        currentMethodName, currentObject) {
+        var model = {
+            UserID: currentUserID,
+            EmailAddress: currentEmailAddress,
+            TimeStamp: currentTimeStamp,
+            WebRequestID: currentWebRequestID,
+            Message: currentMessage,
+            MethodName: currentMethodName,
+            Source: currentObject,
+        };
+
+        $.ajax({
+            method: "POST",
+            url: "@Url.Action("MarkUnimportant", "LogInfo")",
+            dataType: "json",
+            data: {
+                logToUpdate: model,
+            },
+
+            success: function (result) {
+                currentUserID = null;
+                currentEmailAddress = null;
+                currentTimeStamp = null;
+                currentWebRequestID = null;
+                currentMessage = null;
+                currentMethodName = null;
+                currentObject = null;
+
+                alert(result);
+            },
+
+            error: function (result) {
+                alert(result);
+            }
+        });
+    }
+    </script>
 }

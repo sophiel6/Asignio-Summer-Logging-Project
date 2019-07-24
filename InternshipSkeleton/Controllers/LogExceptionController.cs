@@ -108,4 +108,7 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
  * -change display of Important from email to an image 
  * -make querying by multiple categories possible? 
  * -implement changes for the other tables 
+ * -add ability to make sort order ascending or descending 
+ * -split the search/sort/page form into 3? 
+ * -add ability to only display logs that are marked as important 
  */

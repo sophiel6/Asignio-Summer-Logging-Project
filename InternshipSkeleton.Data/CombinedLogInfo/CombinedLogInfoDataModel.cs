@@ -14,6 +14,8 @@ namespace AsignioInternship.Data.CombinedLogInfo
         public string Message { get; set; }
         public string MethodName { get; set; }
         public string Object { get; set; }
+        public Guid UserID { get; set; }
+        public string Important { get; set; }
     }
 }
 

@@ -20,6 +20,7 @@ namespace AsignioInternship.Data.LogWebRequest
                     Parameters = source.Parameters,
                     UserAgent = source.UserAgent,
                     UserLanguages = source.UserLanguages,
+                    Important = source.Important,
                 };
             }
 
@@ -42,6 +43,7 @@ namespace AsignioInternship.Data.LogWebRequest
                     Parameters = source.Parameters,
                     UserAgent = source.UserAgent,
                     UserLanguages = source.UserLanguages,
+                    Important = source.Important,
                 };
             }
 

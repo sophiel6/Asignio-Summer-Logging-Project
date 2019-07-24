@@ -5,15 +5,10 @@ namespace AsignioInternship.Data.LogWebRequest
 {
     public interface ILogWebRequestRepository
     {
-        LogWebRequestDataModel GetFromUserID(Guid UserID);
-        //LogExceptionDataModel Insert(LogExceptionDataModel dataModel);
-
-        IEnumerable<LogWebRequestDataModel> GetAllFromUserID(Guid UserID);
-
-        IEnumerable<LogWebRequestDataModel> GetAll();
-
         PagedDataModelCollection<LogWebRequestDataModel> PageLogWebRequest(string nameSearchPattern,
                         string searchColumn, int pageSize, int pageNumber, string sortColumn, string sortDirection);
-
+        int Update(LogWebRequestDataModel LogToUpdate, string username);
+        int UndoUpdate(LogWebRequestDataModel LogToUpdate);
+        Guid GetUserIDFromUsername(string username);
     }
 }

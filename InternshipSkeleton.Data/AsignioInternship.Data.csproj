@@ -123,6 +123,7 @@
     <Content Include="DatabaseScripts\alterLogControllerAction_addImportantColumn.sql" />
     <Content Include="DatabaseScripts\alterLogInfo_addImportantColumn.sql" />
     <Content Include="DatabaseScripts\alterLogMySql_addImportantColumn.sql" />
+    <Content Include="DatabaseScripts\alterLogWebRequest_addImportantColumn.sql" />
     <Content Include="DatabaseScripts\alterLog_addImportantColumn.sql" />
     <Content Include="DatabaseScripts\alterLogException_addImportantColumn.sql" />
     <Content Include="DatabaseScripts\exampleInnerJoin.sql" />

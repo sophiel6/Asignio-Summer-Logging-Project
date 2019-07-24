@@ -12,24 +12,7 @@ namespace AsignioInternship.Controllers
         {
             m_logWebRequestRepository = (logWebRequestRepository != null) ? logWebRequestRepository : throw new ArgumentNullException();
         }
-        /*public ActionResult Index()
-        {
-            IEnumerable<LogWebRequestDataModel> result = m_logWebRequestRepository.GetAll();
-            return View(result);
-            //return View();
-        }*/
-
-        /* public ActionResult Index(int? id, PagedDataModelCollection<LogWebRequestDataModel> model)
-        {
-            int pageNum = (id ?? 1);
-            int pageSize = 20;
-            string sortColumn = (model.SortBy) ?? "TimeStamp";
-            string searchInfo = (model.SearchInput) ?? "";
-            string searchColumn = (model.SearchBy) ?? "";
-            PagedDataModelCollection<LogWebRequestDataModel> result = m_logWebRequestRepository.PageLogWebRequest(searchInfo, 
-                                                                    pageSize, pageNum, sortColumn, "ASC");
-            return View(result);
-        } */
+        
         public ActionResult Index(int? id, string searchBy, string searchInput, string sortBy)
         {
             int pageNum;
@@ -43,32 +26,42 @@ namespace AsignioInternship.Controllers
             return View(result);
         }
 
-        public ActionResult ViewAll()
+        [HttpPost]
+        public JsonResult UpdateImportance(string username, [System.Web.Http.FromBody]LogWebRequestDataModel logToUpdate)
         {
-            IEnumerable<LogWebRequestDataModel> result = m_logWebRequestRepository.GetAll();
-            return View(result);
+            logToUpdate.Important = username;
+            int updatePerformed = m_logWebRequestRepository.Update(logToUpdate, username);
+
+            if (updatePerformed == 1) //update successfull
+            {
+                string success = "Successfully marked as important";
+                return Json(success);
+            }
+            else //update failed 
+            {
+                string failed = "Email entered by the user was not found in user database";
+                return Json(failed);
+            }
         }
 
-        public ActionResult AddNew()
+        [HttpPost]
+        public JsonResult MarkUnimportant([System.Web.Http.FromBody]LogWebRequestDataModel logToUpdate)
         {
-            return View();
+            logToUpdate.Important = null;
+            int updatePerformed = m_logWebRequestRepository.UndoUpdate(logToUpdate);
+
+            if (updatePerformed == 1)
+            {
+                string success = "Successfully unmarked as important";
+                return Json(success);
+            }
+            else
+            {
+                string failed = "Error";
+                return Json(failed);
+            }
         }
 
-        public ActionResult Search()
-        {
-            return View();
-        }
-
-        public ActionResult SearchByUserID()
-        {
-            return View();
-        }
-
-        public ActionResult DisplayUserIDResult(Guid UserID)
-        {
-            IEnumerable<LogWebRequestDataModel> result = m_logWebRequestRepository.GetAllFromUserID(UserID);
-            return View(result);
-        }
         private readonly ILogWebRequestRepository m_logWebRequestRepository;
     }
 }

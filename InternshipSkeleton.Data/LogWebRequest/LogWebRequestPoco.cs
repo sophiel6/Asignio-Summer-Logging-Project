@@ -7,7 +7,7 @@ namespace AsignioInternship.Data.LogWebRequest
 {
 
     [PetaPoco.TableName("logwebrequest")]
-    [PetaPoco.PrimaryKey("UserID", autoIncrement = false)] //is this what I should have as primary key? it said ExampleID before
+    [PetaPoco.PrimaryKey("UserID", autoIncrement = false)] 
     internal class LogWebRequestPoco
     {
 
@@ -30,5 +30,6 @@ namespace AsignioInternship.Data.LogWebRequest
         public string Parameters { get; set; }
         public string UserAgent { get; set; }
         public string UserLanguages { get; set; }
+        public string Important { get; set; }
     }
 }

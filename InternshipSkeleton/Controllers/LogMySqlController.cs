@@ -62,12 +62,6 @@ namespace AsignioInternship.Controllers
             }
         }
 
-
         private readonly ILogMySqlRepository m_logMySqlRepository;
-
-        /*
-         * For some reason, modal window doesn't open on certain logs - I think it's logs that have "Message" fields
-         * which contain single quotation marks
-         */
     }
 }

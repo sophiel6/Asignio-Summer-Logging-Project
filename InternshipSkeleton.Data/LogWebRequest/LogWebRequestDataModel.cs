@@ -17,6 +17,7 @@ namespace AsignioInternship.Data.LogWebRequest
         public string Parameters { get; set; }
         public string UserAgent { get; set; }
         public string UserLanguages { get; set; }
+        public string Important { get; set; }
 
     }
 }

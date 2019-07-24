@@ -34,8 +34,9 @@ namespace AsignioInternship.Controllers
             
             if (updatePerformed == 1) //update successfull
             {
-                string success = "Successfully marked as important";
-                return Json(success);
+                //string success = "Successfully marked as important";
+                //return Json(success);
+                return Json(null);
             }
             else //update failed 
             {
@@ -52,8 +53,9 @@ namespace AsignioInternship.Controllers
 
             if (updatePerformed == 1)
             {
-                string success = "Successfully unmarked as important";
-                return Json(success);
+                //string success = "Successfully unmarked as important";
+                //return Json(success);
+                return Json(null);
             }
             else
             {
@@ -105,9 +107,10 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
 
 /*
  * To do: 
- * -change display of Important from email to an image 
+ * -figure out JsonResult stuff in Controllers 
+ * -make page refresh automatically when you mark or unmark something as important 
+ * -change display of Important from email to an icon
  * -make querying by multiple categories possible? 
- * -implement changes for the other tables 
  * -add ability to make sort order ascending or descending 
  * -split the search/sort/page form into 3? 
  * -add ability to only display logs that are marked as important 

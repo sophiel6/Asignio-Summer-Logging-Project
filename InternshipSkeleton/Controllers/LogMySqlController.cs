@@ -36,6 +36,7 @@ namespace AsignioInternship.Controllers
             {
                 string success = "Successfully marked as important";
                 return Json(success);
+                //return Json("");
             }
             else //update failed 
             {
@@ -54,6 +55,8 @@ namespace AsignioInternship.Controllers
             {
                 string success = "Successfully unmarked as important";
                 return Json(success);
+                //return Json(null);
+                //return null;
             }
             else
             {

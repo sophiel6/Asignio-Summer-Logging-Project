@@ -160,7 +160,7 @@ else
 
     function openModal(DateTimeStamp, Message, Function, Type) {
         event.preventDefault;
-        debugger;
+
         currentDateTimeStamp = DateTimeStamp;
         currentMessage = Message;
         currentFunction = Function;
@@ -215,12 +215,16 @@ else
             success: function (result) {
                 document.getElementById("usernameForm").reset();
 
+                var returnedString = JSON.parse(result);
                 currentDateTimeStamp = null;
                 currentMessage = null;
                 currentFunction = null;
                 currentType = null;
 
-                alert(result);
+                window.location.reload();
+                /*if (returnedString != "") {
+                    alert(result);
+                }*/
             },
 
             error: function (result) {
@@ -244,14 +248,17 @@ else
             data: {
                 logToUpdate: model,
             },
-
             success: function (result) {
                 currentDateTimeStamp = null;
                 currentMessage = null;
                 currentFunction = null;
                 currentType = null;
 
-                alert(result);
+                /*if (result != null) {
+                    alert(result);
+                }*/
+
+                window.location.reload();
             },
 
             error: function (result) {

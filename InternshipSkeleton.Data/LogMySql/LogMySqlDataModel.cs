@@ -12,5 +12,7 @@ namespace AsignioInternship.Data.LogMySql
         public string Message { get; set; }
         public string Function { get; set; }
         public int Type { get; set; }
+        public string Important { get; set; }
+
     }
 }

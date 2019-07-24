@@ -7,7 +7,10 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 @{
     var searchBy = Model.SearchBy;
     var searchInput = Model.SearchInput;
@@ -21,35 +24,35 @@
     listItems.Add(new SelectListItem { Text = "Message", Value = "Message" });
     listItems.Add(new SelectListItem { Text = "Type", Value = "Type" });
     listItems.Add(new SelectListItem { Text = "Function", Value = "Function" });
-
+    listItems.Add(new SelectListItem { Text = "Importance", Value = "Important" });
 
     List<SelectListItem> searchCategories = new List<SelectListItem>();
     searchCategories.Add(new SelectListItem { Text = "Message", Value = "Message" });
     searchCategories.Add(new SelectListItem { Text = "Type", Value = "Type" });
     searchCategories.Add(new SelectListItem { Text = "Function", Value = "Function" });
+    searchCategories.Add(new SelectListItem { Text = "Importance", Value = "Important" });
 }
 
-<!-- if there are no data in the query result, try to make it display "No results" -->
 @using (Html.BeginRouteForm("Search", new { controller = "LogMySql", action = "Index" }))
 {
-    <div class="container">
-        <div class="block" style="width: 20% !important; display: inline;">
-            @Html.Label("Sort by: ")
-            @Html.DropDownList("sortBy", listItems)
+    <div class="container" style="padding-top: 50px !important;">
+        <div class="block" style="width: 25% !important; display: inline-block;">
+            @Html.Label("Sort by: ", new { @class = "mydropdown" })
+            @Html.DropDownList("sortBy", listItems, new { @class = "mydropdown" })
         </div>
-        <div class="block" style="width: 20% !important; display: inline;">
-            @Html.Label("Search by: ")
-            @Html.DropDownList("searchBy", searchCategories)
+        <div class="block" style="width: 25% !important; display: inline-block; ">
+            @Html.Label("Search by: ", new { @class = "mydropdown" })
+            @Html.DropDownList("searchBy", searchCategories, new { @class = "mydropdown" })
         </div>
-        <div class="block" style="width: 20% !important; display: inline;">
-            @Html.Label("Search for: ")
-            @Html.TextBox("searchInput")
+        <div class="block" style="width: 25% !important; display: inline-block; ">
+            @Html.Label("*Search for: ", new { @class = "mydropdown" })
+            @Html.TextBox("searchInput", null, new { @class = "mydropdown" })
         </div>
-        <div class="block" style="width: 20% !important; display: inline;">
-            @Html.Label("Page: ")
-            @Html.TextBox("id")
+        <div class="block" style="width: 25% !important; display: inline-block; ">
+            @Html.Label("Page: ", new { @class = "mydropdown" })
+            @Html.TextBox("id", null, new { @class = "mydropdown" })
         </div>
-        <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" style="width: 20% !important; display:inline;" />
+        <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" style="width: 20% !important; display: inline-block;" />
     </div>
 }
 
@@ -57,16 +60,26 @@
     @Html.ActionLink(linkText: "Previous",
                         actionName: "Index",
                         controllerName: "LogMySql",
-                        routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput,
-                                                                    id = ((id - 1) != 0) ? (id - 1) : id },
+                        routeValues: new
+                            {
+                                sortBy = sortBy,
+                                searchBy = searchBy,
+                                searchInput = searchInput,
+                                id = ((id - 1) != 0) ? (id - 1) : id
+                            },
                         htmlAttributes: null)
 </div>
 <div>
     @Html.ActionLink(linkText: "Next",
                         actionName: "Index",
                         controllerName: "LogMySql",
-                        routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput,
-                                                     id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
+                        routeValues: new
+                            {
+                                sortBy = sortBy,
+                                searchBy = searchBy,
+                                searchInput = searchInput,
+                                id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id
+                            },
                         htmlAttributes: null)
 </div>
 
@@ -76,31 +89,179 @@
 
 @if (!noResults)
 {
-<table style="width:100%; text-align:center;">
-    <thead>
-        <tr>
-            <td>Date-Time Stamp</td>
-            <td>Message</td>
-            <td>Function</td>
-            <td>Type</td>
-        </tr>
-
-    </thead>
-    <tbody>
-
-        @foreach (LogMySqlDataModel currentRow in Model.Items)
-        {
+    <table style="width:100%; text-align:center;">
+        <thead>
             <tr>
-                <td>@currentRow.DateTimeStamp</td>
-                <td>@currentRow.Message</td>
-                <td>@currentRow.Function</td>
-                <td>@currentRow.Type</td>
+                <td>Date-Time Stamp</td>
+                <td>Message</td>
+                <td>Function</td>
+                <td>Type</td>
+                <td>Important</td>
+                <td>Mark as Important</td>
             </tr>
-        }
-    </tbody>
-</table>
+
+        </thead>
+        <tbody>
+
+            @foreach (LogMySqlDataModel currentRow in Model.Items)
+            {
+                <tr>
+                    <td>@currentRow.DateTimeStamp</td>
+                    <td>@currentRow.Message</td>
+                    <td>@currentRow.Function</td>
+                    <td>@currentRow.Type</td>
+                    <td>@currentRow.Important</td>
+                    <td>
+                        @if (currentRow.Important == null) //button to mark as important
+                        {
+                            string fixedMessage = currentRow.Message.ToString().Replace("'","\\'");
+                            <button class="openModalButton" onclick="openModal('@currentRow.DateTimeStamp.ToString()',
+                            '@fixedMessage', '@currentRow.Function.ToString()','@currentRow.Type.ToString()')">
+                                Mark as important
+                            </button>
+                        }
+                        else //button to unmark as important
+                        {
+                             string fixedMessage = currentRow.Message.ToString().Replace("'","\\'");
+                            <button class="markUnimportantButton" onclick="markUnimportant('@currentRow.DateTimeStamp.ToString()',
+                            '@fixedMessage', '@currentRow.Function.ToString()','@currentRow.Type.ToString()')">
+                                Undo
+                            </button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 else
 {
     <h2> No results found. </h2>
+}
+
+<div class="reveal" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out" style="display:none;">
+    <form id="usernameForm">
+        Your Email: <input type="text" name="usernameEntry" />
+        <button onclick="UpdateImportance()">Update</button>
+    </form>
+    <button onclick="closeModal()">Cancel</button>
+</div>
+
+@section scripts
+{
+    <script language="javascript" type="text/javascript">
+    var exampleModal;
+    var exampleModalVisible = false;
+
+    var currentDateTimeStamp = null;
+    var currentMessage = null;
+    var currentFunction = null;
+    var currentType = null;
+
+    function openModal(DateTimeStamp, Message, Function, Type) {
+        event.preventDefault;
+        debugger;
+        currentDateTimeStamp = DateTimeStamp;
+        currentMessage = Message;
+        currentFunction = Function;
+        currentType = Type;
+
+        exampleModal.open();
+    }
+
+    function closeModal() {
+        event.preventDefault;
+
+        currentDateTimeStamp = null;
+        currentMessage = null;
+        currentFunction = null;
+        currentType = null;
+
+        exampleModal.close();
+    }
+
+    $(document).ready(function () {
+
+        exampleModal = new Foundation.Reveal($("#example-modal"));
+
+        $("#example-modal").on("open.zf.reveal", function () {
+            exampleModalVisible = true;
+        });
+
+        $("#example-modal").on("closed.zf.reveal", function () {
+            exampleModalVisible = false;
+        });
+    });
+
+    function UpdateImportance() {
+        usernameValue = $("[name=usernameEntry]").val();
+
+        var model = {
+            DateTimeStamp: currentDateTimeStamp,
+            Message: currentMessage,
+            Function: currentFunction,
+            Type: currentType,
+        };
+
+        $.ajax({
+            method: "POST",
+            url: "@Url.Action("UpdateImportance", "LogMySql")",
+            dataType: "json",
+            data: {
+                username: usernameValue,
+                logToUpdate: model,
+		    },
+
+            success: function (result) {
+                document.getElementById("usernameForm").reset();
+
+                currentDateTimeStamp = null;
+                currentMessage = null;
+                currentFunction = null;
+                currentType = null;
+
+                alert(result);
+            },
+
+            error: function (result) {
+                alert(result);
+            }
+        });
+    };
+
+    function markUnimportant(currentDateTimeStamp, currentMessage, currentFunction, currentType) {
+        var model = {
+            DateTimeStamp: currentDateTimeStamp,
+            Message: currentMessage,
+            Function: currentFunction,
+            Type: currentType,
+        };
+
+        $.ajax({
+            method: "POST",
+            url: "@Url.Action("MarkUnimportant", "LogMySql")",
+            dataType: "json",
+            data: {
+                logToUpdate: model,
+            },
+
+            success: function (result) {
+                currentUserID = null;
+                currentEmailAddress = null;
+                currentTimeStamp = null;
+                currentWebRequestID = null;
+                currentMessage = null;
+                currentMethodName = null;
+                currentSource = null;
+                currentStackTrace = null;
+
+                alert(result);
+            },
+
+            error: function (result) {
+                alert(result);
+            }
+        });
+    }
+    </script>
 }

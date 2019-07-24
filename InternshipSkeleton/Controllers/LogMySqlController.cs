@@ -12,23 +12,6 @@ namespace AsignioInternship.Controllers
         {
             m_logMySqlRepository = (logMySqlRepository != null) ? logMySqlRepository : throw new ArgumentNullException();
         }
-        /*public ActionResult Index()
-        {
-            IEnumerable<LogMySqlDataModel> result = m_logMySqlRepository.GetAll();
-            return View(result);
-        }*/
-
-        /*public ActionResult Index(int? id, PagedDataModelCollection<LogMySqlDataModel> model)
-        {
-            int pageNum = (id ?? 1);
-            int pageSize = 68;
-            string sortColumn = (model.SortBy) ?? "DateTimeStamp";
-            string searchInfo = (model.SearchInput) ?? "";
-            string searchColumn = (model.SearchBy) ?? "";
-            PagedDataModelCollection<LogMySqlDataModel> result = m_logMySqlRepository.PageLogMySql(searchInfo,
-                                                                    pageSize, pageNum, sortColumn, "ASC");
-            return View(result);
-        }*/
 
         public ActionResult Index(int? id, string searchBy, string searchInput, string sortBy)
         {
@@ -43,17 +26,48 @@ namespace AsignioInternship.Controllers
             return View(result);
         }
 
-        public ActionResult ViewAll()
+        [HttpPost]
+        public JsonResult UpdateImportance(string username, [System.Web.Http.FromBody]LogMySqlDataModel logToUpdate)
         {
-            IEnumerable<LogMySqlDataModel> result = m_logMySqlRepository.GetAll();
-            return View(result);
+            logToUpdate.Important = username;
+            int updatePerformed = m_logMySqlRepository.Update(logToUpdate, username);
+
+            if (updatePerformed == 1) //update successfull
+            {
+                string success = "Successfully marked as important";
+                return Json(success);
+            }
+            else //update failed 
+            {
+                string failed = "Email entered by the user was not found in user database";
+                return Json(failed);
+            }
         }
 
-        public ActionResult AddNew()
+        [HttpPost]
+        public JsonResult MarkUnimportant([System.Web.Http.FromBody]LogMySqlDataModel logToUpdate)
         {
-            return View();
+            logToUpdate.Important = null;
+            int updatePerformed = m_logMySqlRepository.UndoUpdate(logToUpdate);
+
+            if (updatePerformed == 1)
+            {
+                string success = "Successfully unmarked as important";
+                return Json(success);
+            }
+            else
+            {
+                string failed = "Error";
+                return Json(failed);
+            }
         }
+
 
         private readonly ILogMySqlRepository m_logMySqlRepository;
+
+        /*
+         * For some reason, modal window doesn't open on certain logs - I think it's logs that have "Message" fields
+         * which contain single quotation marks
+         */
     }
 }

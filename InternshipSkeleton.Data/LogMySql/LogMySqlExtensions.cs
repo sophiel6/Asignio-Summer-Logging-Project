@@ -15,9 +15,9 @@ namespace AsignioInternship.Data.LogMySql
                     Message = source.Message,
                     Function = source.Function,
                     Type = source.Type,
+                    Important = source.Important,
                 };
             }
-
             return null;
         }
 
@@ -25,16 +25,15 @@ namespace AsignioInternship.Data.LogMySql
         {
             if (null != source)
             {
-
                 return new LogMySqlPoco
                 {
                     DateTimeStamp = source.DateTimeStamp,
                     Message = source.Message,
                     Function = source.Function,
                     Type = source.Type,
+                    Important = source.Important,
                 };
             }
-
             return null;
         }
     }

@@ -12,5 +12,7 @@ namespace AsignioInternship.Data.CombinedLogWebResponse
         public byte[] WebRequestID { get; set; }
         public string Status { get; set; }
         public string RedirectLocation { get; set; }
+        public byte[] UserID { get; set; }
+        public string Important { get; set; }
     }
 }

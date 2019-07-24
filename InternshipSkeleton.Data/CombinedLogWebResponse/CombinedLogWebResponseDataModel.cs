@@ -9,6 +9,8 @@ namespace AsignioInternship.Data.CombinedLogWebResponse
         public Guid WebRequestID { get; set; }
         public string Status { get; set; }
         public string RedirectLocation { get; set; }
+        public Guid UserID { get; set; }
+        public string Important { get; set; }
     }
 }
 

@@ -15,6 +15,8 @@ namespace AsignioInternship.Data.CombinedLogWebResponse
                     WebRequestID = GuidMapper.Map(source.WebRequestID),
                     Status = source.Status,
                     RedirectLocation = source.RedirectLocation,
+                    UserID = GuidMapper.Map(source.UserID),
+                    Important = source.Important,
                 };
             }
             return null;
@@ -31,6 +33,8 @@ namespace AsignioInternship.Data.CombinedLogWebResponse
                     WebRequestID = GuidMapper.Map(source.WebRequestID),
                     Status = source.Status,
                     RedirectLocation = source.RedirectLocation,
+                    UserID = GuidMapper.Map(source.UserID),
+                    Important = source.Important,
                 };
             }
             return null;

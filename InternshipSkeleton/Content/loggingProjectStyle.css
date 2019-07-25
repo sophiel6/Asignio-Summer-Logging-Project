@@ -7,6 +7,17 @@ body {
     padding: 0px !important;
     font-size: 14px !important;
     margin: 8px 0;
+    -webkit-appearance: menulist !important;
+}
+
+.mytextbox {
+    padding: 0px !important;
+    font-size: 14px !important;
+}
+
+.mylabel {
+    padding: 0px !important;
+    font-size: 14px !important;
 }
 
 .openModalButton {

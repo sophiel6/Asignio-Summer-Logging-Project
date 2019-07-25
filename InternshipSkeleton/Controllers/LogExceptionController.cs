@@ -103,13 +103,13 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
 
 /*
  * To do: 
+ * -split the search/sort/page form into 3? 
+ * -add ability to only display logs that are marked as important 
  * -fix issue with LogInfo, LogWebRequest, LogWebResponse - 
  *      they require the user to press refresh in order for new Important field to appear 
  * -change display of Important from email to an icon
  * -make querying by multiple categories possible? 
  * -add ability to make sort order ascending or descending 
  * -make it so you can click on a column heading to sort by that column & click again to switch sort order
- * -split the search/sort/page form into 3? 
- * -add ability to only display logs that are marked as important 
  * -add down-arrow back to sortby and searchby dropdowns 
  */

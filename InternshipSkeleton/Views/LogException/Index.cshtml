@@ -39,10 +39,8 @@
 @using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }))
 {
     <div class="container" style="padding-top: 50px !important;">
-        <div class="block" style="width: 25% !important; display: inline-block;">    
-            @Html.Label("Sort by: ", new { @class = "mylabel" })
-            @Html.DropDownList("sortBy", listItems, new { @class = "mydropdown" })
-        </div>
+        @Html.HiddenFor(m => m.SortBy)
+
         <div class="block" style="width: 25% !important; display: inline-block; ">
             @Html.Label("Search by: ", new { @class = "mylabel" })
             @Html.DropDownList("searchBy", searchCategories, new { @class = "mydropdown" })
@@ -51,31 +49,64 @@
             @Html.Label("*Search for: ", new { @class = "mylabel" })
             @Html.TextBox("searchInput", null, new { @class = "mytextbox" })
         </div>
-        <div class="block" style="width: 25% !important; display: inline-block; ">
-            @Html.Label("Page: ", new { @class = "mylabel" })
-            @Html.TextBox("id", null, new { @class = "mytextbox" })
-        </div>
-        <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" style="width: 20% !important; display: inline-block;" />
+
+        <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" style="width: 50px; display: inline-block;" />
     </div>
 }
 *If searching by TimeStamp, make sure the format is YYYY-MM-DD
 
-<div>
-    @Html.ActionLink(linkText: "Previous",
-                        actionName: "Index",
-                        controllerName: "LogException",
-                        routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput,
-                            id = ((id - 1) != 0) ? (id - 1) : id },
-                        htmlAttributes: null)
-</div>
-<div>
-    @Html.ActionLink(linkText: "Next",
-                        actionName: "Index",
-                        controllerName: "LogException",
-                        routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput,
-                            id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
-                        htmlAttributes: null)
-</div>
+<!-- Sort form -->
+@using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }, FormMethod.Post, new { id = "id" }))
+{
+    @Html.Label("Sort by: ", new { @class = "mylabel" })
+    @Html.DropDownList("sortBy", listItems, new { @class = "mydropdown", onchange = "this.form.submit();" })
+
+    @Html.HiddenFor(m => m.SearchBy)
+    @Html.HiddenFor(m => m.SearchInput)
+}
+<div class="container">
+        <div class="btn-group">
+            @Html.ActionLink(linkText: "First",
+                            actionName: "Index",
+                            controllerName: "LogException",
+                            routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput, id = 1 },
+                            htmlAttributes: new { @class = "btn btn-default" })
+            @Html.ActionLink(linkText: "Previous",
+                            actionName: "Index",
+                            controllerName: "LogException",
+                            routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput, id = ((id - 1) != 0) ? (id - 1) : id },
+                            htmlAttributes: new { @class = "btn btn-default" })
+            @Html.ActionLink(linkText: "Next",
+                            actionName: "Index",
+                            controllerName: "LogException",
+                            routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput, id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
+                            htmlAttributes: new { @class = "btn btn-default" })
+            @Html.ActionLink(linkText: "Last",
+                            actionName: "Index",
+                            controllerName: "LogException",
+                            routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput, id = Model.TotalPages },
+                            htmlAttributes: new { @class = "btn btn-default" })
+        </div>
+
+        @using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }))
+        {
+            <div class="block">
+                @Html.Label("Page: ", new { @class = "mylabel" })
+                @Html.TextBox("id", null, new { @class = "mytextbox" })
+
+                @Html.HiddenFor(m => m.SortBy)
+                @Html.HiddenFor(m => m.SearchBy)
+                @Html.HiddenFor(m => m.SearchInput)
+            </div>
+
+            <div class="block">
+                <input type="submit" name="btnSubmit" value="Jump to page" class="btn btn-default" style=" display: inline-block;" />
+            </div>
+        }
+
+    </div>
+
+
 
 <div>
     Current Page: @Model.PageNumber/@Model.TotalPages
@@ -109,6 +140,12 @@
                     <td>@currentRow.Source</td>
                     <td>@currentRow.StackTrace</td>
                     <td>@currentRow.Important</td>
+                    <!-- icon will go here
+                         button with onClick="openModal()" where openModal contains
+                         x.classList.toggle("change");
+                        the css will have settings for the icon and
+                        .change settings for the icon
+                        https://www.w3schools.com/howto/howto_css_menu_icon.asp -->
                     <td>
                         @if (currentRow.Important == null) //button to mark as important
                         {
@@ -119,13 +156,13 @@
                                 Mark as important
                             </button>
                         }
-                        else //button to unmark as important 
+                        else //button to unmark as important
                         {
                             <button class="markUnimportantButton" onclick="markUnimportant('@currentRow.UserID.ToString()',
                             '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
                             '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()',
                             '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()', '@currentRow.StackTrace.ToString()')">
-                            Undo
+                                Undo
                             </button>
                         }
                     </td>
@@ -148,7 +185,8 @@ else
 </div>
 
 @section scripts
-{ <script language="javascript" type="text/javascript">
+{
+    <script language="javascript" type="text/javascript">
     var exampleModal;
     var exampleModalVisible = false;
 
@@ -161,7 +199,7 @@ else
     var currentSource = null;
     var currentStackTrace = null;
 
-    function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, Message, MethodName, Source, StackTrace) {        
+    function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, Message, MethodName, Source, StackTrace) {
         event.preventDefault;
 
         currentUserID = UserID;

@@ -25,6 +25,7 @@ namespace AsignioInternship
                 url: "{controller}/{action}/{searchBy}/{searchInput}/{sortBy}/{id}",
                 defaults: new {controller = "Home", action = "Index", id = UrlParameter.Optional, searchBy = "", searchInput="", sortBy = "TimeStamp" }
             ); 
+
         }
 	}
 }

@@ -215,20 +215,21 @@ else
             success: function (result) {
                 document.getElementById("usernameForm").reset();
 
-                var returnedString = JSON.parse(result);
                 currentDateTimeStamp = null;
                 currentMessage = null;
                 currentFunction = null;
                 currentType = null;
 
-                window.location.reload();
-                /*if (returnedString != "") {
-                    alert(result);
-                }*/
+                if (result.IsCreated) {
+                    window.location.reload();
+                }
+                else {
+                    alert(result.ErrorMessage);
+                }
             },
 
             error: function (result) {
-                alert(result);
+                alert(result.ErrorMessage);
             }
         });
     };
@@ -254,15 +255,16 @@ else
                 currentFunction = null;
                 currentType = null;
 
-                /*if (result != null) {
-                    alert(result);
-                }*/
-
-                window.location.reload();
+                if (result.IsCreated) {
+                    window.location.reload();
+                }
+                else {
+                    alert(result.ErrorMessage);
+                }
             },
 
             error: function (result) {
-                alert(result);
+                alert(result.ErrorMessage);
             }
         });
     }

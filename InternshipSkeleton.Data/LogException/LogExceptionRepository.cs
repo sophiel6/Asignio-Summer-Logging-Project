@@ -168,7 +168,6 @@ namespace AsignioInternship.Data.LogException
                     
                     if (!string.IsNullOrWhiteSpace(nameSearchPattern) && !string.IsNullOrWhiteSpace(searchColumn))
                     {
-
                         if (nameSearchPattern.Contains("@")) //format email
                         {
                             string[] sections = nameSearchPattern.Split(new[] { '@' });
@@ -264,10 +263,7 @@ namespace AsignioInternship.Data.LogException
                     }
 
                     else
-                    {
-                        return 0;
-                    }
-
+                    { return 0; }
                 }
             }
             catch (Exception ex)
@@ -341,7 +337,6 @@ namespace AsignioInternship.Data.LogException
                     }
                     else
                     {
-                        //not sure - for now returning a guid of all zeros
                         Byte[] allZeroByte = new Byte[16];
                         return new Guid(allZeroByte);
                     }
@@ -354,7 +349,6 @@ namespace AsignioInternship.Data.LogException
             finally
             { }
 
-            //returning an all-0 guid
             Byte[] bytes = new Byte[16];
             return new Guid(bytes);
         }

@@ -224,11 +224,16 @@ else
                 currentRawURL = null;
                 currentParameters = null;
 
-                alert(result);
+                if (result.IsCreated) {
+                    window.location.reload();
+                }
+                else {
+                    alert(result.ErrorMessage);
+                }
             },
 
             error: function (result) {
-                alert(result);
+                alert(result.ErrorMessage);
             }
         });
     };
@@ -257,11 +262,16 @@ else
                 currentRawURL = null;
                 currentParameters = null;
 
-                alert(result);
+                if (result.IsCreated) {
+                    window.location.reload();
+                }
+                else {
+                    alert(result.ErrorMessage);
+                }
             },
 
             error: function (result) {
-                alert(result);
+                alert(result.ErrorMessage);
             }
         });
     }

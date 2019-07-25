@@ -227,11 +227,16 @@ else
                 currentStatus = null;
                 //currentRedirectLocation = null;
 
-                alert(result);
+                if (result.IsCreated) {
+                    window.location.reload();
+                }
+                else {
+                    alert(result.ErrorMessage);
+                }
             },
 
             error: function (result) {
-                alert(result);
+                alert(result.ErrorMessage);
             }
         });
     };
@@ -262,11 +267,16 @@ else
                 currentStatus = null;
                 //currentRedirectLocation = null;
 
-                alert(result);
+                if (result.IsCreated) {
+                    window.location.reload();
+                }
+                else {
+                    alert(result.ErrorMessage);
+                }
             },
 
             error: function (result) {
-                alert(result);
+                alert(result.ErrorMessage);
             }
         });
     }

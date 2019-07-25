@@ -240,11 +240,16 @@ else
                 currentActionName = null;
                 currentParameters = null;
 
-                window.location.reload();
+                if (result.IsCreated) {
+                    window.location.reload();
+                }
+                else {
+                    alert(result.ErrorMessage);
+                }
             },
 
             error: function (result) {
-                alert(result);
+                alert(result.ErrorMessage);
             }
         });
     };
@@ -278,11 +283,16 @@ else
                 currentActionName = null;
                 currentParameters = null;
 
-                window.location.reload();
+                if (result.IsCreated) {
+                    window.location.reload();
+                }
+                else {
+                    alert(result.ErrorMessage);
+                }
             },
 
             error: function (result) {
-                alert(result);
+                alert(result.ErrorMessage);
             }
         });
     }

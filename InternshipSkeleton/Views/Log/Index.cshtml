@@ -199,7 +199,7 @@ else
 
     function UpdateImportance() {
         usernameValue = $("[name=usernameEntry]").val();
-        debugger;
+        
         var model = {
             UserID: currentUserID,
             EmailAddress: currentEmailAddress,
@@ -230,11 +230,16 @@ else
                 currentMessage = null;
                 currentSource = null;
 
-                window.location.reload();
+                if (result.IsCreated) {
+                    window.location.reload();
+                }
+                else {
+                    alert(result.ErrorMessage);
+                }
             },
 
             error: function (result) {
-                alert(result);
+                alert(result.ErrorMessage);
             }
         });
     };
@@ -267,11 +272,16 @@ else
                 currentMessage = null;
                 currentSource = null;
 
-                window.location.reload();
+                if (result.IsCreated) {
+                    window.location.reload();
+                }
+                else {
+                    alert(result.ErrorMessage);
+                }
             },
 
             error: function (result) {
-                alert(result);
+                alert(result.ErrorMessage);
             }
         });
     }

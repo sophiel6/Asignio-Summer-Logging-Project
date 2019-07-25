@@ -34,14 +34,12 @@ namespace AsignioInternship.Controllers
             
             if (updatePerformed == 1) //update successfull
             {
-                //string success = "Successfully marked as important";
-                //return Json(success);
-                return Json(null);
+                string success = "Successfully marked as important";
+                return Json(new { IsCreated = true, Content = success });
             }
             else //update failed 
             {
-                string failed = "Email entered by the user was not found in user database";
-                return Json(failed);
+                return Json(new { IsCreated = false, ErrorMessage = "Email entered by the user was not found in user database" });
             }
         }  
         
@@ -53,14 +51,12 @@ namespace AsignioInternship.Controllers
 
             if (updatePerformed == 1)
             {
-                //string success = "Successfully unmarked as important";
-                //return Json(success);
-                return Json(null);
+                string success = "Successfully unmarked as important";
+                return Json(new { IsCreated = true, Content = success });
             }
             else
             {
-                string failed = "Error";
-                return Json(failed);
+                return Json(new { IsCreated = false, ErrorMessage = "Error" });
             }
         }
 
@@ -107,8 +103,6 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
 
 /*
  * To do: 
- * -figure out JsonResult stuff in Controllers 
- * -make page refresh automatically when you mark or unmark something as important 
  * -change display of Important from email to an icon
  * -make querying by multiple categories possible? 
  * -add ability to make sort order ascending or descending 

@@ -35,12 +35,11 @@ namespace AsignioInternship.Controllers
             if (updatePerformed == 1) //update successfull
             {
                 string success = "Successfully marked as important";
-                return Json(success);
+                return Json(new { IsCreated = true, Content = success });
             }
             else //update failed 
             {
-                string failed = "Email entered by the user was not found in user database";
-                return Json(failed);
+                return Json(new { IsCreated = false, ErrorMessage = "Email entered by the user was not found in user database" });
             }
         }
 
@@ -53,12 +52,11 @@ namespace AsignioInternship.Controllers
             if (updatePerformed == 1)
             {
                 string success = "Successfully unmarked as important";
-                return Json(success);
+                return Json(new { IsCreated = true, Content = success });
             }
             else
             {
-                string failed = "Error";
-                return Json(failed);
+                return Json(new { IsCreated = false, ErrorMessage = "Error" });
             }
         }
 

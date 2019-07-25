@@ -240,13 +240,16 @@ else
                 currentSource = null;
                 currentStackTrace = null;
 
-                window.location.reload();
-
-                //alert(result);
+                if (result.IsCreated) {
+                    window.location.reload();
+                }
+                else {
+                    alert(result.ErrorMessage);
+                }
             },
 
             error: function (result) {
-                alert(result);
+                alert(result.ErrorMessage);
             }
         });
     };
@@ -282,13 +285,16 @@ else
                 currentSource = null;
                 currentStackTrace = null;
 
-                //alert(result);
-                window.location.reload();
-
+                if (result.IsCreated) {
+                    window.location.reload();
+                }
+                else {
+                    alert(result.ErrorMessage);
+                }
             },
 
             error: function (result) {
-                alert(result);
+                alert(result.ErrorMessage);
             }
         });
     }

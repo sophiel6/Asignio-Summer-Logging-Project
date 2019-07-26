@@ -35,7 +35,7 @@
     searchCategories.Add(new SelectListItem { Text = "Stack Trace", Value = "StackTrace" });
     searchCategories.Add(new SelectListItem { Text = "Importance", Value = "Important" });
 }
-
+<!-- Search form -->
 @using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }))
 {
     <div class="container" style="padding-top: 50px !important;">
@@ -64,7 +64,10 @@
     @Html.HiddenFor(m => m.SearchBy)
     @Html.HiddenFor(m => m.SearchInput)
 }
+
+<!-- Paging stuff -->
 <div class="container">
+    <div class="text-center">
         <div class="btn-group">
             @Html.ActionLink(linkText: "First",
                             actionName: "Index",
@@ -87,26 +90,21 @@
                             routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput, id = Model.TotalPages },
                             htmlAttributes: new { @class = "btn btn-default" })
         </div>
-
-        @using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }))
-        {
-            <div class="block">
-                @Html.Label("Page: ", new { @class = "mylabel" })
-                @Html.TextBox("id", null, new { @class = "mytextbox" })
-
-                @Html.HiddenFor(m => m.SortBy)
-                @Html.HiddenFor(m => m.SearchBy)
-                @Html.HiddenFor(m => m.SearchInput)
-            </div>
-
-            <div class="block">
-                <input type="submit" name="btnSubmit" value="Jump to page" class="btn btn-default" style=" display: inline-block;" />
-            </div>
-        }
-
     </div>
 
+    @using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }))
+    {
+        <div class="block">
+            @Html.Label("Page: ", new { @class = "mylabel" })
+            @Html.TextBox("id", null, new { @class = "mytextbox" })
 
+            @Html.HiddenFor(m => m.SortBy)
+            @Html.HiddenFor(m => m.SearchBy)
+            @Html.HiddenFor(m => m.SearchInput)
+        </div>
+        <input type="submit" name="btnSubmit" value="Jump to page" class="btn btn-default" style=" display: inline-block;" />
+    }
+</div>
 
 <div>
     Current Page: @Model.PageNumber/@Model.TotalPages
@@ -125,48 +123,61 @@
                 <td>Source</td>
                 <td>Stack Trace</td>
                 <td>Important</td>
-                <td>Mark as Important</td>
             </tr>
         </thead>
         <tbody>
             @foreach (CombinedLogExceptionDataModel currentRow in Model.Items)
             {
-                <tr>
-                    <td>@currentRow.EmailAddress</td>
-                    <td>@currentRow.TimeStamp</td>
-                    <td>@currentRow.WebRequestID</td>
-                    <td>@currentRow.Message</td>
-                    <td>@currentRow.MethodName</td>
-                    <td>@currentRow.Source</td>
-                    <td>@currentRow.StackTrace</td>
-                    <td>@currentRow.Important</td>
-                    <!-- icon will go here
-                         button with onClick="openModal()" where openModal contains
-                         x.classList.toggle("change");
-                        the css will have settings for the icon and
-                        .change settings for the icon
-                        https://www.w3schools.com/howto/howto_css_menu_icon.asp -->
-                    <td>
-                        @if (currentRow.Important == null) //button to mark as important
-                        {
-                            <button class="openModalButton" onclick="openModal('@currentRow.UserID.ToString()',
+            <tr>
+                <td>@currentRow.EmailAddress</td>
+                <td>@currentRow.TimeStamp</td>
+                <td>@currentRow.WebRequestID</td>
+                <td>@currentRow.Message</td>
+                <td>@currentRow.MethodName</td>
+                <td>@currentRow.Source</td>
+                <td>@currentRow.StackTrace</td>
+                <!-- <td>(at)currentRow.Important</td> -->
+                <!-- icon will go here
+     button with onClick="openModal()" where openModal contains
+     x.classList.toggle("change");
+    the css will have settings for the icon and
+    .change settings for the icon
+    https://www.w3schools.com/howto/howto_css_menu_icon.asp -->
+                <td>
+                    <!-- If !Important, show the unfilled icon and have it open the modal/toggle the icon -->
+                    <!-- If Important, show the filled icon and have it markUnimportant/toggle the icon -->
+                    @if (currentRow.Important == null)
+                    {
+                        <img src="~/Content/unfilledStar.jpg" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()',
                             '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
                             '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()',
-                            '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()', '@currentRow.StackTrace.ToString()')">
-                                Mark as important
-                            </button>
-                        }
-                        else //button to unmark as important
-                        {
-                            <button class="markUnimportantButton" onclick="markUnimportant('@currentRow.UserID.ToString()',
+                            '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()', '@currentRow.StackTrace.ToString()')" />
+                    }
+                    else
+                    {
+                        <img src="~/Content/filledStar.jpg" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()',
                             '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
                             '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()',
-                            '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()', '@currentRow.StackTrace.ToString()')">
-                                Undo
-                            </button>
-                        }
-                    </td>
-                </tr>
+                            '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()', '@currentRow.StackTrace.ToString()')" />
+                    }
+                </td>
+
+                <!--
+                     (at)if (currentRow.Important == null) //button to mark as important
+                    {
+                        <button class="openModalButton" onclick="openModal()">
+                            Mark as important
+                        </button>
+                    }
+                    else //button to unmark as important
+                    {
+                        <button class="markUnimportantButton" onclick="markUnimportant()">
+                            Undo
+                        </button>
+                    }
+                    -->
+
+            </tr>
             }
         </tbody>
     </table>

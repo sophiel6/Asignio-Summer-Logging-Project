@@ -103,7 +103,8 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
 
 /*
  * To do: 
- * -split the search/sort/page form into 3? 
+ * -split the search/sort/page form into 3? - did this in LogException, but do it for other tables 
+ * fix css/styling for the forms 
  * -add ability to only display logs that are marked as important 
  * -fix issue with LogInfo, LogWebRequest, LogWebResponse - 
  *      they require the user to press refresh in order for new Important field to appear 

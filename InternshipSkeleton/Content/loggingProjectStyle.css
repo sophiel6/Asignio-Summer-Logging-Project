@@ -20,6 +20,10 @@ body {
     font-size: 14px !important;
 }
 
+.filledIcon {
+
+}
+
 .btn-group button {
     background-color: #4CAF50; /* Green background */
     border: 1px solid green; /* Green border */

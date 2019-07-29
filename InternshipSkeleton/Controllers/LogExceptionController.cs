@@ -104,7 +104,6 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
 
 /*
  * To do - LogException:  
- * -add a way to "refresh" after searching for something - reset searchBy and searchInput 
  * -add ability to only display logs that are marked as important
  * -fix issue with LogInfo, LogWebRequest, LogWebResponse - 
  *      they require the user to press refresh in order for new Important field to appear 
@@ -118,4 +117,5 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
  * -make it so you can click on a column heading to sort by that column & click again to switch sort order
  * -make the selected sort order appear underlined or somehow selected 
  * -fix css/styling for the forms
+ * -add a way to "refresh" after searching for something - reset searchBy and searchInput 
  */

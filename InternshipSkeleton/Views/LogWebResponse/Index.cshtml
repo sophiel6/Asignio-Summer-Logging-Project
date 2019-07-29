@@ -111,6 +111,7 @@
                     <td>
                         @if (currentRow.Important == null) //button to mark as important
                         {
+                            <!-- Left out redirect location in these -could be causing problems -->
                             <button class="openModalButton" onclick="openModal('@currentRow.UserID.ToString()',
                             '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
                             '@currentRow.WebRequestID.ToString()', '@currentRow.Status.ToString()')">

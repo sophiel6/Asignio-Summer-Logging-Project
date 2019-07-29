@@ -196,6 +196,7 @@ else
 
     function UpdateImportance() {
         usernameValue = $("[name=usernameEntry]").val();
+        debugger;
 
         var model = {
             TimeStamp: currentTimeStamp,
@@ -216,7 +217,7 @@ else
 
             success: function (result) {
                 document.getElementById("usernameForm").reset();
-
+                debugger;
                 currentTimeStamp = null;
                 currentWebRequestID = null;
                 currentUserID = null;

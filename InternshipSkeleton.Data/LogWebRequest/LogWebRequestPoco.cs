@@ -24,12 +24,12 @@ namespace AsignioInternship.Data.LogWebRequest
         public DateTime TimeStamp { get; set; }
         public byte[] WebRequestID { get; set; }
         public byte[] UserID { get; set; }
-        public string HostAddress { get; set; }
-        public string ServerIP { get; set; }
+       // public string HostAddress { get; set; }
+        //public string ServerIP { get; set; }
         public string RawURL { get; set; }
         public string Parameters { get; set; }
-        public string UserAgent { get; set; }
-        public string UserLanguages { get; set; }
+        //public string UserAgent { get; set; }
+        //public string UserLanguages { get; set; }
         public string Important { get; set; }
     }
 }

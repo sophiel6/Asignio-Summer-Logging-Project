@@ -24,7 +24,9 @@ namespace AsignioInternship.Data.LogWebRequest
                 {
                     PetaPoco.Sql sql = new PetaPoco.Sql();
 
-                    sql.Append(LogWebRequestPoco.BaseSQL);
+                    sql.Append("SELECT ");
+                    sql.Append("TimeStamp, WebRequestID, UserID, RawURL, Parameters, Important ");
+                    sql.Append("from logwebrequest ");
 
                     if (!string.IsNullOrWhiteSpace(nameSearchPattern) && !string.IsNullOrWhiteSpace(searchColumn))
                     {

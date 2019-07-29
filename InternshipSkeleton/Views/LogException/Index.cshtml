@@ -80,46 +80,49 @@
 </div>
 -->
 
-    <!-- Paging stuff -->
+<!-- Paging stuff -->
 <div class="container">
-    <div class="text-center">
-        <div class="btn-group">
-            @Html.ActionLink(linkText: "First",
-                            actionName: "Index",
-                            controllerName: "LogException",
-                            routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = 1 },
-                            htmlAttributes: new { @class = "btn btn-default" })
-            @Html.ActionLink(linkText: "Previous",
-                            actionName: "Index",
-                            controllerName: "LogException",
-                            routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = ((id - 1) != 0) ? (id - 1) : id },
-                            htmlAttributes: new { @class = "btn btn-default" })
-            @Html.ActionLink(linkText: "Next",
-                            actionName: "Index",
-                            controllerName: "LogException",
-                            routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
-                            htmlAttributes: new { @class = "btn btn-default" })
-            @Html.ActionLink(linkText: "Last",
-                            actionName: "Index",
-                            controllerName: "LogException",
-                            routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = Model.TotalPages },
-                            htmlAttributes: new { @class = "btn btn-default" })
+    <div class="row justify-content-end">
+        <div class="col-md-4">
+            <div class="btn-group">
+                @Html.ActionLink(linkText: " << First",
+                                actionName: "Index",
+                                controllerName: "LogException",
+                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = 1 },
+                                htmlAttributes: new { @class = "btn btn-default" })
+                @Html.ActionLink(linkText: "< Previous",
+                                actionName: "Index",
+                                controllerName: "LogException",
+                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = ((id - 1) != 0) ? (id - 1) : id },
+                                htmlAttributes: new { @class = "btn btn-default" })
+                @Html.ActionLink(linkText: "Next >",
+                                actionName: "Index",
+                                controllerName: "LogException",
+                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
+                                htmlAttributes: new { @class = "btn btn-default" })
+                @Html.ActionLink(linkText: "Last >>",
+                                actionName: "Index",
+                                controllerName: "LogException",
+                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = Model.TotalPages },
+                                htmlAttributes: new { @class = "btn btn-default" })
+            </div>
+        </div>
+        <div class="col-md-4 align-self-end">
+
+            @using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }))
+            {
+                @Html.HiddenFor(m => m.SortBy)
+                @Html.HiddenFor(m => m.SortDirection)
+                @Html.HiddenFor(m => m.SearchBy)
+                @Html.HiddenFor(m => m.SearchInput)
+                @Html.Label("Page: ", new { @class = "mylabel" })
+                @Html.TextBox("id", null, new { @class = "pageinputbox" })
+
+                <input type="submit" name="btnSubmit" value="Jump to page" class="btn btn-default" style=" display: inline-block;" />
+
+            }
         </div>
     </div>
-
-
-    @using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }))
-    {
-            @Html.Label("Page: ", new { @class = "mylabel" })
-            @Html.TextBox("id", null, new { @class = "mytextbox" })
-
-            @Html.HiddenFor(m => m.SortBy)
-            @Html.HiddenFor(m=> m.SortDirection)
-            @Html.HiddenFor(m => m.SearchBy)
-            @Html.HiddenFor(m => m.SearchInput)
-
-        <input type="submit" name="btnSubmit" value="Jump to page" class="btn btn-default" style=" display: inline-block;" />
-    }
 </div>
 
 <div>
@@ -130,28 +133,32 @@
 {
     <table style="width:100%; text-align:center;">
         <thead>
-            <tr> 
+            <tr>
+                <!-- If sortBy == the category name, make the link underlined -->
                 @foreach (String category in categories)
                 {
                     var sortB = "";
                     var sortD = "";
+                    var className = "";
 
                     if (sortBy == category)
                     {
                         sortB = sortBy;
+                        className = "sortLink";
 
                         if (sortDir == "ASC")
-                            {sortD = "DESC"; }
+                        {sortD = "DESC"; }
                         else
-                            { sortD = "ASC"; }
+                        { sortD = "ASC"; }
                     }
                     else
                     {
                         sortB = category;
                         sortD = "ASC";
                     }
+
                 <td>
-                    @Html.ActionLink(category, "Index", new { sortBy = sortB, sortDir = sortD, searchBy = searchBy, searchInput = searchInput, id = 1 }, null)
+                    @Html.ActionLink(category, "Index", new { sortBy = sortB, sortDir = sortD, searchBy = searchBy, searchInput = searchInput, id = 1 }, new { @class = className })
                 </td>
                 }
             </tr>
@@ -185,21 +192,6 @@
                         '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()', '@currentRow.StackTrace.ToString()')" />
                         }
                     </td>
-                    <!--
-                            (at)if (currentRow.Important == null) //button to mark as important
-                        {
-                            <button class="openModalButton" onclick="openModal()">
-                                Mark as important
-                            </button>
-                        }
-                        else //button to unmark as important
-                        {
-                            <button class="markUnimportantButton" onclick="markUnimportant()">
-                                Undo
-                            </button>
-                        }
-                        -->
-
                 </tr>
             }
         </tbody>

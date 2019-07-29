@@ -104,16 +104,17 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
 
 /*
  * To do - LogException: 
- * fix css/styling for the forms 
- * -add ability to only display logs that are marked as important -
+ * -fix css/styling for the forms 
+ * -add ability to only display logs that are marked as important
  * -fix issue with LogInfo, LogWebRequest, LogWebResponse - 
  *      they require the user to press refresh in order for new Important field to appear 
  * -make querying by multiple categories possible
- * -make it so you can click on a column heading to sort by that column & click again to switch sort order
+ * 
  * 
  * To do - other tables
  * -split the search/sort/page form into 3? - did this in LogException, but do it for other tables 
  * -change display of Important from email to an icon
  * -add ability to make sort order ascending or descending 
-
+ * -make it so you can click on a column heading to sort by that column & click again to switch sort order
+ * -make the selected sort order appear underlined or somehow selected 
  */

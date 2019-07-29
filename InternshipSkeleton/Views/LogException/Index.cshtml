@@ -82,7 +82,7 @@
 
 <!-- Paging stuff -->
 <div class="container">
-    <div class="row justify-content-end">
+    <div class="row">
         <div class="col-md-4">
             <div class="btn-group">
                 @Html.ActionLink(linkText: " << First",
@@ -107,19 +107,21 @@
                                 htmlAttributes: new { @class = "btn btn-default" })
             </div>
         </div>
-        <div class="col-md-4 align-self-end">
-
+        <div class="col-md-4">
             @using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }))
             {
                 @Html.HiddenFor(m => m.SortBy)
                 @Html.HiddenFor(m => m.SortDirection)
                 @Html.HiddenFor(m => m.SearchBy)
                 @Html.HiddenFor(m => m.SearchInput)
+
+            <div class="block">
                 @Html.Label("Page: ", new { @class = "mylabel" })
+            </div>
+            <div class="block">
                 @Html.TextBox("id", null, new { @class = "pageinputbox" })
-
-                <input type="submit" name="btnSubmit" value="Jump to page" class="btn btn-default" style=" display: inline-block;" />
-
+            </div>
+                <input type="submit" name="btnSubmit" value="Jump to page" class="btn btn-default" style="display: inline-block;" /> 
             }
         </div>
     </div>

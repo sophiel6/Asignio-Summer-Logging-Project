@@ -19,6 +19,8 @@
     var sortDir = Model.SortDirection;
     var id = Model.PageNumber;
 
+    List<String> categories = new List<String>() { "EmailAddress", "TimeStamp", "WebRequestID", "Message", "MethodName", "Source", "StackTrace", "Important" };
+
     bool noResults = (Model.TotalItems) == 0;
 
     List<SelectListItem> listItems = new List<SelectListItem>();
@@ -56,25 +58,27 @@
         <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" style="width: 50px; display: inline-block;" />
      }
 </div>
-<div class="container">
-    <!-- Sort form -->
-    @using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }, FormMethod.Post, new { id = "id" }))
-    {
-    <div class="block" style="width: 25% !important; display: inline-block;">
-        @Html.Label("Sort by: ", new { @class = "mylabel" })
-        @Html.DropDownList("sortBy", listItems, new { @class = "mydropdown" })
-    </div>
-        @Html.Label("Ascending", new { @class="mylabel" })
-        @Html.RadioButton("sortDir", "ASC", true)
 
-        @Html.Label("Descending", new { @class = "mylabel" })
-        @Html.RadioButton("sortDir", "DESC")
+<!-- <div class="container">
+    <!-- Sort form -->
+    <!-- (at)using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }, FormMethod.Post, new { id = "id" }))
+    { 
+    <div class="block" style="width: 25% !important; display: inline-block;">
+        (at)Html.Label("Sort by: ", new { (at)class = "mylabel" })
+        (at) Html.DropDownList("sortBy", listItems, new { (at)class = "mydropdown" })
+    </div>
+        Html.Label("Ascending", new { class="mylabel" })
+        Html.RadioButton("sortDir", "ASC", true)
+
+        Html.Label("Descending", new { class = "mylabel" })
+        Html.RadioButton("sortDir", "DESC")
         
-        @Html.HiddenFor(m => m.SearchBy)
-        @Html.HiddenFor(m => m.SearchInput)
+        Html.HiddenFor(m => m.SearchBy)
+        Html.HiddenFor(m => m.SearchInput)
         <input type="submit" name="btnSubmit" value="Sort" class="btn btn-default" style="width: 50px; display: inline-block;" />
     }
 </div>
+-->
 
     <!-- Paging stuff -->
 <div class="container">
@@ -126,15 +130,30 @@
 {
     <table style="width:100%; text-align:center;">
         <thead>
-            <tr>
-                <td>Email Address</td>
-                <td>Time Stamp</td>
-                <td>Web Request ID</td>
-                <td>Message</td>
-                <td>Method Name</td>
-                <td>Source</td>
-                <td>Stack Trace</td>
-                <td>Important</td>
+            <tr> 
+                @foreach (String category in categories)
+                {
+                    var sortB = "";
+                    var sortD = "";
+
+                    if (sortBy == category)
+                    {
+                        sortB = sortBy;
+
+                        if (sortDir == "ASC")
+                            {sortD = "DESC"; }
+                        else
+                            { sortD = "ASC"; }
+                    }
+                    else
+                    {
+                        sortB = category;
+                        sortD = "ASC";
+                    }
+                <td>
+                    @Html.ActionLink(category, "Index", new { sortBy = sortB, sortDir = sortD, searchBy = searchBy, searchInput = searchInput, id = 1 }, null)
+                </td>
+                }
             </tr>
         </thead>
         <tbody>
@@ -148,12 +167,6 @@
                     <td>@currentRow.MethodName</td>
                     <td>@currentRow.Source</td>
                     <td>@currentRow.StackTrace</td>
-                    <!-- icon will go here
-                        button with onClick="openModal()" where openModal contains
-                        x.classList.toggle("change");
-                    the css will have settings for the icon and
-                    .change settings for the icon
-                    https://www.w3schools.com/howto/howto_css_menu_icon.asp -->
                     <td>
                         <!-- If !Important, show the unfilled icon and have it open the modal/toggle the icon -->
                         <!-- If Important, show the filled icon and have it markUnimportant/toggle the icon -->

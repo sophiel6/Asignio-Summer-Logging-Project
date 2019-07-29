@@ -17,6 +17,7 @@ namespace AsignioInternship.Data
         public long TotalPages { get; set; }
 
         public string SortBy { get; set; }
+        public string SortDirection { get; set; }
         public string SearchBy { get; set; }
         public string SearchInput { get; set; }
 

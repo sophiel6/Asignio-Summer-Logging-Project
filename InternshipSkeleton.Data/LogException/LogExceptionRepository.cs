@@ -209,6 +209,7 @@ namespace AsignioInternship.Data.LogException
                         TotalItems = page.TotalItems,
                         TotalPages = page.TotalPages,
                         SortBy = sortColumn,
+                        SortDirection = sortDirection,
                         SearchBy = searchColumn,
                         SearchInput = nameSearchPattern
                     };

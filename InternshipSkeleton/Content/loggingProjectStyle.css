@@ -6,22 +6,22 @@ body {
 .mydropdown {
     padding: 0px !important;
     font-size: 14px !important;
-    margin: 8px 0;
     -webkit-appearance: menulist !important;
+    display: inline-block;
 }
 
 .mytextbox {
     padding: 0px !important;
     font-size: 14px !important;
+    display: inline-block;
+    width: 100%;
+
 }
 
 .mylabel {
     padding: 0px !important;
     font-size: 14px !important;
-}
-
-.filledIcon {
-
+    display: inline-block;
 }
 
 .btn-group button {
@@ -78,7 +78,7 @@ tr:nth-child(even) {
 }
 
 .block {
-
+    width: 50%;
     display: inline-block;
 }
 

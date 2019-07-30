@@ -123,5 +123,4 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
  * Controller - index method
  * Index view 
  * Repository - CombinedPage method
- * IRepository - CombinedPage method signature 
  */

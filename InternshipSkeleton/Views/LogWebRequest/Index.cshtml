@@ -19,7 +19,7 @@
     bool noResults = (Model.TotalItems) == 0;
 
     List<SelectListItem> listItems = new List<SelectListItem>();
-    listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "DateTimeStamp" });
+    listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
     listItems.Add(new SelectListItem { Text = "WebRequest ID", Value = "WebRequestID" });
     listItems.Add(new SelectListItem { Text = "Raw URL", Value = "RawURL" });
     listItems.Add(new SelectListItem { Text = "Parameters", Value = "Parameters" });
@@ -217,23 +217,28 @@ else
 
             success: function (result) {
                 document.getElementById("usernameForm").reset();
-                debugger;
+                
                 currentTimeStamp = null;
                 currentWebRequestID = null;
                 currentUserID = null;
                 currentRawURL = null;
                 currentParameters = null;
 
-                if (result.IsCreated) {
-                    window.location.reload();
+                usernameValue = null;
+                return alert(result.IsCreated);
+                /*if (result.IsCreated) {
+                    window.location.reload(true);
                 }
                 else {
                     alert(result.ErrorMessage);
-                }
+                }*/
             },
 
             error: function (result) {
                 alert(result.ErrorMessage);
+            },
+            complete: function(result, textStatus) {
+                return alert("Hey: " + textStatus);
             }
         });
     };
@@ -262,8 +267,10 @@ else
                 currentRawURL = null;
                 currentParameters = null;
 
+                alert("success");
+                
                 if (result.IsCreated) {
-                    window.location.reload();
+                    window.location.reload(true);
                 }
                 else {
                     alert(result.ErrorMessage);

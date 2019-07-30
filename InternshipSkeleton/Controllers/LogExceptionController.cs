@@ -117,4 +117,9 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
  * -make the selected sort order appear underlined or somehow selected 
  * -fix css/styling for the forms
  * -add a way to "refresh" after searching for something - reset searchBy and searchInput 
+ * 
+ * Controller - index method
+ * Index view 
+ * Repository - CombinedPage method
+ * IRepository - CombinedPage method signature 
  */

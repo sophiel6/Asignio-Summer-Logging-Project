@@ -29,22 +29,29 @@ namespace AsignioInternship.Data.Log
 
                     if (!string.IsNullOrWhiteSpace(nameSearchPattern) && !string.IsNullOrWhiteSpace(searchColumn))
                     {
-                        //format nameSearchPattern to be in '%_%' format 
-                        if (nameSearchPattern[0] != '\'')
-                        {
-                            //nameSearchPattern = string.Format("\"{0}\"", nameSearchPattern);
-                            nameSearchPattern = string.Format("\'%{0}%\'", nameSearchPattern);
-                        }
-
-                        if (nameSearchPattern.Contains("@")) //if search pattern is an email
+                        if (nameSearchPattern.Contains("@")) //format email
                         {
                             string[] sections = nameSearchPattern.Split(new[] { '@' });
                             sections[1] = sections[1].Insert(0, "@@");
                             nameSearchPattern = string.Join("", sections);
                         }
-                        sql.Append(string.Format("WHERE {0} LIKE {1} ", searchColumn, nameSearchPattern));
+                        if (searchColumn == "TimeStamp") //format date 
+                        {
+                            if (nameSearchPattern[0] != '\'') //format all search strings
+                            {
+                                nameSearchPattern = string.Format("\'{0}\'", nameSearchPattern);
+                            }
+                            sql.Append(string.Format("WHERE DATE({0}) = {1} ", searchColumn, nameSearchPattern));
+                        }
+                        else //if not a date
+                        {
+                            if (nameSearchPattern[0] != '\'') //format non-date searches
+                            {
+                                nameSearchPattern = string.Format("\'%{0}%\'", nameSearchPattern);
+                            }
+                            sql.Append(string.Format("WHERE {0} LIKE {1} ", searchColumn, nameSearchPattern));
+                        }
                     }
-
                     sql.Append(string.Format("ORDER BY {0} {1}", sortColumn, sortDirection));
 
                     PetaPoco.Page<CombinedLogPoco> page = db.Page<CombinedLogPoco>(pageNumber, pageSize, sql);
@@ -62,6 +69,7 @@ namespace AsignioInternship.Data.Log
                         TotalItems = page.TotalItems,
                         TotalPages = page.TotalPages,
                         SortBy = sortColumn,
+                        SortDirection = sortDirection,
                         SearchBy = searchColumn,
                         SearchInput = nameSearchPattern
                     };

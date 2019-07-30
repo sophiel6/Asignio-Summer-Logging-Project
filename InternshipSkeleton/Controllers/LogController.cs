@@ -15,7 +15,7 @@ namespace AsignioInternship.Controllers
             m_logRepository = (logRepository != null) ? logRepository : throw new ArgumentNullException();
         }
 
-        public ActionResult Index(int? id, string searchBy, string searchInput, string sortBy)
+        public ActionResult Index(int? id, string searchBy, string searchInput, string sortBy, string sortDir)
         {
             int pageNum;
             pageNum = (id ?? 1);
@@ -23,8 +23,9 @@ namespace AsignioInternship.Controllers
             string sortColumn = sortBy ?? "TimeStamp";
             string searchInfo = searchInput ?? "";
             string searchColumn = searchBy ?? "";
+            string sortDirection = sortDir ?? "ASC";
             PagedDataModelCollection<CombinedLogDataModel> result = m_logRepository.CombinedPageLog(searchInfo,
-                                                                            searchColumn, pageSize, pageNum, sortColumn, "ASC");
+                                                                            searchColumn, pageSize, pageNum, sortColumn, sortDirection);
             return View(result);
         }
 

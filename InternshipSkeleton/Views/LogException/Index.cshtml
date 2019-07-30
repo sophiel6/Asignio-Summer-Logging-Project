@@ -140,7 +140,6 @@
     <table style="width:100%; text-align:center;">
         <thead>
             <tr>
-                <!-- If sortBy == the category name, make the link underlined -->
                 @foreach (String category in categories)
                 {
                     var sortB = "";
@@ -150,10 +149,10 @@
                     if (sortBy == category)
                     {
                         sortB = sortBy;
-                        className = "sortLink";
+                        className = "sortLink"; <!-- If sortBy == the category name, make the link underlined -->
 
                         if (sortDir == "ASC")
-                        {sortD = "DESC"; }
+                        { sortD = "DESC"; }
                         else
                         { sortD = "ASC"; }
                     }
@@ -162,9 +161,9 @@
                         sortB = category;
                         sortD = "ASC";
                     }
-                <td>
-                    @Html.ActionLink(category, "Index", new { sortBy = sortB, sortDir = sortD, searchBy = searchBy, searchInput = searchInput, id = 1 }, new { @class = className })
-                </td>
+                    <td>
+                        @Html.ActionLink(category, "Index", new { sortBy = sortB, sortDir = sortD, searchBy = searchBy, searchInput = searchInput, id = 1 }, new { @class = className })
+                    </td>
                 }
             </tr>
         </thead>

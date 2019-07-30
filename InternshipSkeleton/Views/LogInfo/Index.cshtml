@@ -62,26 +62,14 @@
     @Html.ActionLink(linkText: "Previous",
                      actionName: "Index",
                      controllerName: "LogInfo",
-                     routeValues: new
-                         {
-                             sortBy = sortBy,
-                             searchBy = searchBy,
-                             searchInput = searchInput,
-                         id = ((id - 1) != 0) ? (id - 1) : id
-                         },
+                     routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput, id = ((id - 1) != 0) ? (id - 1) : id },
                      htmlAttributes: null)
 </div>
 <div>
     @Html.ActionLink(linkText: "Next",
                      actionName: "Index",
                      controllerName: "LogInfo",
-                     routeValues: new
-                         {
-                             sortBy = sortBy,
-                             searchBy = searchBy,
-                             searchInput = searchInput,
-                         id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id
-                         },
+                     routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput, id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
                      htmlAttributes: null)
 </div>
 
@@ -228,7 +216,8 @@ else
             data: {
                 username: usernameValue,
                 logToUpdate: model,
-		    },
+            },
+            async: false,
 
             success: function (result) {
                 document.getElementById("usernameForm").reset();

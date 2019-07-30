@@ -105,8 +105,6 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
 /*
  * To do - LogException:  
  * -add ability to only display logs that are marked as important (or is this necessary since I've made "sort descending" possible?)
- * -fix issue with LogInfo, LogWebRequest, LogWebResponse - 
- *      they require the user to press refresh in order for new Important field to appear 
  * -make querying by multiple categories possible
  * -maybe need to change more stuff to ajax calls? - ask about that 
  * 

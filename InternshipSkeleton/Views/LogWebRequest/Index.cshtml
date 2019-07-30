@@ -58,26 +58,14 @@
     @Html.ActionLink(linkText: "Previous",
                         actionName: "Index",
                         controllerName: "LogWebRequest",
-                        routeValues: new
-                            {
-                                sortBy = sortBy,
-                                searchBy = searchBy,
-                                searchInput = searchInput,
-                                id = ((id - 1) != 0) ? (id - 1) : id
-                            },
+                        routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput, id = ((id - 1) != 0) ? (id - 1) : id },
                         htmlAttributes: null)
 </div>
 <div>
     @Html.ActionLink(linkText: "Next",
                         actionName: "Index",
                         controllerName: "LogWebRequest",
-                        routeValues: new
-                            {
-                                sortBy = sortBy,
-                                searchBy = searchBy,
-                                searchInput = searchInput,
-                                id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id
-                            },
+                        routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput, id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
                         htmlAttributes: null)
 </div>
 
@@ -194,7 +182,7 @@ else
         });
     });
 
-    function UpdateImportance() {
+    function UpdateImportance(callback) {
         usernameValue = $("[name=usernameEntry]").val();
         debugger;
 
@@ -231,7 +219,7 @@ else
                 else {
                     alert(result.ErrorMessage);
                 }
-            },
+            }, 
 
             error: function (result) {
                 alert(result.ErrorMessage);

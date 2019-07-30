@@ -44,7 +44,7 @@
     @using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }))
     {
         @Html.HiddenFor(m => m.SortBy)
-        @Html.HiddenFor(m=> m.SortDirection)
+        @Html.HiddenFor(m => m.SortDirection)
 
         <div class="block" style="width: 25% !important; display: inline-block; ">
             @Html.Label("Search by: ", new { @class = "mylabel" })
@@ -55,14 +55,12 @@
             @Html.TextBox("searchInput", null, new { @class = "mytextbox" })
         </div>
         <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" style="width: 50px; display: inline-block;" />
-     }
-    <div class="block">
-        @Html.ActionLink(linkText: "Undo search" ,
-                actionName: "Index",
-                controllerName: "LogException",
-                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = "", searchInput = "", id = 1 },
-                htmlAttributes: new { @class = "btn btn-default" })
-    </div>  
+        @Html.ActionLink(linkText: "Undo search",
+        actionName: "Index",
+        controllerName: "LogException",
+        routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = "", searchInput = "", id = 1 },
+        htmlAttributes: new { @class = "btn btn-default" })
+    }
 </div>
 
     <!-- (at)using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }, FormMethod.Post, new { id = "id" }))

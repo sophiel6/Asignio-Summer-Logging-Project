@@ -45,14 +45,12 @@
             @Html.TextBox("searchInput", null, new { @class = "mytextbox" })
         </div>
         <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" style="width: 50px; display: inline-block;" />
-    }
-    <div class="block">
         @Html.ActionLink(linkText: "Undo search",
-                actionName: "Index",
-                controllerName: "Log",
-                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = "", searchInput = "", id = 1 },
-                htmlAttributes: new { @class = "btn btn-default" })
-    </div>
+        actionName: "Index",
+        controllerName: "Log",
+        routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = "", searchInput = "", id = 1 },
+        htmlAttributes: new { @class = "btn btn-default" })
+    }
 </div>
 <br />
 

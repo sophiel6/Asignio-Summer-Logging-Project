@@ -118,6 +118,8 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
  * -fix css/styling for the forms
  * -add a way to "refresh" after searching for something - reset searchBy and searchInput 
  * 
+ * -fix up searching and categories to search by 
+ * 
  * Controller - index method
  * Index view 
  * Repository - CombinedPage method

@@ -13,7 +13,7 @@ namespace AsignioInternship.Controllers
             m_logWebRequestRepository = (logWebRequestRepository != null) ? logWebRequestRepository : throw new ArgumentNullException();
         }
         
-        public ActionResult Index(int? id, string searchBy, string searchInput, string sortBy)
+        public ActionResult Index(int? id, string searchBy, string searchInput, string sortBy, string sortDir)
         {
             int pageNum;
             pageNum = (id ?? 1);
@@ -21,8 +21,9 @@ namespace AsignioInternship.Controllers
             string sortColumn = sortBy ?? "TimeStamp";
             string searchInfo = searchInput ?? "";
             string searchColumn = searchBy ?? "";
+            string sortDirection = sortDir ?? "ASC";
             PagedDataModelCollection<LogWebRequestDataModel> result = m_logWebRequestRepository.PageLogWebRequest(searchInfo,
-                                                                            searchColumn, pageSize, pageNum, sortColumn, "ASC");
+                                                                            searchColumn, pageSize, pageNum, sortColumn, sortDirection);
             return View(result);
         }
 

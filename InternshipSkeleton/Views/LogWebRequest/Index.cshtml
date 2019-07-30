@@ -14,16 +14,12 @@
     var searchBy = Model.SearchBy;
     var searchInput = Model.SearchInput;
     var sortBy = Model.SortBy;
+    var sortDir = Model.SortDirection;
     var id = Model.PageNumber;
 
-    bool noResults = (Model.TotalItems) == 0;
+    List<String> categories = new List<String>() { "TimeStamp", "WebRequestID", "UserID", "RawURL", "Parameters", "Important" };
 
-    List<SelectListItem> listItems = new List<SelectListItem>();
-    listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
-    listItems.Add(new SelectListItem { Text = "WebRequest ID", Value = "WebRequestID" });
-    listItems.Add(new SelectListItem { Text = "Raw URL", Value = "RawURL" });
-    listItems.Add(new SelectListItem { Text = "Parameters", Value = "Parameters" });
-    listItems.Add(new SelectListItem { Text = "Importance", Value = "Important" });
+    bool noResults = (Model.TotalItems) == 0;
 
     List<SelectListItem> searchCategories = new List<SelectListItem>();
     searchCategories.Add(new SelectListItem { Text = "Raw URL", Value = "RawURL" });
@@ -31,13 +27,12 @@
     searchCategories.Add(new SelectListItem { Text = "Importance", Value = "Important" });
 }
 
-@using (Html.BeginRouteForm("Search", new { controller = "LogWebRequest", action = "Index" }))
-{
-    <div class="container" style="padding-top: 50px !important;">
-        <div class="block" style="width: 25% !important; display: inline-block;">
-            @Html.Label("Sort by: ", new { @class = "mylabel" })
-            @Html.DropDownList("sortBy", listItems, new { @class = "mydropdown" })
-        </div>
+<div class="container" style="padding-top: 50px !important;">
+    @using (Html.BeginRouteForm("Search", new { controller = "LogWebRequest", action = "Index" }))
+    {
+        @Html.HiddenFor(m => m.SortBy)
+        @Html.HiddenFor(m => m.SortDirection)
+
         <div class="block" style="width: 25% !important; display: inline-block; ">
             @Html.Label("Search by: ", new { @class = "mylabel" })
             @Html.DropDownList("searchBy", searchCategories, new { @class = "mydropdown" })
@@ -46,31 +41,64 @@
             @Html.Label("*Search for: ", new { @class = "mylabel" })
             @Html.TextBox("searchInput", null, new { @class = "mytextbox" })
         </div>
-        <div class="block" style="width: 25% !important; display: inline-block; ">
-            @Html.Label("Page: ", new { @class = "mylabel" })
-            @Html.TextBox("id", null, new { @class = "mytextbox" })
-        </div>
         <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" style="width: 20% !important; display: inline-block;" />
+        @Html.ActionLink(linkText: "Undo search",
+            actionName: "Index",
+            controllerName: "LogWebRequest",
+            routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = "", searchInput = "", id = 1 },
+            htmlAttributes: new { @class = "btn btn-default" })
+    }
+</div>
+<br />
+
+<!-- Paging stuff -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <label class="pageLabel"> Current page: @Model.PageNumber / @Model.TotalPages</label>
+        </div>
+        <div class="col-md-4">
+            <div class="btn-group">
+                @Html.ActionLink(linkText: " << First",
+                                actionName: "Index",
+                                controllerName: "LogWebRequest",
+                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = 1 },
+                                htmlAttributes: new { @class = "btn btn-default" })
+                @Html.ActionLink(linkText: "< Previous",
+                                actionName: "Index",
+                                controllerName: "LogWebRequest",
+                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = ((id - 1) != 0) ? (id - 1) : id },
+                                htmlAttributes: new { @class = "btn btn-default" })
+                @Html.ActionLink(linkText: "Next >",
+                                actionName: "Index",
+                                controllerName: "LogWebRequest",
+                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
+                                htmlAttributes: new { @class = "btn btn-default" })
+                @Html.ActionLink(linkText: "Last >>",
+                                actionName: "Index",
+                                controllerName: "LogWebRequest",
+                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = Model.TotalPages },
+                                htmlAttributes: new { @class = "btn btn-default" })
+            </div>
+        </div>
+        <div class="col-md-4">
+            @using (Html.BeginRouteForm("Search", new { controller = "LogWebRequest", action = "Index" }))
+            {
+                @Html.HiddenFor(m => m.SortBy)
+                @Html.HiddenFor(m => m.SortDirection)
+                @Html.HiddenFor(m => m.SearchBy)
+                @Html.HiddenFor(m => m.SearchInput)
+
+                <div class="block">
+                    @Html.Label("Page: ", new { @class = "mylabel" })
+                </div>
+                <div class="block">
+                    @Html.TextBox("id", null, new { @class = "pageinputbox" })
+                </div>
+                <input type="submit" name="btnSubmit" value="Jump to page" class="btn btn-default" style="display: inline-block;" />
+            }
+        </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink(linkText: "Previous",
-                        actionName: "Index",
-                        controllerName: "LogWebRequest",
-                        routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput, id = ((id - 1) != 0) ? (id - 1) : id },
-                        htmlAttributes: null)
-</div>
-<div>
-    @Html.ActionLink(linkText: "Next",
-                        actionName: "Index",
-                        controllerName: "LogWebRequest",
-                        routeValues: new { sortBy = sortBy, searchBy = searchBy, searchInput = searchInput, id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
-                        htmlAttributes: null)
-</div>
-
-<div>
-    Current Page: @Model.PageNumber/@Model.TotalPages
 </div>
 
 @if (!noResults)
@@ -78,44 +106,55 @@
     <table style="width:100%; text-align:center;">
         <thead>
             <tr>
-                <td>Time Stamp</td>
-                <td>Web Request ID</td>
-                <td>User ID</td>
-                <td>RawURL</td>
-                <td>Parameters</td>
-                <td>Important</td>
-                <td>Mark as Important</td>
+                @foreach (String category in categories)
+                {
+                    var sortB = "";
+                    var sortD = "";
+                    var className = "";
+
+                    if (sortBy == category)
+                    {
+                        sortB = sortBy;
+                        className = "sortLink";<!-- If sortBy == the category name, make the link underlined -->
+
+                        if (sortDir == "ASC")
+                        { sortD = "DESC"; }
+                        else
+                        { sortD = "ASC"; }
+                    }
+                    else
+                    {
+                        sortB = category;
+                        sortD = "ASC";
+                    }
+                    <td>
+                        @Html.ActionLink(category, "Index", new { sortBy = sortB, sortDir = sortD, searchBy = searchBy, searchInput = searchInput, id = 1 }, new { @class = className })
+                    </td>
+                }
             </tr>
         </thead>
         <tbody>
             @foreach (LogWebRequestDataModel currentRow in Model.Items)
             {
-                <tr>
-                    <td>@currentRow.TimeStamp</td>
-                    <td>@currentRow.WebRequestID</td>
-                    <td>@currentRow.UserID</td>
-                    <td>@currentRow.RawURL</td>
-                    <td>@currentRow.Parameters</td>
-                    <td>@currentRow.Important</td>
-                    <td>
-                        @if (currentRow.Important == null) //button to mark as important
-                        {
-                            <button class="openModalButton" onclick="openModal('@currentRow.TimeStamp.ToString()',
-                        '@currentRow.WebRequestID.ToString()', '@currentRow.UserID.ToString()', '@currentRow.RawURL.ToString()',
-                        '@currentRow.Parameters.ToString()')">
-                                Mark as important
-                            </button>
-                        }
-                        else //button to unmark as important
-                        {
-                            <button class="markUnimportantButton" onclick="markUnimportant('@currentRow.TimeStamp.ToString()',
-                        '@currentRow.WebRequestID.ToString()', '@currentRow.UserID.ToString()', '@currentRow.RawURL.ToString()',
-                        '@currentRow.Parameters.ToString()')">
-                                Undo
-                            </button>
-                        }
-                    </td>
-                </tr>
+            <tr>
+                <td>@currentRow.TimeStamp</td>
+                <td>@currentRow.WebRequestID</td>
+                <td>@currentRow.UserID</td>
+                <td>@currentRow.RawURL</td>
+                <td>@currentRow.Parameters</td>
+                <td>
+                    @if (currentRow.Important == null) //button to mark as important
+                    {
+                        <img src="~/Content/unfilledStar.jpg" class="unfilledIcon" onclick="openModal('@currentRow.TimeStamp.ToString()',
+                        '@currentRow.WebRequestID.ToString()', '@currentRow.UserID.ToString()', '@currentRow.RawURL.ToString()')">
+                    }
+                    else //button to unmark as important
+                    {
+                        <img src="~/Content/filledStar.jpg" class="filledIcon" onclick="markUnimportant('@currentRow.TimeStamp.ToString()',
+                        '@currentRow.WebRequestID.ToString()', '@currentRow.UserID.ToString()', '@currentRow.RawURL.ToString()')">
+                    }
+                </td>
+            </tr>
             }
         </tbody>
     </table>
@@ -143,16 +182,14 @@ else
     var currentWebRequestID = null;
     var currentUserID = null;
     var currentRawURL = null;
-    var currentParameters = null;
 
-    function openModal(TimeStamp, WebRequestID, UserID, RawURL, Parameters) {
+    function openModal(TimeStamp, WebRequestID, UserID, RawURL) {
         event.preventDefault;
-       
+
         currentTimeStamp = TimeStamp;
         currentWebRequestID = WebRequestID;
         currentUserID = UserID;
         currentRawURL = RawURL;
-        currentParameters = Parameters;
 
         exampleModal.open();
     }
@@ -164,7 +201,6 @@ else
         currentWebRequestID = null;
         currentUserID = null;
         currentRawURL = null;
-        currentParameters = null;
 
         exampleModal.close();
     }
@@ -191,7 +227,6 @@ else
             WebRequestID: currentWebRequestID,
             UserID: currentUserID,
             RawURL: currentRawURL,
-            Parameters: currentParameters,
         };
 
         $.ajax({
@@ -206,12 +241,11 @@ else
 
             success: function (result) {
                 document.getElementById("usernameForm").reset();
-                
+
                 currentTimeStamp = null;
                 currentWebRequestID = null;
                 currentUserID = null;
                 currentRawURL = null;
-                currentParameters = null;
 
                 if (result.IsCreated) {
                     window.location.reload(true);
@@ -219,7 +253,7 @@ else
                 else {
                     alert(result.ErrorMessage);
                 }
-            }, 
+            },
 
             error: function (result) {
                 alert(result.ErrorMessage);
@@ -227,13 +261,12 @@ else
         });
     };
 
-    function markUnimportant(currentTimeStamp, currentWebRequestID, currentUserID, currentRawURL, currentParameters) {
+    function markUnimportant(currentTimeStamp, currentWebRequestID, currentUserID, currentRawURL) {
         var model = {
             TimeStamp: currentTimeStamp,
             WebRequestID: currentWebRequestID,
             UserID: currentUserID,
             RawURL: currentRawURL,
-            Parameters: currentParameters,
         };
 
         $.ajax({
@@ -250,8 +283,7 @@ else
                 currentWebRequestID = null;
                 currentUserID = null;
                 currentRawURL = null;
-                currentParameters = null;
-                
+
                 if (result.IsCreated) {
                     window.location.reload(true);
                 }

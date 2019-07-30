@@ -213,7 +213,8 @@ else
             data: {
                 username: usernameValue,
                 logToUpdate: model,
-		    },
+            },
+            async: false,
 
             success: function (result) {
                 document.getElementById("usernameForm").reset();
@@ -224,21 +225,16 @@ else
                 currentRawURL = null;
                 currentParameters = null;
 
-                usernameValue = null;
-                return alert(result.IsCreated);
-                /*if (result.IsCreated) {
+                if (result.IsCreated) {
                     window.location.reload(true);
                 }
                 else {
                     alert(result.ErrorMessage);
-                }*/
+                }
             },
 
             error: function (result) {
                 alert(result.ErrorMessage);
-            },
-            complete: function(result, textStatus) {
-                return alert("Hey: " + textStatus);
             }
         });
     };
@@ -259,6 +255,7 @@ else
             data: {
                 logToUpdate: model,
             },
+            async: false,
 
             success: function (result) {
                 currentTimeStamp = null;
@@ -266,8 +263,6 @@ else
                 currentUserID = null;
                 currentRawURL = null;
                 currentParameters = null;
-
-                alert("success");
                 
                 if (result.IsCreated) {
                     window.location.reload(true);

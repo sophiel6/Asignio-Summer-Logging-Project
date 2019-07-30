@@ -110,7 +110,7 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
  * 
  * 
  * To do - other tables
- * -split the search/sort/page form into 3? - did this in LogException, but do it for other tables 
+ * -split the search/sort/page form into 3?
  * -change display of Important from email to an icon
  * -add ability to make sort order ascending or descending 
  * -make it so you can click on a column heading to sort by that column & click again to switch sort order

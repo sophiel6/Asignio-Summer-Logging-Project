@@ -13,9 +13,7 @@ namespace AsignioInternship.Data.LogMySql
 
         #region SQL
 
-        internal static readonly string BaseSQL = @"
-            SELECT
-           * from logmysql";
+        internal static readonly string BaseSQL = @"SELECT * from logmysql";
         internal static readonly string SelectByIDSQL = BaseSQL + ""; // + " where ExampleID=@0;";
         internal static readonly string SelectAll = BaseSQL + " ORDER BY DateTimeStamp desc;";
         #endregion

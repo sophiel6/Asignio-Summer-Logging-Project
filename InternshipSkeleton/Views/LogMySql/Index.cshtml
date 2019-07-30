@@ -15,16 +15,12 @@
     var searchBy = Model.SearchBy;
     var searchInput = Model.SearchInput;
     var sortBy = Model.SortBy;
+    var sortDir = Model.SortDirection;
     var id = Model.PageNumber;
 
-    bool noResults = (Model.TotalItems) == 0;
+    List<String> categories = new List<String>() { "DateTimeStamp", "logmysql.Function", "Message", "Type", "Important" };
 
-    List<SelectListItem> listItems = new List<SelectListItem>();
-    listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "DateTimeStamp" });
-    listItems.Add(new SelectListItem { Text = "Message", Value = "Message" });
-    listItems.Add(new SelectListItem { Text = "Type", Value = "Type" });
-    listItems.Add(new SelectListItem { Text = "Function", Value = "Function" });
-    listItems.Add(new SelectListItem { Text = "Importance", Value = "Important" });
+    bool noResults = (Model.TotalItems) == 0;
 
     List<SelectListItem> searchCategories = new List<SelectListItem>();
     searchCategories.Add(new SelectListItem { Text = "Message", Value = "Message" });
@@ -33,13 +29,12 @@
     searchCategories.Add(new SelectListItem { Text = "Importance", Value = "Important" });
 }
 
-@using (Html.BeginRouteForm("Search", new { controller = "LogMySql", action = "Index" }))
-{
-    <div class="container" style="padding-top: 50px !important;">
-        <div class="block" style="width: 25% !important; display: inline-block;">
-            @Html.Label("Sort by: ", new { @class = "mylabel" })
-            @Html.DropDownList("sortBy", listItems, new { @class = "mydropdown" })
-        </div>
+<div class="container" style="padding-top: 50px !important;">
+    @using (Html.BeginRouteForm("Search", new { controller = "LogMySql", action = "Index" }))
+    {
+        @Html.HiddenFor(m => m.SortBy)
+        @Html.HiddenFor(m => m.SortDirection)
+
         <div class="block" style="width: 25% !important; display: inline-block; ">
             @Html.Label("Search by: ", new { @class = "mylabel" })
             @Html.DropDownList("searchBy", searchCategories, new { @class = "mydropdown" })
@@ -48,43 +43,65 @@
             @Html.Label("*Search for: ", new { @class = "mylabel" })
             @Html.TextBox("searchInput", null, new { @class = "mytextbox" })
         </div>
-        <div class="block" style="width: 25% !important; display: inline-block; ">
-            @Html.Label("Page: ", new { @class = "mylabel" })
-            @Html.TextBox("id", null, new { @class = "mytextbox" })
-        </div>
         <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" style="width: 20% !important; display: inline-block;" />
+        @Html.ActionLink(linkText: "Undo search",
+        actionName: "Index",
+        controllerName: "LogMySql",
+        routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = "", searchInput = "", id = 1 },
+        htmlAttributes: new { @class = "btn btn-default" })
+    }
+</div>
+
+<br />
+
+<!-- Paging stuff -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <label class="pageLabel"> Current page: @Model.PageNumber / @Model.TotalPages</label>
+        </div>
+        <div class="col-md-4">
+            <div class="btn-group">
+                @Html.ActionLink(linkText: " << First",
+                                actionName: "Index",
+                                controllerName: "LogMySql",
+                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = 1 },
+                                htmlAttributes: new { @class = "btn btn-default" })
+                @Html.ActionLink(linkText: "< Previous",
+                                actionName: "Index",
+                                controllerName: "LogMySql",
+                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = ((id - 1) != 0) ? (id - 1) : id },
+                                htmlAttributes: new { @class = "btn btn-default" })
+                @Html.ActionLink(linkText: "Next >",
+                                actionName: "Index",
+                                controllerName: "LogMySql",
+                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
+                                htmlAttributes: new { @class = "btn btn-default" })
+                @Html.ActionLink(linkText: "Last >>",
+                                actionName: "Index",
+                                controllerName: "LogMySql",
+                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = Model.TotalPages },
+                                htmlAttributes: new { @class = "btn btn-default" })
+            </div>
+        </div>
+        <div class="col-md-4">
+            @using (Html.BeginRouteForm("Search", new { controller = "LogMySql", action = "Index" }))
+            {
+                @Html.HiddenFor(m => m.SortBy)
+                @Html.HiddenFor(m => m.SortDirection)
+                @Html.HiddenFor(m => m.SearchBy)
+                @Html.HiddenFor(m => m.SearchInput)
+
+                <div class="block">
+                    @Html.Label("Page: ", new { @class = "mylabel" })
+                </div>
+                <div class="block">
+                    @Html.TextBox("id", null, new { @class = "pageinputbox" })
+                </div>
+                <input type="submit" name="btnSubmit" value="Jump to page" class="btn btn-default" style="display: inline-block;" />
+            }
+        </div>
     </div>
-}
-
-<div>
-    @Html.ActionLink(linkText: "Previous",
-                        actionName: "Index",
-                        controllerName: "LogMySql",
-                        routeValues: new
-                            {
-                                sortBy = sortBy,
-                                searchBy = searchBy,
-                                searchInput = searchInput,
-                                id = ((id - 1) != 0) ? (id - 1) : id
-                            },
-                        htmlAttributes: null)
-</div>
-<div>
-    @Html.ActionLink(linkText: "Next",
-                        actionName: "Index",
-                        controllerName: "LogMySql",
-                        routeValues: new
-                            {
-                                sortBy = sortBy,
-                                searchBy = searchBy,
-                                searchInput = searchInput,
-                                id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id
-                            },
-                        htmlAttributes: null)
-</div>
-
-<div>
-    Current Page: @Model.PageNumber/@Model.TotalPages
 </div>
 
 @if (!noResults)
@@ -92,42 +109,56 @@
     <table style="width:100%; text-align:center;">
         <thead>
             <tr>
-                <td>Date-Time Stamp</td>
-                <td>Message</td>
-                <td>Function</td>
-                <td>Type</td>
-                <td>Important</td>
-                <td>Mark as Important</td>
+                @foreach (String category in categories)
+                {
+                    var sortB = "";
+                    var sortD = "";
+                    var className = "";
+
+                    if (sortBy == category)
+                    {
+                        sortB = sortBy;
+                        className = "sortLink";<!-- If sortBy == the category name, make the link underlined -->
+
+                        if (sortDir == "ASC")
+                        { sortD = "DESC"; }
+                        else
+                        { sortD = "ASC"; }
+                    }
+                    else
+                    {
+                        sortB = category;
+                        sortD = "ASC";
+                    }
+                    <td>
+                        @Html.ActionLink(category, "Index", new { sortBy = sortB, sortDir = sortD, searchBy = searchBy, searchInput = searchInput, id = 1 }, new { @class = className })
+                    </td>
+                }
             </tr>
         </thead>
         <tbody>
             @foreach (LogMySqlDataModel currentRow in Model.Items)
             {
-                <tr>
-                    <td>@currentRow.DateTimeStamp</td>
-                    <td>@currentRow.Message</td>
-                    <td>@currentRow.Function</td>
-                    <td>@currentRow.Type</td>
-                    <td>@currentRow.Important</td>
-                    <td>
-                        @if (currentRow.Important == null) //button to mark as important
-                        {
-                            string fixedMessage = currentRow.Message.ToString().Replace("'","\\'");
-                            <button class="openModalButton" onclick="openModal('@currentRow.DateTimeStamp.ToString()',
+            <tr>
+                <td>@currentRow.DateTimeStamp</td>
+                <td>@currentRow.Function</td>
+                <td>@currentRow.Message</td>
+                <td>@currentRow.Type</td>
+                <td>
+                    @if (currentRow.Important == null) //button to mark as important
+                    {
+                        string fixedMessage = currentRow.Message.ToString().Replace("'", "\\'");
+                        <img src="~/Content/unfilledStar.jpg" class="unfilledIcon" onclick="openModal('@currentRow.DateTimeStamp.ToString()',
                             '@fixedMessage', '@currentRow.Function.ToString()','@currentRow.Type.ToString()')">
-                                Mark as important
-                            </button>
-                        }
-                        else //button to unmark as important
-                        {
-                             string fixedMessage = currentRow.Message.ToString().Replace("'","\\'");
-                            <button class="markUnimportantButton" onclick="markUnimportant('@currentRow.DateTimeStamp.ToString()',
+                    }
+                    else //button to unmark as important
+                    {
+                        string fixedMessage = currentRow.Message.ToString().Replace("'", "\\'");
+                        <img src="~/Content/filledStar.jpg" class="filledIcon" onclick="markUnimportant('@currentRow.DateTimeStamp.ToString()',
                             '@fixedMessage', '@currentRow.Function.ToString()','@currentRow.Type.ToString()')">
-                                Undo
-                            </button>
-                        }
-                    </td>
-                </tr>
+                    }
+                </td>
+            </tr>
             }
         </tbody>
     </table>

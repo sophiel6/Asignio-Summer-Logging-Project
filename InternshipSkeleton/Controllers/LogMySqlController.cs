@@ -13,7 +13,7 @@ namespace AsignioInternship.Controllers
             m_logMySqlRepository = (logMySqlRepository != null) ? logMySqlRepository : throw new ArgumentNullException();
         }
 
-        public ActionResult Index(int? id, string searchBy, string searchInput, string sortBy)
+        public ActionResult Index(int? id, string searchBy, string searchInput, string sortBy, string sortDir)
         {
             int pageNum;
             pageNum = (id ?? 1);
@@ -21,8 +21,9 @@ namespace AsignioInternship.Controllers
             string sortColumn = sortBy ?? "DateTimeStamp";
             string searchInfo = searchInput ?? "";
             string searchColumn = searchBy ?? "";
+            string sortDirection = sortDir ?? "ASC";
             PagedDataModelCollection<LogMySqlDataModel> result = m_logMySqlRepository.PageLogMySql(searchInfo,
-                                                                            searchColumn, pageSize, pageNum, sortColumn, "ASC");
+                                                                            searchColumn, pageSize, pageNum, sortColumn, sortDirection);
             return View(result);
         }
 

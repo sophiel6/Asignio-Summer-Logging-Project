@@ -32,6 +32,12 @@ body {
     text-decoration: underline;
 }
 
+.pageLabel {
+    border: 1px solid black;
+    font-size: 14px !important;
+    padding: inherit;
+}
+
 .btn-group button {
     background-color: #4CAF50; /* Green background */
     border: 1px solid green; /* Green border */

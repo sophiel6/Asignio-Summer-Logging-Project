@@ -60,6 +60,8 @@
         controllerName: "LogException",
         routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = "", searchInput = "", id = 1 },
         htmlAttributes: new { @class = "btn btn-default" })
+
+        @Html.ActionLink("Advanced Search", "AdvancedSearch", "LogException");
     }
 </div>
 

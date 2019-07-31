@@ -26,6 +26,10 @@ namespace AsignioInternship.Controllers
                                                                             searchColumn, pageSize, pageNum, sortColumn, sortDirection);
             return View(result);
         }
+        /* 
+         * reformat the Index method to take a dictionary of searchBy's and searchInput's 
+         * IDictionary<string, string> searches = new Dictionary<string, string>();
+         */
 
         [HttpPost]
         public JsonResult UpdateImportance(string username, [System.Web.Http.FromBody]CombinedLogExceptionDataModel logToUpdate)
@@ -59,6 +63,11 @@ namespace AsignioInternship.Controllers
             {
                 return Json(new { IsCreated = false, ErrorMessage = "Error" });
             }
+        }
+
+        public ActionResult AdvancedSearch()
+        {
+            return View();
         }
 
         private readonly ILogExceptionRepository m_logExceptionRepository;
@@ -104,23 +113,17 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
 
 /*
  * To do - LogException:  
+ * -make querying by multiple categories possible - add Advanced Search page?
+ *      link to Advanced Search, AdvancedSearch controller method, AdvancedSearch view
+ *      AdvancedSearch view --> places to select options
+ *      add new method to LogExceptionRepository to query sql table by these things and display? 
+ *      
  * -add ability to only display logs that are marked as important (or is this necessary since I've made "sort descending" possible?)
- * -make querying by multiple categories possible
+ 
  * -maybe need to change more stuff to ajax calls? - ask about that 
  * 
- * 
- * To do - other tables
- * -split the search/sort/page form into 3?
- * -change display of Important from email to an icon
- * -add ability to make sort order ascending or descending 
- * -make it so you can click on a column heading to sort by that column & click again to switch sort order
- * -make the selected sort order appear underlined or somehow selected 
- * -fix css/styling for the forms
- * -add a way to "refresh" after searching for something - reset searchBy and searchInput 
- * 
- * -fix up searching and categories to search by 
- * 
- * Controller - index method
- * Index view 
- * Repository - CombinedPage method
+ * To do - general
+ * -make the active tab in the navbar appear selected
+ * -how should searching by "Important" work? - search by who marked as important or just by whether something is important
+ * -change background of icons to be transparent (or change icon in general)
  */

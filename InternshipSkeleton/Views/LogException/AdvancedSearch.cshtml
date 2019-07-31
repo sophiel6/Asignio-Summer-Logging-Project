@@ -1,0 +1,78 @@
+﻿<!-- LogException Advanced Search page -->
+
+@{
+    ViewBag.Title = "AdvancedSearch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Log Exception - Advanced Search</h2>
+
+<!-- Email, Timestamp, Message, Method Name, Source, Stack Trace, Important (both IsImportant? and who marked as important) -->
+<!-- Email - string search -->
+<!-- Timestamp - enter a range of dates -->
+<!-- Message - string search-->
+<!-- MethodName - string search-->
+<!-- Source - string search -->
+<!-- StackTrace - string search -->
+<!-- Important - check box for IsImportant? and string search for user who marked as important -->
+<!-- make a dictionary of keys (category) and values (user-entered), send that to controller (need new Index method which takes this
+    dictionary as input?)/could also add as a parameter in the current Index method -->
+<!-- https://alexkuznetsov.wordpress.com/2013/05/08/asp-net-mvc-pass-dictionary-data-from-view-to-controller/ -->
+
+<table id="SearchTable">
+    <tr>
+        <td>Email Address:</td>
+        <td>@Html.TextBox("EmailAddress")</td>
+    </tr>
+    <tr>
+        <td>TimeStamp: </td>
+        <td>@Html.TextBox("TimeStamp")</td>
+    </tr>
+    <tr>
+        <td>Message: </td>
+        <td>@Html.TextBox("Message")</td>
+    </tr>
+    <tr>
+        <td>Method Name: </td>
+        <td>@Html.TextBox("MethodName")</td>
+    </tr>
+    <tr>
+        <td>Source: </td>
+        <td>@Html.TextBox("Source")</td>
+    </tr>
+    <tr>
+        <td>Stack Trace: </td>
+        <td>@Html.TextBox("StackTrace")</td>
+    </tr>
+</table>
+<input id="SendToControllerButton" type="button" value="Search" />
+<script>
+    $(document).ready(function () {
+
+        $("#SendToControllerButton").click(function () {
+
+            var data = {};
+
+            //Collects the data from textboxes and adds it to the dictionary
+            $("#SearchTable tr").each(function (index, item) {
+                var tds = $(this).find("td");
+                var textBoxTitle = $(tds).eq(0).text();
+                var textboxValue = $(tds).eq(1).find("input").val();
+                data["searchDictionary[" + index + "].Key"] = textBoxTitle;
+                data["searchDictionary[" + index + "].Value"] = textboxValue;
+            });
+
+            //Makes ajax call to controller
+            $.ajax({
+                type: "POST",
+                data: data,
+                url: "@Url.Action("Index", "LogException")",
+                success: function (message) {
+                    alert(message);
+                }
+            });
+
+        });
+
+    });
+</script>

@@ -22,6 +22,8 @@
     bool noResults = (Model.TotalItems) == 0;
 
     List<SelectListItem> searchCategories = new List<SelectListItem>();
+    //searchCategories.Add(new SelectListItem { Text = "Select category", Selected=true, Disabled = true });
+    searchCategories.Add(new SelectListItem { Text = "Date (YYYY-MM-DD)", Value = "TimeStamp" });
     searchCategories.Add(new SelectListItem { Text = "Raw URL", Value = "RawURL" });
     searchCategories.Add(new SelectListItem { Text = "Parameters", Value = "Parameters" });
     searchCategories.Add(new SelectListItem { Text = "Importance", Value = "Important" });

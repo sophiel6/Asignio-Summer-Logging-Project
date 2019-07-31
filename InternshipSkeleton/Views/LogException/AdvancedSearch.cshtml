@@ -21,7 +21,7 @@
 
 <table id="SearchTable">
     <tr>
-        <td>Email Address:</td>
+        <td>EmailAddress</td>
         <td>@Html.TextBox("EmailAddress")</td>
     </tr>
     <tr>
@@ -29,28 +29,29 @@
         <td>@Html.TextBox("TimeStamp")</td>
     </tr>
     <tr>
-        <td>Message: </td>
+        <td>Message</td>
         <td>@Html.TextBox("Message")</td>
     </tr>
     <tr>
-        <td>Method Name: </td>
+        <td>MethodName</td>
         <td>@Html.TextBox("MethodName")</td>
     </tr>
     <tr>
-        <td>Source: </td>
+        <td>Source</td>
         <td>@Html.TextBox("Source")</td>
     </tr>
     <tr>
-        <td>Stack Trace: </td>
+        <td>StackTrace</td>
         <td>@Html.TextBox("StackTrace")</td>
     </tr>
 </table>
 <input id="SendToControllerButton" type="button" value="Search" />
+
 <script>
     $(document).ready(function () {
 
         $("#SendToControllerButton").click(function () {
-
+            debugger;
             var data = {};
 
             //Collects the data from textboxes and adds it to the dictionary
@@ -62,17 +63,18 @@
                 data["searchDictionary[" + index + "].Value"] = textboxValue;
             });
 
-            //Makes ajax call to controller
+            /* var id = 1;
+            var sortBy = "TimeStamp";
+            var sortDir = "ASC"; */
+
             $.ajax({
                 type: "POST",
                 data: data,
-                url: "@Url.Action("Index", "LogException")",
-                success: function (message) {
-                    alert(message);
+                url: "@Url.Action("IndexToo", "LogException")",
+                success: function (response) {
+                    //window.location = response.url;
                 }
             });
-
         });
-
     });
 </script>

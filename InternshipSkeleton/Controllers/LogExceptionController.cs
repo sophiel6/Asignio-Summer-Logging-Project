@@ -2,6 +2,7 @@
 using AsignioInternship.Data.CombinedLogException;
 using AsignioInternship.Data.LogException;
 using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace AsignioInternship.Controllers
@@ -30,6 +31,18 @@ namespace AsignioInternship.Controllers
          * reformat the Index method to take a dictionary of searchBy's and searchInput's 
          * IDictionary<string, string> searches = new Dictionary<string, string>();
          */
+         public ActionResult IndexToo(int? id, Dictionary<string,string> searchDictionary, string sortBy, string sortDir)
+        {
+            int pageNum = (id ?? 1);
+            int pageSize = 20;
+            string sortColumn = sortBy ?? "TimeStamp";
+            string sortDirection = sortDir ?? "ASC";
+            PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.NewCombinedPageLogException(pageSize,
+                pageNum, sortColumn, sortDirection, searchDictionary);
+            //return Json(new { result = "Redirect", url = Url.Action("IndexToo", "LogException") });
+
+            return View(result);
+        }
 
         [HttpPost]
         public JsonResult UpdateImportance(string username, [System.Web.Http.FromBody]CombinedLogExceptionDataModel logToUpdate)

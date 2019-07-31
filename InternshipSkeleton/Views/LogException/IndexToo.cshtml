@@ -1,0 +1,129 @@
+﻿
+@using AsignioInternship.Data.CombinedLogException
+@using AsignioInternship.Data
+
+
+@model PagedDataModelCollection<CombinedLogExceptionDataModel>
+@{
+    ViewBag.Title = "IndexToo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+@{
+    var searchBy = Model.SearchBy;
+    var searchInput = Model.SearchInput;
+    var sortBy = Model.SortBy;
+    var sortDir = Model.SortDirection;
+    var id = Model.PageNumber;
+
+    List<String> categories = new List<String>() { "EmailAddress", "TimeStamp", "WebRequestID", "Message", "MethodName", "Source", "StackTrace", "Important" };
+
+    bool noResults = (Model.TotalItems) == 0;
+}
+
+<!-- Paging stuff -->
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <label class="pageLabel"> Current page: @Model.PageNumber / @Model.TotalPages</label>
+        </div>
+        <div class="col-md-4">
+            <div class="btn-group">
+                @Html.ActionLink(linkText: " << First",
+                                actionName: "IndexToo",
+                                controllerName: "LogException",
+                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = 1 },
+                                htmlAttributes: new { @class = "btn btn-default" })
+                @Html.ActionLink(linkText: "< Previous",
+                                actionName: "IndexToo",
+                                controllerName: "LogException",
+                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = ((id - 1) != 0) ? (id - 1) : id },
+                                htmlAttributes: new { @class = "btn btn-default" })
+                @Html.ActionLink(linkText: "Next >",
+                                actionName: "IndexToo",
+                                controllerName: "LogException",
+                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
+                                htmlAttributes: new { @class = "btn btn-default" })
+                @Html.ActionLink(linkText: "Last >>",
+                                actionName: "IndexToo",
+                                controllerName: "LogException",
+                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = Model.TotalPages },
+                                htmlAttributes: new { @class = "btn btn-default" })
+            </div>
+        </div>
+        <div class="col-md-4">
+            @using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "IndexToo" }))
+            {
+                @Html.HiddenFor(m => m.SortBy)
+                @Html.HiddenFor(m => m.SortDirection)
+                @Html.HiddenFor(m => m.SearchBy)
+                @Html.HiddenFor(m => m.SearchInput)
+
+                <div class="block">
+                    @Html.Label("Page: ", new { @class = "mylabel" })
+                </div>
+                <div class="block">
+                    @Html.TextBox("id", null, new { @class = "pageinputbox" })
+                </div>
+                <input type="submit" name="btnSubmit" value="Jump to page" class="btn btn-default" style="display: inline-block;" />
+            }
+        </div>
+    </div>
+</div>
+
+@if (!noResults)
+{
+    <table style="width:100%; text-align:center;">
+        <thead>
+            <tr>
+                @foreach (String category in categories)
+                {
+                    var sortB = "";
+                    var sortD = "";
+                    var className = "";
+
+                    if (sortBy == category)
+                    {
+                        sortB = sortBy;
+                        className = "sortLink";<!-- If sortBy == the category name, make the link underlined -->
+
+                        if (sortDir == "ASC")
+                        { sortD = "DESC"; }
+                        else
+                        { sortD = "ASC"; }
+                    }
+                    else
+                    {
+                        sortB = category;
+                        sortD = "ASC";
+                    }
+                    <td>
+                        @Html.ActionLink(category, "IndexToo", new { sortBy = sortB, sortDir = sortD, searchBy = searchBy, searchInput = searchInput, id = 1 }, new { @class = className })
+                    </td>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (CombinedLogExceptionDataModel currentRow in Model.Items)
+            {
+                <tr>
+                    <td>@currentRow.EmailAddress</td>
+                    <td>@currentRow.TimeStamp</td>
+                    <td>@currentRow.WebRequestID</td>
+                    <td>@currentRow.Message</td>
+                    <td>@currentRow.MethodName</td>
+                    <td>@currentRow.Source</td>
+                    <td>@currentRow.StackTrace</td>
+                    <td>@currentRow.Important</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <h2> No results found. </h2>
+}

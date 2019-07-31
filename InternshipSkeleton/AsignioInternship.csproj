@@ -225,6 +225,7 @@
     <Content Include="Views\LogWebRequest\Index.cshtml" />
     <Content Include="Views\LogWebResponse\Index.cshtml" />
     <Content Include="Views\LogException\AdvancedSearch.cshtml" />
+    <Content Include="Views\LogException\IndexToo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

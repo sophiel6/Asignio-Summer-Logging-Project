@@ -225,6 +225,84 @@ namespace AsignioInternship.Data.LogException
             return null;
         }
 
+        public PagedDataModelCollection<CombinedLogExceptionDataModel> NewCombinedPageLogException(int pageSize, int pageNum, 
+            string sortColumn, string sortDirection, Dictionary<string, string> searchDictionary)
+        {
+            using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
+            {
+                try
+                {
+                    PetaPoco.Sql sql = new PetaPoco.Sql();
+
+                    sql.Append("SELECT ");
+                    sql.Append("user.EmailAddress, logexception.UserID, logexception.TimeStamp, logexception.WebRequestID, logexception.Message, " +
+                               "logexception.MethodName, logexception.Source, logexception.StackTrace, logexception.Important ");
+                    sql.Append(" from logexception ");
+                    sql.Append(" INNER JOIN user on user.userID = logexception.userID ");
+
+                    foreach (KeyValuePair<string, string> entry in searchDictionary)
+                    {
+                        string userInput = entry.Value;
+
+                        if (!string.IsNullOrWhiteSpace(userInput))
+                        {
+                            if (userInput.Contains("@")) //format email
+                            {
+                                string[] sections = userInput.Split(new[] { '@' });
+                                sections[1] = sections[1].Insert(0, "@@");
+                                userInput = string.Join("", sections);
+                            }
+
+                            if (entry.Key == "TimeStamp") //format date 
+                            {
+                                if (userInput[0] != '\'') //format all search strings
+                                {
+                                    userInput = string.Format("\'{0}\'", userInput);
+                                }
+                                sql.Append(string.Format("WHERE DATE({0}) = {1} ", entry.Key, userInput));
+                            }
+                            else //if not a date
+                            {
+                                if (userInput[0] != '\'') //format non-date searches
+                                {
+                                    userInput = string.Format("\'%{0}%\'", userInput);
+                                }
+                                sql.Append(string.Format("WHERE {0} LIKE {1} ", entry.Key, userInput));
+                            }
+                        }
+                    }
+                    sql.Append(string.Format("ORDER BY {0} {1}", sortColumn, sortDirection));
+
+                    PetaPoco.Page<CombinedLogExceptionPoco> page = db.Page<CombinedLogExceptionPoco>(pageNum, pageSize, sql);
+
+                    if (page == null)
+                    {
+                        return null;
+                    }
+
+                    return new PagedDataModelCollection<CombinedLogExceptionDataModel>()
+                    {
+                        Items = page.Items.Select(s => s.ToModel()),
+                        PageNumber = pageNum,
+                        PageSize = pageSize,
+                        TotalItems = page.TotalItems,
+                        TotalPages = page.TotalPages,
+                        SortBy = sortColumn,
+                        SortDirection = sortDirection,
+                        //SearchBy = searchColumn,
+                        //SearchInput = nameSearchPattern
+                    };
+                }
+                catch (Exception ex)
+                {
+                    string errorMessage = ex.Message;
+                }
+                finally
+                {
+                }
+            }
+            return null;
+        }
 
         public int Update(CombinedLogExceptionDataModel LogToUpdate, string username)
         {

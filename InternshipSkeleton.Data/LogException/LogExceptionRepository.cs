@@ -152,7 +152,7 @@ namespace AsignioInternship.Data.LogException
         */
 
         public PagedDataModelCollection<CombinedLogExceptionDataModel> CombinedPageLogException(string nameSearchPattern, 
-                                string searchColumn, int pageSize, int pageNumber, string sortColumn, string sortDirection)
+                                string searchColumn, int pageSize, int pageNumber, string sortColumn, string sortDirection, Dictionary<string,string> searchDictionary)
         {
             using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
             {
@@ -211,7 +211,8 @@ namespace AsignioInternship.Data.LogException
                         SortBy = sortColumn,
                         SortDirection = sortDirection,
                         SearchBy = searchColumn,
-                        SearchInput = nameSearchPattern
+                        SearchInput = nameSearchPattern,
+                        SearchDictionary = searchDictionary,
                     };
                 }
                 catch (Exception ex)
@@ -289,6 +290,7 @@ namespace AsignioInternship.Data.LogException
                         TotalPages = page.TotalPages,
                         SortBy = sortColumn,
                         SortDirection = sortDirection,
+                        SearchDictionary = searchDictionary,
                         //SearchBy = searchColumn,
                         //SearchInput = nameSearchPattern
                     };

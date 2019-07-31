@@ -54,23 +54,7 @@
                                 htmlAttributes: new { @class = "btn btn-default" })
             </div>
         </div>
-        <div class="col-md-4">
-            @using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "IndexToo" }))
-            {
-                @Html.HiddenFor(m => m.SortBy)
-                @Html.HiddenFor(m => m.SortDirection)
-                @Html.HiddenFor(m => m.SearchBy)
-                @Html.HiddenFor(m => m.SearchInput)
-
-                <div class="block">
-                    @Html.Label("Page: ", new { @class = "mylabel" })
-                </div>
-                <div class="block">
-                    @Html.TextBox("id", null, new { @class = "pageinputbox" })
-                </div>
-                <input type="submit" name="btnSubmit" value="Jump to page" class="btn btn-default" style="display: inline-block;" />
-            }
-        </div>
+        
     </div>
 </div>
 

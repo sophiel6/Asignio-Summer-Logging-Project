@@ -23,8 +23,19 @@ namespace AsignioInternship.Controllers
             string searchInfo = searchInput ?? "";
             string searchColumn = searchBy ?? "";
             string sortDirection = sortDir ?? "ASC";
+
+            var searchDict = new Dictionary<string, string>()
+            {
+                {"EmailAddress", ""  },
+                {"TimeStamp", "" },
+                {"Message", "" },
+                {"MethodName", "" },
+                {"Source", "" },
+                {"StackTrace", "" }
+             };
+            //Dictionary<string,string> searchDictionary = new Dictionary<string, string>();
             PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException(searchInfo,
-                                                                            searchColumn, pageSize, pageNum, sortColumn, sortDirection);
+                                                                            searchColumn, pageSize, pageNum, sortColumn, sortDirection, searchDict);
             return View(result);
         }
         /* 
@@ -37,8 +48,9 @@ namespace AsignioInternship.Controllers
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
+            Dictionary<string, string> searchDict = searchDictionary ?? (new Dictionary<string, string>());
             PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.NewCombinedPageLogException(pageSize,
-                pageNum, sortColumn, sortDirection, searchDictionary);
+                pageNum, sortColumn, sortDirection, searchDict);
             //return Json(new { result = "Redirect", url = Url.Action("IndexToo", "LogException") });
 
             return View(result);
@@ -78,9 +90,9 @@ namespace AsignioInternship.Controllers
             }
         }
 
-        public ActionResult AdvancedSearch()
+        public ActionResult AdvancedSearch(PagedDataModelCollection<CombinedLogExceptionDataModel> log)
         {
-            return View();
+            return View(log);
         }
 
         private readonly ILogExceptionRepository m_logExceptionRepository;

@@ -18,14 +18,17 @@
     var sortBy = Model.SortBy;
     var sortDir = Model.SortDirection;
     var id = Model.PageNumber;
+    IDictionary<string, string> searchDict = Model.SearchDictionary;
 
     List<String> categories = new List<String>() { "EmailAddress", "TimeStamp", "WebRequestID", "Message", "MethodName", "Source", "StackTrace", "Important" };
 
     bool noResults = (Model.TotalItems) == 0;
 }
 
+
+
 <!-- Paging stuff -->
-<div class="container">
+<div class="container" style="padding-top: 50px !important;">
     <div class="row">
         <div class="col-md-4">
             <label class="pageLabel"> Current page: @Model.PageNumber / @Model.TotalPages</label>
@@ -35,28 +38,36 @@
                 @Html.ActionLink(linkText: " << First",
                                 actionName: "IndexToo",
                                 controllerName: "LogException",
-                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = 1 },
+                                routeValues: new { sortBy = sortBy, sortDir = sortDir, id = 1, searchDictionary = searchDict },
                                 htmlAttributes: new { @class = "btn btn-default" })
                 @Html.ActionLink(linkText: "< Previous",
                                 actionName: "IndexToo",
                                 controllerName: "LogException",
-                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = ((id - 1) != 0) ? (id - 1) : id },
+                                routeValues: new { sortBy = sortBy, sortDir = sortDir, id = ((id - 1) != 0) ? (id - 1) : id, searchDictionary = searchDict },
                                 htmlAttributes: new { @class = "btn btn-default" })
                 @Html.ActionLink(linkText: "Next >",
                                 actionName: "IndexToo",
                                 controllerName: "LogException",
-                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
+                                routeValues: new { sortBy = sortBy, sortDir = sortDir, id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id, searchDictionary = searchDict },
                                 htmlAttributes: new { @class = "btn btn-default" })
                 @Html.ActionLink(linkText: "Last >>",
                                 actionName: "IndexToo",
                                 controllerName: "LogException",
-                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = Model.TotalPages },
+                                routeValues: new { sortBy = sortBy, sortDir = sortDir, id = Model.TotalPages, searchDictionary = searchDict },
                                 htmlAttributes: new { @class = "btn btn-default" })
             </div>
         </div>
-        
     </div>
 </div>
+
+<!-- using (Html.BeginRouteForm(new { controller = "LogException", action = "IndexToo", id = 1, sortBy = sortBy, sortDir = sortDir }))
+{
+    Html.HiddenFor(m => m.SearchDictionary)
+    <input type="submit" name="btnSubmit" value="First" class="btn btn-default" style="width: 50px; display: inline-block;" />
+} -->
+
+<!-- Next button -->
+<button onClick ="NextButton(@id+1, '@sortBy', '@sortDir', @Model.SearchDictionary)"> Next </button>
 
 @if (!noResults)
 {
@@ -111,3 +122,57 @@ else
 {
     <h2> No results found. </h2>
 }
+
+<script>
+    var currentid = null;
+    var currentsortBy = null;
+    var currentsortDir = null;
+    var currentsearchDictionary = null;
+
+    function NextButton(page, sortB, sortD, searchD) {
+        currentid = page;
+        currentsortBy = sortB;
+        currentsortDir = sortD;
+        currentsearchDictionary = searchD;
+
+        var dictionary = [];
+        for (var key in currentsearchDictionary) {
+            if (currentsearchDictionary.hasOwnProperty(key)) {
+                dictionary.push({ Key: key, Value: currentsearchDictionary[key] });
+            }
+        }
+        const form = document.createElement('form');
+        form.method = 'post';
+        form.action = '/LogException/IndexToo';
+
+        for (const key in dictionary) {
+            if (dictionary.hasOwnProperty(key)) {
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = key;
+                hiddenField.value = dictionary[key];
+                form.appendChild(hiddenField);
+            }
+        }
+        const id = document.createElement('input');
+        id.type = 'hidden';
+        id.name = 'id';
+        id.value = currentid;
+        form.appendChild(id);
+
+        const sortBy = document.createElement('input');
+        sortBy.type = 'hidden';
+        sortBy.name = 'sortBy';
+        sortBy.value = currentsortBy;
+        form.appendChild(sortBy);
+
+        const sortDir = document.createElement('input');
+        sortDir.type = 'hidden';
+        sortDir.name = 'sortDir';
+        sortDir.value = currentsortDir;
+        form.appendChild(sortDir);
+
+        document.body.appendChild(form);
+        form.submit();
+    };
+</script>

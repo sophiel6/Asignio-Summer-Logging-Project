@@ -32,8 +32,7 @@ namespace AsignioInternship.Controllers
                 {"MethodName", "" },
                 {"Source", "" },
                 {"StackTrace", "" }
-             };
-            //Dictionary<string,string> searchDictionary = new Dictionary<string, string>();
+             }; 
             PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException(searchInfo,
                                                                             searchColumn, pageSize, pageNum, sortColumn, sortDirection, searchDict);
             return View(result);
@@ -50,8 +49,7 @@ namespace AsignioInternship.Controllers
             string sortDirection = sortDir ?? "ASC";
             Dictionary<string, string> searchDict = searchDictionary ?? (new Dictionary<string, string>());
             PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.NewCombinedPageLogException(pageSize,
-                pageNum, sortColumn, sortDirection, searchDict);
-            //return Json(new { result = "Redirect", url = Url.Action("IndexToo", "LogException") });
+                pageNum, sortColumn, sortDirection, searchDict); 
 
             return View(result);
         }
@@ -90,9 +88,9 @@ namespace AsignioInternship.Controllers
             }
         }
 
-        public ActionResult AdvancedSearch(PagedDataModelCollection<CombinedLogExceptionDataModel> log)
+        public ActionResult AdvancedSearch()
         {
-            return View(log);
+            return View();
         }
 
         private readonly ILogExceptionRepository m_logExceptionRepository;

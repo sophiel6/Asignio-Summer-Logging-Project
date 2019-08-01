@@ -1,8 +1,5 @@
 ﻿<!-- LogException Advanced Search page -->
-@using AsignioInternship.Data.CombinedLogException
-@using AsignioInternship.Data
 
-@model PagedDataModelCollection<CombinedLogExceptionDataModel>
 
 @{
     ViewBag.Title = "AdvancedSearch";
@@ -17,55 +14,40 @@
 <!-- Important - check box for IsImportant? and string search for user who marked as important -->
 <!-- https://alexkuznetsov.wordpress.com/2013/05/08/asp-net-mvc-pass-dictionary-data-from-view-to-controller/ -->
 
-<!--<table id="SearchTable">
+<table id="SearchTable">
     <tr>
         <td>EmailAddress</td>
-        <td>Html.TextBox("EmailAddress")</td>
+        <td>@Html.TextBox("EmailAddress")</td>
     </tr>
     <tr>
         <td>TimeStamp</td>
-        <td>Html.TextBox("TimeStamp")</td>
+        <td>@Html.TextBox("TimeStamp")</td>
     </tr>
     <tr>
         <td>Message</td>
-        <td>Html.TextBox("Message")</td>
+        <td>@Html.TextBox("Message")</td>
     </tr>
     <tr>
         <td>MethodName</td>
-        <td>Html.TextBox("MethodName")</td>
+        <td>@Html.TextBox("MethodName")</td>
     </tr>
     <tr>
         <td>Source</td>
-        <td>Html.TextBox("Source")</td>
+        <td>@Html.TextBox("Source")</td>
     </tr>
     <tr>
         <td>StackTrace</td>
-        <td>Html.TextBox("StackTrace")</td>
+        <td>@Html.TextBox("StackTrace")</td>
     </tr>
 </table>
-<input id="SendToControllerButton" type="button" onClick="displayResults()" value="Search" /> -->
+<input id="SendToControllerButton" type="button" value="Search" />
 
-@using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "IndexToo", id = Model.PageNumber }))
-{
-    @Html.HiddenFor(m => m.SortBy)
-    @Html.HiddenFor(m => m.SortDirection)
-    @Html.HiddenFor(m => m.SearchBy)
-    @Html.HiddenFor(m => m.SearchInput)
-
-    foreach (KeyValuePair<string, string> entry in Model.SearchDictionary)
-    {
-        @Html.Label(entry.Key)
-        @Html.TextBoxFor(m=>m.SearchDictionary[entry.Key])
-    }
-
-    <input type="submit" name="btnSubmit" value="Search" class="btn btn-default" style="display: inline-block;" />
-}
 
 <script>
     $(document).ready(function () {
 
         $("#SendToControllerButton").click(function () {
-            debugger;
+
             var data = {};
 
             //Collects the data from textboxes and adds it to the dictionary
@@ -76,22 +58,25 @@
                 data["searchDictionary[" + index + "].Key"] = textBoxTitle;
                 data["searchDictionary[" + index + "].Value"] = textboxValue;
             });
+            debugger;
+            //creating a form to submit the dictionary to IndexToo
+            const form = document.createElement('form');
+            form.method = 'post';
+            form.action = '/LogException/IndexToo';
 
-            $.ajax({
-                type: "POST",
-                data: data,
-                url: "@Url.Action("IndexToo", "LogException")",
-                success: function (response) {
-                    //window.location = response.url;
-                    //alert(response);
-                    window.location = @Url.Action("IndexToo", "LogException", new { })
+            for (const key in data) {
+                if (data.hasOwnProperty(key)) {
+                    const hiddenField = document.createElement('input');
+                    hiddenField.type = 'hidden';
+                    hiddenField.name = key;
+                    hiddenField.value = data[key];
+
+                    form.appendChild(hiddenField);
                 }
-            });
-
+            }
+            document.body.appendChild(form);
+            form.submit();
         });
     });
 
-    function displayResults() {
-
-    }
 </script>

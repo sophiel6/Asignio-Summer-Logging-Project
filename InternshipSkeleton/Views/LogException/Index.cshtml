@@ -18,7 +18,7 @@
     var sortBy = Model.SortBy;
     var sortDir = Model.SortDirection;
     var id = Model.PageNumber;
-    var searchDir = Model.SearchDictionary;
+    //var searchDir = Model.SearchDictionary;
 
     List<String> categories = new List<String>() { "EmailAddress", "TimeStamp", "WebRequestID", "Message", "MethodName", "Source", "StackTrace", "Important" };
 
@@ -63,24 +63,9 @@
         htmlAttributes: new { @class = "btn btn-default" })
 
     }
-    <!-- Html.ActionLink("Advanced Search", "AdvancedSearch", "LogException", new { log = Model }); -->
 
-    @using (Html.BeginRouteForm(new { controller = "LogException", action = "AdvancedSearch" }))
-    {
-        @Html.HiddenFor(m => m.SortBy)
-        @Html.HiddenFor(m => m.SortDirection)
-        @Html.HiddenFor(m => m.SearchBy)
-        @Html.HiddenFor(m => m.SearchInput)
-        @Html.HiddenFor(m => m.SearchDictionary)
-        <input type="submit" name="btnSubmit" value="Advanced Search" class="btn btn-default" style="display: inline-block;" />
-    }
+    @Html.ActionLink("Advanced Search", "AdvancedSearch", "LogException")
 
-    @Html.ActionLink(linkText: "Advanced Search",
-    actionName: "AdvancedSearch",
-    controllerName: "LogException",
-    routeValues: new { searchDirectory = searchDir}, // I think a good thing to try would be making AdvancedSearch not 
-                      //take any inputs, and just send the user-inputted dictionary of values from there to the controller without ajax
-    htmlAttributes: new { @class = "btn btn-default" })
 
 </div>
 

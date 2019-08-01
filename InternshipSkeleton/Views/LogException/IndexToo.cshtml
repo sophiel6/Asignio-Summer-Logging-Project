@@ -25,41 +25,16 @@
     bool noResults = (Model.TotalItems) == 0;
 }
 
-
-
 <!-- Paging stuff -->
 <div class="container" style="padding-top: 50px !important;">
     <div class="row">
         <div class="col-md-4">
             <label class="pageLabel"> Current page: @Model.PageNumber / @Model.TotalPages</label>
         </div>
-        <!-- 
-        <div class="col-md-4">
-            <div class="btn-group">
-                Html.ActionLink(linkText: " << First",
-                                actionName: "IndexToo",
-                                controllerName: "LogException",
-                                routeValues: new { sortBy = sortBy, sortDir = sortDir, id = 1, searchDictionary = searchDict },
-                                htmlAttributes: new { class = "btn btn-default" })
-                Html.ActionLink(linkText: "< Previous",
-                                actionName: "IndexToo",
-                                controllerName: "LogException",
-                                routeValues: new { sortBy = sortBy, sortDir = sortDir, id = ((id - 1) != 0) ? (id - 1) : id, searchDictionary = searchDict },
-                                htmlAttributes: new { class = "btn btn-default" })
-                Html.ActionLink(linkText: "Next >",
-                                actionName: "IndexToo",
-                                controllerName: "LogException",
-                                routeValues: new { sortBy = sortBy, sortDir = sortDir, id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id, searchDictionary = searchDict },
-                                htmlAttributes: new { class = "btn btn-default" })
-                Html.ActionLink(linkText: "Last >>",
-                                actionName: "IndexToo",
-                                controllerName: "LogException",
-                                routeValues: new { sortBy = sortBy, sortDir = sortDir, id = Model.TotalPages, searchDictionary = searchDict },
-                                htmlAttributes: new { class = "btn btn-default" })
-            </div>
-        </div> -->
     </div>
 </div>
+
+@Html.ActionLink("Back to table", "Index")
 
 <button type="button" onclick="pageButton(1, '@sortBy', '@sortDir')"> << First </button>
 

@@ -149,4 +149,6 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
  * -make the active tab in the navbar appear selected
  * -how should searching by "Important" work? - search by who marked as important or just by whether something is important
  * -change background of icons to be transparent (or change icon in general)
+ * 
+ * maybe combine the IndexToo function and View into the Index function and view 
  */

@@ -18,7 +18,7 @@
     var sortBy = Model.SortBy;
     var sortDir = Model.SortDirection;
     var id = Model.PageNumber;
-    IDictionary<string, string> searchDict = Model.SearchDictionary;
+    var searchDict = Model.SearchDictionary;
 
     List<String> categories = new List<String>() { "EmailAddress", "TimeStamp", "WebRequestID", "Message", "MethodName", "Source", "StackTrace", "Important" };
 
@@ -33,41 +33,42 @@
         <div class="col-md-4">
             <label class="pageLabel"> Current page: @Model.PageNumber / @Model.TotalPages</label>
         </div>
+        <!-- 
         <div class="col-md-4">
             <div class="btn-group">
-                @Html.ActionLink(linkText: " << First",
+                Html.ActionLink(linkText: " << First",
                                 actionName: "IndexToo",
                                 controllerName: "LogException",
                                 routeValues: new { sortBy = sortBy, sortDir = sortDir, id = 1, searchDictionary = searchDict },
-                                htmlAttributes: new { @class = "btn btn-default" })
-                @Html.ActionLink(linkText: "< Previous",
+                                htmlAttributes: new { class = "btn btn-default" })
+                Html.ActionLink(linkText: "< Previous",
                                 actionName: "IndexToo",
                                 controllerName: "LogException",
                                 routeValues: new { sortBy = sortBy, sortDir = sortDir, id = ((id - 1) != 0) ? (id - 1) : id, searchDictionary = searchDict },
-                                htmlAttributes: new { @class = "btn btn-default" })
-                @Html.ActionLink(linkText: "Next >",
+                                htmlAttributes: new { class = "btn btn-default" })
+                Html.ActionLink(linkText: "Next >",
                                 actionName: "IndexToo",
                                 controllerName: "LogException",
                                 routeValues: new { sortBy = sortBy, sortDir = sortDir, id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id, searchDictionary = searchDict },
-                                htmlAttributes: new { @class = "btn btn-default" })
-                @Html.ActionLink(linkText: "Last >>",
+                                htmlAttributes: new { class = "btn btn-default" })
+                Html.ActionLink(linkText: "Last >>",
                                 actionName: "IndexToo",
                                 controllerName: "LogException",
                                 routeValues: new { sortBy = sortBy, sortDir = sortDir, id = Model.TotalPages, searchDictionary = searchDict },
-                                htmlAttributes: new { @class = "btn btn-default" })
+                                htmlAttributes: new { class = "btn btn-default" })
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 
-<!-- using (Html.BeginRouteForm(new { controller = "LogException", action = "IndexToo", id = 1, sortBy = sortBy, sortDir = sortDir }))
-{
-    Html.HiddenFor(m => m.SearchDictionary)
-    <input type="submit" name="btnSubmit" value="First" class="btn btn-default" style="width: 50px; display: inline-block;" />
-} -->
+<button type="button" onclick="pageButton(1, '@sortBy', '@sortDir')"> << First </button>
 
-<!-- Next button -->
-<button onClick ="NextButton(@id+1, '@sortBy', '@sortDir', @Model.SearchDictionary)"> Next </button>
+<button type="button" onclick="pageButton(((@id - 1) != 0) ? (@id - 1) : @id, '@sortBy', '@sortDir')"> < Previous </button>
+
+<button type ="button" onClick ="pageButton(((@id + 1) <= @Model.TotalPages) ? (@id + 1) : @id, '@sortBy', '@sortDir')"> Next > </button>
+
+<button type="button" onclick="pageButton(@Model.TotalPages, '@sortBy', '@sortDir')"> Last >> </button>
+
 
 @if (!noResults)
 {
@@ -127,47 +128,50 @@ else
     var currentid = null;
     var currentsortBy = null;
     var currentsortDir = null;
-    var currentsearchDictionary = null;
+    var currentsearchDictionary = @Html.Raw(Json.Encode(searchDict))
 
-    function NextButton(page, sortB, sortD, searchD) {
+    function pageButton(page, sortB, sortD) {
         currentid = page;
         currentsortBy = sortB;
         currentsortDir = sortD;
-        currentsearchDictionary = searchD;
+        debugger;
 
-        var dictionary = [];
-        for (var key in currentsearchDictionary) {
-            if (currentsearchDictionary.hasOwnProperty(key)) {
-                dictionary.push({ Key: key, Value: currentsearchDictionary[key] });
-            }
-        }
         const form = document.createElement('form');
         form.method = 'post';
         form.action = '/LogException/IndexToo';
 
-        for (const key in dictionary) {
-            if (dictionary.hasOwnProperty(key)) {
-                const hiddenField = document.createElement('input');
-                hiddenField.type = 'hidden';
-                hiddenField.name = key;
-                hiddenField.value = dictionary[key];
-                form.appendChild(hiddenField);
+        var dictionary = {};
+        var index = 0;
+
+        for (var key in currentsearchDictionary) {
+            if (currentsearchDictionary.hasOwnProperty(key)) {
+                dictionary["searchDictionary[" + index + "].Key"] = key;
+                dictionary["searchDictionary[" + index + "].Value"] = currentsearchDictionary[key];
             }
+            index = index + 1;
         }
+        for (var key in dictionary) {
+            const hiddenField = document.createElement('input');
+            hiddenField.hidden = true;;
+            hiddenField.name = key;
+            hiddenField.value = dictionary[key];
+            form.appendChild(hiddenField);
+        }
+
         const id = document.createElement('input');
-        id.type = 'hidden';
+        id.hidden = true;
         id.name = 'id';
         id.value = currentid;
         form.appendChild(id);
 
         const sortBy = document.createElement('input');
-        sortBy.type = 'hidden';
+        sortBy.hidden = true;
         sortBy.name = 'sortBy';
         sortBy.value = currentsortBy;
         form.appendChild(sortBy);
 
         const sortDir = document.createElement('input');
-        sortDir.type = 'hidden';
+        sortDir.hidden = true;
         sortDir.name = 'sortDir';
         sortDir.value = currentsortDir;
         form.appendChild(sortDir);

@@ -135,14 +135,7 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
 }
 
 /*
- * To do - LogException:  
- * -make querying by multiple categories possible - add Advanced Search page?
- *      link to Advanced Search, AdvancedSearch controller method, AdvancedSearch view
- *      AdvancedSearch view --> places to select options
- *      add new method to LogExceptionRepository to query sql table by these things and display? 
- *      
- * -add ability to only display logs that are marked as important (or is this necessary since I've made "sort descending" possible?)
- 
+ * To do - LogException:   
  * -maybe need to change more stuff to ajax calls? - ask about that 
  * 
  * To do - general
@@ -150,5 +143,7 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
  * -how should searching by "Important" work? - search by who marked as important or just by whether something is important
  * -change background of icons to be transparent (or change icon in general)
  * 
- * maybe combine the IndexToo function and View into the Index function and view 
+ * maybe combine the IndexToo function and View into the Index function and view - but there's some stuff I just want appearing on the IndexToo view 
+ *     -combine PageLogException and NewPageLogException functions in repository
+ *     
  */

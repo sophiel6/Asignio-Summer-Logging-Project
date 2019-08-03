@@ -18,7 +18,7 @@
     var sortBy = Model.SortBy;
     var sortDir = Model.SortDirection;
     var id = Model.PageNumber;
-    //var searchDir = Model.SearchDictionary;
+    var searchDict = Model.SearchDictionary;
 
     List<String> categories = new List<String>() { "EmailAddress", "TimeStamp", "WebRequestID", "Message", "MethodName", "Source", "StackTrace", "Important" };
 
@@ -63,10 +63,7 @@
         htmlAttributes: new { @class = "btn btn-default" })
 
     }
-
     @Html.ActionLink("Advanced Search", "AdvancedSearch", "LogException")
-
-
 </div>
 
 <br />
@@ -202,7 +199,7 @@ else
 
 @section scripts
 {
-        <script language="javascript" type="text/javascript">
+    <script language="javascript" type="text/javascript">
     var exampleModal;
     var exampleModalVisible = false;
 
@@ -351,5 +348,5 @@ else
             }
         });
     }
-        </script>
-    }
+    </script>
+}

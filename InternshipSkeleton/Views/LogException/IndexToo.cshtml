@@ -28,21 +28,33 @@
 <!-- Paging stuff -->
 <div class="container" style="padding-top: 50px !important;">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label class="pageLabel"> Current page: @Model.PageNumber / @Model.TotalPages</label>
+        </div>
+        <div class="col-md-4">
+            <div class="btn-group">
+                <input type="button" class="btn btn-default" onclick="pageButton(1, '@sortBy', '@sortDir')" value="<< First">
+
+                <input type="button" class="btn btn-default" onclick="pageButton(((@id - 1) != 0) ? (@id - 1) : @id, '@sortBy', '@sortDir')" value="< Previous">
+
+                <input type="button" class="btn btn-default" onClick="pageButton(((@id + 1) <= @Model.TotalPages) ? (@id + 1) : @id, '@sortBy', '@sortDir')" value="Next >">
+
+                <input type="button" class="btn btn-default" onclick="pageButton(@Model.TotalPages, '@sortBy', '@sortDir')" value="Last >>">
+            </div>
+        </div>
+        <div class="col-md-2">
+            @Html.ActionLink("Back to table", "Index")
+        </div>
+        <div class="col-md-2">
+            @Html.ActionLink("New search", "AdvancedSearch")
         </div>
     </div>
 </div>
 
-@Html.ActionLink("Back to table", "Index")
 
-<button type="button" onclick="pageButton(1, '@sortBy', '@sortDir')"> << First </button>
 
-<button type="button" onclick="pageButton(((@id - 1) != 0) ? (@id - 1) : @id, '@sortBy', '@sortDir')"> < Previous </button>
 
-<button type ="button" onClick ="pageButton(((@id + 1) <= @Model.TotalPages) ? (@id + 1) : @id, '@sortBy', '@sortDir')"> Next > </button>
 
-<button type="button" onclick="pageButton(@Model.TotalPages, '@sortBy', '@sortDir')"> Last >> </button>
 
 
 @if (!noResults)

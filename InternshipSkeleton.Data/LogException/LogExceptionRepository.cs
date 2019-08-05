@@ -241,34 +241,64 @@ namespace AsignioInternship.Data.LogException
                     sql.Append(" from logexception ");
                     sql.Append(" INNER JOIN user on user.userID = logexception.userID ");
 
-                    foreach (KeyValuePair<string, string> entry in searchDictionary)
+                    bool FirstClause = true;
+                    string dateString = "";
+
+                    foreach (KeyValuePair<string, string> entry in searchDictionary) //format time ranges, important?
                     {
                         string userInput = entry.Value;
 
                         if (!string.IsNullOrWhiteSpace(userInput))
-                        {
-                            if (userInput.Contains("@")) //format email
+                        {  
+
+                            if (entry.Key == "Important")
                             {
-                                string[] sections = userInput.Split(new[] { '@' });
-                                sections[1] = sections[1].Insert(0, "@@");
-                                userInput = string.Join("", sections);
+                                if (!FirstClause)
+                                { sql.Append(string.Format("AND Important != \'\'")); }
+                                else
+                                { sql.Append(string.Format("WHERE Important != \'\'")); }
+                                FirstClause = false;
                             }
 
-                            if (entry.Key == "TimeStamp") //format date 
+                            else if (entry.Key == "beginDate") //format date 
                             {
-                                if (userInput[0] != '\'') //format all search strings
-                                {
-                                    userInput = string.Format("\'{0}\'", userInput);
-                                }
-                                sql.Append(string.Format("WHERE DATE({0}) = {1} ", entry.Key, userInput));
+                                if (userInput[0] != '\'') 
+                                { userInput = string.Format("\'{0}\'", userInput); }
+                                dateString = string.Format("DATE(TimeStamp) BETWEEN {0} AND ", userInput);
+                            }
+                            else if (entry.Key=="endDate" && dateString!="")
+                            {
+                                if (userInput[0] != '\'')
+                                { userInput = string.Format("\'{0}\'", userInput); }
+
+                                if (!FirstClause)
+                                { sql.Append(string.Format("AND {0} {1} ", dateString, userInput)); }
+                                else
+                                { sql.Append(string.Format("WHERE {0} {1} ", dateString, userInput)); }
+                                FirstClause = false;
                             }
                             else //if not a date
                             {
-                                if (userInput[0] != '\'') //format non-date searches
+                                if (userInput.Contains("@")) //format email
+                                {
+                                    string[] sections = userInput.Split(new[] { '@' });
+                                    sections[1] = sections[1].Insert(0, "@@");
+                                    userInput = string.Join("", sections);
+                                }
+                                if (userInput[0] != '\'') 
                                 {
                                     userInput = string.Format("\'%{0}%\'", userInput);
                                 }
-                                sql.Append(string.Format("WHERE {0} LIKE {1} ", entry.Key, userInput));
+                                if (!FirstClause)
+                                {
+                                    sql.Append(string.Format("AND {0} LIKE {1} ", entry.Key, userInput));
+                                }
+                                else
+                                {
+                                    sql.Append(string.Format("WHERE {0} LIKE {1} ", entry.Key, userInput));
+                                }
+                                FirstClause = false;
+
                             }
                         }
                     }
@@ -291,8 +321,8 @@ namespace AsignioInternship.Data.LogException
                         SortBy = sortColumn,
                         SortDirection = sortDirection,
                         SearchDictionary = searchDictionary,
-                        //SearchBy = searchColumn,
-                        //SearchInput = nameSearchPattern
+                        SearchBy = "",
+                        SearchInput = ""
                     };
                 }
                 catch (Exception ex)

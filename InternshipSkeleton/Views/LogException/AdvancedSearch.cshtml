@@ -14,69 +14,73 @@
 <!-- Important - check box for IsImportant? and string search for user who marked as important -->
 <!-- https://alexkuznetsov.wordpress.com/2013/05/08/asp-net-mvc-pass-dictionary-data-from-view-to-controller/ -->
 
-<table id="SearchTable">
-    <tr>
-        <td>EmailAddress</td>
-        <td>@Html.TextBox("EmailAddress")</td>
-    </tr>
-    <tr>
-        <td>TimeStamp</td>
-        <td>@Html.TextBox("TimeStamp")</td>
-    </tr>
-    <tr>
-        <td>Message</td>
-        <td>@Html.TextBox("Message")</td>
-    </tr>
-    <tr>
-        <td>MethodName</td>
-        <td>@Html.TextBox("MethodName")</td>
-    </tr>
-    <tr>
-        <td>Source</td>
-        <td>@Html.TextBox("Source")</td>
-    </tr>
-    <tr>
-        <td>StackTrace</td>
-        <td>@Html.TextBox("StackTrace")</td>
-    </tr>
-</table>
-<input id="SendToControllerButton" type="button" value="Search" />
+
+<form name="myForm">
+    @Html.Label("Email")
+    @Html.TextBox("EmailAddress")
+
+    @Html.Label("Start Date")
+    <input name="beginDate" id="beginDate" type="date" min="2019-01-01" />
+
+    @Html.Label("End Date")
+    <input name="endDate" id="endDate" type="date" min="2019-01-01" />
+
+    @Html.Label("Message")
+    @Html.TextBox("Message")
+
+    @Html.Label("Method Name")
+    @Html.TextBox("MethodName")
+
+    @Html.Label("Source")
+    @Html.TextBox("Source")
+
+    @Html.Label("Stack Trace")
+    @Html.TextBox("StackTrace")
+
+    <!-- Html.Label("Only get logs marked as important") -->
+    Only get logs marked as important <input type="checkbox" name="Important" value="true" />
+</form>
+<input id="submitForm" type="button" value="Search" />
 
 
 <script>
     $(document).ready(function () {
-
-        $("#SendToControllerButton").click(function () {
-
-            var data = {};
-
-            //Collects the data from textboxes and adds it to the dictionary
-            $("#SearchTable tr").each(function (index, item) {
-                var tds = $(this).find("td");
-                var textBoxTitle = $(tds).eq(0).text();
-                var textboxValue = $(tds).eq(1).find("input").val();
-                data["searchDictionary[" + index + "].Key"] = textBoxTitle;
-                data["searchDictionary[" + index + "].Value"] = textboxValue;
-            });
-            debugger;
-            //creating a form to submit the dictionary to IndexToo
-            const form = document.createElement('form');
-            form.method = 'post';
-            form.action = '/LogException/IndexToo';
-
-            for (const key in data) {
-                if (data.hasOwnProperty(key)) {
-                    const hiddenField = document.createElement('input');
-                    hiddenField.type = 'hidden';
-                    hiddenField.name = key;
-                    hiddenField.value = data[key];
-
-                    form.appendChild(hiddenField);
-                }
-            }
-            document.body.appendChild(form);
-            form.submit();
-        });
+        let today = new Date().toISOString().substr(0, 10);
+        document.querySelector("#beginDate").max = today;
+        document.querySelector("#endDate").max = today;
     });
+
+    $("#submitForm").click(function () {
+        var formData = $('form[name="myForm"]').serializeArray();
+        debugger;
+        var data = {};
+        var index = 0;
+        formData.forEach(function (pair) {
+            var textBoxTitle = pair.name;
+            var textboxValue = pair.value;
+            data["searchDictionary[" + index + "].Key"] = textBoxTitle;
+            data["searchDictionary[" + index + "].Value"] = textboxValue;
+            index++;
+        });
+        const newform = document.createElement('form');
+        newform.method = 'post';
+        newform.action = '/LogException/IndexToo';
+
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = key;
+                hiddenField.value = data[key];
+
+                newform.appendChild(hiddenField);
+            }
+        }
+        document.body.appendChild(newform);
+        newform.submit();
+    });
+
+
+
 
 </script>

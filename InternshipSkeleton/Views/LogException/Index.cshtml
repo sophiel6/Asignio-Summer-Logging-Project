@@ -24,12 +24,6 @@
 
     bool noResults = (Model.TotalItems) == 0;
 
-    List<SelectListItem> listItems = new List<SelectListItem>();
-    listItems.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
-    listItems.Add(new SelectListItem { Text = "Method Name", Value = "MethodName" });
-    listItems.Add(new SelectListItem { Text = "Email Address", Value = "EmailAddress" });
-    listItems.Add(new SelectListItem { Text = "Importance", Value = "Important" });
-
     List<SelectListItem> searchCategories = new List<SelectListItem>();
     searchCategories.Add(new SelectListItem { Text = "Email Address", Value = "EmailAddress" });
     searchCategories.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
@@ -41,9 +35,7 @@
 }
 
 <div class="container" style="padding-top: 50px !important;">
-    <!-- Search form -->
-    @using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }))
-    {
+    <form name="searchForm">
         @Html.HiddenFor(m => m.SortBy)
         @Html.HiddenFor(m => m.SortDirection)
 
@@ -55,68 +47,57 @@
             @Html.Label("*Search for: ", new { @class = "mylabel" })
             @Html.TextBox("searchInput", null, new { @class = "mytextbox" })
         </div>
-        <input type="submit" name="btnSubmit" value="Go" class="btn btn-default" style="width: 50px; display: inline-block;" />
-        @Html.ActionLink(linkText: "Undo search",
-        actionName: "Index",
-        controllerName: "LogException",
-        routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = "", searchInput = "", id = 1 },
-        htmlAttributes: new { @class = "btn btn-default" })
+        @Html.HiddenFor(m => m.PageNumber)
+    </form>
+    <input type="button" id="searchSubmit" name="searchSubmit" value="Search" class="btn btn-default" style="width: 50px; display: inline-block;" />
+   
+    @Html.ActionLink(linkText: "Undo search",
+    actionName: "Index",
+    controllerName: "LogException",
+    routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = "", searchInput = "", id = 1 },
+    htmlAttributes: new { @class = "btn btn-default" })
 
-    }
     @Html.ActionLink("Advanced Search", "AdvancedSearch", "LogException")
 </div>
 
 <br />
 
-<!-- Paging stuff -->
-<div class="container">
+<div class="container" style="padding-top: 50px !important;">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label class="pageLabel"> Current page: @Model.PageNumber / @Model.TotalPages</label>
         </div>
         <div class="col-md-4">
             <div class="btn-group">
-                @Html.ActionLink(linkText: " << First",
-                                actionName: "Index",
-                                controllerName: "LogException",
-                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = 1 },
-                                htmlAttributes: new { @class = "btn btn-default" })
-                @Html.ActionLink(linkText: "< Previous",
-                                actionName: "Index",
-                                controllerName: "LogException",
-                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = ((id - 1) != 0) ? (id - 1) : id },
-                                htmlAttributes: new { @class = "btn btn-default" })
-                @Html.ActionLink(linkText: "Next >",
-                                actionName: "Index",
-                                controllerName: "LogException",
-                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = ((id + 1) <= Model.TotalPages) ? (id + 1) : id },
-                                htmlAttributes: new { @class = "btn btn-default" })
-                @Html.ActionLink(linkText: "Last >>",
-                                actionName: "Index",
-                                controllerName: "LogException",
-                                routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = searchBy, searchInput = searchInput, id = Model.TotalPages },
-                                htmlAttributes: new { @class = "btn btn-default" })
+                <input type="button" class="btn btn-default" onclick="pageButton(1, '@sortBy', '@sortDir')" value="<< First">
+
+                <input type="button" class="btn btn-default" onclick="pageButton(((@id - 1) != 0) ? (@id - 1) : @id, '@sortBy', '@sortDir')" value="< Previous">
+
+                <input type="button" class="btn btn-default" onClick="pageButton(((@id + 1) <= @Model.TotalPages) ? (@id + 1) : @id, '@sortBy', '@sortDir')" value="Next >">
+
+                <input type="button" class="btn btn-default" onclick="pageButton(@Model.TotalPages, '@sortBy', '@sortDir')" value="Last >>">
             </div>
         </div>
         <div class="col-md-4">
-            @using (Html.BeginRouteForm("Search", new { controller = "LogException", action = "Index" }))
-            {
+            <form name="pageJump">
                 @Html.HiddenFor(m => m.SortBy)
                 @Html.HiddenFor(m => m.SortDirection)
                 @Html.HiddenFor(m => m.SearchBy)
                 @Html.HiddenFor(m => m.SearchInput)
 
-            <div class="block">
-                @Html.Label("Page: ", new { @class = "mylabel" })
-            </div>
-            <div class="block">
-                @Html.TextBox("id", null, new { @class = "pageinputbox" })
-            </div>
-                <input type="submit" name="btnSubmit" value="Jump to page" class="btn btn-default" style="display: inline-block;" /> 
-            }
+                <div class="block">
+                    @Html.Label("Page: ", new { @class = "mylabel" })
+                </div>
+                <div class="block">
+                    @Html.TextBox("id")
+                </div>
+            </form>
+            <input type="button" id="btnSubmit" value="Jump to page" class="btn btn-default" />
         </div>
     </div>
 </div>
+      
+
 
 @if (!noResults)
 {
@@ -132,7 +113,7 @@
                     if (sortBy == category)
                     {
                         sortB = sortBy;
-                        className = "sortLink"; <!-- If sortBy == the category name, make the link underlined -->
+                        className = "sortLink";<!-- If sortBy == the category name, make the link underlined -->
 
                         if (sortDir == "ASC")
                         { sortD = "DESC"; }
@@ -167,16 +148,16 @@
                         @if (currentRow.Important == null)
                         {
                             <img src="~/Content/unfilledStar.jpg" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()',
-                        '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
-                        '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()',
-                        '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()', '@currentRow.StackTrace.ToString()')" />
+                '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
+                '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()',
+                '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()', '@currentRow.StackTrace.ToString()')" />
                         }
                         else
                         {
                             <img src="~/Content/filledStar.jpg" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()',
-                        '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
-                        '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()',
-                        '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()', '@currentRow.StackTrace.ToString()')" />
+                '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
+                '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()',
+                '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()', '@currentRow.StackTrace.ToString()')" />
                         }
                     </td>
                 </tr>
@@ -199,7 +180,7 @@ else
 
 @section scripts
 {
-    <script language="javascript" type="text/javascript">
+<script language="javascript" type="text/javascript">
     var exampleModal;
     var exampleModalVisible = false;
 
@@ -211,6 +192,13 @@ else
     var currentMethodName = null;
     var currentSource = null;
     var currentStackTrace = null;
+
+    var currentsearchDictionary = @Html.Raw(Json.Encode(searchDict));
+    var currentid = null;
+    var currentsortBy = null;
+    var currentsortDir = null;
+    var currentsearchBy = null;
+    var currentsearchInput = null;
 
     function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, Message, MethodName, Source, StackTrace) {
         event.preventDefault;
@@ -225,7 +213,7 @@ else
         currentStackTrace = StackTrace;
 
         exampleModal.open();
-    }
+    };
 
     function closeModal() {
         event.preventDefault;
@@ -240,7 +228,7 @@ else
         currentStackTrace = null;
 
         exampleModal.close();
-    }
+    };
 
     $(document).ready(function () {
 
@@ -347,6 +335,101 @@ else
                 alert(result.ErrorMessage);
             }
         });
-    }
+    };
+
+    $("#btnSubmit").click(function () {
+        debugger;
+        var formData = $('form[name="pageJump"]').serializeArray();
+        var sortBy = formData[0].value;
+        var sortDirection = formData[1].value;
+        var searchBy = formData[2].value;
+        var searchInput = formData[3].value;
+        var page = formData[4].value;
+
+        updateButton(page, sortBy, sortDirection, searchBy, searchInput);
+
+    });
+
+    $("#searchSubmit").click(function () {
+        var formData = $('form[name="searchForm"]').serializeArray();
+        var sortBy = formData[0].value;
+        var sortDirection = formData[1].value;
+        var searchBy = formData[2].value;
+        var searchInput = formData[3].value;
+        var page = formData[4].value;
+
+        updateButton(page, sortBy, sortDirection, searchBy, searchInput);
+    })
+
+    function updateButton(page, sortB, sortD, searchB, searchI) {
+        currentid = page;
+        currentsortBy = sortB;
+        currentsortDir = sortD;
+        currentsearchBy = searchB;
+        currentsearchInput = searchI;
+        debugger;
+
+        const form = document.createElement('form');
+        form.method = 'post';
+        form.action = '/LogException/Index';
+
+        var dictionary = {};
+        var index = 0;
+        var newSearch = (currentsearchInput != "");
+
+        for (var key in currentsearchDictionary) {
+            if (currentsearchDictionary.hasOwnProperty(key)) {
+                dictionary["searchDictionary[" + index + "].Key"] = key;
+                dictionary["searchDictionary[" + index + "].Value"] = currentsearchDictionary[key];
+
+                if (newSearch && (currentsearchBy == key)) { //update based on new search    
+                    dictionary["searchDictionary[" + index + "].Key"] = currentsearchBy;
+                    dictionary["searchDictionary[" + index + "].Value"] = currentsearchInput;
+                }
+            }
+            index = index + 1;
+        }
+
+        for (var key in dictionary) {
+            const hiddenField = document.createElement('input');
+            hiddenField.hidden = true;;
+            hiddenField.name = key;
+            hiddenField.value = dictionary[key];
+            form.appendChild(hiddenField);
+        }
+
+        const id = document.createElement('input');
+        id.hidden = true;
+        id.name = 'id';
+        id.value = currentid;
+        form.appendChild(id);
+
+        const sortBy = document.createElement('input');
+        sortBy.hidden = true;
+        sortBy.name = 'sortBy';
+        sortBy.value = currentsortBy;
+        form.appendChild(sortBy);
+
+        const sortDir = document.createElement('input');
+        sortDir.hidden = true;
+        sortDir.name = 'sortDir';
+        sortDir.value = currentsortDir;
+        form.appendChild(sortDir);
+
+        const searchBy = document.createElement('input');
+        searchBy.hidden = true;
+        searchBy.name = 'searchBy';
+        searchBy.value = currentsearchBy;
+        form.appendChild(searchBy);
+
+        const searchInput = document.createElement('input');
+        searchInput.hidden = true;
+        searchInput.name = 'searchInput';
+        searchInput.value = currentsearchInput;
+        form.appendChild(searchInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    };
     </script>
 }

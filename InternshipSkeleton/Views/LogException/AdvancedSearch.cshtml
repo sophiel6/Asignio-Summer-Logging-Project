@@ -11,7 +11,7 @@
 <!-- Email, Timestamp, Message, Method Name, Source, Stack Trace, Important (both IsImportant? and who marked as important) -->
 <!-- Email, Message, MethodName, Source, StackTrace - string search -->
 <!-- Timestamp - enter a range of dates -->
-<!-- Important - check box for IsImportant? and string search for user who marked as important -->
+<!-- Important - check box for IsImportant? -->
 <!-- https://alexkuznetsov.wordpress.com/2013/05/08/asp-net-mvc-pass-dictionary-data-from-view-to-controller/ -->
 
 
@@ -37,7 +37,6 @@
     @Html.Label("Stack Trace")
     @Html.TextBox("StackTrace")
 
-    <!-- Html.Label("Only get logs marked as important") -->
     Only get logs marked as important <input type="checkbox" name="Important" value="true" />
 </form>
 <input id="submitForm" type="button" value="Search" />
@@ -79,8 +78,5 @@
         document.body.appendChild(newform);
         newform.submit();
     });
-
-
-
 
 </script>

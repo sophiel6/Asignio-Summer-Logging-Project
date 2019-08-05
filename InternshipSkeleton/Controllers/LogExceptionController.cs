@@ -3,6 +3,7 @@ using AsignioInternship.Data.CombinedLogException;
 using AsignioInternship.Data.LogException;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace AsignioInternship.Controllers
@@ -14,7 +15,7 @@ namespace AsignioInternship.Controllers
             m_logExceptionRepository = (logExceptionRepository != null) ? logExceptionRepository : throw new ArgumentNullException();
         }
 
-        public ActionResult Index(int? id, string searchBy, string searchInput, string sortBy, string sortDir)
+        public ActionResult Index(int? id, string searchBy, string searchInput, string sortBy, string sortDir, Dictionary<string,string> searchDictionary)
         {
             int pageNum;
             pageNum = (id ?? 1);
@@ -23,8 +24,8 @@ namespace AsignioInternship.Controllers
             string searchInfo = searchInput ?? "";
             string searchColumn = searchBy ?? "";
             string sortDirection = sortDir ?? "ASC";
-
-            var searchDict = new Dictionary<string, string>()
+            //Dictionary<string, string> searchDict;
+            var searchD = new Dictionary<string, string>()
             {
                 {"EmailAddress", ""  },
                 {"TimeStamp", "" },
@@ -32,7 +33,19 @@ namespace AsignioInternship.Controllers
                 {"MethodName", "" },
                 {"Source", "" },
                 {"StackTrace", "" }
-             }; 
+             };
+
+            Dictionary<string, string> searchDict; 
+            if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary==null)
+            {
+                searchDict = searchD;
+            }
+            else
+            {
+                searchDict = searchDictionary;
+            }
+            
+
             PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException(searchInfo,
                                                                             searchColumn, pageSize, pageNum, sortColumn, sortDirection, searchDict);
             return View(result);
@@ -48,7 +61,7 @@ namespace AsignioInternship.Controllers
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
             Dictionary<string, string> searchDict = searchDictionary ?? (new Dictionary<string, string>());
-            PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.NewCombinedPageLogException(pageSize,
+            PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException("", "", pageSize,
                 pageNum, sortColumn, sortDirection, searchDict); 
 
             return View(result);

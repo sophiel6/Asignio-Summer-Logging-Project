@@ -69,13 +69,13 @@
         </div>
         <div class="col-md-4">
             <div class="btn-group">
-                <input type="button" class="btn btn-default" onclick="pageButton(1, '@sortBy', '@sortDir')" value="<< First">
+                <input type="button" class="btn btn-default" onclick="updateButton(1, '@sortBy', '@sortDir')" value="<< First">
 
-                <input type="button" class="btn btn-default" onclick="pageButton(((@id - 1) != 0) ? (@id - 1) : @id, '@sortBy', '@sortDir')" value="< Previous">
+                <input type="button" class="btn btn-default" onclick="updateButton(((@id - 1) != 0) ? (@id - 1) : @id, '@sortBy', '@sortDir')" value="< Previous">
 
-                <input type="button" class="btn btn-default" onClick="pageButton(((@id + 1) <= @Model.TotalPages) ? (@id + 1) : @id, '@sortBy', '@sortDir')" value="Next >">
+                <input type="button" class="btn btn-default" onClick="updateButton(((@id + 1) <= @Model.TotalPages) ? (@id + 1) : @id, '@sortBy', '@sortDir')" value="Next >">
 
-                <input type="button" class="btn btn-default" onclick="pageButton(@Model.TotalPages, '@sortBy', '@sortDir')" value="Last >>">
+                <input type="button" class="btn btn-default" onclick="updateButton(@Model.TotalPages, '@sortBy', '@sortDir')" value="Last >>">
             </div>
         </div>
         <div class="col-md-4">
@@ -126,7 +126,8 @@
                         sortD = "ASC";
                     }
                     <td>
-                        @Html.ActionLink(category, "Index", new { sortBy = sortB, sortDir = sortD, searchBy = searchBy, searchInput = searchInput, id = 1 }, new { @class = className })
+                        <!-- Html.ActionLink(category, "Index", null, new { id="sortButton", onclick = "return updateButton(1, 'sortB.ToString()', sortD, searchBy, searchInput);" }) -->
+                        <input type="button" id="sortButton" value ="@category" onclick="updateButton(1, '@sortB', '@sortD', '@searchBy', '@searchInput')" />
                     </td>
                 }
             </tr>
@@ -359,6 +360,10 @@ else
         var page = formData[4].value;
 
         updateButton(page, sortBy, sortDirection, searchBy, searchInput);
+    });
+
+    $("#sortButton").click(function () {
+        
     })
 
     function updateButton(page, sortB, sortD, searchB, searchI) {

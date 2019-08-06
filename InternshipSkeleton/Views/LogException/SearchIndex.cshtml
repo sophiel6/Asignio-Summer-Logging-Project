@@ -118,6 +118,7 @@ else
 {
     <h2> No results found. </h2>
 }
+
 <div class="reveal" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out" style="display:none;">
     <form id="usernameForm">
         Your Email: <input type="text" name="usernameEntry" />
@@ -126,8 +127,8 @@ else
     <button onclick="closeModal()">Cancel</button>
 </div>
 
-@section scripts {
-<script language="javascript" type="text/javascript">
+
+<script>
     var exampleModal;
     var exampleModalVisible = false;
 
@@ -141,7 +142,33 @@ else
     var currentid = null;
     var currentsortBy = null;
     var currentsortDir = null;
-    var currentsearchDictionary = @Html.Raw(Json.Encode(searchDict))
+    var currentsearchDictionary = @Html.Raw(Json.Encode(searchDict));
+    var currentModel = @Model;
+
+    function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, MethodName, Source) {
+        event.preventDefault;
+        debugger;
+        currentUserID = UserID;
+        currentEmailAddress = EmailAddress;
+        currentTimeStamp = TimeStamp;
+        currentWebRequestID = WebRequestID;
+        currentMethodName = MethodName;
+        currentSource = Source;
+
+        exampleModal.open();
+    };
+
+    $(document).ready(function () {
+        exampleModal = new Foundation.Reveal($("#example-modal"));
+
+        $("#example-modal").on("open.zf.reveal", function () {
+            exampleModalVisible = true;
+        });
+
+        $("#example-modal").on("closed.zf.reveal", function () {
+            exampleModalVisible = false;
+        });
+    });
 
     function updateButton(page, sortB, sortD) {
         currentid = page;
@@ -165,7 +192,7 @@ else
         }
         for (var key in dictionary) {
             const hiddenField = document.createElement('input');
-            hiddenField.hidden = true;;
+            hiddenField.hidden = true;
             hiddenField.name = key;
             hiddenField.value = dictionary[key];
             form.appendChild(hiddenField);
@@ -193,18 +220,7 @@ else
         form.submit();
     };
 
-    function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, MethodName, Source) {
-        event.preventDefault;
-        debugger;
-        currentUserID = UserID;
-        currentEmailAddress = EmailAddress;
-        currentTimeStamp = TimeStamp;
-        currentWebRequestID = WebRequestID;
-        currentMethodName = MethodName;
-        currentSource = Source;
 
-        exampleModal.open();
-    };
 
     function closeModal() {
         event.preventDefault;
@@ -219,23 +235,12 @@ else
         exampleModal.close();
     };
 
-    $(document).ready(function () {
 
-        exampleModal = new Foundation.Reveal($("#example-modal"));
-
-        $("#example-modal").on("open.zf.reveal", function () {
-            exampleModalVisible = true;
-        });
-
-        $("#example-modal").on("closed.zf.reveal", function () {
-            exampleModalVisible = false;
-        });
-    });
 
     function UpdateImportance() {
         usernameValue = $("[name=usernameEntry]").val();
         debugger;
-        var model = {
+        var log = {
             UserID: currentUserID,
             EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
@@ -243,14 +248,17 @@ else
             MethodName: currentMethodName,
             Source: currentSource,
         };
+        var model = currentModel; 
 
         $.ajax({
             method: "POST",
             url: "@Url.Action("UpdateImportance", "LogException")",
-            dataType: "json",
+            //dataType: "json",
+            dataType: "html",
             data: {
                 username: usernameValue,
-                logToUpdate: model,
+                logToUpdate: log,
+                modelToUpdate: model,
 		    },
 
             success: function (result) {
@@ -263,16 +271,19 @@ else
                 currentMethodName = null;
                 currentSource = null;
 
-                if (result.IsCreated) {
+                /*if (result.IsCreated) {
                     window.location.reload();
                 }
                 else {
                     alert(result.ErrorMessage);
-                }
+                }*/
+                //window.location.reload();
+                alert(result);
             },
 
             error: function (result) {
-                alert(result.ErrorMessage);
+                //alert(result.ErrorMessage);
+                alert(result);
             }
         });
     };
@@ -317,4 +328,4 @@ else
         });
     };
 </script>
-}
+

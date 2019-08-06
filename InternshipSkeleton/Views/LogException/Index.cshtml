@@ -185,10 +185,8 @@ else
     var currentEmailAddress = null;
     var currentTimeStamp = null;
     var currentWebRequestID = null;
-    //var currentMessage = null;
     var currentMethodName = null;
     var currentSource = null;
-    //var currentStackTrace = null;
 
     var currentsearchDictionary = @Html.Raw(Json.Encode(searchDict));
     var currentid = null;
@@ -197,17 +195,15 @@ else
     var currentsearchBy = null;
     var currentsearchInput = null;
 
-    function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, /*Message,*/ MethodName, Source, /*StackTrace*/) {
+    function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, MethodName, Source) {
         event.preventDefault;
         debugger;
         currentUserID = UserID;
         currentEmailAddress = EmailAddress;
         currentTimeStamp = TimeStamp;
         currentWebRequestID = WebRequestID;
-        //currentMessage = Message;
         currentMethodName = MethodName;
         currentSource = Source;
-        //currentStackTrace = StackTrace;
 
         exampleModal.open();
     };
@@ -219,10 +215,8 @@ else
         currentEmailAddress = null;
         currentTimeStamp = null;
         currentWebRequestID = null;
-        //currentMessage = null;
         currentMethodName = null;
         currentSource = null;
-        //currentStackTrace = null;
 
         exampleModal.close();
     };
@@ -248,10 +242,8 @@ else
             EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             WebRequestID: currentWebRequestID,
-           // Message: currentMessage,
             MethodName: currentMethodName,
             Source: currentSource,
-            //StackTrace: currentStackTrace
         };
 
         $.ajax({
@@ -270,10 +262,8 @@ else
                 currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentWebRequestID = null;
-                //currentMessage = null;
                 currentMethodName = null;
                 currentSource = null;
-                //currentStackTrace = null;
 
                 if (result.IsCreated) {
                     window.location.reload();
@@ -289,17 +279,15 @@ else
         });
     };
 
-    function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentWebRequestID, /*currentMessage,*/
-        currentMethodName, currentSource, /*currentStackTrace*/) {
+    function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentWebRequestID,
+        currentMethodName, currentSource) {
         var model = {
             UserID: currentUserID,
             EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             WebRequestID: currentWebRequestID,
-           // Message: currentMessage,
             MethodName: currentMethodName,
             Source: currentSource,
-            //StackTrace: currentStackTrace
         };
 
         $.ajax({
@@ -315,10 +303,8 @@ else
                 currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentWebRequestID = null;
-                //currentMessage = null;
                 currentMethodName = null;
                 currentSource = null;
-                //currentStackTrace = null;
 
                 if (result.IsCreated) {
                     window.location.reload();
@@ -358,10 +344,6 @@ else
         updateButton(page, sortBy, sortDirection, searchBy, searchInput);
     });
 
-    $("#sortButton").click(function () {
-        
-    })
-
     function updateButton(page, sortB, sortD, searchB, searchI) {
         currentid = page;
         currentsortBy = sortB;
@@ -393,7 +375,7 @@ else
 
         for (var key in dictionary) {
             const hiddenField = document.createElement('input');
-            hiddenField.hidden = true;;
+            hiddenField.hidden = true;
             hiddenField.name = key;
             hiddenField.value = dictionary[key];
             form.appendChild(hiddenField);

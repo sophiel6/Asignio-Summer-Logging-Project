@@ -84,7 +84,7 @@ namespace AsignioInternship.Controllers
 
             return View(result);
         }
-
+        /*
         [HttpPost]
         public JsonResult UpdateImportance(string username, [System.Web.Http.FromBody]CombinedLogExceptionDataModel logToUpdate)
         {
@@ -100,8 +100,26 @@ namespace AsignioInternship.Controllers
             {
                 return Json(new { IsCreated = false, ErrorMessage = "Email entered by the user was not found in user database" });
             }
-        }  
-        
+        }  */
+        [HttpPost]
+        public ActionResult UpdateImportance(string username, [System.Web.Http.FromBody]CombinedLogExceptionDataModel logToUpdate, PagedDataModelCollection<CombinedLogExceptionDataModel> modelToUpdate)
+        {
+            logToUpdate.Important = username;
+            int updatePerformed = m_logExceptionRepository.Update(logToUpdate, username);
+
+            if (updatePerformed == 1) //update successfull
+            {
+                //string success = "Successfully marked as important";
+                //return Json(new { IsCreated = true, Content = success });
+                return View("SearchIndex", modelToUpdate);
+            }
+            else //update failed 
+            {
+                //return Json(new { IsCreated = false, ErrorMessage = "Email entered by the user was not found in user database" });
+                return View("SearchIndex", modelToUpdate);
+            }
+        }
+
         [HttpPost]
         public JsonResult MarkUnimportant([System.Web.Http.FromBody]CombinedLogExceptionDataModel logToUpdate)
         {
@@ -169,6 +187,7 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
  * To do - LogException:   
  * -maybe need to change more stuff to ajax calls? - ask about that 
  * -fix up the SearchIndex view 
+ * -make the UpdateImportance take SearchDictionary as an input - so it's passed to 
  * 
  * To do - general
  * -make the active tab in the navbar appear selected

@@ -44,8 +44,6 @@ namespace AsignioInternship.Controllers
             {
                 searchDict = searchDictionary;
             }
-            
-
             PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException(searchInfo,
                                                                             searchColumn, pageSize, pageNum, sortColumn, sortDirection, searchDict);
             return View(result);

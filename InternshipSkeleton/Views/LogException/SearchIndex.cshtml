@@ -87,29 +87,29 @@
         <tbody>
             @foreach (CombinedLogExceptionDataModel currentRow in Model.Items)
             {
-                <tr>
-                    <td>@currentRow.EmailAddress</td>
-                    <td>@currentRow.TimeStamp</td>
-                    <td>@currentRow.WebRequestID</td>
-                    <td>@currentRow.Message</td>
-                    <td>@currentRow.MethodName</td>
-                    <td>@currentRow.Source</td>
-                    <td>@currentRow.StackTrace</td>
-                    <td>
-                        <!-- If !Important, show the unfilled icon and have it open the modal/toggle the icon -->
-                        <!-- If Important, show the filled icon and have it markUnimportant/toggle the icon -->
-                        @if (currentRow.Important == null)
-                        {
-                            //string fixedMessage = currentRow.Message.ToString().Replace("'", "\\'");
-                            <img src="~/Content/unfilledStar.jpg" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()', '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')" />
-                        }
-                        else
-                        {
-                            //string fixedMessage = currentRow.Message.ToString().Replace("'", "\\'");
-                            <img src="~/Content/filledStar.jpg" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()', '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')" />
-                        }
-                    </td>
-                </tr>
+            <tr>
+                <td>@currentRow.EmailAddress</td>
+                <td>@currentRow.TimeStamp</td>
+                <td>@currentRow.WebRequestID</td>
+                <td>@currentRow.Message</td>
+                <td>@currentRow.MethodName</td>
+                <td>@currentRow.Source</td>
+                <td>@currentRow.StackTrace</td>
+                <td>
+                    <!-- If !Important, show the unfilled icon and have it open the modal/toggle the icon -->
+                    <!-- If Important, show the filled icon and have it markUnimportant/toggle the icon -->
+                    @if (currentRow.Important == null)
+                    {
+                        //string fixedMessage = currentRow.Message.ToString().Replace("'", "\\'");
+                        <img src="~/Content/unfilledStar.jpg" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()', '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')" />
+                    }
+                    else
+                    {
+                        //string fixedMessage = currentRow.Message.ToString().Replace("'", "\\'");
+                        <img src="~/Content/filledStar.jpg" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()', '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')" />
+                    }
+                </td>
+            </tr>
             }
         </tbody>
     </table>
@@ -242,9 +242,9 @@ else
     function UpdateImportance() {
         debugger;
         usernameValue = $("[name=usernameEntry]").val();
-        var id = @Model.PageNumber;
-        var sortBy = '@Model.SortBy';
-        var sortDirection = '@Model.SortDirection';
+        var currentid = @Model.PageNumber;
+        var currentsortBy = '@Model.SortBy';
+        var currentsortDir = '@Model.SortDirection';
         var dictionary = {};
         var index = 0;
 
@@ -264,12 +264,58 @@ else
             MethodName: currentMethodName,
             Source: currentSource,
         };
-        //var model = currentModel; 
 
+        //maybe use a form instead of ajax? 
+
+
+        const form = document.createElement('form');
+        form.method = 'post';
+        form.action = '/LogException/UpdateImportance';
+
+        for (var key in dictionary) {
+            const hiddenField = document.createElement('input');
+            hiddenField.hidden = true;
+            hiddenField.name = key;
+            hiddenField.value = dictionary[key];
+            form.appendChild(hiddenField);
+        }
+
+        const id = document.createElement('input');
+        id.hidden = true;
+        id.name = 'id';
+        id.value = currentid;
+        form.appendChild(id);
+
+        const sortBy = document.createElement('input');
+        sortBy.hidden = true;
+        sortBy.name = 'sortBy';
+        sortBy.value = currentsortBy;
+        form.appendChild(sortBy);
+
+        const sortDir = document.createElement('input');
+        sortDir.hidden = true;
+        sortDir.name = 'sortDir';
+        sortDir.value = currentsortDir;
+        form.appendChild(sortDir);
+
+        //append log
+        //var model = {};
+        for (var item in log) {
+            const hiddenField = document.createElement('input');
+            hiddenField.hidden = true;
+            hiddenField.name = item;
+            hiddenField.value = log[item];
+            form.appendChild(hiddenField);
+        }
+
+
+        document.body.appendChild(form);
+        form.submit();
+        /*
         $.ajax({
             method: "POST",
             async: false,
-            url: "@Url.Action("UpdateImportance", "LogException")",
+            url: "Url.Action("UpdateImportance", "LogException")",
             //dataType: "json",
             dataType: "html",
             data: {
@@ -292,21 +338,21 @@ else
                 currentMethodName = null;
                 currentSource = null;
 
-                /*if (result.IsCreated) {
+                if (result.IsCreated) {
                     window.location.reload();
                 }
                 else {
                     alert(result.ErrorMessage);
-                }*/
+                }
                 //window.location.reload();
-                $('#dialog').html(result);
+                ('#dialog').html(result);
             },
 
             error: function (result) {
                 //alert(result.ErrorMessage);
                 alert(result);
             }
-        });
+        }); */
     };
 
     function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentWebRequestID, currentMethodName, currentSource) {

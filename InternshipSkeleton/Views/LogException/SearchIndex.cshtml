@@ -5,7 +5,7 @@
 
 @model PagedDataModelCollection<CombinedLogExceptionDataModel>
 @{
-    ViewBag.Title = "IndexToo";
+    ViewBag.Title = "SearchIndex";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
@@ -78,7 +78,7 @@
                         sortD = "ASC";
                     }
                     <td>
-                        @Html.ActionLink(category, "IndexToo", new { sortBy = sortB, sortDir = sortD, searchBy = searchBy, searchInput = searchInput, id = 1 }, new { @class = className })
+                        @Html.ActionLink(category, "SearchIndex", new { sortBy = sortB, sortDir = sortD, searchBy = searchBy, searchInput = searchInput, id = 1 }, new { @class = className })
                     </td>
                 }
             </tr>
@@ -119,7 +119,7 @@ else
 
         const form = document.createElement('form');
         form.method = 'post';
-        form.action = '/LogException/IndexToo';
+        form.action = '/LogException/SearchIndex';
 
         var dictionary = {};
         var index = 0;

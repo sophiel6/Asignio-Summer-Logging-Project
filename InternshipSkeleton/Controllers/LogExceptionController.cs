@@ -54,7 +54,7 @@ namespace AsignioInternship.Controllers
          * reformat the Index method to take a dictionary of searchBy's and searchInput's 
          * IDictionary<string, string> searches = new Dictionary<string, string>();
          */
-         public ActionResult IndexToo(int? id, Dictionary<string,string> searchDictionary, string sortBy, string sortDir)
+         public ActionResult SearchIndex(int? id, Dictionary<string,string> searchDictionary, string sortBy, string sortDir)
         {
             int pageNum = (id ?? 1);
             int pageSize = 20;
@@ -153,10 +153,9 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
  * 
  * To do - general
  * -make the active tab in the navbar appear selected
- * -how should searching by "Important" work? - search by who marked as important or just by whether something is important
  * -change background of icons to be transparent (or change icon in general)
  * 
- * maybe combine the IndexToo function and View into the Index function and view - but there's some stuff I just want appearing on the IndexToo view 
- *     -combine PageLogException and NewPageLogException functions in repository
+ * -combine PageLogException and NewPageLogException functions in repository 
+ * -add stuff in Page repository function for stringing clauses together 
  *     
  */

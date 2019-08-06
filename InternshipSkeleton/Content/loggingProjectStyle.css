@@ -28,8 +28,24 @@ body {
     margin: 0px;
 }
 
+.selectedSortLink {
+    text-decoration: none;
+    border: none;
+    display: inline-block;
+    text-align: center;
+    background-color: #4CAF50; /* Green */
+    color: white;
+    width: 100%;
+}
+
 .sortLink {
-    text-decoration: underline;
+    text-decoration: none;
+    border: none;
+    display: inline-block;
+    text-align: center;
+    background-color: #555555;
+    color: white;
+    width: 100%;
 }
 
 .pageLabel {

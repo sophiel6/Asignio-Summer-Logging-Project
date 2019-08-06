@@ -364,8 +364,8 @@ namespace AsignioInternship.Data.LogException
 
                         sql.Append("SET SQL_SAFE_UPDATES = 0; ");
                         sql.Append(string.Format("UPDATE logexception SET Important = {0} ", username));
-                        string where = string.Format("WHERE  TimeStamp = \"{0}\" AND WebRequestID = GuidToBinary(\"{1}\") AND UserID = GuidToBinary(\"{2}\") AND Message = \"{3}\" AND MethodName = \"{4}\" AND Source = \"{5}\"; ",
-                            sqlFormattedTimeStamp, LogToUpdate.WebRequestID, LogToUpdate.UserID, LogToUpdate.Message, LogToUpdate.MethodName, LogToUpdate.Source);
+                        string where = string.Format("WHERE  TimeStamp = \"{0}\" AND WebRequestID = GuidToBinary(\"{1}\") AND UserID = GuidToBinary(\"{2}\") AND MethodName = \"{3}\" AND Source = \"{4}\"; ",
+                            sqlFormattedTimeStamp, LogToUpdate.WebRequestID, LogToUpdate.UserID, LogToUpdate.MethodName, LogToUpdate.Source);
                         sql.Append(where);
                         sql.Append("SET SQL_SAFE_UPDATES = 1; ");
 
@@ -400,8 +400,8 @@ namespace AsignioInternship.Data.LogException
 
                     sql.Append("SET SQL_SAFE_UPDATES = 0; ");
                     sql.Append(string.Format("UPDATE logexception SET Important = {0} ", nullString));
-                    string where = string.Format("WHERE  TimeStamp = \"{0}\" AND WebRequestID = GuidToBinary(\"{1}\") AND UserID = GuidToBinary(\"{2}\") AND Message = \"{3}\" AND MethodName = \"{4}\" AND Source = \"{5}\"; ",
-                        sqlFormattedTimeStamp, LogToUpdate.WebRequestID, LogToUpdate.UserID, LogToUpdate.Message, LogToUpdate.MethodName, LogToUpdate.Source);
+                    string where = string.Format("WHERE  TimeStamp = \"{0}\" AND WebRequestID = GuidToBinary(\"{1}\") AND UserID = GuidToBinary(\"{2}\") AND MethodName = \"{3}\" AND Source = \"{4}\"; ",
+                        sqlFormattedTimeStamp, LogToUpdate.WebRequestID, LogToUpdate.UserID, LogToUpdate.MethodName, LogToUpdate.Source);
                     sql.Append(where);
                     sql.Append("SET SQL_SAFE_UPDATES = 1; ");
 

@@ -49,7 +49,9 @@
         </div>
         @Html.HiddenFor(m => m.PageNumber)
     </form>
-    <input type="button" id="searchSubmit" name="searchSubmit" value="Search" class="btn btn-default" style="width: 50px; display: inline-block;" />
+    <div class="block">
+        <input type="button" id="searchSubmit" name="searchSubmit" value="Search" class="btn btn-default" style="display: inline-block;" />
+    </div>
    
     @Html.ActionLink(linkText: "Undo search",
     actionName: "Index",
@@ -95,8 +97,7 @@
             <input type="button" id="btnSubmit" value="Jump to page" class="btn btn-default" />
         </div>
     </div>
-</div>
-      
+</div>    
 
 
 @if (!noResults)
@@ -108,12 +109,12 @@
                 {
                     var sortB = "";
                     var sortD = "";
-                    var className = "";
+                    var className = "sortLink";
 
                     if (sortBy == category)
                     {
                         sortB = sortBy;
-                        className = "sortLink";<!-- If sortBy == the category name, make the link underlined -->
+                        className = "selectedSortLink";<!-- If sortBy == the category name, make the link underlined -->
 
                         if (sortDir == "ASC")
                         { sortD = "DESC"; }
@@ -126,8 +127,7 @@
                         sortD = "ASC";
                     }
                     <td>
-                        <!-- Html.ActionLink(category, "Index", null, new { id="sortButton", onclick = "return updateButton(1, 'sortB.ToString()', sortD, searchBy, searchInput);" }) -->
-                        <input type="button" id="sortButton" value ="@category" onclick="updateButton(1, '@sortB', '@sortD', '@searchBy', '@searchInput')" />
+                        <input type="button" id="sortButton" value ="@category" onclick="updateButton(1, '@sortB', '@sortD', '@searchBy', '@searchInput')" class="@className" />
                     </td>
                 }
             </tr>
@@ -148,17 +148,13 @@
                         <!-- If Important, show the filled icon and have it markUnimportant/toggle the icon -->
                         @if (currentRow.Important == null)
                         {
-                            <img src="~/Content/unfilledStar.jpg" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()',
-                '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
-                '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()',
-                '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()', '@currentRow.StackTrace.ToString()')" />
+                            //string fixedMessage = currentRow.Message.ToString().Replace("'", "\\'");
+                            <img src="~/Content/unfilledStar.jpg" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()', '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')" />
                         }
                         else
                         {
-                            <img src="~/Content/filledStar.jpg" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()',
-                '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
-                '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()',
-                '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()', '@currentRow.StackTrace.ToString()')" />
+                            //string fixedMessage = currentRow.Message.ToString().Replace("'", "\\'");
+                            <img src="~/Content/filledStar.jpg" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()', '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')" />
                         }
                     </td>
                 </tr>
@@ -189,10 +185,10 @@ else
     var currentEmailAddress = null;
     var currentTimeStamp = null;
     var currentWebRequestID = null;
-    var currentMessage = null;
+    //var currentMessage = null;
     var currentMethodName = null;
     var currentSource = null;
-    var currentStackTrace = null;
+    //var currentStackTrace = null;
 
     var currentsearchDictionary = @Html.Raw(Json.Encode(searchDict));
     var currentid = null;
@@ -201,17 +197,17 @@ else
     var currentsearchBy = null;
     var currentsearchInput = null;
 
-    function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, Message, MethodName, Source, StackTrace) {
+    function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, /*Message,*/ MethodName, Source, /*StackTrace*/) {
         event.preventDefault;
-
+        debugger;
         currentUserID = UserID;
         currentEmailAddress = EmailAddress;
         currentTimeStamp = TimeStamp;
         currentWebRequestID = WebRequestID;
-        currentMessage = Message;
+        //currentMessage = Message;
         currentMethodName = MethodName;
         currentSource = Source;
-        currentStackTrace = StackTrace;
+        //currentStackTrace = StackTrace;
 
         exampleModal.open();
     };
@@ -223,10 +219,10 @@ else
         currentEmailAddress = null;
         currentTimeStamp = null;
         currentWebRequestID = null;
-        currentMessage = null;
+        //currentMessage = null;
         currentMethodName = null;
         currentSource = null;
-        currentStackTrace = null;
+        //currentStackTrace = null;
 
         exampleModal.close();
     };
@@ -252,10 +248,10 @@ else
             EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             WebRequestID: currentWebRequestID,
-            Message: currentMessage,
+           // Message: currentMessage,
             MethodName: currentMethodName,
             Source: currentSource,
-            StackTrace: currentStackTrace
+            //StackTrace: currentStackTrace
         };
 
         $.ajax({
@@ -274,10 +270,10 @@ else
                 currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentWebRequestID = null;
-                currentMessage = null;
+                //currentMessage = null;
                 currentMethodName = null;
                 currentSource = null;
-                currentStackTrace = null;
+                //currentStackTrace = null;
 
                 if (result.IsCreated) {
                     window.location.reload();
@@ -293,17 +289,17 @@ else
         });
     };
 
-    function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentWebRequestID, currentMessage,
-        currentMethodName, currentSource, currentStackTrace) {
+    function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentWebRequestID, /*currentMessage,*/
+        currentMethodName, currentSource, /*currentStackTrace*/) {
         var model = {
             UserID: currentUserID,
             EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             WebRequestID: currentWebRequestID,
-            Message: currentMessage,
+           // Message: currentMessage,
             MethodName: currentMethodName,
             Source: currentSource,
-            StackTrace: currentStackTrace
+            //StackTrace: currentStackTrace
         };
 
         $.ajax({
@@ -319,10 +315,10 @@ else
                 currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentWebRequestID = null;
-                currentMessage = null;
+                //currentMessage = null;
                 currentMethodName = null;
                 currentSource = null;
-                currentStackTrace = null;
+                //currentStackTrace = null;
 
                 if (result.IsCreated) {
                     window.location.reload();

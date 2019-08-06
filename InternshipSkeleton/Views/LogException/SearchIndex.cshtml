@@ -119,6 +119,8 @@ else
     <h2> No results found. </h2>
 }
 
+<div id="dialog" style="display: none"></div>
+
 <div class="reveal" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out" style="display:none;">
     <form id="usernameForm">
         Your Email: <input type="text" name="usernameEntry" />
@@ -142,8 +144,8 @@ else
     var currentid = null;
     var currentsortBy = null;
     var currentsortDir = null;
-    var currentsearchDictionary = @Html.Raw(Json.Encode(searchDict));
-    var currentModel = @Model;
+    var currentsearchDictionary = @Html.Raw(Json.Encode(searchDict))
+    //var currentModel = Model;
 
     function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, MethodName, Source) {
         event.preventDefault;
@@ -238,8 +240,22 @@ else
 
 
     function UpdateImportance() {
-        usernameValue = $("[name=usernameEntry]").val();
         debugger;
+        usernameValue = $("[name=usernameEntry]").val();
+        var id = @Model.PageNumber;
+        var sortBy = '@Model.SortBy';
+        var sortDirection = '@Model.SortDirection';
+        var dictionary = {};
+        var index = 0;
+
+        for (var key in currentsearchDictionary) {
+            if (currentsearchDictionary.hasOwnProperty(key)) {
+                dictionary["searchDictionary[" + index + "].Key"] = key;
+                dictionary["searchDictionary[" + index + "].Value"] = currentsearchDictionary[key];
+            }
+            index = index + 1;
+        }
+
         var log = {
             UserID: currentUserID,
             EmailAddress: currentEmailAddress,
@@ -248,17 +264,22 @@ else
             MethodName: currentMethodName,
             Source: currentSource,
         };
-        var model = currentModel; 
+        //var model = currentModel; 
 
         $.ajax({
             method: "POST",
+            async: false,
             url: "@Url.Action("UpdateImportance", "LogException")",
             //dataType: "json",
             dataType: "html",
             data: {
                 username: usernameValue,
                 logToUpdate: log,
-                modelToUpdate: model,
+                //modelToUpdate: JSON.stringify(model),
+                id: id,
+                sortBy: sortBy,
+                sortDir: sortDirection,
+                searchDict: dictionary,
 		    },
 
             success: function (result) {
@@ -278,7 +299,7 @@ else
                     alert(result.ErrorMessage);
                 }*/
                 //window.location.reload();
-                alert(result);
+                $('#dialog').html(result);
             },
 
             error: function (result) {

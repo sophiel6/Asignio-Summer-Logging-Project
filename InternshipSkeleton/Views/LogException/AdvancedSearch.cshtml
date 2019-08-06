@@ -19,11 +19,15 @@
     @Html.Label("Email")
     @Html.TextBox("EmailAddress")
 
-    @Html.Label("Start Date")
-    <input name="beginDate" id="beginDate" type="date" min="2019-01-01" />
-
-    @Html.Label("End Date")
-    <input name="endDate" id="endDate" type="date" min="2019-01-01" />
+    @Html.Label("Date Range")
+    <div class="container">
+        <div class="block">
+            <input name="beginDate" id="beginDate" type="date" min="2019-01-01" />
+        </div>
+        <div class="block">
+            <input name="endDate" id="endDate" type="date" min="2019-01-01" />
+        </div>
+    </div>
 
     @Html.Label("Message")
     @Html.TextBox("Message")

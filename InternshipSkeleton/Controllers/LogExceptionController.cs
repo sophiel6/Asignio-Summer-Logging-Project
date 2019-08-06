@@ -102,7 +102,9 @@ namespace AsignioInternship.Controllers
             }
         }  */
         [HttpPost]
-        public ActionResult UpdateImportance(string username, [System.Web.Http.FromBody]CombinedLogExceptionDataModel logToUpdate, PagedDataModelCollection<CombinedLogExceptionDataModel> modelToUpdate)
+        public ActionResult UpdateImportance(string username, [System.Web.Http.FromBody]CombinedLogExceptionDataModel logToUpdate, 
+            [System.Web.Http.FromBody]int pageNumber, [System.Web.Http.FromBody]string sortColumn, [System.Web.Http.FromBody]string sortDirection,
+            [System.Web.Http.FromBody]Dictionary<string, string> searchDict)
         {
             logToUpdate.Important = username;
             int updatePerformed = m_logExceptionRepository.Update(logToUpdate, username);
@@ -111,12 +113,15 @@ namespace AsignioInternship.Controllers
             {
                 //string success = "Successfully marked as important";
                 //return Json(new { IsCreated = true, Content = success });
-                return View("SearchIndex", modelToUpdate);
+                PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException("", "", 20, pageNumber, sortColumn, sortDirection, searchDict);
+                return View("SearchIndex", result);
             }
             else //update failed 
             {
                 //return Json(new { IsCreated = false, ErrorMessage = "Email entered by the user was not found in user database" });
-                return View("SearchIndex", modelToUpdate);
+                //return View("SearchIndex", modelToUpdate);
+                PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException("", "", 20, pageNumber, sortColumn, sortDirection, searchDict);
+                return View("SearchIndex", result);
             }
         }
 

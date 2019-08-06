@@ -60,7 +60,25 @@ namespace AsignioInternship.Controllers
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
-            Dictionary<string, string> searchDict = searchDictionary ?? (new Dictionary<string, string>());
+            var searchD = new Dictionary<string, string>()
+            {
+                {"EmailAddress", ""  },
+                {"TimeStamp", "" },
+                {"Message", "" },
+                {"MethodName", "" },
+                {"Source", "" },
+                {"StackTrace", "" }
+             };
+
+            Dictionary<string, string> searchDict;
+            if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary == null)
+            {
+                searchDict = searchD;
+            }
+            else
+            {
+                searchDict = searchDictionary;
+            }
             PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException("", "", pageSize,
                 pageNum, sortColumn, sortDirection, searchDict); 
 
@@ -150,6 +168,7 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
 /*
  * To do - LogException:   
  * -maybe need to change more stuff to ajax calls? - ask about that 
+ * -fix up the SearchIndex view 
  * 
  * To do - general
  * -make the active tab in the navbar appear selected
@@ -157,5 +176,6 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
  * 
  * -combine PageLogException and NewPageLogException functions in repository 
  * -add stuff in Page repository function for stringing clauses together 
+ * 
  *     
  */

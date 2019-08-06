@@ -13,8 +13,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 @{
-    var searchBy = Model.SearchBy;
-    var searchInput = Model.SearchInput;
+    //var searchBy = Model.SearchBy;
+    //var searchInput = Model.SearchInput;
     var sortBy = Model.SortBy;
     var sortDir = Model.SortDirection;
     var id = Model.PageNumber;
@@ -26,20 +26,20 @@
 }
 
 <!-- Paging stuff -->
-<div class="container" style="padding-top: 50px !important;">
+<div class="container" style="padding-top: 60px !important;">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <label class="pageLabel"> Current page: @Model.PageNumber / @Model.TotalPages</label>
         </div>
         <div class="col-md-4">
             <div class="btn-group">
-                <input type="button" class="btn btn-default" onclick="pageButton(1, '@sortBy', '@sortDir')" value="<< First">
+                <input type="button" class="btn btn-default" onclick="updateButton(1, '@sortBy', '@sortDir')" value="<< First">
 
-                <input type="button" class="btn btn-default" onclick="pageButton(((@id - 1) != 0) ? (@id - 1) : @id, '@sortBy', '@sortDir')" value="< Previous">
+                <input type="button" class="btn btn-default" onclick="updateButton(((@id - 1) != 0) ? (@id - 1) : @id, '@sortBy', '@sortDir')" value="< Previous">
 
-                <input type="button" class="btn btn-default" onClick="pageButton(((@id + 1) <= @Model.TotalPages) ? (@id + 1) : @id, '@sortBy', '@sortDir')" value="Next >">
+                <input type="button" class="btn btn-default" onClick="updateButton(((@id + 1) <= @Model.TotalPages) ? (@id + 1) : @id, '@sortBy', '@sortDir')" value="Next >">
 
-                <input type="button" class="btn btn-default" onclick="pageButton(@Model.TotalPages, '@sortBy', '@sortDir')" value="Last >>">
+                <input type="button" class="btn btn-default" onclick="updateButton(@Model.TotalPages, '@sortBy', '@sortDir')" value="Last >>">
             </div>
         </div>
         <div class="col-md-2">
@@ -60,12 +60,12 @@
                 {
                     var sortB = "";
                     var sortD = "";
-                    var className = "";
+                    var className = "sortLink";
 
                     if (sortBy == category)
                     {
                         sortB = sortBy;
-                        className = "sortLink";<!-- If sortBy == the category name, make the link underlined -->
+                        className = "selectedSortLink";<!-- If sortBy == the category name, make the link underlined -->
 
                         if (sortDir == "ASC")
                         { sortD = "DESC"; }
@@ -77,9 +77,10 @@
                         sortB = category;
                         sortD = "ASC";
                     }
-                    <td>
-                        @Html.ActionLink(category, "SearchIndex", new { sortBy = sortB, sortDir = sortD, searchBy = searchBy, searchInput = searchInput, id = 1 }, new { @class = className })
-                    </td>
+                <td>
+                    @*Html.ActionLink(category, "SearchIndex", new { sortBy = sortB, sortDir = sortD, searchBy = searchBy, searchInput = searchInput, id = 1 }, new { @class = className }) *@
+                    <input type="button" id="sortButton" value="@category" onclick="updateButton(1, '@sortB', '@sortD')" class="@className" />
+                </td>
                 }
             </tr>
         </thead>
@@ -94,7 +95,20 @@
                     <td>@currentRow.MethodName</td>
                     <td>@currentRow.Source</td>
                     <td>@currentRow.StackTrace</td>
-                    <td>@currentRow.Important</td>
+                    <td>
+                        <!-- If !Important, show the unfilled icon and have it open the modal/toggle the icon -->
+                        <!-- If Important, show the filled icon and have it markUnimportant/toggle the icon -->
+                        @if (currentRow.Important == null)
+                        {
+                            //string fixedMessage = currentRow.Message.ToString().Replace("'", "\\'");
+                            <img src="~/Content/unfilledStar.jpg" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()', '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')" />
+                        }
+                        else
+                        {
+                            //string fixedMessage = currentRow.Message.ToString().Replace("'", "\\'");
+                            <img src="~/Content/filledStar.jpg" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()', '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')" />
+                        }
+                    </td>
                 </tr>
             }
         </tbody>
@@ -104,14 +118,32 @@ else
 {
     <h2> No results found. </h2>
 }
+<div class="reveal" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out" style="display:none;">
+    <form id="usernameForm">
+        Your Email: <input type="text" name="usernameEntry" />
+        <button onclick="UpdateImportance()">Update</button>
+    </form>
+    <button onclick="closeModal()">Cancel</button>
+</div>
 
-<script>
+@section scripts {
+<script language="javascript" type="text/javascript">
+    var exampleModal;
+    var exampleModalVisible = false;
+
+    var currentUserID = null;
+    var currentEmailAddress = null;
+    var currentTimeStamp = null;
+    var currentWebRequestID = null;
+    var currentMethodName = null;
+    var currentSource = null;
+
     var currentid = null;
     var currentsortBy = null;
     var currentsortDir = null;
     var currentsearchDictionary = @Html.Raw(Json.Encode(searchDict))
 
-    function pageButton(page, sortB, sortD) {
+    function updateButton(page, sortB, sortD) {
         currentid = page;
         currentsortBy = sortB;
         currentsortDir = sortD;
@@ -160,4 +192,129 @@ else
         document.body.appendChild(form);
         form.submit();
     };
+
+    function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, MethodName, Source) {
+        event.preventDefault;
+        debugger;
+        currentUserID = UserID;
+        currentEmailAddress = EmailAddress;
+        currentTimeStamp = TimeStamp;
+        currentWebRequestID = WebRequestID;
+        currentMethodName = MethodName;
+        currentSource = Source;
+
+        exampleModal.open();
+    };
+
+    function closeModal() {
+        event.preventDefault;
+
+        currentUserID = null;
+        currentEmailAddress = null;
+        currentTimeStamp = null;
+        currentWebRequestID = null;
+        currentMethodName = null;
+        currentSource = null;
+
+        exampleModal.close();
+    };
+
+    $(document).ready(function () {
+
+        exampleModal = new Foundation.Reveal($("#example-modal"));
+
+        $("#example-modal").on("open.zf.reveal", function () {
+            exampleModalVisible = true;
+        });
+
+        $("#example-modal").on("closed.zf.reveal", function () {
+            exampleModalVisible = false;
+        });
+    });
+
+    function UpdateImportance() {
+        usernameValue = $("[name=usernameEntry]").val();
+        debugger;
+        var model = {
+            UserID: currentUserID,
+            EmailAddress: currentEmailAddress,
+            TimeStamp: currentTimeStamp,
+            WebRequestID: currentWebRequestID,
+            MethodName: currentMethodName,
+            Source: currentSource,
+        };
+
+        $.ajax({
+            method: "POST",
+            url: "@Url.Action("UpdateImportance", "LogException")",
+            dataType: "json",
+            data: {
+                username: usernameValue,
+                logToUpdate: model,
+		    },
+
+            success: function (result) {
+                document.getElementById("usernameForm").reset();
+
+                currentUserID = null;
+                currentEmailAddress = null;
+                currentTimeStamp = null;
+                currentWebRequestID = null;
+                currentMethodName = null;
+                currentSource = null;
+
+                if (result.IsCreated) {
+                    window.location.reload();
+                }
+                else {
+                    alert(result.ErrorMessage);
+                }
+            },
+
+            error: function (result) {
+                alert(result.ErrorMessage);
+            }
+        });
+    };
+
+    function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentWebRequestID, currentMethodName, currentSource) {
+        var model = {
+            UserID: currentUserID,
+            EmailAddress: currentEmailAddress,
+            TimeStamp: currentTimeStamp,
+            WebRequestID: currentWebRequestID,
+            MethodName: currentMethodName,
+            Source: currentSource,
+        };
+
+        $.ajax({
+            method: "POST",
+            url: "@Url.Action("MarkUnimportant", "LogException")",
+            dataType: "json",
+            data: {
+                logToUpdate: model,
+            },
+
+            success: function (result) {
+                currentUserID = null;
+                currentEmailAddress = null;
+                currentTimeStamp = null;
+                currentWebRequestID = null;
+                currentMethodName = null;
+                currentSource = null;
+
+                if (result.IsCreated) {
+                    window.location.reload();
+                }
+                else {
+                    alert(result.ErrorMessage);
+                }
+            },
+
+            error: function (result) {
+                alert(result.ErrorMessage);
+            }
+        });
+    };
 </script>
+}

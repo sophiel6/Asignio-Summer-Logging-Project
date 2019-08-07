@@ -119,7 +119,6 @@ else
     <h2> No results found. </h2>
 }
 
-<div id="dialog" style="display: none"></div>
 
 <div class="reveal" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out" style="display:none;">
     <form id="usernameForm">
@@ -242,11 +241,13 @@ else
     function UpdateImportance() {
         debugger;
         usernameValue = $("[name=usernameEntry]").val();
-        var currentid = @Model.PageNumber;
-        var currentsortBy = '@Model.SortBy';
-        var currentsortDir = '@Model.SortDirection';
+
+        /* var currentid = Model.PageNumber;
+        var currentsortBy = 'Model.SortBy';
+        var currentsortDir = 'Model.SortDirection';
         var dictionary = {};
         var index = 0;
+        */
 
         for (var key in currentsearchDictionary) {
             if (currentsearchDictionary.hasOwnProperty(key)) {
@@ -254,7 +255,7 @@ else
                 dictionary["searchDictionary[" + index + "].Value"] = currentsearchDictionary[key];
             }
             index = index + 1;
-        }
+        } 
 
         var log = {
             UserID: currentUserID,
@@ -267,7 +268,7 @@ else
 
         //maybe use a form instead of ajax? 
 
-
+        /*
         const form = document.createElement('form');
         form.method = 'post';
         form.action = '/LogException/UpdateImportance';
@@ -302,7 +303,7 @@ else
         //var model = {};
         for (var item in log) {
             const hiddenField = document.createElement('input');
-            hiddenField.hidden = true;
+            hiddenField.type = 'hidden';
             hiddenField.name = item;
             hiddenField.value = log[item];
             form.appendChild(hiddenField);
@@ -311,21 +312,21 @@ else
 
         document.body.appendChild(form);
         form.submit();
-        /*
+        */
+        
         $.ajax({
             method: "POST",
-            async: false,
-            url: "Url.Action("UpdateImportance", "LogException")",
-            //dataType: "json",
-            dataType: "html",
+            url: "@Url.Action("UpdateImportance", "LogException")",
+            dataType: "json",
+            //dataType: "html",
             data: {
                 username: usernameValue,
                 logToUpdate: log,
                 //modelToUpdate: JSON.stringify(model),
-                id: id,
-                sortBy: sortBy,
-                sortDir: sortDirection,
-                searchDict: dictionary,
+                //id: id,
+                //sortBy: sortBy,
+                //sortDir: sortDirection,
+                //searchDict: dictionary,
 		    },
 
             success: function (result) {
@@ -339,21 +340,74 @@ else
                 currentSource = null;
 
                 if (result.IsCreated) {
-                    window.location.reload();
+                    //window.location.reload();
+                    updateSuccess();
                 }
                 else {
                     alert(result.ErrorMessage);
                 }
-                //window.location.reload();
-                ('#dialog').html(result);
+
             },
 
             error: function (result) {
                 //alert(result.ErrorMessage);
                 alert(result);
             }
-        }); */
+        }); 
     };
+
+    function updateSuccess() {
+        var currentid = @Model.PageNumber;
+        var currentsortBy = '@Model.SortBy';
+        var currentsortDir = '@Model.SortDirection';
+        var dictionary = {};
+        var index = 0;
+        debugger;
+        for (var key in currentsearchDictionary) {
+            if (currentsearchDictionary.hasOwnProperty(key)) {
+                dictionary["searchDictionary[" + index + "].Key"] = key;
+                dictionary["searchDictionary[" + index + "].Value"] = currentsearchDictionary[key];
+            }
+            index = index + 1;
+        }
+
+        const form = document.createElement('form');
+        form.method = 'post';
+        form.action = '/LogException/SearchIndex';
+
+        for (var key in dictionary) {
+            const hiddenField = document.createElement('input');
+            hiddenField.hidden = true;
+            hiddenField.name = key;
+            hiddenField.value = dictionary[key];
+            form.appendChild(hiddenField);
+        }
+
+        const id = document.createElement('input');
+        id.hidden = true;
+        id.name = 'id';
+        id.value = currentid;
+        form.appendChild(id);
+
+        const sortBy = document.createElement('input');
+        sortBy.hidden = true;
+        sortBy.name = 'sortBy';
+        sortBy.value = currentsortBy;
+        form.appendChild(sortBy);
+
+        const sortDir = document.createElement('input');
+        sortDir.hidden = true;
+        sortDir.name = 'sortDir';
+        sortDir.value = currentsortDir;
+        form.appendChild(sortDir);
+
+
+        document.body.appendChild(form);
+        form.submit();
+
+
+        //window.location = 'Url.Action("SearchIndex", "LogException", new {id= currentid, searchDictionary = dict, sortBy =   )'
+    }
 
     function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentWebRequestID, currentMethodName, currentSource) {
         var model = {

@@ -82,7 +82,7 @@ namespace AsignioInternship.Controllers
 
             return View(result);
         }
-        /*
+        
         [HttpPost]
         public JsonResult UpdateImportance(string username, [System.Web.Http.FromBody]CombinedLogExceptionDataModel logToUpdate)
         {
@@ -98,7 +98,8 @@ namespace AsignioInternship.Controllers
             {
                 return Json(new { IsCreated = false, ErrorMessage = "Email entered by the user was not found in user database" });
             }
-        }  */
+        }  
+        /*
         [HttpPost]
         public ActionResult UpdateImportance(string username, [System.Web.Http.FromBody]CombinedLogExceptionDataModel logToUpdate, 
             [System.Web.Http.FromBody]int pageNumber, [System.Web.Http.FromBody]string sortColumn, [System.Web.Http.FromBody]string sortDirection,
@@ -122,6 +123,7 @@ namespace AsignioInternship.Controllers
                 return View("SearchIndex", result);
             }
         }
+        */
 
         [HttpPost]
         public JsonResult MarkUnimportant([System.Web.Http.FromBody]CombinedLogExceptionDataModel logToUpdate)
@@ -199,5 +201,5 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
  * -combine PageLogException and NewPageLogException functions in repository 
  * -add stuff in Page repository function for stringing clauses together 
  * 
- *     
+ *     -should UpdateImportance return the new dictionary? that way it could be used in redirecting the page 
  */

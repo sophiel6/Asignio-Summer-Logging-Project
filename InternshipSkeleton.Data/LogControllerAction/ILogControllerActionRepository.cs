@@ -6,8 +6,7 @@ namespace AsignioInternship.Data.LogControllerAction
 {
     public interface ILogControllerActionRepository
     {
-        PagedDataModelCollection<CombinedLogControllerActionDataModel> CombinedPageLogControllerAction(string nameSearchPattern,
-                                     string searchColumn, int pageSize, int pageNumber, string sortColumn, string sortDirection);
+        PagedDataModelCollection<CombinedLogControllerActionDataModel> CombinedPageLogControllerAction(int pageSize, int pageNumber, string sortColumn, string sortDirection, Dictionary<string,string> searchDict);
 
         int Update(CombinedLogControllerActionDataModel LogToUpdate, string username);
 

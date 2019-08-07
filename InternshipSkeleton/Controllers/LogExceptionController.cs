@@ -120,5 +120,8 @@ namespace AsignioInternship.Controllers
  * -add stuff in Page repository function for stringing clauses together 
  * -implement all searching (basic and advanced) using the search Dictionary (eventually remove searchBy and searchInput from DataModelCollection)
  * 
- * 
+ * Controller - change Index, add SearchIndex and AdvancedSearch
+ * Repository - change CombinedPage method
+ * IRepository - change CombinedPage method signature
+ * Views - update Index, add Advanced Search, add SearchIndex 
  */

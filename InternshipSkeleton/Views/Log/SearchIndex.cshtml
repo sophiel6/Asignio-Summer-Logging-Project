@@ -1,9 +1,11 @@
-﻿@using AsignioInternship.Data.CombinedLogControllerAction
+﻿
+@using AsignioInternship.Data.CombinedLog
 @using AsignioInternship.Data
 
-@model PagedDataModelCollection<CombinedLogControllerActionDataModel>
+
+@model PagedDataModelCollection<CombinedLogDataModel>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "SearchIndex";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
@@ -16,50 +18,15 @@
     var id = Model.PageNumber;
     var searchDict = Model.SearchDictionary;
 
-    List<String> categories = new List<String>() { "EmailAddress", "TimeStamp", "WebRequestID", "ControllerName", "ActionName", "Parameters", "Important" };
+    List<String> categories = new List<String>() { "EmailAddress", "TimeStamp", "LogID", "Level", "Message", "Source", "Important" };
 
-    bool noResults = (Model.TotalItems == 0);
-
-    List<SelectListItem> searchCategories = new List<SelectListItem>();
-    searchCategories.Add(new SelectListItem { Text = "Email Address", Value = "EmailAddress" });
-    searchCategories.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
-    searchCategories.Add(new SelectListItem { Text = "Controller Name", Value = "ControllerName" });
-    searchCategories.Add(new SelectListItem { Text = "Action Name", Value = "ActionName" });
-    searchCategories.Add(new SelectListItem { Text = "Parameters", Value = "Parameters" });
-    searchCategories.Add(new SelectListItem { Text = "Importance", Value = "Important" });
+    bool noResults = (Model.TotalItems) == 0;
 }
 
-<div class="container" style="padding-top: 50px !important;">
-    <form name="searchForm">
-        @Html.HiddenFor(m => m.SortBy)
-        @Html.HiddenFor(m => m.SortDirection)
-
-        <div class="block" style="width: 25% !important; display: inline-block; ">
-            @Html.Label("Search by: ", new { @class = "mylabel" })
-            @Html.DropDownList("searchBy", searchCategories, new { @class = "mydropdown" })
-        </div>
-        <div class="block" style="width: 25% !important; display: inline-block; ">
-            @Html.Label("Search for: ", new { @class = "mylabel" })
-            @Html.TextBox("searchInput", null, new { @class = "mytextbox" })
-        </div>
-        @Html.HiddenFor(m => m.PageNumber)
-        <input type="button" id="searchSubmit" name="searchSubmit" value="Search" class="btn btn-default" style="display: inline-block;" />
-
-        @Html.ActionLink(linkText: "Undo search",
-        actionName: "Index",
-        controllerName: "LogControllerAction",
-        routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = "", searchInput = "", id = 1 },
-        htmlAttributes: new { @class = "btn btn-default" })
-
-        @Html.ActionLink("Advanced Search", "AdvancedSearch", "LogControllerAction")
-    </form>
-</div>
-<br />
-
 <!-- Paging stuff -->
-<div class="container">
+<div class="container" style="padding-top: 60px !important;">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <label class="pageLabel"> Current page: @Model.PageNumber / @Model.TotalPages</label>
         </div>
         <div class="col-md-4">
@@ -73,22 +40,16 @@
                 <input type="button" class="btn btn-default" onclick="updateButton(@Model.TotalPages, '@sortBy', '@sortDir')" value="Last >>">
             </div>
         </div>
-        <div class="col-md-4">
-            <form name="pageJump">
-                @Html.HiddenFor(m => m.SortBy)
-                @Html.HiddenFor(m => m.SortDirection)
-
-                <div class="block">
-                    @Html.Label("Page: ", new { @class = "mylabel" })
-                </div>
-                <div class="block">
-                    @Html.TextBox("id")
-                </div>
-                <input type="button" id="btnSubmit" value="Jump to page" class="btn btn-default" />
-            </form>
+        <div class="col-md-2">
+            @Html.ActionLink("Back to table", "Index", null, new { @class = "btn btn-default" })
+        </div>
+        <div class="col-md-2">
+            @Html.ActionLink("New Search", "AdvancedSearch")
         </div>
     </div>
 </div>
+
+<br />
 
 @if (!noResults)
 {
@@ -123,32 +84,32 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (CombinedLogControllerActionDataModel currentRow in Model.Items)
+            @foreach (CombinedLogDataModel currentRow in Model.Items)
             {
-                <tr>
-                    <td>@currentRow.EmailAddress</td>
-                    <td>@currentRow.TimeStamp</td>
-                    <td>@currentRow.WebRequestID</td>
-                    <td>@currentRow.ControllerName</td>
-                    <td>@currentRow.ActionName</td>
-                    <td>@currentRow.Parameters</td>
-                    <td>
-                        @if (currentRow.Important == null) //button to mark as important
-                        {
-                            <img src="~/Content/unfilledStar.jpg" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()',
+            <tr>
+                <td>@currentRow.EmailAddress</td>
+                <td>@currentRow.TimeStamp</td>
+                <td>@currentRow.LogID</td>
+                <td>@currentRow.Level</td>
+                <td>@currentRow.Message</td>
+                <td>@currentRow.Source</td>
+                <td>
+                    @if (currentRow.Important == null) //button to mark as important
+                    {
+                        <img src="~/Content/unfilledStar.jpg" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()',
                             '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
-                            '@currentRow.WebRequestID.ToString()', '@currentRow.ControllerName.ToString()',
-                            '@currentRow.ActionName.ToString()', '@currentRow.Parameters.ToString()')">
-                        }
-                        else //button to unmark as important
-                        {
-                            <img src="~/Content/filledStar.jpg" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()',
+                            '@currentRow.LogID.ToString()', '@currentRow.Level.ToString()',
+                            '@currentRow.Message.ToString()', '@currentRow.Source.ToString()')">
+                    }
+                    else //button to unmark as important
+                    {
+                        <img src="~/Content/filledStar.jpg" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()',
                             '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
-                            '@currentRow.WebRequestID.ToString()', '@currentRow.ControllerName.ToString()',
-                            '@currentRow.ActionName.ToString()', '@currentRow.Parameters.ToString()')">
-                        }
-                    </td>
-                </tr>
+                            '@currentRow.LogID.ToString()', '@currentRow.Level.ToString()',
+                            '@currentRow.Message.ToString()', '@currentRow.Source.ToString()')">
+                    }
+                </td>
+            </tr>
             }
         </tbody>
     </table>
@@ -158,6 +119,7 @@ else
     <h2> No results found. </h2>
 }
 
+
 <div class="reveal" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out" style="display:none;">
     <form id="usernameForm">
         Your Email: <input type="text" name="usernameEntry" />
@@ -166,9 +128,8 @@ else
     <button onclick="closeModal()">Cancel</button>
 </div>
 
-@section scripts
-{
-    <script language="javascript" type="text/javascript">
+
+<script>
     var exampleModal;
     var exampleModalVisible = false;
 
@@ -176,27 +137,24 @@ else
     var currentEmailAddress = null;
     var currentTimeStamp = null;
     var currentWebRequestID = null;
-    var currentControllerName = null;
-    var currentActionName = null;
-    var currentParameters = null;
+    var currentMethodName = null;
+    var currentSource = null;
 
-    var currentsearchDictionary = @Html.Raw(Json.Encode(searchDict));
     var currentid = null;
     var currentsortBy = null;
     var currentsortDir = null;
-    var currentsearchBy = null;
-    var currentsearchInput = null;
+    var currentsearchDictionary = @Html.Raw(Json.Encode(searchDict))
 
-    function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, ControllerName, ActionName, Parameters) {
+    function openModal(UserID, EmailAddress, TimeStamp, LogID, Level, Message, Source) {
         event.preventDefault;
 
         currentUserID = UserID;
         currentEmailAddress = EmailAddress;
         currentTimeStamp = TimeStamp;
-        currentWebRequestID = WebRequestID;
-        currentControllerName = ControllerName;
-        currentActionName = ActionName;
-        currentParameters = Parameters;
+        currentLogID = LogID;
+        currentLevel = Level;
+        currentMessage = Message;
+        currentSource = Source;
 
         exampleModal.open();
     }
@@ -207,16 +165,15 @@ else
         currentUserID = null;
         currentEmailAddress = null;
         currentTimeStamp = null;
-        currentWebRequestID = null;
-        currentControllerName = null;
-        currentActionName = null;
-        currentParameters = null;
+        currentLogID = null;
+        currentLevel = null;
+        currentMessage = null;
+        currentSource = null;
 
         exampleModal.close();
     }
 
     $(document).ready(function () {
-
         exampleModal = new Foundation.Reveal($("#example-modal"));
 
         $("#example-modal").on("open.zf.reveal", function () {
@@ -232,37 +189,38 @@ else
         currentid = page;
         currentsortBy = sortB;
         currentsortDir = sortD;
+        debugger;
         usernameValue = $("[name=usernameEntry]").val();
 
-        var model = {
+        var log = {
             UserID: currentUserID,
             EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
-            WebRequestID: currentWebRequestID,
-            ControllerName: currentControllerName,
-            ActionName: currentActionName,
-            Parameters: currentParameters,
+            LogID: currentLogID,
+            Level: currentLevel,
+            Message: currentMessage,
+            Source: currentSource,
         };
 
         $.ajax({
             method: "POST",
-            url: "@Url.Action("UpdateImportance", "LogControllerAction")",
+            url: "@Url.Action("UpdateImportance", "Log")",
             dataType: "json",
             data: {
                 username: usernameValue,
-                logToUpdate: model,
-            },
+                logToUpdate: log,
+		    },
 
             success: function (result) {
                 document.getElementById("usernameForm").reset();
-
+                debugger;
                 currentUserID = null;
                 currentEmailAddress = null;
                 currentTimeStamp = null;
-                currentWebRequestID = null;
-                currentControllerName = null;
-                currentActionName = null;
-                currentParameters = null;
+                currentLogID = null;
+                currentLevel = null;
+                currentMessage = null;
+                currentSource = null;
 
                 if (result.IsCreated) {
                     updateButton(currentid, currentsortBy, currentsortDir, "", "");
@@ -271,28 +229,26 @@ else
                     alert(result.ErrorMessage);
                 }
             },
-
             error: function (result) {
-                alert(result.ErrorMessage);
+                alert(result);
             }
         });
     };
 
-    function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentWebRequestID, currentControllerName,
-               currentActionName, currentParameters) {
+    function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentLogID, currentLevel, currentMessage, currentSource) {
         var model = {
             UserID: currentUserID,
             EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
-            WebRequestID: currentWebRequestID,
-            ControllerName: currentControllerName,
-            ActionName: currentActionName,
-            Parameters: currentParameters,
+            LogID: currentLogID,
+            Level: currentLevel,
+            Message: currentMessage,
+            Source: currentSource,
         };
 
         $.ajax({
             method: "POST",
-            url: "@Url.Action("MarkUnimportant", "LogControllerAction")",
+            url: "@Url.Action("MarkUnimportant", "Log")",
             dataType: "json",
             data: {
                 logToUpdate: model,
@@ -302,10 +258,10 @@ else
                 currentUserID = null;
                 currentEmailAddress = null;
                 currentTimeStamp = null;
-                currentWebRequestID = null;
-                currentControllerName = null;
-                currentActionName = null;
-                currentParameters = null;
+                currentLogID = null;
+                currentLevel = null;
+                currentMessage = null;
+                currentSource = null;
 
                 if (result.IsCreated) {
                     window.location.reload();
@@ -319,59 +275,28 @@ else
                 alert(result.ErrorMessage);
             }
         });
-            }
+    }
 
-     $("#btnSubmit").click(function () {
-        debugger;
-        var formData = $('form[name="pageJump"]').serializeArray();
-        var sortBy = formData[0].value;
-        var sortDirection = formData[1].value;
-        var page = formData[2].value;
-
-        updateButton(page, sortBy, sortDirection, "", "");
-    });
-
-    $("#searchSubmit").click(function () {
-        debugger;
-        var formData = $('form[name="searchForm"]').serializeArray();
-        var sortBy = formData[0].value;
-        var sortDirection = formData[1].value;
-        var searchBy = formData[2].value;
-        var searchInput = formData[3].value;
-        var page = formData[4].value;
-
-        updateButton(page, sortBy, sortDirection, searchBy, searchInput);
-    });
-
-    function updateButton(page, sortB, sortD, searchB, searchI) {
+    function updateButton(page, sortB, sortD) {
         currentid = page;
         currentsortBy = sortB;
         currentsortDir = sortD;
-        currentsearchBy = searchB;
-        currentsearchInput = searchI;
         debugger;
 
         const form = document.createElement('form');
         form.method = 'post';
-        form.action = '/LogControllerAction/Index';
+        form.action = '/Log/SearchIndex';
 
         var dictionary = {};
         var index = 0;
-        var newSearch = (currentsearchInput != "");
 
         for (var key in currentsearchDictionary) {
             if (currentsearchDictionary.hasOwnProperty(key)) {
                 dictionary["searchDictionary[" + index + "].Key"] = key;
                 dictionary["searchDictionary[" + index + "].Value"] = currentsearchDictionary[key];
-
-                if (newSearch && (currentsearchBy == key)) { //update searchDictionary based on new search    
-                    dictionary["searchDictionary[" + index + "].Key"] = currentsearchBy;
-                    dictionary["searchDictionary[" + index + "].Value"] = currentsearchInput;
-                }
             }
             index = index + 1;
         }
-
         for (var key in dictionary) {
             const hiddenField = document.createElement('input');
             hiddenField.hidden = true;
@@ -401,5 +326,5 @@ else
         document.body.appendChild(form);
         form.submit();
     };
-    </script>
-}
+</script>
+

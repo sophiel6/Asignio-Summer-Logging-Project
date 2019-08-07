@@ -15,16 +15,15 @@ namespace AsignioInternship.Controllers
             m_logExceptionRepository = (logExceptionRepository != null) ? logExceptionRepository : throw new ArgumentNullException();
         }
 
-        public ActionResult Index(int? id, string searchBy, string searchInput, string sortBy, string sortDir, Dictionary<string,string> searchDictionary)
+        public ActionResult Index(int? id, string sortBy, string sortDir, Dictionary<string,string> searchDictionary)
         {
             int pageNum;
             pageNum = (id ?? 1);
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
-            string searchInfo = searchInput ?? "";
-            string searchColumn = searchBy ?? "";
+            //string searchInfo = "";
+            //string searchColumn = "";
             string sortDirection = sortDir ?? "ASC";
-            //Dictionary<string, string> searchDict;
             var searchD = new Dictionary<string, string>()
             {
                 {"EmailAddress", ""  },
@@ -44,8 +43,7 @@ namespace AsignioInternship.Controllers
             {
                 searchDict = searchDictionary;
             }
-            PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException(searchInfo,
-                                                                            searchColumn, pageSize, pageNum, sortColumn, sortDirection, searchDict);
+            PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException(pageSize, pageNum, sortColumn, sortDirection, searchDict);
             return View(result);
         }
         /* 
@@ -77,7 +75,7 @@ namespace AsignioInternship.Controllers
             {
                 searchDict = searchDictionary;
             }
-            PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException("", "", pageSize,
+            PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException(pageSize,
                 pageNum, sortColumn, sortDirection, searchDict); 
 
             return View(result);
@@ -99,31 +97,6 @@ namespace AsignioInternship.Controllers
                 return Json(new { IsCreated = false, ErrorMessage = "Email entered by the user was not found in user database" });
             }
         }  
-        /*
-        [HttpPost]
-        public ActionResult UpdateImportance(string username, [System.Web.Http.FromBody]CombinedLogExceptionDataModel logToUpdate, 
-            [System.Web.Http.FromBody]int pageNumber, [System.Web.Http.FromBody]string sortColumn, [System.Web.Http.FromBody]string sortDirection,
-            [System.Web.Http.FromBody]Dictionary<string, string> searchDict)
-        {
-            logToUpdate.Important = username;
-            int updatePerformed = m_logExceptionRepository.Update(logToUpdate, username);
-
-            if (updatePerformed == 1) //update successfull
-            {
-                //string success = "Successfully marked as important";
-                //return Json(new { IsCreated = true, Content = success });
-                PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException("", "", 20, pageNumber, sortColumn, sortDirection, searchDict);
-                return View("SearchIndex", result);
-            }
-            else //update failed 
-            {
-                //return Json(new { IsCreated = false, ErrorMessage = "Email entered by the user was not found in user database" });
-                //return View("SearchIndex", modelToUpdate);
-                PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException("", "", 20, pageNumber, sortColumn, sortDirection, searchDict);
-                return View("SearchIndex", result);
-            }
-        }
-        */
 
         [HttpPost]
         public JsonResult MarkUnimportant([System.Web.Http.FromBody]CombinedLogExceptionDataModel logToUpdate)
@@ -192,7 +165,6 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
  * To do - LogException:   
  * -maybe need to change more stuff to ajax calls? - ask about that 
  * -fix up the SearchIndex view 
- * -make the UpdateImportance take SearchDictionary as an input - so it's passed to 
  * 
  * To do - general
  * -make the active tab in the navbar appear selected
@@ -200,6 +172,6 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
  * 
  * -combine PageLogException and NewPageLogException functions in repository 
  * -add stuff in Page repository function for stringing clauses together 
+ * -implement all searching (basic and advanced) using the search Dictionary (eventually remove searchBy and searchInput from DataModelCollection)
  * 
- *     -should UpdateImportance return the new dictionary? that way it could be used in redirecting the page 
  */

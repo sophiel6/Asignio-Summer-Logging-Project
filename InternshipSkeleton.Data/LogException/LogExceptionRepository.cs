@@ -226,8 +226,7 @@ namespace AsignioInternship.Data.LogException
             return null;
         } */
 
-        public PagedDataModelCollection<CombinedLogExceptionDataModel> CombinedPageLogException(string nameSearchPattern, 
-            string searchColumn, int pageSize, int pageNum, string sortColumn, string sortDirection, Dictionary<string, string> searchDictionary)
+        public PagedDataModelCollection<CombinedLogExceptionDataModel> CombinedPageLogException(int pageSize, int pageNum, string sortColumn, string sortDirection, Dictionary<string, string> searchDictionary)
         {
             using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
             {
@@ -321,8 +320,8 @@ namespace AsignioInternship.Data.LogException
                         SortBy = sortColumn,
                         SortDirection = sortDirection,
                         SearchDictionary = searchDictionary,
-                        SearchBy = searchColumn ?? "",
-                        SearchInput = nameSearchPattern ?? ""
+                        //SearchBy = searchColumn ?? "",
+                        //SearchInput = nameSearchPattern ?? ""
                     };
                 }
                 catch (Exception ex)

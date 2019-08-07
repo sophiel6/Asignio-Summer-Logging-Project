@@ -249,7 +249,6 @@ namespace AsignioInternship.Data.LogException
 
                         if (!string.IsNullOrWhiteSpace(userInput))
                         {  
-
                             if (entry.Key == "Important")
                             {
                                 if (!FirstClause)
@@ -258,8 +257,18 @@ namespace AsignioInternship.Data.LogException
                                 { sql.Append(string.Format("WHERE Important != \'\'")); }
                                 FirstClause = false;
                             }
+                            else if (entry.Key == "TimeStamp") //format date
+                            {
+                                if (userInput[0] != '\'')
+                                { userInput = string.Format("\'{0}\'", userInput); }
+                                if (!FirstClause)
+                                { sql.Append(string.Format("AND DATE(TimeStamp) = {0} ", userInput)); }
+                                else
+                                { sql.Append(string.Format("WHERE DATE(TimeStamp) = {0} ", userInput)); }
+                                FirstClause = false;
+                            }
 
-                            else if (entry.Key == "beginDate") //format date 
+                            else if (entry.Key == "beginDate") //format date range
                             {
                                 if (userInput[0] != '\'') 
                                 { userInput = string.Format("\'{0}\'", userInput); }

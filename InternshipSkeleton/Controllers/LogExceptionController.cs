@@ -21,8 +21,6 @@ namespace AsignioInternship.Controllers
             pageNum = (id ?? 1);
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
-            //string searchInfo = "";
-            //string searchColumn = "";
             string sortDirection = sortDir ?? "ASC";
             var searchD = new Dictionary<string, string>()
             {
@@ -36,20 +34,14 @@ namespace AsignioInternship.Controllers
 
             Dictionary<string, string> searchDict; 
             if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary==null)
-            {
-                searchDict = searchD;
-            }
+            { searchDict = searchD; }
             else
-            {
-                searchDict = searchDictionary;
-            }
-            PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException(pageSize, pageNum, sortColumn, sortDirection, searchDict);
+            { searchDict = searchDictionary; }
+            PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException(pageSize, 
+                                                                                        pageNum, sortColumn, sortDirection, searchDict);
             return View(result);
         }
-        /* 
-         * reformat the Index method to take a dictionary of searchBy's and searchInput's 
-         * IDictionary<string, string> searches = new Dictionary<string, string>();
-         */
+
          public ActionResult SearchIndex(int? id, Dictionary<string,string> searchDictionary, string sortBy, string sortDir)
         {
             int pageNum = (id ?? 1);
@@ -68,16 +60,11 @@ namespace AsignioInternship.Controllers
 
             Dictionary<string, string> searchDict;
             if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary == null)
-            {
-                searchDict = searchD;
-            }
+            { searchDict = searchD; }
             else
-            {
-                searchDict = searchDictionary;
-            }
+            { searchDict = searchDictionary; }
             PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException(pageSize,
-                pageNum, sortColumn, sortDirection, searchDict); 
-
+                                                                                        pageNum, sortColumn, sortDirection, searchDict); 
             return View(result);
         }
         
@@ -121,51 +108,10 @@ namespace AsignioInternship.Controllers
         }
 
         private readonly ILogExceptionRepository m_logExceptionRepository;
-
-        /*public ActionResult Search()
-{
-    return View();
-}
-
-public ActionResult SearchByMethodName()
-{
-    return View();
-}
-
-public ActionResult DisplayMethodNameSearchResult(int? id, string searchBy, string searchInput, string sortBy)
-{
-    int pageNum;
-    pageNum = (id ?? 1);
-
-    int pageSize = 20;
-    string sortColumn = sortBy ?? "TimeStamp";
-    string searchInfo = searchInput ?? "";
-    string searchColumn = searchBy ?? "";
-    PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException(searchInfo, 
-                                                                    searchColumn, pageSize, pageNum, sortColumn, "ASC");
-    return View(result);
-}
-
-public ActionResult MarkAsImportant(CombinedLogExceptionDataModel logToUpdate)
-{
-    return View(logToUpdate);
-} 
-
-public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
-{
-    Guid UserID = m_logExceptionRepository.GetUserIDFromUsername(logToUpdate.Important); 
-
-    m_logExceptionRepository.Update(logToUpdate, logToUpdate.Important);
-    return View();
-} */
     }
 }
 
 /*
- * To do - LogException:   
- * -maybe need to change more stuff to ajax calls? - ask about that 
- * -fix up the SearchIndex view 
- * 
  * To do - general
  * -make the active tab in the navbar appear selected
  * -change background of icons to be transparent (or change icon in general)
@@ -173,5 +119,6 @@ public ActionResult ImportantUpdated(CombinedLogExceptionDataModel logToUpdate)
  * -combine PageLogException and NewPageLogException functions in repository 
  * -add stuff in Page repository function for stringing clauses together 
  * -implement all searching (basic and advanced) using the search Dictionary (eventually remove searchBy and searchInput from DataModelCollection)
+ * 
  * 
  */

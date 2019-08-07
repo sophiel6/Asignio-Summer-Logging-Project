@@ -13,8 +13,7 @@ namespace AsignioInternship.Data.Log
                 : base(typeof(LogRepository))
         { }
 
-        public PagedDataModelCollection<CombinedLogDataModel> CombinedPageLog(string nameSearchPattern,
-                                string searchColumn, int pageSize, int pageNumber, string sortColumn, string sortDirection)
+        public PagedDataModelCollection<CombinedLogDataModel> CombinedPageLog(int pageSize, int pageNumber, string sortColumn, string sortDirection, Dictionary<string, string> searchDictionary)
         {
             using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
             {
@@ -27,29 +26,72 @@ namespace AsignioInternship.Data.Log
                     sql.Append("from log ");
                     sql.Append(" INNER JOIN user on user.userID = log.userID ");
 
-                    if (!string.IsNullOrWhiteSpace(nameSearchPattern) && !string.IsNullOrWhiteSpace(searchColumn))
+                    bool FirstClause = true;
+                    string dateString = "";
+
+                    foreach (KeyValuePair<string, string> entry in searchDictionary)
                     {
-                        if (nameSearchPattern.Contains("@")) //format email
+                        string userInput = entry.Value;
+
+                        if (!string.IsNullOrWhiteSpace(userInput))
                         {
-                            string[] sections = nameSearchPattern.Split(new[] { '@' });
-                            sections[1] = sections[1].Insert(0, "@@");
-                            nameSearchPattern = string.Join("", sections);
-                        }
-                        if (searchColumn == "TimeStamp") //format date 
-                        {
-                            if (nameSearchPattern[0] != '\'') //format all search strings
+                            if (entry.Key == "Important")
                             {
-                                nameSearchPattern = string.Format("\'{0}\'", nameSearchPattern);
+                                if (!FirstClause)
+                                { sql.Append(string.Format("AND Important != \'\'")); }
+                                else
+                                { sql.Append(string.Format("WHERE Important != \'\'")); }
+                                FirstClause = false;
                             }
-                            sql.Append(string.Format("WHERE DATE({0}) = {1} ", searchColumn, nameSearchPattern));
-                        }
-                        else //if not a date
-                        {
-                            if (nameSearchPattern[0] != '\'') //format non-date searches
+                            else if (entry.Key == "TimeStamp") //format date
                             {
-                                nameSearchPattern = string.Format("\'%{0}%\'", nameSearchPattern);
+                                if (userInput[0] != '\'')
+                                { userInput = string.Format("\'{0}\'", userInput); }
+                                if (!FirstClause)
+                                { sql.Append(string.Format("AND DATE(TimeStamp) = {0} ", userInput)); }
+                                else
+                                { sql.Append(string.Format("WHERE DATE(TimeStamp) = {0} ", userInput)); }
+                                FirstClause = false;
                             }
-                            sql.Append(string.Format("WHERE {0} LIKE {1} ", searchColumn, nameSearchPattern));
+                            else if (entry.Key == "beginDate") //format date 
+                            {
+                                if (userInput[0] != '\'')
+                                { userInput = string.Format("\'{0}\'", userInput); }
+                                dateString = string.Format("DATE(TimeStamp) BETWEEN {0} AND ", userInput);
+                            }
+                            else if (entry.Key == "endDate" && dateString != "")
+                            {
+                                if (userInput[0] != '\'')
+                                { userInput = string.Format("\'{0}\'", userInput); }
+
+                                if (!FirstClause)
+                                { sql.Append(string.Format("AND {0} {1} ", dateString, userInput)); }
+                                else
+                                { sql.Append(string.Format("WHERE {0} {1} ", dateString, userInput)); }
+                                FirstClause = false;
+                            }
+                            else //if not a date
+                            {
+                                if (userInput.Contains("@")) //format email
+                                {
+                                    string[] sections = userInput.Split(new[] { '@' });
+                                    sections[1] = sections[1].Insert(0, "@@");
+                                    userInput = string.Join("", sections);
+                                }
+                                if (userInput[0] != '\'')
+                                {
+                                    userInput = string.Format("\'%{0}%\'", userInput);
+                                }
+                                if (!FirstClause)
+                                {
+                                    sql.Append(string.Format("AND {0} LIKE {1} ", entry.Key, userInput));
+                                }
+                                else
+                                {
+                                    sql.Append(string.Format("WHERE {0} LIKE {1} ", entry.Key, userInput));
+                                }
+                                FirstClause = false;
+                            }
                         }
                     }
                     sql.Append(string.Format("ORDER BY {0} {1}", sortColumn, sortDirection));
@@ -70,8 +112,7 @@ namespace AsignioInternship.Data.Log
                         TotalPages = page.TotalPages,
                         SortBy = sortColumn,
                         SortDirection = sortDirection,
-                        SearchBy = searchColumn,
-                        SearchInput = nameSearchPattern
+                        SearchDictionary = searchDictionary,
                     };
                 }
                 catch (Exception ex)

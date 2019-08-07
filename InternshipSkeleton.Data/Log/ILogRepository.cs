@@ -6,8 +6,7 @@ namespace AsignioInternship.Data.Log
 {
     public interface ILogRepository
     {
-        PagedDataModelCollection<CombinedLogDataModel> CombinedPageLog(string nameSearchPattern,
-                        string searchColumn, int pageSize, int pageNumber, string sortColumn, string sortDirection);
+        PagedDataModelCollection<CombinedLogDataModel> CombinedPageLog(int pageSize, int pageNumber, string sortColumn, string sortDirection, Dictionary<string, string> searchDictionary);
         int UndoUpdate(CombinedLogDataModel logToUpdate);
         int Update(CombinedLogDataModel LogToUpdate, string username);
         Guid GetUserIDFromUsername(string username);

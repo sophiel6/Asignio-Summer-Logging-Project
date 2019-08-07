@@ -26,7 +26,7 @@
 
     List<SelectListItem> searchCategories = new List<SelectListItem>();
     searchCategories.Add(new SelectListItem { Text = "Email Address", Value = "EmailAddress" });
-    searchCategories.Add(new SelectListItem { Text = "Time Stamp", Value = "TimeStamp" });
+    searchCategories.Add(new SelectListItem { Text = "Time Stamp (YYYY-MM-DD)", Value = "TimeStamp" });
     searchCategories.Add(new SelectListItem { Text = "Message", Value = "Message" });
     searchCategories.Add(new SelectListItem { Text = "Method Name", Value = "MethodName" });
     searchCategories.Add(new SelectListItem { Text = "Source", Value = "Source" });
@@ -44,27 +44,25 @@
             @Html.DropDownList("searchBy", searchCategories, new { @class = "mydropdown" })
         </div>
         <div class="block" style="width: 25% !important; display: inline-block; ">
-            @Html.Label("*Search for: ", new { @class = "mylabel" })
+            @Html.Label("Search for: ", new { @class = "mylabel" })
             @Html.TextBox("searchInput", null, new { @class = "mytextbox" })
         </div>
         @Html.HiddenFor(m => m.PageNumber)
-    </form>
-    <div class="block" style="width: 10% !important">
         <input type="button" id="searchSubmit" name="searchSubmit" value="Search" class="btn btn-default" style="display: inline-block;" />
-    </div>
-   
-    @Html.ActionLink(linkText: "Undo search",
-    actionName: "Index",
-    controllerName: "LogException",
-    routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = "", searchInput = "", id = 1 },
-    htmlAttributes: new { @class = "btn btn-default" })
 
-    @Html.ActionLink("Advanced Search", "AdvancedSearch", "LogException")
+        @Html.ActionLink(linkText: "Undo search",
+        actionName: "Index",
+        controllerName: "LogException",
+        routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = "", searchInput = "", id = 1 },
+        htmlAttributes: new { @class = "btn btn-default" })
+
+        @Html.ActionLink("Advanced Search", "AdvancedSearch", "LogException")
+    </form>
 </div>
 
 <br />
 
-<div class="container" style="padding-top: 50px !important;">
+<div class="container">
     <div class="row">
         <div class="col-md-3">
             <label class="pageLabel"> Current page: @Model.PageNumber / @Model.TotalPages</label>
@@ -84,8 +82,6 @@
             <form name="pageJump">
                 @Html.HiddenFor(m => m.SortBy)
                 @Html.HiddenFor(m => m.SortDirection)
-                <!--Html.HiddenFor(m => m.SearchBy)
-                Html.HiddenFor(m => m.SearchInput) -->
 
                 <div class="block">
                     @Html.Label("Page: ", new { @class = "mylabel" })
@@ -93,8 +89,9 @@
                 <div class="block">
                     @Html.TextBox("id")
                 </div>
+                <input type="button" id="btnSubmit" value="Jump to page" class="btn btn-default" />
+
             </form>
-            <input type="button" id="btnSubmit" value="Jump to page" class="btn btn-default" />
         </div>
     </div>
 </div>    
@@ -127,7 +124,7 @@
                         sortD = "ASC";
                     }
                     <td>
-                        <input type="button" id="sortButton" value ="@category" onclick="updateButton(1, '@sortB', '@sortD', /*'searchBy', 'searchInput' */)" class="@className" />
+                        <input type="button" id="sortButton" value ="@category" onclick="updateButton(1, '@sortB', '@sortD')" class="@className" />
                     </td>
                 }
             </tr>
@@ -270,7 +267,6 @@ else
                 currentSource = null;
 
                 if (result.IsCreated) {
-                    //window.location.reload();
                     updateButton(currentid, currentsortBy, currentsortDir, "", "");
                 }
                 else {
@@ -330,15 +326,13 @@ else
         var formData = $('form[name="pageJump"]').serializeArray();
         var sortBy = formData[0].value;
         var sortDirection = formData[1].value;
-        //var searchBy = formData[2].value;
-        //var searchInput = formData[3].value;
         var page = formData[2].value;
 
         updateButton(page, sortBy, sortDirection, "", "");
-
     });
 
     $("#searchSubmit").click(function () {
+        debugger;
         var formData = $('form[name="searchForm"]').serializeArray();
         var sortBy = formData[0].value;
         var sortDirection = formData[1].value;
@@ -403,19 +397,6 @@ else
         sortDir.name = 'sortDir';
         sortDir.value = currentsortDir;
         form.appendChild(sortDir);
-
-        /*
-        const searchBy = document.createElement('input');
-        searchBy.hidden = true;
-        searchBy.name = 'searchBy';
-        searchBy.value = currentsearchBy;
-        form.appendChild(searchBy);
-
-        const searchInput = document.createElement('input');
-        searchInput.hidden = true;
-        searchInput.name = 'searchInput';
-        searchInput.value = currentsearchInput;
-        form.appendChild(searchInput); */
 
         document.body.appendChild(form);
         form.submit();

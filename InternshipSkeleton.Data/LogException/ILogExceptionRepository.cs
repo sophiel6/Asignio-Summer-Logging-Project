@@ -18,6 +18,5 @@ namespace AsignioInternship.Data.LogException
         int Update(CombinedLogExceptionDataModel LogToUpdate, string username);
         Guid GetUserIDFromUsername(string username);
         int UndoUpdate(CombinedLogExceptionDataModel logToUpdate);
-        //PagedDataModelCollection<CombinedLogExceptionDataModel> NewCombinedPageLogException(int pageSize, int pageNum, string sortColumn, string sortDirection, Dictionary<string, string> searchDictionary);
     }
 }

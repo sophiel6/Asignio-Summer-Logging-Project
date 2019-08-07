@@ -13,8 +13,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 @{
-    //var searchBy = Model.SearchBy;
-    //var searchInput = Model.SearchInput;
     var sortBy = Model.SortBy;
     var sortDir = Model.SortDirection;
     var id = Model.PageNumber;
@@ -43,13 +41,15 @@
             </div>
         </div>
         <div class="col-md-2">
-            @Html.ActionLink("Back to table", "Index")
+            @Html.ActionLink("Back to table", "Index", null, new { @class = "btn btn-default" })
         </div>
         <div class="col-md-2">
-            @Html.ActionLink("New search", "AdvancedSearch")
+            @Html.ActionLink("New Search", "AdvancedSearch")
         </div>
     </div>
 </div>
+
+<br />
 
 @if (!noResults)
 {
@@ -78,7 +78,6 @@
                         sortD = "ASC";
                     }
                 <td>
-                    @*Html.ActionLink(category, "SearchIndex", new { sortBy = sortB, sortDir = sortD, searchBy = searchBy, searchInput = searchInput, id = 1 }, new { @class = className }) *@
                     <input type="button" id="sortButton" value="@category" onclick="updateButton(1, '@sortB', '@sortD')" class="@className" />
                 </td>
                 }
@@ -100,12 +99,10 @@
                     <!-- If Important, show the filled icon and have it markUnimportant/toggle the icon -->
                     @if (currentRow.Important == null)
                     {
-                        //string fixedMessage = currentRow.Message.ToString().Replace("'", "\\'");
                         <img src="~/Content/unfilledStar.jpg" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()', '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')" />
                     }
                     else
                     {
-                        //string fixedMessage = currentRow.Message.ToString().Replace("'", "\\'");
                         <img src="~/Content/filledStar.jpg" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()', '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')" />
                     }
                 </td>

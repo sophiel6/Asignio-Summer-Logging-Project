@@ -85,7 +85,7 @@
                 <div class="block">
                     @Html.TextBox("id")
                 </div>
-                <input type="button" id="btnSubmit" value="Jump to page" class="btn btn-default" />
+                <input id="btnSubmit" value="Jump to page" class="btn btn-default" />
             </form>
         </div>
     </div>
@@ -118,7 +118,7 @@
                         sortD = "ASC";
                     }
                     <td>
-                        <input type="button" id="sortButton" value="@category" onclick="updateButton(1, '@sortB', '@sortD')" class="@className" />
+                        <input id="sortButton" value="@category" onclick="updateButton(1, '@sortB', '@sortD')" class="@className" />
                     </td>
                 }
             </tr>

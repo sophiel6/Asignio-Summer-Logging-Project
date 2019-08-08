@@ -33,36 +33,38 @@
 }
 
 <div class="container" style="padding-top: 50px !important;">
-    <form name="searchForm">
+    <form name="searchForm" class="block">
         @Html.HiddenFor(m => m.SortBy)
         @Html.HiddenFor(m => m.SortDirection)
 
-        <div class="block" style="width: 25% !important; display: inline-block; ">
+        <div class="block" style="width: 25% !important;">
             @Html.Label("Search by: ", new { @class = "mylabel" })
             @Html.DropDownList("searchBy", searchCategories, new { @class = "mydropdown" })
         </div>
-        <div class="block" style="width: 25% !important; display: inline-block; ">
+        <div class="block" style="width: 25% !important;">
             @Html.Label("Search for: ", new { @class = "mylabel" })
             @Html.TextBox("searchInput", null, new { @class = "mytextbox" })
         </div>
         @Html.HiddenFor(m => m.PageNumber)
-        <input type="button" id="searchSubmit" name="searchSubmit" value="Search" class="btn btn-default" style="display: inline-block;" />
-
+        <input id="searchSubmit" name="searchSubmit" value="Search" class="btn btn-default" style="display: inline-block; width: 100px;" />
+    </form>
+    <div class="block">
         @Html.ActionLink(linkText: "Undo search",
         actionName: "Index",
         controllerName: "LogException",
         routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = "", searchInput = "", id = 1 },
         htmlAttributes: new { @class = "btn btn-default" })
-
+    </div>
+    <div class="block">
         @Html.ActionLink("Advanced Search", "AdvancedSearch", "LogException")
-    </form>
+    </div>
 </div>
 
 <br />
 
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label class="pageLabel"> Current page: @Model.PageNumber / @Model.TotalPages</label>
         </div>
         <div class="col-md-4">
@@ -76,7 +78,7 @@
                 <input type="button" class="btn btn-default" onclick="updateButton(@Model.TotalPages, '@sortBy', '@sortDir')" value="Last >>">
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <form name="pageJump">
                 @Html.HiddenFor(m => m.SortBy)
                 @Html.HiddenFor(m => m.SortDirection)
@@ -87,9 +89,10 @@
                 <div class="block">
                     @Html.TextBox("id")
                 </div>
-                <input type="button" id="btnSubmit" value="Jump to page" class="btn btn-default" />
-
             </form>
+        </div>
+        <div class="col-md-2">
+            <input id="btnSubmit" value="Jump to page" class="btn btn-default" />
         </div>
     </div>
 </div>    
@@ -122,7 +125,7 @@
                         sortD = "ASC";
                     }
                     <td>
-                        <input type="button" id="sortButton" value ="@category" onclick="updateButton(1, '@sortB', '@sortD')" class="@className" />
+                        <input id="sortButton" value ="@category" onclick="updateButton(1, '@sortB', '@sortD')" class="@className" />
                     </td>
                 }
             </tr>
@@ -139,16 +142,12 @@
                     <td>@currentRow.Source</td>
                     <td>@currentRow.StackTrace</td>
                     <td>
-                        <!-- If !Important, show the unfilled icon and have it open the modal/toggle the icon -->
-                        <!-- If Important, show the filled icon and have it markUnimportant/toggle the icon -->
                         @if (currentRow.Important == null)
                         {
-                            //string fixedMessage = currentRow.Message.ToString().Replace("'", "\\'");
                             <img src="~/Content/unfilledStar.jpg" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()', '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')" />
                         }
                         else
                         {
-                            //string fixedMessage = currentRow.Message.ToString().Replace("'", "\\'");
                             <img src="~/Content/filledStar.jpg" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()', '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')" />
                         }
                     </td>

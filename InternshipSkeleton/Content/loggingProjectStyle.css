@@ -111,3 +111,29 @@ tr:nth-child(even) {
     display: inline-block;
 }
 
+#topheader .navbar-nav li > a {
+    text-transform: capitalize;
+    color: #fff;
+    transition: background-color .2s, color .2s;
+}
+#topheader .navbar-nav li > a:hover {
+    background-color: #fff;
+    color: #333;
+}
+#topheader .navbar-nav li > a:focus {
+    background-color: #fff;
+    color: #333;
+}
+
+#topheader .navbar-nav li.active > a {
+    background-color: #fff;
+    color: #333;
+}
+
+.navbar-nav > .active > a,
+.navbar-nav > .active > a:focus,
+.navbar-nav > .active > a:hover {
+    background-color: #333;
+    color: #fff;
+}
+

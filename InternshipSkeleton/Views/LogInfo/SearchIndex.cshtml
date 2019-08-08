@@ -1,9 +1,8 @@
-﻿
-@using AsignioInternship.Data.CombinedLogException
+﻿@using AsignioInternship.Data.CombinedLogInfo
 @using AsignioInternship.Data
 
 
-@model PagedDataModelCollection<CombinedLogExceptionDataModel>
+@model PagedDataModelCollection<CombinedLogInfoDataModel>
 @{
     ViewBag.Title = "SearchIndex";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,7 +17,7 @@
     var id = Model.PageNumber;
     var searchDict = Model.SearchDictionary;
 
-    List<String> categories = new List<String>() { "EmailAddress", "TimeStamp", "WebRequestID", "Message", "MethodName", "Source", "StackTrace", "Important" };
+    List<String> categories = new List<String>() { "EmailAddress", "TimeStamp", "WebRequestID", "Message", "MethodName", "Object", "Important" };
 
     bool noResults = (Model.TotalItems) == 0;
 }
@@ -77,36 +76,39 @@
                         sortB = category;
                         sortD = "ASC";
                     }
-                <td>
-                    <input type="button" id="sortButton" value="@category" onclick="updateButton(1, '@sortB', '@sortD')" class="@className" />
-                </td>
+                    <td>
+                        <input type="button" id="sortButton" value="@category" onclick="updateButton(1, '@sortB', '@sortD')" class="@className" />
+                    </td>
                 }
             </tr>
         </thead>
         <tbody>
-            @foreach (CombinedLogExceptionDataModel currentRow in Model.Items)
+            @foreach (CombinedLogInfoDataModel currentRow in Model.Items)
             {
-            <tr>
-                <td>@currentRow.EmailAddress</td>
-                <td>@currentRow.TimeStamp</td>
-                <td>@currentRow.WebRequestID</td>
-                <td>@currentRow.Message</td>
-                <td>@currentRow.MethodName</td>
-                <td>@currentRow.Source</td>
-                <td>@currentRow.StackTrace</td>
-                <td>
-                    <!-- If !Important, show the unfilled icon and have it open the modal/toggle the icon -->
-                    <!-- If Important, show the filled icon and have it markUnimportant/toggle the icon -->
-                    @if (currentRow.Important == null)
-                    {
-                        <img src="~/Content/unfilledStar.jpg" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()', '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')" />
-                    }
-                    else
-                    {
-                        <img src="~/Content/filledStar.jpg" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()', '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')" />
-                    }
-                </td>
-            </tr>
+                <tr>
+                    <td>@currentRow.EmailAddress</td>
+                    <td>@currentRow.TimeStamp</td>
+                    <td>@currentRow.WebRequestID</td>
+                    <td>@currentRow.Message</td>
+                    <td>@currentRow.MethodName</td>
+                    <td>@currentRow.Object</td>
+                    <td>
+                        @if (currentRow.Important == null) //button to mark as important
+                        {
+                            <img src="~/Content/unfilledStar.jpg" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()',
+                            '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
+                            '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()',
+                            '@currentRow.MethodName.ToString()', '@currentRow.Object.ToString()')">
+                        }
+                        else //button to unmark as important
+                        {
+                            <img src="~/Content/filledStar.jpg" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()',
+                            '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
+                            '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()',
+                            '@currentRow.MethodName.ToString()', '@currentRow.Object.ToString()')">
+                        }
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -125,8 +127,9 @@ else
     <button onclick="closeModal()">Cancel</button>
 </div>
 
-
-<script>
+@section scripts
+{
+<script language="javascript" type="text/javascript">
     var exampleModal;
     var exampleModalVisible = false;
 
@@ -134,29 +137,45 @@ else
     var currentEmailAddress = null;
     var currentTimeStamp = null;
     var currentWebRequestID = null;
+    var currentMessage = null;
     var currentMethodName = null;
-    var currentSource = null;
+    var currentObject = null;
 
+    var currentsearchDictionary = @Html.Raw(Json.Encode(searchDict));
     var currentid = null;
     var currentsortBy = null;
     var currentsortDir = null;
-    var currentsearchDictionary = @Html.Raw(Json.Encode(searchDict))
 
-
-    function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, MethodName, Source) {
+    function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, Message, MethodName, Object) {
         event.preventDefault;
-        debugger;
+
         currentUserID = UserID;
         currentEmailAddress = EmailAddress;
         currentTimeStamp = TimeStamp;
         currentWebRequestID = WebRequestID;
+        currentMessage = Message;
         currentMethodName = MethodName;
-        currentSource = Source;
+        currentObject = Object;
 
         exampleModal.open();
-    };
+    }
+
+    function closeModal() {
+        event.preventDefault;
+
+        currentUserID = null;
+        currentEmailAddress = null;
+        currentTimeStamp = null;
+        currentWebRequestID = null;
+        currentMessage = null;
+        currentMethodName = null;
+        currentObject = null;
+
+        exampleModal.close();
+    }
 
     $(document).ready(function () {
+
         exampleModal = new Foundation.Reveal($("#example-modal"));
 
         $("#example-modal").on("open.zf.reveal", function () {
@@ -168,43 +187,31 @@ else
         });
     });
 
-    function closeModal() {
-        event.preventDefault;
-
-        currentUserID = null;
-        currentEmailAddress = null;
-        currentTimeStamp = null;
-        currentWebRequestID = null;
-        currentMethodName = null;
-        currentSource = null;
-
-        exampleModal.close();
-    };
-
     function UpdateImportance(page, sortB, sortD) {
         currentid = page;
         currentsortBy = sortB;
         currentsortDir = sortD;
-        debugger;
-        usernameValue = $("[name=usernameEntry]").val(); 
+        usernameValue = $("[name=usernameEntry]").val();
 
-        var log = {
+        debugger;
+        var model = {
             UserID: currentUserID,
             EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             WebRequestID: currentWebRequestID,
+            Message: currentMessage,
             MethodName: currentMethodName,
-            Source: currentSource,
+            Object: currentObject,
         };
-        
+
         $.ajax({
             method: "POST",
-            url: "@Url.Action("UpdateImportance", "LogException")",
+            url: "@Url.Action("UpdateImportance", "LogInfo")",
             dataType: "json",
             data: {
                 username: usernameValue,
-                logToUpdate: log,
-		    },
+                logToUpdate: model,
+            },
 
             success: function (result) {
                 document.getElementById("usernameForm").reset();
@@ -213,8 +220,9 @@ else
                 currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentWebRequestID = null;
+                currentMessage = null;
                 currentMethodName = null;
-                currentSource = null;
+                currentObject = null;
 
                 if (result.IsCreated) {
                     //updateButton(currentid, currentsortBy, currentsortDir);
@@ -226,25 +234,28 @@ else
                     window.location.reload();
                 }
             },
+
             error: function (result) {
-                alert(result);
+                alert(result.ErrorMessage);
             }
-        }); 
+        });
     };
 
-    function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentWebRequestID, currentMethodName, currentSource) {
+    function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentWebRequestID, currentMessage,
+        currentMethodName, currentObject) {
         var model = {
             UserID: currentUserID,
             EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             WebRequestID: currentWebRequestID,
+            Message: currentMessage,
             MethodName: currentMethodName,
-            Source: currentSource,
+            Source: currentObject,
         };
 
         $.ajax({
             method: "POST",
-            url: "@Url.Action("MarkUnimportant", "LogException")",
+            url: "@Url.Action("MarkUnimportant", "LogInfo")",
             dataType: "json",
             data: {
                 logToUpdate: model,
@@ -255,8 +266,9 @@ else
                 currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentWebRequestID = null;
+                currentMessage = null;
                 currentMethodName = null;
-                currentSource = null;
+                currentObject = null;
 
                 if (result.IsCreated) {
                     window.location.reload();
@@ -270,7 +282,7 @@ else
                 alert(result.ErrorMessage);
             }
         });
-    };
+    }
 
     function updateButton(page, sortB, sortD) {
         currentid = page;
@@ -280,7 +292,7 @@ else
 
         const form = document.createElement('form');
         form.method = 'post';
-        form.action = '/LogException/SearchIndex';
+        form.action = '/LogInfo/SearchIndex';
 
         var dictionary = {};
         var index = 0;
@@ -322,4 +334,4 @@ else
         form.submit();
     };
 </script>
-
+}

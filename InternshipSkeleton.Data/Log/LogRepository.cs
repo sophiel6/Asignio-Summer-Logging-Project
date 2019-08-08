@@ -154,8 +154,8 @@ namespace AsignioInternship.Data.Log
 
                         sql.Append("SET SQL_SAFE_UPDATES = 0; ");
                         sql.Append(string.Format("UPDATE log SET Important = {0} ", username));
-                        string where = string.Format("WHERE TimeStamp = \"{0}\" AND LogID = GuidToBinary(\"{1}\") AND Level = \"{2}\" AND Message = \"{3}\" AND Source = \"{4}\" ; ",
-                            sqlFormattedTimeStamp, LogToUpdate.LogID, LogToUpdate.Level, LogToUpdate.Message, LogToUpdate.Source);
+                        string where = string.Format("WHERE TimeStamp = \"{0}\" AND LogID = GuidToBinary(\"{1}\") AND Level = \"{2}\" AND Source = \"{3}\" ; ",
+                            sqlFormattedTimeStamp, LogToUpdate.LogID, LogToUpdate.Level, LogToUpdate.Source);
                         sql.Append(where);
                         sql.Append("SET SQL_SAFE_UPDATES = 1;");
 
@@ -189,8 +189,8 @@ namespace AsignioInternship.Data.Log
 
                     sql.Append("SET SQL_SAFE_UPDATES = 0; ");
                     sql.Append(string.Format("UPDATE log SET Important = {0} ", nullString));
-                    string where = string.Format("WHERE TimeStamp = \"{0}\" AND LogID = GuidToBinary(\"{1}\") AND Level = \"{2}\" AND Message = \"{3}\" AND Source = \"{4}\" ; ",
-                            sqlFormattedTimeStamp, LogToUpdate.LogID, LogToUpdate.Level, LogToUpdate.Message, LogToUpdate.Source);
+                    string where = string.Format("WHERE TimeStamp = \"{0}\" AND LogID = GuidToBinary(\"{1}\") AND Level = \"{2}\" AND Source = \"{3}\" ; ",
+                            sqlFormattedTimeStamp, LogToUpdate.LogID, LogToUpdate.Level, LogToUpdate.Source);
                     sql.Append(where);
                     sql.Append("SET SQL_SAFE_UPDATES = 1; ");
 

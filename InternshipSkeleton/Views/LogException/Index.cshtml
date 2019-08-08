@@ -62,7 +62,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <label class="pageLabel"> Current page: @Model.PageNumber / @Model.TotalPages</label>
         </div>
         <div class="col-md-4">
@@ -265,10 +265,12 @@ else
                 currentSource = null;
 
                 if (result.IsCreated) {
-                    updateButton(currentid, currentsortBy, currentsortDir, "", "");
+                    //updateButton(currentid, currentsortBy, currentsortDir, "", "");
+                    window.location.reload();
                 }
                 else {
                     alert(result.ErrorMessage);
+                    window.location.reload();
                 }
             },
 

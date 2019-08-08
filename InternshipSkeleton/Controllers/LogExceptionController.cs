@@ -124,4 +124,6 @@ namespace AsignioInternship.Controllers
  * Repository - change CombinedPage method
  * IRepository - change CombinedPage method signature
  * Views - update Index, add Advanced Search, add SearchIndex 
+ * 
+ * problems: LogInfo doesn't stay on the same page (pagenum, sortby, etc.) after marking something as important - on index or searchIndex
  */

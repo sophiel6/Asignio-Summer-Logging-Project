@@ -6,8 +6,7 @@ namespace AsignioInternship.Data.LogInfo
 {
     public interface ILogInfoRepository
     {
-        PagedDataModelCollection<CombinedLogInfoDataModel> CombinedPageLogInfo(string nameSearchPattern,
-                                       string searchColumn, int pageSize, int pageNumber, string sortColumn, string sortDirection);
+        PagedDataModelCollection<CombinedLogInfoDataModel> CombinedPageLogInfo(int pageSize, int pageNumber, string sortColumn, string sortDirection, Dictionary<string,string> searchDictionary);
 
         int Update(CombinedLogInfoDataModel LogToUpdate, string username);
 

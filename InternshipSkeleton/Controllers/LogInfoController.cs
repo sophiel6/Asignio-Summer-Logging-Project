@@ -3,6 +3,7 @@ using AsignioInternship.Data.CombinedLogInfo;
 using AsignioInternship.Data.LogInfo;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace AsignioInternship.Controllers
@@ -14,17 +15,53 @@ namespace AsignioInternship.Controllers
             m_logInfoRepository = (logInfoRepository != null) ? logInfoRepository : throw new ArgumentNullException();
         }
 
-        public ActionResult Index(int? id, string searchBy, string searchInput, string sortBy, string sortDir)
+        public ActionResult Index(int? id, string sortBy, string sortDir, Dictionary<string,string> searchDictionary)
         {
             int pageNum;
             pageNum = (id ?? 1);
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
-            string searchInfo = searchInput ?? "";
-            string searchColumn = searchBy ?? "";
             string sortDirection = sortDir ?? "ASC";
-            PagedDataModelCollection<CombinedLogInfoDataModel> result = m_logInfoRepository.CombinedPageLogInfo(searchInfo,
-                                                                            searchColumn, pageSize, pageNum, sortColumn, sortDirection);
+            var searchD = new Dictionary<string, string>()
+            {
+                {"EmailAddress", ""  },
+                {"TimeStamp", "" },
+                {"Message", "" },
+                {"MethodName", "" },
+                {"Object", "" },
+                {"Important", "" }
+             };
+            Dictionary<string, string> searchDict;
+            if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary == null)
+            { searchDict = searchD; }
+            else
+            { searchDict = searchDictionary; }
+            PagedDataModelCollection<CombinedLogInfoDataModel> result = m_logInfoRepository.CombinedPageLogInfo(pageSize, pageNum, sortColumn, sortDirection, searchDict);
+            return View(result);
+        }
+
+        public ActionResult SearchIndex(int? id, string sortBy, string sortDir, Dictionary<string, string> searchDictionary)
+        {
+            int pageNum;
+            pageNum = (id ?? 1);
+            int pageSize = 20;
+            string sortColumn = sortBy ?? "TimeStamp";
+            string sortDirection = sortDir ?? "ASC";
+            var searchD = new Dictionary<string, string>()
+            {
+                {"EmailAddress", ""  },
+                {"TimeStamp", "" },
+                {"Message", "" },
+                {"MethodName", "" },
+                {"Object", "" },
+                {"Important", "" }
+             };
+            Dictionary<string, string> searchDict;
+            if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary == null)
+            { searchDict = searchD; }
+            else
+            { searchDict = searchDictionary; }
+            PagedDataModelCollection<CombinedLogInfoDataModel> result = m_logInfoRepository.CombinedPageLogInfo(pageSize, pageNum, sortColumn, sortDirection, searchDict);
             return View(result);
         }
 
@@ -60,6 +97,11 @@ namespace AsignioInternship.Controllers
             {
                 return Json(new { IsCreated = false, ErrorMessage = "Error" });
             }
+        }
+
+        public ActionResult AdvancedSearch()
+        {
+            return View();
         }
 
         private readonly ILogInfoRepository m_logInfoRepository;

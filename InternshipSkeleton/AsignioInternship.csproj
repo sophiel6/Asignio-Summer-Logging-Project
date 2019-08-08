@@ -230,6 +230,8 @@
     <Content Include="Views\Log\SearchIndex.cshtml" />
     <Content Include="Views\LogControllerAction\AdvancedSearch.cshtml" />
     <Content Include="Views\LogControllerAction\SearchIndex.cshtml" />
+    <Content Include="Views\LogInfo\AdvancedSearch.cshtml" />
+    <Content Include="Views\LogInfo\SearchIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

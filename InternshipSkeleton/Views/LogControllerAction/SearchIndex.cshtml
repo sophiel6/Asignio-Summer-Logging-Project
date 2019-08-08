@@ -222,10 +222,12 @@ else
                 currentParameters = null;
 
                 if (result.IsCreated) {
-                    updateButton(currentid, currentsortBy, currentsortDir);
+                    //updateButton(currentid, currentsortBy, currentsortDir);
+                    window.location.reload();
                 }
                 else {
                     alert(result.ErrorMessage);
+                    window.location.reload();
                 }
             },
 
@@ -287,7 +289,7 @@ else
 
         const form = document.createElement('form');
         form.method = 'post';
-        form.action = '/LogControllerAction/Index';
+        form.action = '/LogControllerAction/SearchIndex';
 
         var dictionary = {};
         var index = 0;

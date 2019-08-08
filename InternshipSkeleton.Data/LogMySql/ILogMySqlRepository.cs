@@ -7,8 +7,7 @@ namespace AsignioInternship.Data.LogMySql
     {
         IEnumerable<LogMySqlDataModel> GetAll();
 
-        PagedDataModelCollection<LogMySqlDataModel> PageLogMySql(string nameSearchPattern, string searchColumn,
-                                                int pageSize, int pageNumber, string sortColumn, string sortDirection);
+        PagedDataModelCollection<LogMySqlDataModel> PageLogMySql(int pageSize, int pageNumber, string sortColumn, string sortDirection, Dictionary<string,string> searchDict);
 
         int Update(LogMySqlDataModel LogToUpdate, string username);
 

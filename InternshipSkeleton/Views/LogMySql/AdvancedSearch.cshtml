@@ -1,36 +1,33 @@
-﻿<!-- Log Advanced Search page -->
+﻿<!-- LogMySql Advanced Search page -->
+
 
 @{
     ViewBag.Title = "AdvancedSearch";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Log - Advanced Search</h2>
+<h2>Log MySql - Advanced Search</h2>
 
-<!-- "EmailAddress", "TimeStamp", "Level", "Message", "Source", "Important" -->
 
 <form name="myForm">
-    @Html.Label("Email")
-    @Html.TextBox("EmailAddress")
-
     @Html.Label("Date Range")
     <div class="container">
         <div class="block">
-            <input name="beginDate" id="beginDate" type="date" min="2016-01-01" />
+            <input name="beginDate" id="beginDate" type="date" min="2019-01-01" />
         </div>
         <div class="block">
-            <input name="endDate" id="endDate" type="date" min="2016-01-01" />
+            <input name="endDate" id="endDate" type="date" min="2019-01-01" />
         </div>
     </div>
 
-    @Html.Label("Level")
-    @Html.TextBox("Level")
+    @Html.Label("Function")
+    @Html.TextBox("logmysql.Function")
 
     @Html.Label("Message")
     @Html.TextBox("Message")
 
-    @Html.Label("Source")
-    @Html.TextBox("Source")
+    @Html.Label("Type")
+    @Html.TextBox("Type")
 
     Only get logs marked as important <input type="checkbox" name="Important" value="true" />
 </form>
@@ -58,7 +55,7 @@
         });
         const newform = document.createElement('form');
         newform.method = 'post';
-        newform.action = '/Log/SearchIndex';
+        newform.action = '/LogMySql/SearchIndex';
 
         for (const key in data) {
             if (data.hasOwnProperty(key)) {

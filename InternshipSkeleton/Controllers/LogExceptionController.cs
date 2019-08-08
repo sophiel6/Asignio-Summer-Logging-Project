@@ -126,4 +126,5 @@ namespace AsignioInternship.Controllers
  * Views - update Index, add Advanced Search, add SearchIndex 
  * 
  * problems: LogInfo doesn't stay on the same page (pagenum, sortby, etc.) after marking something as important - on index or searchIndex
- */
+    Have to click some buttons multiple times for them to work (submit on AdvancedSearch, etc.)
+     */

@@ -28,9 +28,11 @@
     searchCategories.Add(new SelectListItem { Text = "Type", Value = "Type" });
     searchCategories.Add(new SelectListItem { Text = "Importance", Value = "Important" });
 }
+<h3 class="tableTitle">Advanced search results (LogMySql)</h3>
+<br />
 
 <!-- Paging stuff -->
-<div class="container" style="padding-top: 60px !important;">
+<div class="container">
     <div class="row">
         <div class="col-md-4">
             <label class="pageLabel"> Current page: @Model.PageNumber / @Model.TotalPages</label>
@@ -101,13 +103,13 @@
                         @if (currentRow.Important == null) //button to mark as important
                         {
                             string fixedMessage = currentRow.Message.ToString().Replace("'", "\\'");
-                            <img src="~/Content/unfilledStar.jpg" class="unfilledIcon" onclick="openModal('@currentRow.DateTimeStamp.ToString()',
+                            <img src="~/Content/unfilledStar.png" class="unfilledIcon" onclick="openModal('@currentRow.DateTimeStamp.ToString()',
                             '@fixedMessage', '@currentRow.Function.ToString()','@currentRow.Type.ToString()')">
                         }
                         else //button to unmark as important
                         {
                             string fixedMessage = currentRow.Message.ToString().Replace("'", "\\'");
-                            <img src="~/Content/filledStar.jpg" class="filledIcon" onclick="markUnimportant('@currentRow.DateTimeStamp.ToString()',
+                            <img src="~/Content/filledStar.png" class="filledIcon" onclick="markUnimportant('@currentRow.DateTimeStamp.ToString()',
                             '@fixedMessage', '@currentRow.Function.ToString()','@currentRow.Type.ToString()')">
                         }
                     </td>

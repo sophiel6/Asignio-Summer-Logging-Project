@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Log Exception - Advanced Search</h2>
+<h4>LogControllerAction - Advanced Search</h4>
 <!-- "EmailAddress", "TimeStamp", "ControllerName", "ActionName", "Parameters", "Important" -->
 
 <form name="myForm">
@@ -13,7 +13,7 @@
     @Html.TextBox("EmailAddress")
 
     @Html.Label("Date Range")
-    <div class="container">
+    <div class="container dateRange">
         <div class="block">
             <input name="beginDate" id="beginDate" type="date" min="2019-01-01" />
         </div>

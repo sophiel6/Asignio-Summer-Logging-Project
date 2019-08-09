@@ -23,8 +23,10 @@
     bool noResults = (Model.TotalItems) == 0;
 }
 
+<h3 class="tableTitle">Advanced search results (LogControllerAction)</h3>
+<br />
 <!-- Paging stuff -->
-<div class="container" style="padding-top: 60px !important;">
+<div class="container">
     <div class="row">
         <div class="col-md-4">
             <label class="pageLabel"> Current page: @Model.PageNumber / @Model.TotalPages</label>
@@ -96,14 +98,14 @@
                 <td>
                     @if (currentRow.Important == null) //button to mark as important
                     {
-                        <img src="~/Content/unfilledStar.jpg" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()',
+                        <img src="~/Content/unfilledStar.png" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()',
                             '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
                             '@currentRow.WebRequestID.ToString()', '@currentRow.ControllerName.ToString()',
                             '@currentRow.ActionName.ToString()', '@currentRow.Parameters.ToString()')">
                     }
                     else //button to unmark as important
                     {
-                        <img src="~/Content/filledStar.jpg" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()',
+                        <img src="~/Content/filledStar.png" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()',
                             '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
                             '@currentRow.WebRequestID.ToString()', '@currentRow.ControllerName.ToString()',
                             '@currentRow.ActionName.ToString()', '@currentRow.Parameters.ToString()')">

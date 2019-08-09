@@ -114,7 +114,7 @@ namespace AsignioInternship.Controllers
 /*
  * To do - general
  * -make the active tab in the navbar appear selected
- * -change background of icons to be transparent (or change icon in general)
+ * -fix the overlap of the navbar and the page - and add a title to each page 
  * 
  * -combine PageLogException and NewPageLogException functions in repository 
  * -add stuff in Page repository function for stringing clauses together 

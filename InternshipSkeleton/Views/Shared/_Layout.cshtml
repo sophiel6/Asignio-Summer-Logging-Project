@@ -32,7 +32,6 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Example", "Index", "Example")</li>
                     <li>@Html.ActionLink("Log", "Index", "Log")</li>
                     <li>@Html.ActionLink("Log Controller Action", "Index", "LogControllerAction")</li>
                     <li>@Html.ActionLink("Log Exception", "Index", "LogException")</li>
@@ -45,7 +44,7 @@
         </div>
     </div>
    
-    <div class="container body-content">
+    <div class="container body-content" style="">
         @RenderBody()
         <hr />
         <footer>
@@ -66,11 +65,14 @@
         $(this).parent('li').addClass('active');
     }); */
 
-    var selector = '.nav li';
+    $(document).ready(function () {
+        var selector = '.nav li';
 
-    $(selector).on('click', function () {
-        debugger;
-        $(selector).removeClass('active');
-        $(this).addClass('active');
+        $(selector).on('click', function () {
+            debugger;
+            $(selector).removeClass('active');
+            $(this).addClass('active');
+        });
     });
+
 </script>

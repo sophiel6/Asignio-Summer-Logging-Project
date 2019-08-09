@@ -137,3 +137,14 @@ tr:nth-child(even) {
     color: #fff;
 }
 
+.body-content {
+    padding-top: 50px;
+}
+
+.tableTitle {
+    text-align: center;
+}
+
+.dateRange {
+    padding:0px;
+}

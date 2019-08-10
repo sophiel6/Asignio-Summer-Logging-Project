@@ -5,8 +5,7 @@ namespace AsignioInternship.Data.LogWebRequest
 {
     public interface ILogWebRequestRepository
     {
-        PagedDataModelCollection<LogWebRequestDataModel> PageLogWebRequest(string nameSearchPattern,
-                        string searchColumn, int pageSize, int pageNumber, string sortColumn, string sortDirection);
+        PagedDataModelCollection<LogWebRequestDataModel> PageLogWebRequest(int pageSize, int pageNumber, string sortColumn, string sortDirection, Dictionary<string,string> searchDictionary);
         int Update(LogWebRequestDataModel LogToUpdate, string username);
         int UndoUpdate(LogWebRequestDataModel LogToUpdate);
         Guid GetUserIDFromUsername(string username);

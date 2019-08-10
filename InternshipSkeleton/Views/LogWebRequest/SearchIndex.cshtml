@@ -1,9 +1,7 @@
-
-@using AsignioInternship.Data.CombinedLogException
+﻿@using AsignioInternship.Data.LogWebRequest
 @using AsignioInternship.Data
 
-
-@model PagedDataModelCollection<CombinedLogExceptionDataModel>
+@model PagedDataModelCollection<LogWebRequestDataModel>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -18,53 +16,23 @@
     var id = Model.PageNumber;
     var searchDict = Model.SearchDictionary;
 
-    List<String> categories = new List<String>() { "EmailAddress", "TimeStamp", "WebRequestID", "Message", "MethodName", "Source", "StackTrace", "Important" };
+    List<String> categories = new List<String>() { "TimeStamp", "WebRequestID", "UserID", "RawURL", "Parameters", "Important" };
 
     bool noResults = (Model.TotalItems) == 0;
 
     List<SelectListItem> searchCategories = new List<SelectListItem>();
-    searchCategories.Add(new SelectListItem { Text = "Email Address", Value = "EmailAddress" });
-    searchCategories.Add(new SelectListItem { Text = "Time Stamp (YYYY-MM-DD)", Value = "TimeStamp" });
-    searchCategories.Add(new SelectListItem { Text = "Message", Value = "Message" });
-    searchCategories.Add(new SelectListItem { Text = "Method Name", Value = "MethodName" });
-    searchCategories.Add(new SelectListItem { Text = "Source", Value = "Source" });
-    searchCategories.Add(new SelectListItem { Text = "Stack Trace", Value = "StackTrace" });
+    searchCategories.Add(new SelectListItem { Text = "Date (YYYY-MM-DD)", Value = "TimeStamp" });
+    searchCategories.Add(new SelectListItem { Text = "Raw URL", Value = "RawURL" });
+    searchCategories.Add(new SelectListItem { Text = "Parameters", Value = "Parameters" });
     searchCategories.Add(new SelectListItem { Text = "Importance", Value = "Important" });
 }
-
-<h3 class="tableTitle">Log Exception Table</h3>
+<h3 class="tableTitle">LogWebRequest Table</h3>
 <br />
 
-<div class="container">
-    <form name="searchForm">
-        @Html.HiddenFor(m => m.SortBy)
-        @Html.HiddenFor(m => m.SortDirection)
-
-        <div class="block" style="width: 25% !important; display:inline-block;">
-            @Html.Label("Search by: ", new { @class = "mylabel" })
-            @Html.DropDownList("searchBy", searchCategories, new { @class = "mydropdown" })
-        </div>
-        <div class="block" style="width: 25% !important; display: inline-block;">
-            @Html.Label("Search for: ", new { @class = "mylabel" })
-            @Html.TextBox("searchInput", null, new { @class = "mytextbox" })
-        </div>
-        
-        <input type="button" id="searchSubmit" name="searchSubmit" value="Search" class="btn btn-default" style="display: inline-block;" />
-        @Html.ActionLink(linkText: "Undo search",
-         actionName: "Index",
-         controllerName: "LogException",
-         routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = "", searchInput = "", id = 1 },
-         htmlAttributes: new { @class = "btn btn-default" })
-
-        @Html.ActionLink("Advanced Search", "AdvancedSearch", "LogException")
-    </form>
-</div>
-
-<br />
-
+<!-- Paging stuff -->
 <div class="container">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <label class="pageLabel"> Current page: @Model.PageNumber / @Model.TotalPages</label>
         </div>
         <div class="col-md-4">
@@ -78,23 +46,16 @@
                 <input type="button" class="btn btn-default" onclick="updateButton(@Model.TotalPages, '@sortBy', '@sortDir')" value="Last >>">
             </div>
         </div>
-        <div class="col-md-4">
-            <form name="pageJump">
-                @Html.HiddenFor(m => m.SortBy)
-                @Html.HiddenFor(m => m.SortDirection)
-
-                <div class="block">
-                    @Html.Label("Page: ", new { @class = "mylabel" })
-                </div>
-                <div class="block">
-                    @Html.TextBox("id")
-                </div>
-                <input type="button" id="btnSubmit" value="Jump to page" class="btn btn-default" />
-            </form>
+        <div class="col-md-2">
+            @Html.ActionLink("Back to table", "Index", null, new { @class = "btn btn-default" })
+        </div>
+        <div class="col-md-2">
+            @Html.ActionLink("New Search", "AdvancedSearch")
         </div>
     </div>
-</div>    
+</div>
 
+<br />
 
 @if (!noResults)
 {
@@ -123,30 +84,30 @@
                         sortD = "ASC";
                     }
                     <td>
-                        <input type="button" id="sortButton" value ="@category" onclick="updateButton(1, '@sortB', '@sortD')" class="@className" />
+                        <input type="button" id="sortButton" value="@category" onclick="updateButton(1, '@sortB', '@sortD')" class="@className" />
                     </td>
                 }
             </tr>
         </thead>
         <tbody>
-            @foreach (CombinedLogExceptionDataModel currentRow in Model.Items)
+            @foreach (LogWebRequestDataModel currentRow in Model.Items)
             {
                 <tr>
-                    <td>@currentRow.EmailAddress</td>
                     <td>@currentRow.TimeStamp</td>
                     <td>@currentRow.WebRequestID</td>
-                    <td>@currentRow.Message</td>
-                    <td>@currentRow.MethodName</td>
-                    <td>@currentRow.Source</td>
-                    <td>@currentRow.StackTrace</td>
+                    <td>@currentRow.UserID</td>
+                    <td>@currentRow.RawURL</td>
+                    <td>@currentRow.Parameters</td>
                     <td>
                         @if (currentRow.Important == null)
                         {
-                            <img src="~/Content/unfilledStar.png" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()', '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')" />
+                            <img src="~/Content/unfilledStar.png" class="unfilledIcon" onclick="openModal('@currentRow.TimeStamp.ToString()',
+                        '@currentRow.WebRequestID.ToString()', '@currentRow.UserID.ToString()', '@currentRow.RawURL.ToString()')">
                         }
                         else
                         {
-                            <img src="~/Content/filledStar.png" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()', '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')" />
+                            <img src="~/Content/filledStar.png" class="filledIcon" onclick="markUnimportant('@currentRow.TimeStamp.ToString()',
+                        '@currentRow.WebRequestID.ToString()', '@currentRow.UserID.ToString()', '@currentRow.RawURL.ToString()')">
                         }
                     </td>
                 </tr>
@@ -162,23 +123,20 @@ else
 <div class="reveal" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out" style="display:none;">
     <form id="usernameForm">
         Your Email: <input type="text" name="usernameEntry" />
-        <button class="btn-default" onclick="UpdateImportance(@id, '@sortBy', '@sortDir')">Update</button>
+        <button onclick="UpdateImportance(@id, '@sortBy', '@sortDir')">Update</button>
     </form>
-    <button class="btn-default" onclick="closeModal()">Cancel</button>
+    <button onclick="closeModal()">Cancel</button>
 </div>
 
-@section scripts
-{
-<script language="javascript" type="text/javascript">
+@section scripts {
+<script>
     var exampleModal;
     var exampleModalVisible = false;
 
-    var currentUserID = null;
-    var currentEmailAddress = null;
     var currentTimeStamp = null;
     var currentWebRequestID = null;
-    var currentMethodName = null;
-    var currentSource = null;
+    var currentUserID = null;
+    var currentRawURL = null;
 
     var currentsearchDictionary = @Html.Raw(Json.Encode(searchDict));
     var currentid = null;
@@ -187,15 +145,13 @@ else
     var currentsearchBy = null;
     var currentsearchInput = null;
 
-    function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, MethodName, Source) {
+    function openModal(TimeStamp, WebRequestID, UserID, RawURL) {
         event.preventDefault;
-        debugger;
-        currentUserID = UserID;
-        currentEmailAddress = EmailAddress;
+
         currentTimeStamp = TimeStamp;
         currentWebRequestID = WebRequestID;
-        currentMethodName = MethodName;
-        currentSource = Source;
+        currentUserID = UserID;
+        currentRawURL = RawURL;
 
         exampleModal.open();
     }
@@ -203,12 +159,10 @@ else
     function closeModal() {
         event.preventDefault;
 
-        currentUserID = null;
-        currentEmailAddress = null;
         currentTimeStamp = null;
         currentWebRequestID = null;
-        currentMethodName = null;
-        currentSource = null;
+        currentUserID = null;
+        currentRawURL = null;
 
         exampleModal.close();
     }
@@ -231,38 +185,33 @@ else
         currentsortBy = sortB;
         currentsortDir = sortD;
         usernameValue = $("[name=usernameEntry]").val();
-
         debugger;
+
         var model = {
-            UserID: currentUserID,
-            EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             WebRequestID: currentWebRequestID,
-            MethodName: currentMethodName,
-            Source: currentSource,
+            UserID: currentUserID,
+            RawURL: currentRawURL,
         };
 
         $.ajax({
             method: "POST",
-            url: "@Url.Action("UpdateImportance", "LogException")",
+            url: "@Url.Action("UpdateImportance", "LogWebRequest")",
             dataType: "json",
             data: {
                 username: usernameValue,
                 logToUpdate: model,
-		    },
+            },
 
             success: function (result) {
                 document.getElementById("usernameForm").reset();
 
-                currentUserID = null;
-                currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentWebRequestID = null;
-                currentMethodName = null;
-                currentSource = null;
+                currentUserID = null;
+                currentRawURL = null;
 
                 if (result.IsCreated) {
-                    //updateButton(currentid, currentsortBy, currentsortDir, "", "");
                     window.location.reload();
                 }
                 else {
@@ -277,35 +226,30 @@ else
         });
     };
 
-    function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentWebRequestID,
-        currentMethodName, currentSource) {
+    function markUnimportant(currentTimeStamp, currentWebRequestID, currentUserID, currentRawURL) {
         var model = {
-            UserID: currentUserID,
-            EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             WebRequestID: currentWebRequestID,
-            MethodName: currentMethodName,
-            Source: currentSource,
+            UserID: currentUserID,
+            RawURL: currentRawURL,
         };
 
         $.ajax({
             method: "POST",
-            url: "@Url.Action("MarkUnimportant", "LogException")",
+            url: "@Url.Action("MarkUnimportant", "LogWebRequest")",
             dataType: "json",
             data: {
                 logToUpdate: model,
             },
 
             success: function (result) {
-                currentUserID = null;
-                currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentWebRequestID = null;
-                currentMethodName = null;
-                currentSource = null;
+                currentUserID = null;
+                currentRawURL = null;
 
                 if (result.IsCreated) {
-                    window.location.reload();
+                    window.location.reload(true);
                 }
                 else {
                     alert(result.ErrorMessage);
@@ -316,58 +260,28 @@ else
                 alert(result.ErrorMessage);
             }
         });
-    };
+        }
 
-    $("#btnSubmit").click(function () {
-        debugger;
-        var formData = $('form[name="pageJump"]').serializeArray();
-        var sortBy = formData[0].value;
-        var sortDirection = formData[1].value;
-        var page = formData[2].value;
-
-        updateButton(page, sortBy, sortDirection, "", "");
-    });
-
-    $("#searchSubmit").click(function () {
-        debugger;
-        var formData = $('form[name="searchForm"]').serializeArray();
-        var sortBy = formData[0].value;
-        var sortDirection = formData[1].value;
-        var searchBy = formData[2].value;
-        var searchInput = formData[3].value;
-
-        updateButton(1, sortBy, sortDirection, searchBy, searchInput);
-    });
-
-    function updateButton(page, sortB, sortD, searchB, searchI) {
+    function updateButton(page, sortB, sortD) {
         currentid = page;
         currentsortBy = sortB;
         currentsortDir = sortD;
-        currentsearchBy = searchB;
-        currentsearchInput = searchI;
         debugger;
 
         const form = document.createElement('form');
         form.method = 'post';
-        form.action = '/LogException/Index';
+        form.action = '/LogWebRequest/SearchIndex';
 
         var dictionary = {};
         var index = 0;
-        var newSearch = (currentsearchInput != "");
 
         for (var key in currentsearchDictionary) {
             if (currentsearchDictionary.hasOwnProperty(key)) {
                 dictionary["searchDictionary[" + index + "].Key"] = key;
                 dictionary["searchDictionary[" + index + "].Value"] = currentsearchDictionary[key];
-
-                if (newSearch && (currentsearchBy == key)) { //update searchDictionary based on new search    
-                    dictionary["searchDictionary[" + index + "].Key"] = currentsearchBy;
-                    dictionary["searchDictionary[" + index + "].Value"] = currentsearchInput;
-                }
             }
             index = index + 1;
         }
-
         for (var key in dictionary) {
             const hiddenField = document.createElement('input');
             hiddenField.hidden = true;
@@ -397,5 +311,6 @@ else
         document.body.appendChild(form);
         form.submit();
     };
-    </script>
+</script>    
 }
+

@@ -114,7 +114,6 @@ namespace AsignioInternship.Controllers
 /*
  * To do - general
  * -make the active tab in the navbar appear selected
- * -fix the overlap of the navbar and the page - and add a title to each page 
  * 
  * -combine PageLogException and NewPageLogException functions in repository 
  * -add stuff in Page repository function for stringing clauses together 
@@ -125,6 +124,8 @@ namespace AsignioInternship.Controllers
  * IRepository - change CombinedPage method signature
  * Views - update Index, add Advanced Search, add SearchIndex 
  * 
- * problems: LogInfo doesn't stay on the same page (pagenum, sortby, etc.) after marking something as important - on index or searchIndex
-    Have to click some buttons multiple times for them to work (submit on AdvancedSearch, etc.)
-     */
+ * problems: 
+ * -LogInfo doesn't stay on the same page (pagenum, sortby, etc.) after marking something as important - on index or searchIndex
+ * -LogWebRequest doesn't automatically refresh after marking as important; also doesnt stay on same page (at least in searchIndex)
+ * -Have to click some buttons multiple times for them to work (submit on AdvancedSearch, jump to page, etc.)
+ */

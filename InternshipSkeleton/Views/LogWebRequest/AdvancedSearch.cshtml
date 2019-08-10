@@ -1,0 +1,72 @@
+﻿<!-- LogWebRequest Advanced Search page -->
+
+@{
+    ViewBag.Title = "AdvancedSearch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>LogWebRequest - Advanced Search</h4>
+
+<!-- TimeStamp, RawURL, Parameters, Important-->
+
+<form name="myForm">
+
+    @Html.Label("Date Range")
+    <div class="container dateRange">
+        <div class="block">
+            <input name="beginDate" id="beginDate" type="date" min="2019-01-01" />
+        </div>
+        <div class="block">
+            <input name="endDate" id="endDate" type="date" min="2019-01-01" />
+        </div>
+    </div>
+
+    @Html.Label("Raw URL")
+    @Html.TextBox("RawURL")
+
+    @Html.Label("Parameters")
+    @Html.TextBox("Parameters")
+
+    Only get logs marked as important <input type="checkbox" name="Important" value="true" />
+</form>
+<input id="submitForm" type="button" value="Search" />
+
+
+<script>
+    $(document).ready(function () {
+        let today = new Date().toISOString().substr(0, 10);
+        document.querySelector("#beginDate").max = today;
+        document.querySelector("#endDate").max = today;
+    });
+
+    $("#submitForm").click(function () {
+        var formData = $('form[name="myForm"]').serializeArray();
+        debugger;
+        var data = {};
+        var index = 0;
+        formData.forEach(function (pair) {
+            var textBoxTitle = pair.name;
+            var textboxValue = pair.value;
+            data["searchDictionary[" + index + "].Key"] = textBoxTitle;
+            data["searchDictionary[" + index + "].Value"] = textboxValue;
+            index++;
+        });
+        const newform = document.createElement('form');
+        newform.method = 'post';
+        newform.action = '/LogWebRequest/SearchIndex';
+
+        for (const key in data) {
+            if (data.hasOwnProperty(key)) {
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = key;
+                hiddenField.value = data[key];
+
+                newform.appendChild(hiddenField);
+            }
+        }
+        document.body.appendChild(newform);
+        newform.submit();
+    });
+
+</script>

@@ -118,12 +118,6 @@ namespace AsignioInternship.Controllers
  * problems: 
  * -Have to click some buttons multiple times for them to work (submit on AdvancedSearch, jump to page, etc.)
  * 
- * Log
- * - some logs do not open modal when attempting to mark as important (maybe take out Message as a parameter)
- *
- * LogControllerAction
- * - within SearchIndex, logs don't get marked as important
- * 
  * LogInfo
  * - Index --> page doesn't automatically update after marking as important; doesn't stay on correct page after marking as important 
  * - SearchIndex --> doesn't stay on search page after marking as important
@@ -133,7 +127,7 @@ namespace AsignioInternship.Controllers
  * - SearchIndex --> same 
  * 
  * LogWebResponse 
- * - Index --> page doesn't automatically update after marking as important 
+ * - Index --> doesn't stay on correct page after marking as important
  * - SearchIndex --> same 
  * 
  */

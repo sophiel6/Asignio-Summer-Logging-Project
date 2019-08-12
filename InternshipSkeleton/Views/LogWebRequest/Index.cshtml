@@ -230,6 +230,7 @@ else
 
         $.ajax({
             method: "POST",
+            async: false,
             url: "@Url.Action("UpdateImportance", "LogWebRequest")",
             dataType: "json",
             data: {

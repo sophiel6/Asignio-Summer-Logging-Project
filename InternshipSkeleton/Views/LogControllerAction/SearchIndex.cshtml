@@ -99,17 +99,13 @@
                 <td>
                     @if (currentRow.Important == null) //button to mark as important
                     {
-                        <img src="~/Content/unfilledStar.png" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()',
-                            '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
-                            '@currentRow.WebRequestID.ToString()', '@currentRow.ControllerName.ToString()',
-                            '@currentRow.ActionName.ToString()', '@currentRow.Parameters.ToString()')">
+                        <img src="~/Content/unfilledStar.png" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()', '@currentRow.TimeStamp.ToString()',
+                            '@currentRow.WebRequestID.ToString()', '@currentRow.ControllerName.ToString()','@currentRow.ActionName.ToString()')">
                     }
                     else //button to unmark as important
                     {
-                        <img src="~/Content/filledStar.png" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()',
-                            '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
-                            '@currentRow.WebRequestID.ToString()', '@currentRow.ControllerName.ToString()',
-                            '@currentRow.ActionName.ToString()', '@currentRow.Parameters.ToString()')">
+                        <img src="~/Content/filledStar.png" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()', '@currentRow.TimeStamp.ToString()',
+                            '@currentRow.WebRequestID.ToString()', '@currentRow.ControllerName.ToString()','@currentRow.ActionName.ToString()')">
                     }
                 </td>
             </tr>
@@ -136,27 +132,27 @@ else
     var exampleModalVisible = false;
 
     var currentUserID = null;
-    var currentEmailAddress = null;
+    //var currentEmailAddress = null;
     var currentTimeStamp = null;
     var currentWebRequestID = null;
     var currentControllerName = null;
     var currentActionName = null;
-    var currentParameters = null;
+    //var currentParameters = null;
 
     var currentsearchDictionary = @Html.Raw(Json.Encode(searchDict));
     var currentid = null;
     var currentsortBy = null;
     var currentsortDir = null;
 
-    function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, MethodName, Source) {
+    function openModal(UserID, TimeStamp, WebRequestID, ControllerName, ActionName) {
         event.preventDefault;
         debugger;
         currentUserID = UserID;
-        currentEmailAddress = EmailAddress;
+        //currentEmailAddress = EmailAddress;
         currentTimeStamp = TimeStamp;
         currentWebRequestID = WebRequestID;
-        currentMethodName = MethodName;
-        currentSource = Source;
+        currentControllerName = ControllerName;
+        currentActionName = ActionName;
 
         exampleModal.open();
     };
@@ -177,11 +173,11 @@ else
         event.preventDefault;
 
         currentUserID = null;
-        currentEmailAddress = null;
+        //currentEmailAddress = null;
         currentTimeStamp = null;
         currentWebRequestID = null;
-        currentMethodName = null;
-        currentSource = null;
+        currentControllerName = null;
+        currentActionName = null;
 
         exampleModal.close();
         };
@@ -194,12 +190,12 @@ else
 
         var model = {
             UserID: currentUserID,
-            EmailAddress: currentEmailAddress,
+            //EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             WebRequestID: currentWebRequestID,
             ControllerName: currentControllerName,
             ActionName: currentActionName,
-            Parameters: currentParameters,
+            //Parameters: currentParameters,
         };
 
         $.ajax({
@@ -215,12 +211,12 @@ else
                 document.getElementById("usernameForm").reset();
 
                 currentUserID = null;
-                currentEmailAddress = null;
+                //currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentWebRequestID = null;
                 currentControllerName = null;
                 currentActionName = null;
-                currentParameters = null;
+                //currentParameters = null;
 
                 if (result.IsCreated) {
                     window.location.reload();
@@ -237,15 +233,15 @@ else
         });
     };
 
-    function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentWebRequestID, currentControllerName, currentActionName, currentParameters) {
+    function markUnimportant(currentUserID, currentTimeStamp, currentWebRequestID, currentControllerName, currentActionName) {
         var model = {
             UserID: currentUserID,
-            EmailAddress: currentEmailAddress,
+            //EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             WebRequestID: currentWebRequestID,
             ControllerName: currentControllerName,
             ActionName: currentActionName,
-            Parameters: currentParameters,
+            //Parameters: currentParameters,
         };
 
         $.ajax({
@@ -258,12 +254,12 @@ else
 
             success: function (result) {
                 currentUserID = null;
-                currentEmailAddress = null;
+                //currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentWebRequestID = null;
                 currentControllerName = null;
                 currentActionName = null;
-                currentParameters = null;
+                //currentParameters = null;
 
                 if (result.IsCreated) {
                     window.location.reload();

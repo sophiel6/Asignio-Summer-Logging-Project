@@ -98,16 +98,14 @@
                         @if (currentRow.Important == null) //button to mark as important
                         {
                             <img src="~/Content/unfilledStar.png" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()',
-                            '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
-                            '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()',
-                            '@currentRow.MethodName.ToString()', '@currentRow.Object.ToString()')">
+                            '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()',
+                            '@currentRow.Message.ToString()', '@currentRow.MethodName.ToString()')">
                         }
                         else //button to unmark as important
                         {
                             <img src="~/Content/filledStar.png" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()',
-                            '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
-                            '@currentRow.WebRequestID.ToString()', '@currentRow.Message.ToString()',
-                            '@currentRow.MethodName.ToString()', '@currentRow.Object.ToString()')">
+                            '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()',
+                            '@currentRow.Message.ToString()', '@currentRow.MethodName.ToString()')">
                         }
                     </td>
                 </tr>
@@ -136,28 +134,28 @@ else
     var exampleModalVisible = false;
 
     var currentUserID = null;
-    var currentEmailAddress = null;
+    //var currentEmailAddress = null;
     var currentTimeStamp = null;
     var currentWebRequestID = null;
     var currentMessage = null;
     var currentMethodName = null;
-    var currentObject = null;
+    //var currentObject = null;
 
     var currentsearchDictionary = @Html.Raw(Json.Encode(searchDict));
     var currentid = null;
     var currentsortBy = null;
     var currentsortDir = null;
 
-    function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, Message, MethodName, Object) {
+    function openModal(UserID, TimeStamp, WebRequestID, Message, MethodName) {
         event.preventDefault;
 
         currentUserID = UserID;
-        currentEmailAddress = EmailAddress;
+        //currentEmailAddress = EmailAddress;
         currentTimeStamp = TimeStamp;
         currentWebRequestID = WebRequestID;
         currentMessage = Message;
         currentMethodName = MethodName;
-        currentObject = Object;
+        //currentObject = Object;
 
         exampleModal.open();
     };
@@ -166,12 +164,12 @@ else
         event.preventDefault;
 
         currentUserID = null;
-        currentEmailAddress = null;
+        //currentEmailAddress = null;
         currentTimeStamp = null;
         currentWebRequestID = null;
         currentMessage = null;
         currentMethodName = null;
-        currentObject = null;
+        //currentObject = null;
 
         exampleModal.close();
     };
@@ -198,12 +196,12 @@ else
         debugger;
         var model = {
             UserID: currentUserID,
-            EmailAddress: currentEmailAddress,
+            //EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             WebRequestID: currentWebRequestID,
             Message: currentMessage,
             MethodName: currentMethodName,
-            Object: currentObject,
+            //Object: currentObject,
         };
 
         $.ajax({
@@ -219,12 +217,12 @@ else
                 document.getElementById("usernameForm").reset();
                 debugger;
                 currentUserID = null;
-                currentEmailAddress = null;
+                //currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentWebRequestID = null;
                 currentMessage = null;
                 currentMethodName = null;
-                currentObject = null;
+                //currentObject = null;
 
                 if (result.IsCreated) {
                     //updateButton(currentid, currentsortBy, currentsortDir);
@@ -232,7 +230,6 @@ else
                 }
                 else {
                     alert(result.ErrorMessage);
-                    //updateButton(currentid, currentsortBy, currentsortDir);
                     window.location.reload();
                 }
             },
@@ -243,16 +240,15 @@ else
         });
     };
 
-    function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentWebRequestID, currentMessage,
-        currentMethodName, currentObject) {
+    function markUnimportant(currentUserID, currentTimeStamp, currentWebRequestID, currentMessage, currentMethodName) {
         var model = {
             UserID: currentUserID,
-            EmailAddress: currentEmailAddress,
+            //EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             WebRequestID: currentWebRequestID,
             Message: currentMessage,
             MethodName: currentMethodName,
-            Source: currentObject,
+            //Source: currentObject,
         };
 
         $.ajax({
@@ -265,12 +261,12 @@ else
 
             success: function (result) {
                 currentUserID = null;
-                currentEmailAddress = null;
+                //currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentWebRequestID = null;
                 currentMessage = null;
                 currentMethodName = null;
-                currentObject = null;
+                //currentObject = null;
 
                 if (result.IsCreated) {
                     window.location.reload();

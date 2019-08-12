@@ -98,17 +98,13 @@
                 <td>
                     @if (currentRow.Important == null) //button to mark as important
                     {
-                        <img src="~/Content/unfilledStar.png" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()',
-                            '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
-                            '@currentRow.LogID.ToString()', '@currentRow.Level.ToString()',
-                            '@currentRow.Message.ToString()', '@currentRow.Source.ToString()')">
+                        <img src="~/Content/unfilledStar.png" class="unfilledIcon" onclick="openModal('@currentRow.TimeStamp.ToString()',
+                            '@currentRow.LogID.ToString()', '@currentRow.Level.ToString()', '@currentRow.Source.ToString()')">
                     }
                     else //button to unmark as important
                     {
-                        <img src="~/Content/filledStar.png" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()',
-                            '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
-                            '@currentRow.LogID.ToString()', '@currentRow.Level.ToString()',
-                            '@currentRow.Message.ToString()', '@currentRow.Source.ToString()')">
+                        <img src="~/Content/filledStar.png" class="filledIcon" onclick="markUnimportant('@currentRow.TimeStamp.ToString()',
+                            '@currentRow.LogID.ToString()', '@currentRow.Level.ToString()', '@currentRow.Source.ToString()')">
                     }
                 </td>
             </tr>
@@ -134,12 +130,9 @@ else
     var exampleModal;
     var exampleModalVisible = false;
 
-    var currentUserID = null;
-    var currentEmailAddress = null;
     var currentTimeStamp = null;
     var currentLogID = null;
     var currentLevel = null;
-    var currentMessage = null;
     var currentSource = null;
 
     var currentid = null;
@@ -147,15 +140,12 @@ else
     var currentsortDir = null;
     var currentsearchDictionary = @Html.Raw(Json.Encode(searchDict))
 
-    function openModal(UserID, EmailAddress, TimeStamp, LogID, Level, Message, Source) {
+    function openModal(TimeStamp, LogID, Level, Source) {
         event.preventDefault;
 
-        currentUserID = UserID;
-        currentEmailAddress = EmailAddress;
         currentTimeStamp = TimeStamp;
         currentLogID = LogID;
         currentLevel = Level;
-        currentMessage = Message;
         currentSource = Source;
 
         exampleModal.open();
@@ -164,12 +154,9 @@ else
     function closeModal() {
         event.preventDefault;
 
-        currentUserID = null;
-        currentEmailAddress = null;
         currentTimeStamp = null;
         currentLogID = null;
         currentLevel = null;
-        currentMessage = null;
         currentSource = null;
 
         exampleModal.close();
@@ -195,12 +182,9 @@ else
         usernameValue = $("[name=usernameEntry]").val();
 
         var log = {
-            UserID: currentUserID,
-            EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             LogID: currentLogID,
             Level: currentLevel,
-            Message: currentMessage,
             Source: currentSource,
         };
 
@@ -216,12 +200,9 @@ else
             success: function (result) {
                 document.getElementById("usernameForm").reset();
                 debugger;
-                currentUserID = null;
-                currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentLogID = null;
                 currentLevel = null;
-                currentMessage = null;
                 currentSource = null;
 
                 if (result.IsCreated) {
@@ -238,14 +219,11 @@ else
         });
     };
 
-    function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentLogID, currentLevel, currentMessage, currentSource) {
+    function markUnimportant(currentTimeStamp, currentLogID, currentLevel, currentSource) {
         var model = {
-            UserID: currentUserID,
-            EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             LogID: currentLogID,
             Level: currentLevel,
-            Message: currentMessage,
             Source: currentSource,
         };
 
@@ -258,12 +236,9 @@ else
             },
 
             success: function (result) {
-                currentUserID = null;
-                currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentLogID = null;
                 currentLevel = null;
-                currentMessage = null;
                 currentSource = null;
 
                 if (result.IsCreated) {

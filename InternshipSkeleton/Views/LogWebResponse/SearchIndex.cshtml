@@ -94,14 +94,12 @@
                         @if (currentRow.Important == null) //button to mark as important
                         {
                             <img src="~/Content/unfilledStar.png" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()',
-                            '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
-                            '@currentRow.WebRequestID.ToString()', '@currentRow.Status.ToString()')">
+                            '@currentRow.TimeStamp.ToString()','@currentRow.WebRequestID.ToString()', '@currentRow.Status.ToString()')">
                         }
                         else //button to unmark as important
                         {
                             <img src="~/Content/filledStar.png" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()',
-                            '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()',
-                            '@currentRow.WebRequestID.ToString()', '@currentRow.Status.ToString()')">
+                            '@currentRow.TimeStamp.ToString()','@currentRow.WebRequestID.ToString()', '@currentRow.Status.ToString()')">
                         }
                     </td>
                 </tr>
@@ -129,7 +127,7 @@ else
     var exampleModalVisible = false;
 
     var currentUserID = null;
-    var currentEmailAddress = null;
+    //var currentEmailAddress = null;
     var currentTimeStamp = null;
     var currentWebRequestID = null;
     var currentStatus = null;
@@ -139,11 +137,11 @@ else
     var currentsortBy = null;
     var currentsortDir = null;
 
-    function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, Status) {
+    function openModal(UserID, TimeStamp, WebRequestID, Status) {
         event.preventDefault;
 
         currentUserID = UserID;
-        currentEmailAddress = EmailAddress;
+        //currentEmailAddress = EmailAddress;
         currentTimeStamp = TimeStamp;
         currentWebRequestID = WebRequestID;
         currentStatus = Status;
@@ -155,7 +153,7 @@ else
         event.preventDefault;
 
         currentUserID = null;
-        currentEmailAddress = null;
+        //currentEmailAddress = null;
         currentTimeStamp = null;
         currentWebRequestID = null;
         currentStatus = null;
@@ -184,7 +182,7 @@ else
         debugger;
         var model = {
             UserID: currentUserID,
-            EmailAddress: currentEmailAddress,
+            //EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             WebRequestID: currentWebRequestID,
             Status: currentStatus,
@@ -192,9 +190,9 @@ else
 
         $.ajax({
             method: "POST",
+            async: false,
             url: "@Url.Action("UpdateImportance", "LogWebResponse")",
             dataType: "json",
-            async: false,
             data: {
                 username: usernameValue,
                 logToUpdate: model,
@@ -204,7 +202,7 @@ else
                 document.getElementById("usernameForm").reset();
 
                 currentUserID = null;
-                currentEmailAddress = null;
+                //currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentWebRequestID = null;
                 currentStatus = null;
@@ -224,10 +222,10 @@ else
         });
     };
 
-    function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentWebRequestID, currentStatus) {
+    function markUnimportant(currentUserID, currentTimeStamp, currentWebRequestID, currentStatus) {
         var model = {
             UserID: currentUserID,
-            EmailAddress: currentEmailAddress,
+            //EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             WebRequestID: currentWebRequestID,
             Status: currentStatus,
@@ -243,7 +241,7 @@ else
 
             success: function (result) {
                 currentUserID = null;
-                currentEmailAddress = null;
+                //currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentWebRequestID = null;
                 currentStatus = null;

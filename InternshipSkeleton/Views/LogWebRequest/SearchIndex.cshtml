@@ -203,6 +203,7 @@ else
             },
 
             success: function (result) {
+
                 document.getElementById("usernameForm").reset();
 
                 currentTimeStamp = null;
@@ -211,7 +212,8 @@ else
                 currentRawURL = null;
 
                 if (result.IsCreated) {
-                    window.location.reload();
+                    //window.location.reload();
+                    updateButton(currentid, currentsortBy, currentsortDir);
                 }
                 else {
                     alert(result.ErrorMessage);

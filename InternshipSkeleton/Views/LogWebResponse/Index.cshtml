@@ -22,7 +22,7 @@
 
     List<SelectListItem> searchCategories = new List<SelectListItem>();
     searchCategories.Add(new SelectListItem { Text = "Email Address", Value = "EmailAddress" });
-    searchCategories.Add(new SelectListItem { Text = "Time Stamp (YYYY-MM-DD)", Value = "TimeStamp" });
+    searchCategories.Add(new SelectListItem { Text = "Date(YYYY-MM-DD)", Value = "TimeStamp" });
     searchCategories.Add(new SelectListItem { Text = "Web Request ID", Value = "WebRequestID" });
     searchCategories.Add(new SelectListItem { Text = "Status", Value = "Status" });
     searchCategories.Add(new SelectListItem { Text = "Redirect Location", Value = "RedirectLocation" });
@@ -169,7 +169,6 @@ else
     var exampleModalVisible = false;
 
     var currentUserID = null;
-    //var currentEmailAddress = null;
     var currentTimeStamp = null;
     var currentWebRequestID = null;
     var currentStatus = null;
@@ -185,11 +184,9 @@ else
         event.preventDefault;
 
         currentUserID = UserID;
-        //currentEmailAddress = EmailAddress;
         currentTimeStamp = TimeStamp;
         currentWebRequestID = WebRequestID;
         currentStatus = Status;
-        //currentRedirectLocation = RedirectLocation;
 
         exampleModal.open();
     };
@@ -198,11 +195,9 @@ else
         event.preventDefault;
 
         currentUserID = null;
-        //currentEmailAddress = null;
         currentTimeStamp = null;
         currentWebRequestID = null;
         currentStatus = null;
-        //currentRedirectLocation = null;
 
         exampleModal.close();
     };
@@ -229,7 +224,6 @@ else
 
         var model = {
             UserID: currentUserID,
-            //EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             WebRequestID: currentWebRequestID,
             Status: currentStatus,
@@ -249,7 +243,6 @@ else
                 document.getElementById("usernameForm").reset();
 
                 currentUserID = null;
-                //currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentWebRequestID = null;
                 currentStatus = null;
@@ -272,7 +265,6 @@ else
     function markUnimportant(currentUserID, currentTimeStamp, currentWebRequestID, currentStatus) {
         var model = {
             UserID: currentUserID,
-            //EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             WebRequestID: currentWebRequestID,
             Status: currentStatus,
@@ -288,7 +280,6 @@ else
 
             success: function (result) {
                 currentUserID = null;
-                //currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentWebRequestID = null;
                 currentStatus = null;

@@ -247,11 +247,11 @@ else
                 currentRawURL = null;
 
                 if (result.IsCreated) {
-                    window.location.reload();
+                    window.location.reload(true);
                 }
                 else {
                     alert(result.ErrorMessage);
-                    window.location.reload();
+                    window.location.reload(true);
                 }
             },
 

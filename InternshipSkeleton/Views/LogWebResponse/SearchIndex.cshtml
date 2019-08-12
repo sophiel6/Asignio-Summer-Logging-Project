@@ -127,7 +127,6 @@ else
     var exampleModalVisible = false;
 
     var currentUserID = null;
-    //var currentEmailAddress = null;
     var currentTimeStamp = null;
     var currentWebRequestID = null;
     var currentStatus = null;
@@ -141,7 +140,6 @@ else
         event.preventDefault;
 
         currentUserID = UserID;
-        //currentEmailAddress = EmailAddress;
         currentTimeStamp = TimeStamp;
         currentWebRequestID = WebRequestID;
         currentStatus = Status;
@@ -153,7 +151,6 @@ else
         event.preventDefault;
 
         currentUserID = null;
-        //currentEmailAddress = null;
         currentTimeStamp = null;
         currentWebRequestID = null;
         currentStatus = null;
@@ -182,7 +179,6 @@ else
         debugger;
         var model = {
             UserID: currentUserID,
-            //EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             WebRequestID: currentWebRequestID,
             Status: currentStatus,
@@ -202,7 +198,6 @@ else
                 document.getElementById("usernameForm").reset();
 
                 currentUserID = null;
-                //currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentWebRequestID = null;
                 currentStatus = null;
@@ -225,7 +220,6 @@ else
     function markUnimportant(currentUserID, currentTimeStamp, currentWebRequestID, currentStatus) {
         var model = {
             UserID: currentUserID,
-            //EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             WebRequestID: currentWebRequestID,
             Status: currentStatus,
@@ -241,7 +235,6 @@ else
 
             success: function (result) {
                 currentUserID = null;
-                //currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentWebRequestID = null;
                 currentStatus = null;

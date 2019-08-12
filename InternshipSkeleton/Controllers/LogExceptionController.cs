@@ -120,10 +120,10 @@ namespace AsignioInternship.Controllers
  * 
  * LogInfo
  * - Index --> page doesn't automatically update after marking as important; doesn't stay on correct page after marking as important 
- * - SearchIndex --> doesn't stay on search page after marking as important
+ * - SearchIndex --> doesn't stay on correct page after marking as important
  * 
  * LogWebRequest
- * - Index --> page doesn't automatically update after marking as important 
+ * - Index --> doesn't stay on correct page after marking as important
  * - SearchIndex --> same 
  * 
  * LogWebResponse 

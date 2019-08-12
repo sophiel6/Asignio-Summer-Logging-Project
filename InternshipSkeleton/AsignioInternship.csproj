@@ -236,6 +236,8 @@
     <Content Include="Views\LogMySql\SearchIndex.cshtml" />
     <Content Include="Views\LogWebRequest\AdvancedSearch.cshtml" />
     <Content Include="Views\LogWebRequest\SearchIndex.cshtml" />
+    <Content Include="Views\LogWebResponse\AdvancedSearch.cshtml" />
+    <Content Include="Views\LogWebResponse\SearchIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

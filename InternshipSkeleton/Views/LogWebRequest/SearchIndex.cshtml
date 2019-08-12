@@ -3,7 +3,7 @@
 
 @model PagedDataModelCollection<LogWebRequestDataModel>
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "SearchIndex";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
@@ -142,8 +142,6 @@ else
     var currentid = null;
     var currentsortBy = null;
     var currentsortDir = null;
-    var currentsearchBy = null;
-    var currentsearchInput = null;
 
     function openModal(TimeStamp, WebRequestID, UserID, RawURL) {
         event.preventDefault;

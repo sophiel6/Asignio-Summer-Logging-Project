@@ -121,7 +121,6 @@ else
     <h2> No results found. </h2>
 }
 
-
 <div class="reveal" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out" style="display:none;">
     <form id="usernameForm">
         Your Email: <input type="text" name="usernameEntry" />
@@ -138,8 +137,9 @@ else
     var currentUserID = null;
     var currentEmailAddress = null;
     var currentTimeStamp = null;
-    var currentWebRequestID = null;
-    var currentMethodName = null;
+    var currentLogID = null;
+    var currentLevel = null;
+    var currentMessage = null;
     var currentSource = null;
 
     var currentid = null;
@@ -225,7 +225,6 @@ else
                 currentSource = null;
 
                 if (result.IsCreated) {
-                    //updateButton(currentid, currentsortBy, currentsortDir, "", "");
                     window.location.reload();
                 }
                 else {

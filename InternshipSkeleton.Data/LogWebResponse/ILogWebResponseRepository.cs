@@ -6,8 +6,7 @@ namespace AsignioInternship.Data.LogWebResponse
 {
     public interface ILogWebResponseRepository
     {
-        PagedDataModelCollection<CombinedLogWebResponseDataModel> CombinedPageLogWebResponse(string nameSearchPattern,
-                       string searchColumn, int pageSize, int pageNumber, string sortColumn, string sortDirection);
+        PagedDataModelCollection<CombinedLogWebResponseDataModel> CombinedPageLogWebResponse(int pageSize, int pageNumber, string sortColumn, string sortDirection, Dictionary<string,string> searchDictionary);
 
         int Update(CombinedLogWebResponseDataModel LogToUpdate, string username);
 

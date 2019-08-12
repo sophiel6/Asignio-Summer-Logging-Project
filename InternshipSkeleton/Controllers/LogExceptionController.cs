@@ -119,5 +119,6 @@ namespace AsignioInternship.Controllers
  * -LogInfo doesn't stay on the same page (pagenum, sortby, etc.) after marking something as important - on index or searchIndex
  * -LogWebRequest doesn't automatically refresh after marking as important; also doesnt stay on same page (at least in searchIndex)
  * -LobWebResponse also doesn't automatically refresh 
+ * -LogControllerAction - SearchIndex doesn't update importance 
  * -Have to click some buttons multiple times for them to work (submit on AdvancedSearch, jump to page, etc.)
  */

@@ -237,8 +237,7 @@ else
         });
     };
 
-    function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentWebRequestID, currentControllerName,
-               currentActionName, currentParameters) {
+    function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentWebRequestID, currentControllerName, currentActionName, currentParameters) {
         var model = {
             UserID: currentUserID,
             EmailAddress: currentEmailAddress,
@@ -278,7 +277,7 @@ else
                 alert(result.ErrorMessage);
             }
         });
-    }
+    };
 
     function updateButton(page, sortB, sortD) {
         currentid = page;

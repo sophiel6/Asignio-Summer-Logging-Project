@@ -149,7 +149,7 @@ else
         currentStatus = Status;
 
         exampleModal.open();
-    }
+    };
 
     function closeModal() {
         event.preventDefault;
@@ -161,7 +161,7 @@ else
         currentStatus = null;
 
         exampleModal.close();
-    }
+    };
 
     $(document).ready(function () {
 
@@ -181,7 +181,7 @@ else
         currentsortBy = sortB;
         currentsortDir = sortD;
         usernameValue = $("[name=usernameEntry]").val();
-
+        debugger;
         var model = {
             UserID: currentUserID,
             EmailAddress: currentEmailAddress,
@@ -194,6 +194,7 @@ else
             method: "POST",
             url: "@Url.Action("UpdateImportance", "LogWebResponse")",
             dataType: "json",
+            async: false,
             data: {
                 username: usernameValue,
                 logToUpdate: model,
@@ -259,7 +260,7 @@ else
                 alert(result.ErrorMessage);
             }
         });
-    }
+    };
 
      function updateButton(page, sortB, sortD) {
         currentid = page;

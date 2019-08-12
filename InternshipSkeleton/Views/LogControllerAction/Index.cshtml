@@ -243,7 +243,7 @@ else
             ActionName: currentActionName,
             Parameters: currentParameters,
         };
-
+        debugger;
         $.ajax({
             method: "POST",
             url: "@Url.Action("UpdateImportance", "LogControllerAction")",
@@ -265,7 +265,6 @@ else
                 currentParameters = null;
 
                 if (result.IsCreated) {
-                    //updateButton(currentid, currentsortBy, currentsortDir, "", "");
                     window.location.reload();
                 }
                 else {
@@ -340,7 +339,6 @@ else
         var sortDirection = formData[1].value;
         var searchBy = formData[2].value;
         var searchInput = formData[3].value;
-        //var page = formData[4].value;
 
         updateButton(1, sortBy, sortDirection, searchBy, searchInput);
     });

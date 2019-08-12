@@ -25,6 +25,7 @@
 
 <h3 class="tableTitle">Advanced search results (LogControllerAction)</h3>
 <br />
+
 <!-- Paging stuff -->
 <div class="container">
     <div class="row">
@@ -146,8 +147,6 @@ else
     var currentid = null;
     var currentsortBy = null;
     var currentsortDir = null;
-    var currentsearchBy = null;
-    var currentsearchInput = null;
 
     function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, MethodName, Source) {
         event.preventDefault;
@@ -224,7 +223,6 @@ else
                 currentParameters = null;
 
                 if (result.IsCreated) {
-                    //updateButton(currentid, currentsortBy, currentsortDir);
                     window.location.reload();
                 }
                 else {
@@ -295,7 +293,6 @@ else
 
         var dictionary = {};
         var index = 0;
-        var newSearch = (currentsearchInput != "");
 
         for (var key in currentsearchDictionary) {
             if (currentsearchDictionary.hasOwnProperty(key)) {

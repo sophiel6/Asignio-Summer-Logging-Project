@@ -115,17 +115,9 @@ namespace AsignioInternship.Controllers
  * To do - general
  * -make the active tab in the navbar appear selected
  * 
- * -combine PageLogException and NewPageLogException functions in repository 
- * -add stuff in Page repository function for stringing clauses together 
- * -implement all searching (basic and advanced) using the search Dictionary (eventually remove searchBy and searchInput from DataModelCollection)
- * 
- * Controller - change Index, add SearchIndex and AdvancedSearch
- * Repository - change CombinedPage method
- * IRepository - change CombinedPage method signature
- * Views - update Index, add Advanced Search, add SearchIndex 
- * 
  * problems: 
  * -LogInfo doesn't stay on the same page (pagenum, sortby, etc.) after marking something as important - on index or searchIndex
  * -LogWebRequest doesn't automatically refresh after marking as important; also doesnt stay on same page (at least in searchIndex)
+ * -LobWebResponse also doesn't automatically refresh 
  * -Have to click some buttons multiple times for them to work (submit on AdvancedSearch, jump to page, etc.)
  */

@@ -93,7 +93,6 @@ namespace AsignioInternship.Data.LogControllerAction
                                     sql.Append(string.Format("WHERE {0} LIKE {1} ", entry.Key, userInput));
                                 }
                                 FirstClause = false;
-
                             }
                         }
                     }

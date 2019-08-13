@@ -352,7 +352,7 @@ else
         var dictionary = {};
         var index = 0;
 
-        var newSearch = (currentsearchInput != undefined);
+        var newSearch = ((currentsearchInput != undefined) && (currentsearchInput != ""));
         //if it's a new search, add new search inputs
         //if not a new search, add old search inputs 
         if (newSearch) {

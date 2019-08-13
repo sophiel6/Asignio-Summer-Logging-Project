@@ -48,6 +48,17 @@ body {
     width: 100%;
 }
 
+.modalButton {
+    padding: 10px 24px;
+    margin: 10px;
+    text-decoration: none;
+    border: 1px solid black;
+    display: inline-block;
+    text-align: center;
+    background-color: #4CAF50;
+    color: white;
+}
+
 .pageLabel {
     border: 1px solid black;
     font-size: 14px !important;

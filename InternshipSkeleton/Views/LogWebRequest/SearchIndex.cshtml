@@ -19,13 +19,8 @@
     List<String> categories = new List<String>() { "TimeStamp", "WebRequestID", "UserID", "RawURL", "Parameters", "Important" };
 
     bool noResults = (Model.TotalItems) == 0;
-
-    List<SelectListItem> searchCategories = new List<SelectListItem>();
-    searchCategories.Add(new SelectListItem { Text = "Date (YYYY-MM-DD)", Value = "TimeStamp" });
-    searchCategories.Add(new SelectListItem { Text = "Raw URL", Value = "RawURL" });
-    searchCategories.Add(new SelectListItem { Text = "Parameters", Value = "Parameters" });
-    searchCategories.Add(new SelectListItem { Text = "Importance", Value = "Important" });
 }
+
 <h3 class="tableTitle">LogWebRequest Table</h3>
 <br />
 

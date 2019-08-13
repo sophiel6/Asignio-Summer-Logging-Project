@@ -22,15 +22,7 @@ namespace AsignioInternship.Controllers
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
-            var searchD = new Dictionary<string, string>()
-            {
-                {"EmailAddress", ""  },
-                {"TimeStamp", "" },
-                {"Message", "" },
-                {"MethodName", "" },
-                {"Source", "" },
-                {"StackTrace", "" }
-             };
+            var searchD = new Dictionary<string, string>() {{"Default", ""  }};
 
             Dictionary<string, string> searchDict; 
             if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary==null)
@@ -49,14 +41,7 @@ namespace AsignioInternship.Controllers
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
             var searchD = new Dictionary<string, string>()
-            {
-                {"EmailAddress", ""  },
-                {"TimeStamp", "" },
-                {"Message", "" },
-                {"MethodName", "" },
-                {"Source", "" },
-                {"StackTrace", "" }
-             };
+            { {"Default", ""  }};
 
             Dictionary<string, string> searchDict;
             if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary == null)
@@ -114,6 +99,7 @@ namespace AsignioInternship.Controllers
 /*
  * To do - general
  * -make the active tab in the navbar appear selected
+ * -add ability to search for logs marked important by a certain user
  * 
  * problems: 
  * -Have to click some buttons multiple times for them to work (submit on AdvancedSearch, jump to page, etc.)

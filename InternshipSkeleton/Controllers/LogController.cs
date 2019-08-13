@@ -22,22 +22,15 @@ namespace AsignioInternship.Controllers
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
-            var searchD = new Dictionary<string, string>()
-            {
-                {"EmailAddress", ""  },
-                {"TimeStamp", "" },
-                {"Level", "" },
-                {"Message", "" },
-                {"Source", "" },
-             };
+            var searchD = new Dictionary<string, string>() { { "Default", "" } };
 
             Dictionary<string, string> searchDict;
             if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary == null)
             { searchDict = searchD; }
             else
             { searchDict = searchDictionary; }
-            PagedDataModelCollection<CombinedLogDataModel> result = m_logRepository.CombinedPageLog(pageSize,
-                                                                                        pageNum, sortColumn, sortDirection, searchDict);
+
+            PagedDataModelCollection<CombinedLogDataModel> result = m_logRepository.CombinedPageLog(pageSize, pageNum, sortColumn, sortDirection, searchDict);
             return View(result);
         }
 
@@ -47,22 +40,15 @@ namespace AsignioInternship.Controllers
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
-            var searchD = new Dictionary<string, string>()
-            {
-                {"EmailAddress", ""  },
-                {"TimeStamp", "" },
-                {"Level", "" },
-                {"Message", "" },
-                {"Source", "" },
-             };
+            var searchD = new Dictionary<string, string>() { { "Default", "" } };
 
             Dictionary<string, string> searchDict;
             if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary == null)
             { searchDict = searchD; }
             else
             { searchDict = searchDictionary; }
-            PagedDataModelCollection<CombinedLogDataModel> result = m_logRepository.CombinedPageLog(pageSize,
-                                                                                        pageNum, sortColumn, sortDirection, searchDict);
+
+            PagedDataModelCollection<CombinedLogDataModel> result = m_logRepository.CombinedPageLog(pageSize, pageNum, sortColumn, sortDirection, searchDict);
             return View(result);
         }
 

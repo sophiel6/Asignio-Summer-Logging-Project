@@ -257,6 +257,7 @@ namespace AsignioInternship.Data.LogException
                                 { sql.Append(string.Format("WHERE Important != \'\'")); }
                                 FirstClause = false;
                             }
+
                             else if (entry.Key == "TimeStamp") //format date
                             {
                                 if (userInput[0] != '\'')
@@ -293,20 +294,23 @@ namespace AsignioInternship.Data.LogException
                                     sections[1] = sections[1].Insert(0, "@@");
                                     userInput = string.Join("", sections);
                                 }
+                                string newKey = entry.Key;
+                                if (entry.Key == "UserImportant")
+                                { newKey = "Important"; }
+
                                 if (userInput[0] != '\'') 
                                 {
                                     userInput = string.Format("\'%{0}%\'", userInput);
                                 }
                                 if (!FirstClause)
                                 {
-                                    sql.Append(string.Format("AND {0} LIKE {1} ", entry.Key, userInput));
+                                    sql.Append(string.Format("AND {0} LIKE {1} ", newKey, userInput));
                                 }
                                 else
                                 {
-                                    sql.Append(string.Format("WHERE {0} LIKE {1} ", entry.Key, userInput));
+                                    sql.Append(string.Format("WHERE {0} LIKE {1} ", newKey, userInput));
                                 }
                                 FirstClause = false;
-
                             }
                         }
                     }
@@ -329,8 +333,6 @@ namespace AsignioInternship.Data.LogException
                         SortBy = sortColumn,
                         SortDirection = sortDirection,
                         SearchDictionary = searchDictionary,
-                        //SearchBy = searchColumn ?? "",
-                        //SearchInput = nameSearchPattern ?? ""
                     };
                 }
                 catch (Exception ex)

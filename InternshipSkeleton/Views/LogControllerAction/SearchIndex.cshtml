@@ -122,9 +122,9 @@ else
 <div class="reveal" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out" style="display:none;">
     <form id="usernameForm">
         Your Email: <input type="text" name="usernameEntry" />
-        <button onclick="UpdateImportance(@id, '@sortBy', '@sortDir')">Update</button>
     </form>
-    <button onclick="closeModal()">Cancel</button>
+    <button class="modalButton" onclick="UpdateImportance(@id, '@sortBy', '@sortDir')">Update</button>
+    <button class="modalButton" onclick="closeModal()">Cancel</button>
 </div>
 
 <script>
@@ -132,12 +132,10 @@ else
     var exampleModalVisible = false;
 
     var currentUserID = null;
-    //var currentEmailAddress = null;
     var currentTimeStamp = null;
     var currentWebRequestID = null;
     var currentControllerName = null;
     var currentActionName = null;
-    //var currentParameters = null;
 
     var currentsearchDictionary = @Html.Raw(Json.Encode(searchDict));
     var currentid = null;
@@ -148,7 +146,6 @@ else
         event.preventDefault;
         debugger;
         currentUserID = UserID;
-        //currentEmailAddress = EmailAddress;
         currentTimeStamp = TimeStamp;
         currentWebRequestID = WebRequestID;
         currentControllerName = ControllerName;
@@ -173,7 +170,6 @@ else
         event.preventDefault;
 
         currentUserID = null;
-        //currentEmailAddress = null;
         currentTimeStamp = null;
         currentWebRequestID = null;
         currentControllerName = null;
@@ -190,12 +186,10 @@ else
 
         var model = {
             UserID: currentUserID,
-            //EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             WebRequestID: currentWebRequestID,
             ControllerName: currentControllerName,
             ActionName: currentActionName,
-            //Parameters: currentParameters,
         };
 
         $.ajax({
@@ -211,12 +205,10 @@ else
                 document.getElementById("usernameForm").reset();
 
                 currentUserID = null;
-                //currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentWebRequestID = null;
                 currentControllerName = null;
                 currentActionName = null;
-                //currentParameters = null;
 
                 if (result.IsCreated) {
                     window.location.reload();
@@ -236,12 +228,10 @@ else
     function markUnimportant(currentUserID, currentTimeStamp, currentWebRequestID, currentControllerName, currentActionName) {
         var model = {
             UserID: currentUserID,
-            //EmailAddress: currentEmailAddress,
             TimeStamp: currentTimeStamp,
             WebRequestID: currentWebRequestID,
             ControllerName: currentControllerName,
             ActionName: currentActionName,
-            //Parameters: currentParameters,
         };
 
         $.ajax({
@@ -254,12 +244,10 @@ else
 
             success: function (result) {
                 currentUserID = null;
-                //currentEmailAddress = null;
                 currentTimeStamp = null;
                 currentWebRequestID = null;
                 currentControllerName = null;
                 currentActionName = null;
-                //currentParameters = null;
 
                 if (result.IsCreated) {
                     window.location.reload();

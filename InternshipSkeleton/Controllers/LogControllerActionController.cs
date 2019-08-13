@@ -22,20 +22,14 @@ namespace AsignioInternship.Controllers
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
-            var searchD = new Dictionary<string, string>()
-            {
-                {"EmailAddress", ""  },
-                {"TimeStamp", "" },
-                {"ControllerName", "" },
-                {"ActionName", "" },
-                {"Parameters", "" },
-             };
+            var searchD = new Dictionary<string, string>() { { "Default", "" } };
 
             Dictionary<string, string> searchDict;
             if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary == null)
             { searchDict = searchD; }
             else
             { searchDict = searchDictionary; }
+
             PagedDataModelCollection<CombinedLogControllerActionDataModel> result = m_logControllerActionRepository.CombinedPageLogControllerAction(pageSize, pageNum, sortColumn, sortDirection, searchDict);
             return View(result);
         }
@@ -47,20 +41,14 @@ namespace AsignioInternship.Controllers
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
-            var searchD = new Dictionary<string, string>()
-            {
-                {"EmailAddress", ""  },
-                {"TimeStamp", "" },
-                {"ControllerName", "" },
-                {"ActionName", "" },
-                {"Parameters", "" },
-             };
+            var searchD = new Dictionary<string, string>() { { "Default", "" } };
 
             Dictionary<string, string> searchDict;
             if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary == null)
             { searchDict = searchD; }
             else
             { searchDict = searchDictionary; }
+
             PagedDataModelCollection<CombinedLogControllerActionDataModel> result = m_logControllerActionRepository.CombinedPageLogControllerAction(pageSize, pageNum, sortColumn, sortDirection, searchDict);
             return View(result);
         }

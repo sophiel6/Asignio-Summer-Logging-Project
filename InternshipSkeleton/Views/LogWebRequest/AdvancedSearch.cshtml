@@ -27,6 +27,9 @@
     @Html.Label("Parameters")
     @Html.TextBox("Parameters")
 
+    @Html.Label("User who marked as important")
+    @Html.TextBox("UserImportant")
+
     Only get logs marked as important <input type="checkbox" name="Important" value="true" />
 </form>
 <input id="submitForm" type="button" value="Search" />
@@ -47,9 +50,11 @@
         formData.forEach(function (pair) {
             var textBoxTitle = pair.name;
             var textboxValue = pair.value;
-            data["searchDictionary[" + index + "].Key"] = textBoxTitle;
-            data["searchDictionary[" + index + "].Value"] = textboxValue;
-            index++;
+            if (textboxValue != "") {
+                data["searchDictionary[" + index + "].Key"] = textBoxTitle;
+                data["searchDictionary[" + index + "].Value"] = textboxValue;
+                index++;
+            }
         });
         const newform = document.createElement('form');
         newform.method = 'post';

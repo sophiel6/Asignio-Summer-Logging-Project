@@ -21,12 +21,7 @@ namespace AsignioInternship.Controllers
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
-            var searchD = new Dictionary<string, string>()
-            {
-                {"TimeStamp", ""  },
-                {"RawURL", "" },
-                {"Parameters", "" }
-             };
+            var searchD = new Dictionary<string, string>() { { "Default", "" } };
 
             Dictionary<string, string> searchDict;
             if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary == null)
@@ -44,12 +39,7 @@ namespace AsignioInternship.Controllers
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
-            var searchD = new Dictionary<string, string>()
-            {
-                {"TimeStamp", ""  },
-                {"RawURL", "" },
-                {"Parameters", "" }
-             };
+            var searchD = new Dictionary<string, string>() { { "Default", "" } };
 
             Dictionary<string, string> searchDict;
             if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary == null)

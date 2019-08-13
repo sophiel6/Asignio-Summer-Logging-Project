@@ -26,7 +26,7 @@
     searchCategories.Add(new SelectListItem { Text = "Web Request ID", Value = "WebRequestID" });
     searchCategories.Add(new SelectListItem { Text = "Status", Value = "Status" });
     searchCategories.Add(new SelectListItem { Text = "Redirect Location", Value = "RedirectLocation" });
-    searchCategories.Add(new SelectListItem { Text = "Importance", Value = "Important" });
+    searchCategories.Add(new SelectListItem { Text = "User who marked as important", Value = "UserImportant" });
 }
 <h3 class="tableTitle">LogWebResponse Table</h3>
 <br />
@@ -157,9 +157,9 @@ else
 <div class="reveal" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out" style="display:none;">
     <form id="usernameForm">
         Your Email: <input type="text" name="usernameEntry" />
-        <button onclick="UpdateImportance(@id, '@sortBy', '@sortDir')">Update</button>
     </form>
-    <button onclick="closeModal()">Cancel</button>
+    <button class="modalButton" onclick="UpdateImportance(@id, '@sortBy', '@sortDir')">Update</button>
+    <button class="modalButton" onclick="closeModal()">Cancel</button>
 </div>
 
 @section scripts
@@ -231,7 +231,7 @@ else
 
         $.ajax({
             method: "POST",
-            async: false,
+            //async: false,
             url: "@Url.Action("UpdateImportance", "LogWebResponse")",
             dataType: "json",
             data: {
@@ -333,19 +333,22 @@ else
 
         var dictionary = {};
         var index = 0;
-        var newSearch = (currentsearchInput != "");
 
-        for (var key in currentsearchDictionary) {
-            if (currentsearchDictionary.hasOwnProperty(key)) {
-                dictionary["searchDictionary[" + index + "].Key"] = key;
-                dictionary["searchDictionary[" + index + "].Value"] = currentsearchDictionary[key];
-
-                if (newSearch && (currentsearchBy == key)) { //update searchDictionary based on new search    
-                    dictionary["searchDictionary[" + index + "].Key"] = currentsearchBy;
-                    dictionary["searchDictionary[" + index + "].Value"] = currentsearchInput;
+        var newSearch = ((currentsearchInput != undefined) && (currentsearchInput != ""));
+        //if it's a new search, add new search inputs
+        //if not a new search, add old search inputs 
+        if (newSearch) {
+            dictionary["searchDictionary[0].Key"] = currentsearchBy;
+            dictionary["searchDictionary[0].Value"] = currentsearchInput;
+        }
+        else {
+            for (var key in currentsearchDictionary) {
+                if (currentsearchDictionary.hasOwnProperty(key)) {
+                    dictionary["searchDictionary[" + index + "].Key"] = key;
+                    dictionary["searchDictionary[" + index + "].Value"] = currentsearchDictionary[key];
                 }
+                index = index + 1;
             }
-            index = index + 1;
         }
 
         for (var key in dictionary) {

@@ -98,7 +98,6 @@ namespace AsignioInternship.Controllers
 /*
  * To do - general
  * -add total number of logs on a page?
- * -move all css into loggingProjectStyle file 
  * -comment code?
  * -better icon for marking as important?
  * 

@@ -33,13 +33,13 @@
         </div>
         <div class="col-md-4">
             <div class="btn-group">
-                <input type="button" class="btn btn-default" onclick="updateButton(1, '@sortBy', '@sortDir')" value="<< First">
+                <button type="button" class="btn btn-default" onclick="updateButton(1, '@sortBy', '@sortDir')">&laquo; First</button>
 
-                <input type="button" class="btn btn-default" onclick="updateButton(((@id - 1) != 0) ? (@id - 1) : @id, '@sortBy', '@sortDir')" value="< Previous">
+                <button type="button" class="btn btn-default" onclick="updateButton(((@id - 1) != 0) ? (@id - 1) : @id, '@sortBy', '@sortDir')">&lsaquo; Previous</button>
 
-                <input type="button" class="btn btn-default" onClick="updateButton(((@id + 1) <= @Model.TotalPages) ? (@id + 1) : @id, '@sortBy', '@sortDir')" value="Next >">
+                <button type="button" class="btn btn-default" onClick="updateButton(((@id + 1) <= @Model.TotalPages) ? (@id + 1) : @id, '@sortBy', '@sortDir')">Next &rsaquo;</button>
 
-                <input type="button" class="btn btn-default" onclick="updateButton(@Model.TotalPages, '@sortBy', '@sortDir')" value="Last >>">
+                <button type="button" class="btn btn-default" onclick="updateButton(@Model.TotalPages, '@sortBy', '@sortDir')">Last &raquo;</button>
             </div>
         </div>
         <div class="col-md-2">
@@ -55,7 +55,7 @@
 
 @if (!noResults)
 {
-    <table style="width:100%; text-align:center;">
+    <table class="mytable">
         <thead>
             <tr>
                 @foreach (String category in categories)
@@ -79,9 +79,9 @@
                         sortB = category;
                         sortD = "ASC";
                     }
-                <td>
-                    <input id="sortButton" value="@category" onclick="updateButton(1, '@sortB', '@sortD')" class="@className" />
-                </td>
+                    <td>
+                        <button type="button" id="sortButton" onclick="updateButton(1, '@sortB', '@sortD')" class="@className">@category</button>
+                    </td>
                 }
             </tr>
         </thead>
@@ -97,15 +97,17 @@
                 <td>@currentRow.Source</td>
                 <td>@currentRow.StackTrace</td>
                 <td>
-                    <!-- If !Important, show the unfilled icon and have it open the modal/toggle the icon -->
-                    <!-- If Important, show the filled icon and have it markUnimportant/toggle the icon -->
                     @if (currentRow.Important == null)
                     {
-                        <img src="~/Content/unfilledStar.png" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()', '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')" />
+                        <img src="~/Content/unfilledStar.png" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()',
+                        '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()',
+                        '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')" />
                     }
                     else
                     {
-                        <img src="~/Content/filledStar.png" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()', '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()', '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')" />
+                        <img src="~/Content/filledStar.png" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()',
+                        '@currentRow.EmailAddress.ToString()', '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()',
+                        '@currentRow.MethodName.ToString()', '@currentRow.Source.ToString()')" />
                     }
                 </td>
             </tr>

@@ -36,20 +36,20 @@
         @Html.HiddenFor(m => m.SortBy)
         @Html.HiddenFor(m => m.SortDirection)
 
-        <div class="block" style="width: 25% !important; display: inline-block; ">
+        <div class="block myblock">
             @Html.Label("Search by: ", new { @class = "mylabel" })
             @Html.DropDownList("searchBy", searchCategories, new { @class = "mydropdown" })
         </div>
-        <div class="block" style="width: 25% !important; display: inline-block; ">
+        <div class="block myblock">
             @Html.Label("Search for: ", new { @class = "mylabel" })
             @Html.TextBox("searchInput", null, new { @class = "mytextbox" })
         </div>
-        <input type="button" id="searchSubmit" name="searchSubmit" value="Search" class="btn btn-default" style="display: inline-block;" />
+        <button type="button" id="searchSubmit" name="searchSubmit" class="btn btn-default mybutton">Search</button>
 
         @Html.ActionLink(linkText: "Undo search",
         actionName: "Index",
         controllerName: "LogInfo",
-        routeValues: new { sortBy = sortBy, sortDir = sortDir, searchBy = "", searchInput = "", id = 1 },
+        routeValues: new { sortBy = sortBy, sortDir = sortDir, id = 1 },
         htmlAttributes: new { @class = "btn btn-default" })
 
         @Html.ActionLink("Advanced Search", "AdvancedSearch", "LogInfo")
@@ -65,13 +65,13 @@
         </div>
         <div class="col-md-4">
             <div class="btn-group">
-                <input type="button" class="btn btn-default" onclick="updateButton(1, '@sortBy', '@sortDir', '', '')" value="<< First">
+                <button type="button" class="btn btn-default" onclick="updateButton(1, '@sortBy', '@sortDir')">&laquo; First</button>
 
-                <input type="button" class="btn btn-default" onclick="updateButton(((@id - 1) != 0) ? (@id - 1) : @id, '@sortBy', '@sortDir', '', '')" value="< Previous">
+                <button type="button" class="btn btn-default" onclick="updateButton(((@id - 1) != 0) ? (@id - 1) : @id, '@sortBy', '@sortDir')">&lsaquo; Previous</button>
 
-                <input type="button" class="btn btn-default" onClick="updateButton(((@id + 1) <= @Model.TotalPages) ? (@id + 1) : @id, '@sortBy', '@sortDir', '', '')" value="Next >">
+                <button type="button" class="btn btn-default" onClick="updateButton(((@id + 1) <= @Model.TotalPages) ? (@id + 1) : @id, '@sortBy', '@sortDir')">Next &rsaquo;</button>
 
-                <input type="button" class="btn btn-default" onclick="updateButton(@Model.TotalPages, '@sortBy', '@sortDir', '', '')" value="Last >>">
+                <button type="button" class="btn btn-default" onclick="updateButton(@Model.TotalPages, '@sortBy', '@sortDir')">Last &raquo;</button>
             </div>
         </div>
         <div class="col-md-4">
@@ -85,7 +85,7 @@
                 <div class="block">
                     @Html.TextBox("id")
                 </div>
-                <input type="button" id="btnSubmit" value="Jump to page" class="btn btn-default" />
+                <button type="button" id="btnSubmit" class="btn btn-default">Jump to page</button>
             </form>
         </div>
     </div>
@@ -94,7 +94,7 @@
 
 @if (!noResults)
 {
-    <table style="width:100%; text-align:center;">
+    <table class="mytable">
         <thead>
             <tr>
                 @foreach (String category in categories)
@@ -119,7 +119,7 @@
                         sortD = "ASC";
                     }
                     <td>
-                        <input type="button" id="sortButton" value="@category" onclick="updateButton(1, '@sortB', '@sortD', '', '')" class="@className" />
+                        <button type="button" id="sortButton" onclick="updateButton(1, '@sortB', '@sortD')" class="@className">@category</button>
                     </td>
                 }
             </tr>
@@ -135,13 +135,13 @@
                     <td>@currentRow.MethodName</td>
                     <td>@currentRow.Object</td>
                     <td>
-                        @if (currentRow.Important == null) //button to mark as important
+                        @if (currentRow.Important == null)
                         {
                             <img src="~/Content/unfilledStar.png" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()',
                             '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()',
                             '@currentRow.Message.ToString()', '@currentRow.MethodName.ToString()')">
                         }
-                        else //button to unmark as important
+                        else 
                         {
                             <img src="~/Content/filledStar.png" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()',
                             '@currentRow.TimeStamp.ToString()', '@currentRow.WebRequestID.ToString()',

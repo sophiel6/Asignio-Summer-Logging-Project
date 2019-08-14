@@ -97,22 +97,12 @@ namespace AsignioInternship.Controllers
 
 /*
  * To do - general
- * -make the active tab in the navbar appear seleted
  * -add total number of logs on a page?
+ * -move all css into loggingProjectStyle file 
+ * -comment code?
+ * -better icon for marking as important?
  * 
  * problems: 
  * -Have to click some buttons multiple times for them to work (submit on AdvancedSearch, jump to page, etc.)
- * 
- * LogInfo
- * - Index --> page doesn't automatically update after marking as important; doesn't stay on correct page after marking as important 
- * - SearchIndex --> doesn't stay on correct page after marking as important
- * 
- * LogWebRequest
- * - Index --> doesn't stay on correct page after marking as important
- * - SearchIndex --> same 
- * 
- * LogWebResponse 
- * - Index --> doesn't stay on correct page after marking as important
- * - SearchIndex --> same 
  * 
  */

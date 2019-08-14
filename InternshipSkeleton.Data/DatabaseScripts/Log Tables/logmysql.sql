@@ -1,0 +1,1 @@
+SELECT DateTimeStamp, logmysql.Function, Message, Type, Important FROM internshipschema.logmysql;

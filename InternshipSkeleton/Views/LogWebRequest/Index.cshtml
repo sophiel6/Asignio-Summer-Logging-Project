@@ -214,6 +214,15 @@ else
         });
     });
 
+    $(document).ready(function() {
+        $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+              event.preventDefault();
+              return false;
+            }
+        });
+    });
+
     function UpdateImportance(page, sortB, sortD) {
         currentid = page;
         currentsortBy = sortB;
@@ -302,7 +311,13 @@ else
         var formData = $('form[name="pageJump"]').serializeArray();
         var sortBy = formData[0].value;
         var sortDirection = formData[1].value;
-        var page = formData[2].value;
+        var page;
+        if (formData[2].value <= @Model.TotalPages) {
+            page = formData[2].value;
+        }
+        else {
+            page = @Model.PageNumber;
+        }
 
         updateButton(page, sortBy, sortDirection, "", "");
     });

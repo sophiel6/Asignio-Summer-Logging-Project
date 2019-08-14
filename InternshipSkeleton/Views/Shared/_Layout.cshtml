@@ -32,7 +32,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Log", "Index", "Log")</li>
+                    <li class="active">@Html.ActionLink("Log", "Index", "Log")</li>
                     <li>@Html.ActionLink("Log Controller Action", "Index", "LogControllerAction")</li>
                     <li>@Html.ActionLink("Log Exception", "Index", "LogException")</li>
                     <li>@Html.ActionLink("Log Info", "Index", "LogInfo")</li>
@@ -59,20 +59,10 @@
 </html>
 
 <script>
-   /* $('#topheader .navbar-nav a').on('click', function () {
-        debugger;
-        $('#topheader .navbar-nav').find('li.active').removeClass('active');
-        $(this).parent('li').addClass('active');
-    }); */
-
     $(document).ready(function () {
-        var selector = '.nav li';
-
-        $(selector).on('click', function () {
-            debugger;
-            $(selector).removeClass('active');
-            $(this).addClass('active');
-        });
+        debugger;
+        $('li.active').removeClass('active');
+        $('a[href="' + location.pathname + '"]').closest('li').addClass('active'); 
     });
 
 </script>

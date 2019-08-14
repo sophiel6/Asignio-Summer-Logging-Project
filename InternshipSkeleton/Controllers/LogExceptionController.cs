@@ -98,7 +98,6 @@ namespace AsignioInternship.Controllers
 /*
  * To do - general
  * -make the active tab in the navbar appear seleted
- * -make sure you can't type in a page number to jump to that doesn't exist 
  * -add total number of logs on a page?
  * 
  * problems: 

@@ -96,7 +96,7 @@ table, thead, td, tr {
     border: 1px solid;
     overflow: auto;
     table-layout: fixed;
-    text-align: left;
+    text-align: center;
 }
 tr:nth-child(even) {
     background-color: #dddddd;

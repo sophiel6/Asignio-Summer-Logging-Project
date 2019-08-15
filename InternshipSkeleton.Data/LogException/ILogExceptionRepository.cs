@@ -6,11 +6,11 @@ namespace AsignioInternship.Data.LogException
 {
     public interface ILogExceptionRepository
     {
-        LogExceptionDataModel GetFromUserID(Guid UserID);
+        /*LogExceptionDataModel GetFromUserID(Guid UserID);
 
         IEnumerable<LogExceptionDataModel> GetAllFromUserID(Guid UserID);
 
-        IEnumerable<LogExceptionDataModel> GetAll();
+        IEnumerable<LogExceptionDataModel> GetAll(); */
 
         PagedDataModelCollection<CombinedLogExceptionDataModel> CombinedPageLogException(int pageSize, int pageNumber, 
                                  string sortColumn, string sortDirection, Dictionary<string,string> searchDictionary);

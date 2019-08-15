@@ -5,21 +5,10 @@ using System.Text;
 
 namespace AsignioInternship.Data.LogException
 {
-
     [PetaPoco.TableName("logexception")]
-    [PetaPoco.PrimaryKey("UserID", autoIncrement = false)] //is this what I should have as primary key? it said ExampleID before
+    [PetaPoco.PrimaryKey("UserID", autoIncrement = false)]
     internal class LogExceptionPoco
     {
-        #region SQL
-
-        internal static readonly string BaseSQL = @"
-            SELECT
-           * from logexception";
-        internal static readonly string SelectByIDSQL = BaseSQL + "" + " where UserID=@0;";
-        internal static readonly string SelectAll = BaseSQL + " ORDER BY TimeStamp desc;";
-        internal static readonly string PageUsersByMethodNameSearchSQL = " where MethodName=@0";
-        #endregion
-
         public DateTime TimeStamp { get; set; }
         public byte[] WebRequestID { get; set; }
         public byte[] UserID { get; set; }
@@ -27,6 +16,5 @@ namespace AsignioInternship.Data.LogException
         public string MethodName { get; set; }
         public string Source { get; set; }
         public string StackTrace { get; set; }
-
     }
 }

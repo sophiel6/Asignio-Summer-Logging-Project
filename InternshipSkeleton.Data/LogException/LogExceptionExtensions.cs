@@ -8,7 +8,6 @@ namespace AsignioInternship.Data.LogException
         {
             if (null != source)
             {
-
                 return new LogExceptionDataModel
                 {
                     TimeStamp = source.TimeStamp,
@@ -20,7 +19,6 @@ namespace AsignioInternship.Data.LogException
                     StackTrace = source.StackTrace,
                 };
             }
-
             return null;
         }
 
@@ -28,7 +26,6 @@ namespace AsignioInternship.Data.LogException
         {
             if (null != source)
             {
-
                 return new LogExceptionPoco
                 {
                     TimeStamp = source.TimeStamp,
@@ -40,7 +37,6 @@ namespace AsignioInternship.Data.LogException
                     StackTrace = source.StackTrace,
                 };
             }
-
             return null;
         }
     }

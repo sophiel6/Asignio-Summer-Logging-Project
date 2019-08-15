@@ -8,7 +8,6 @@ namespace AsignioInternship.Data.LogMySql
         {
             if (null != source)
             {
-
                 return new LogMySqlDataModel
                 {
                     DateTimeStamp = source.DateTimeStamp,

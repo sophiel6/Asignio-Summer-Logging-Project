@@ -10,7 +10,7 @@ namespace AsignioInternship.Data.Log
     public class LogRepository : BaseRepository, ILogRepository
     {
         public LogRepository()
-                : base(typeof(LogRepository))
+            : base(typeof(LogRepository))
         { }
 
         public PagedDataModelCollection<CombinedLogDataModel> CombinedPageLog(int pageSize, int pageNumber, string sortColumn, string sortDirection, Dictionary<string, string> searchDictionary)
@@ -123,9 +123,7 @@ namespace AsignioInternship.Data.Log
                 {
                     string errorMessage = ex.Message;
                 }
-                finally
-                {
-                }
+                finally { }
             }
             return null;
         }
@@ -166,7 +164,6 @@ namespace AsignioInternship.Data.Log
                         db.Execute(sql);
                         return 1;
                     }
-
                     else
                     { return 0; }
                 }

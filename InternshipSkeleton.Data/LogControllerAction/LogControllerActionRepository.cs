@@ -30,7 +30,7 @@ namespace AsignioInternship.Data.LogControllerAction
                     bool FirstClause = true;
                     string dateString = "";
 
-                    foreach (KeyValuePair<string, string> entry in searchDictionary) //format time ranges, important?
+                    foreach (KeyValuePair<string, string> entry in searchDictionary)
                     {
                         string userInput = entry.Value;
 

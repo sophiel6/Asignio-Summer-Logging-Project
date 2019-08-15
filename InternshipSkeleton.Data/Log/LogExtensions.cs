@@ -8,7 +8,6 @@ namespace AsignioInternship.Data.Log
         {
             if (null != source)
             {
-
                 return new LogDataModel
                 {
                     TimeStamp = source.TimeStamp,
@@ -20,7 +19,6 @@ namespace AsignioInternship.Data.Log
                     Level = source.Level,
                 };
             }
-
             return null;
         }
 
@@ -28,7 +26,6 @@ namespace AsignioInternship.Data.Log
         {
             if (null != source)
             {
-
                 return new LogPoco
                 {
                     TimeStamp = source.TimeStamp,
@@ -40,7 +37,6 @@ namespace AsignioInternship.Data.Log
                     Level = source.Level,
                 };
             }
-
             return null;
         }
     }

@@ -14,7 +14,6 @@ namespace AsignioInternship.Data.User
                     UserID = GuidMapper.Map(source.UserID),
                 };
             }
-
             return null;
         }
 
@@ -28,7 +27,6 @@ namespace AsignioInternship.Data.User
                     UserID = GuidMapper.Map(source.UserID),
                 };
             }
-
             return null;
         }
     }

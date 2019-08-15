@@ -12,24 +12,6 @@ namespace AsignioInternship.Data.LogMySql
                 : base(typeof(LogMySqlRepository))
         { }
 
-        public IEnumerable<LogMySqlDataModel> GetAll()
-        {
-            try
-            {
-                using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
-                {
-                    return db.Fetch<LogMySqlPoco>(LogMySqlPoco.SelectAll).Select(S => S.ToModel());
-                }
-            }
-            catch (Exception ex)
-            {
-                string errorMessage = ex.Message;
-            }
-            finally
-            { }
-
-            return null;
-        }
         public PagedDataModelCollection<LogMySqlDataModel> PageLogMySql(int pageSize, int pageNumber, string sortColumn, string sortDirection, Dictionary<string,string> searchDictionary)
         {
             using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
@@ -138,9 +120,7 @@ namespace AsignioInternship.Data.LogMySql
                 {
                     string errorMessage = ex.Message;
                 }
-                finally
-                {
-                }
+                finally { }
             }
             return null;
         }

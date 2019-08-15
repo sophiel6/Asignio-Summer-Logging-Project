@@ -8,22 +8,16 @@ namespace AsignioInternship.Data.LogWebRequest
         {
             if (null != source)
             {
-
                 return new LogWebRequestDataModel
                 {
                     TimeStamp = source.TimeStamp,
                     WebRequestID = GuidMapper.Map(source.WebRequestID),
                     UserID = GuidMapper.Map(source.UserID),
-                    //HostAddress = source.HostAddress,
-                    //ServerIP = source.ServerIP,
                     RawURL = source.RawURL,
                     Parameters = source.Parameters,
-                    //UserAgent = source.UserAgent,
-                    //UserLanguages = source.UserLanguages,
                     Important = source.Important,
                 };
             }
-
             return null;
         }
 
@@ -31,22 +25,16 @@ namespace AsignioInternship.Data.LogWebRequest
         {
             if (null != source)
             {
-
                 return new LogWebRequestPoco
                 {
                     TimeStamp = source.TimeStamp,
                     WebRequestID = GuidMapper.Map(source.WebRequestID),
                     UserID = GuidMapper.Map(source.UserID),
-                    //HostAddress = source.HostAddress,
-                    //ServerIP = source.ServerIP,
                     RawURL = source.RawURL,
                     Parameters = source.Parameters,
-                    //UserAgent = source.UserAgent,
-                    //UserLanguages = source.UserLanguages,
                     Important = source.Important,
                 };
             }
-
             return null;
         }
     }

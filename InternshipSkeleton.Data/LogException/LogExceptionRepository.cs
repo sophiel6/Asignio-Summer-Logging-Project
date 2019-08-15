@@ -14,7 +14,7 @@ namespace AsignioInternship.Data.LogException
                 : base(typeof(LogExceptionRepository))
         { }
 
-        public LogExceptionDataModel GetFromUserID(Guid UserID)
+        /*public LogExceptionDataModel GetFromUserID(Guid UserID)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace AsignioInternship.Data.LogException
             { }
 
             return null;
-        }
+        } */
 
         /*public PagedDataModelCollection<LogExceptionDataModel> PageLogException(string nameSearchPattern, int pageSize, int pageNumber, string sortColumn, string sortDirection)
         {
@@ -168,12 +168,12 @@ namespace AsignioInternship.Data.LogException
                     bool FirstClause = true;
                     string dateString = "";
 
-                    foreach (KeyValuePair<string, string> entry in searchDictionary) //format time ranges, important?
+                    foreach (KeyValuePair<string, string> entry in searchDictionary) //format time ranges, important
                     {
                         string userInput = entry.Value;
 
                         if (!string.IsNullOrWhiteSpace(userInput))
-                        {  
+                        {
                             if (entry.Key == "Important")
                             {
                                 if (!FirstClause)
@@ -196,11 +196,11 @@ namespace AsignioInternship.Data.LogException
 
                             else if (entry.Key == "beginDate") //format date range
                             {
-                                if (userInput[0] != '\'') 
+                                if (userInput[0] != '\'')
                                 { userInput = string.Format("\'{0}\'", userInput); }
                                 dateString = string.Format("DATE(TimeStamp) BETWEEN {0} AND ", userInput);
                             }
-                            else if (entry.Key=="endDate" && dateString!="")
+                            else if (entry.Key == "endDate" && dateString != "")
                             {
                                 if (userInput[0] != '\'')
                                 { userInput = string.Format("\'{0}\'", userInput); }
@@ -223,7 +223,7 @@ namespace AsignioInternship.Data.LogException
                                 if (entry.Key == "UserImportant")
                                 { newKey = "Important"; }
 
-                                if (userInput[0] != '\'') 
+                                if (userInput[0] != '\'')
                                 {
                                     userInput = string.Format("\'%{0}%\'", userInput);
                                 }
@@ -264,9 +264,7 @@ namespace AsignioInternship.Data.LogException
                 {
                     string errorMessage = ex.Message;
                 }
-                finally
-                {
-                }
+                finally { }
             }
             return null;
         }
@@ -399,36 +397,5 @@ namespace AsignioInternship.Data.LogException
             return new Guid(bytes);
         }
 
-        // old Update() kept in just in case/for reference:
-        /*
-         public void Update(CombinedLogExceptionDataModel LogToUpdate, Guid UserID)
-        {
-            try
-            {
-                using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
-                {
-                    Byte[] bytes = new Byte[16];
-                    Guid allZeros = new Guid(bytes);
-
-                    if (UserID != allZeros)
-                    {
-                        CombinedLogExceptionPoco poco = LogToUpdate.ToPoco();
-                        db.Update(poco); //I think for some reason the UserID of the poco doesn't match the userID in the sql database?
-                    }
-                    else
-                    {
-                        //what happens if the username entered doesn't match a userID? 
-                    }
-
-                }
-            }
-            catch (Exception ex)
-            {
-                string errorMessage = ex.Message;
-            }
-            finally
-            { }
-        } 
-        */
     }
 }   

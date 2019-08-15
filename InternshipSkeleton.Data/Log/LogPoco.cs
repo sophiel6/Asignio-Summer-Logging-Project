@@ -5,23 +5,10 @@ using System.Text;
 
 namespace AsignioInternship.Data.Log
 {
-
     [PetaPoco.TableName("log")]
     [PetaPoco.PrimaryKey("UserID", autoIncrement = false)] //is this what I should have as primary key?
     internal class LogPoco
     {
-
-        #region SQL
-
-        internal static readonly string BaseSQL = @"
-            SELECT
-           * from log";
-        //uncommented ID part of string
-        internal static readonly string SelectByIDSQL = BaseSQL + "" + " where UserID=@0;";
-        internal static readonly string SelectAll = BaseSQL + " ORDER BY TimeStamp desc;";
-        #endregion
-
-
         public DateTime TimeStamp { get; set; }
         public byte[] LogID { get; set; }
         public byte[] UserID { get; set; }

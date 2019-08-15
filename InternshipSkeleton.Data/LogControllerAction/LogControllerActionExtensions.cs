@@ -8,7 +8,6 @@ namespace AsignioInternship.Data.LogControllerAction
         {
             if (null != source)
             {
-
                 return new LogControllerActionDataModel
                 {
                     TimeStamp = source.TimeStamp,
@@ -19,7 +18,6 @@ namespace AsignioInternship.Data.LogControllerAction
                     Parameters = source.Parameters,
                 };
             }
-
             return null;
         }
 
@@ -27,7 +25,6 @@ namespace AsignioInternship.Data.LogControllerAction
         {
             if (null != source)
             {
-
                 return new LogControllerActionPoco
                 {
                     TimeStamp = source.TimeStamp,
@@ -38,7 +35,6 @@ namespace AsignioInternship.Data.LogControllerAction
                     Parameters = source.Parameters,
                 };
             }
-
             return null;
         }
     }

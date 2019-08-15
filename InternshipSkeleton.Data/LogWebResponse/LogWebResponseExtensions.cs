@@ -8,7 +8,6 @@ namespace AsignioInternship.Data.LogWebResponse
         {
             if (null != source)
             {
-
                 return new LogWebResponseDataModel
                 {
                     TimeStamp = source.TimeStamp,
@@ -20,7 +19,6 @@ namespace AsignioInternship.Data.LogWebResponse
                     RedirectLocation = source.RedirectLocation,
                 };
             }
-
             return null;
         }
 
@@ -28,7 +26,6 @@ namespace AsignioInternship.Data.LogWebResponse
         {
             if (null != source)
             {
-
                 return new LogWebResponsePoco
                 {
                     TimeStamp = source.TimeStamp,
@@ -40,7 +37,6 @@ namespace AsignioInternship.Data.LogWebResponse
                     RedirectLocation = source.RedirectLocation,
                 };
             }
-
             return null;
         }
     }

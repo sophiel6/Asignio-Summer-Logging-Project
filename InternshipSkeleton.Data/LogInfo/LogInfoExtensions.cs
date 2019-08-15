@@ -8,7 +8,6 @@ namespace AsignioInternship.Data.LogInfo
         {
             if (null != source)
             {
-
                 return new LogInfoDataModel
                 {
                     TimeStamp = source.TimeStamp,
@@ -20,7 +19,6 @@ namespace AsignioInternship.Data.LogInfo
                     ID = GuidMapper.Map(source.ID),
                 };
             }
-
             return null;
         }
 
@@ -28,7 +26,6 @@ namespace AsignioInternship.Data.LogInfo
         {
             if (null != source)
             {
-
                 return new LogInfoPoco
                 {
                     TimeStamp = source.TimeStamp,
@@ -40,7 +37,6 @@ namespace AsignioInternship.Data.LogInfo
                     ID = GuidMapper.Map(source.ID),
                 };
             }
-
             return null;
         }
     }

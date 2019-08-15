@@ -32,7 +32,7 @@ namespace AsignioInternship.Data.LogInfo
                     bool FirstClause = true;
                     string dateString = "";
 
-                    foreach (KeyValuePair<string, string> entry in searchDictionary) //format time ranges, important?
+                    foreach (KeyValuePair<string, string> entry in searchDictionary) //format time ranges, important
                     {
                         string userInput = entry.Value;
 

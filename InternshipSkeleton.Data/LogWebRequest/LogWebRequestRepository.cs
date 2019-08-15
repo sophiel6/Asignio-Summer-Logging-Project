@@ -125,11 +125,8 @@ namespace AsignioInternship.Data.LogWebRequest
                 {
                     string errorMessage = ex.Message;
                 }
-                finally
-                {
-                }
+                finally { }
             }
-
             return null;
         }
 

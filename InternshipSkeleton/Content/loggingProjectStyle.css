@@ -53,18 +53,16 @@
     display: inline-block;
 }
 .filledIcon {
-    width: 50%;
+    height: 75%;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-.unfilledIcon {
-    width: 50%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    margin: auto; 
 }
 
+.unfilledIcon {
+    height: 75%;
+    display: block;
+    margin: auto; 
+} 
 
 /* ------------------------------- Sorting Links -------------------- */
 .selectedSortLink {
@@ -86,14 +84,12 @@
     width: 100%;
 }
 
-
-
-/* ---------------------------- Button Group----------------------- */
+/* ---------------------------- Button Group---- maybe can take this out? ------------------- */
 .btn-group:after {
     content: "";
     clear: both;
     display: table;
-}
+} 
 
 /* ------------------------------------ Table stuff ----------------------- */
 table, thead, td, tr {
@@ -117,7 +113,6 @@ tr:nth-child(even) {
 .block {
     display: inline-block;
 }
-
 
 /* --------------------------------------Navigation bar --------------------------- */
 .navbar-nav > .active > a,

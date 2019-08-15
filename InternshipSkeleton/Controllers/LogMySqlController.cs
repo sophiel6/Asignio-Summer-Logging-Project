@@ -9,6 +9,8 @@ namespace AsignioInternship.Controllers
 {
     public class LogMySqlController : Controller
     {
+        private readonly ILogMySqlRepository m_logMySqlRepository;
+
         public LogMySqlController(ILogMySqlRepository logMySqlRepository)
         {
             m_logMySqlRepository = (logMySqlRepository != null) ? logMySqlRepository : throw new ArgumentNullException();
@@ -21,13 +23,13 @@ namespace AsignioInternship.Controllers
             int pageSize = 20;
             string sortColumn = sortBy ?? "DateTimeStamp";
             string sortDirection = sortDir ?? "ASC";
-            var searchD = new Dictionary<string, string>() { { "Default", "" } };
-
             Dictionary<string, string> searchDict;
+
             if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary == null)
-            { searchDict = searchD; }
+            { searchDict = new Dictionary<string, string>() { { "Default", "" } }; }
             else
             { searchDict = searchDictionary; }
+
             PagedDataModelCollection<LogMySqlDataModel> result = m_logMySqlRepository.PageLogMySql(pageSize, pageNum, sortColumn, sortDirection, searchDict);
             return View(result);
         }
@@ -38,13 +40,13 @@ namespace AsignioInternship.Controllers
             int pageSize = 20;
             string sortColumn = sortBy ?? "DateTimeStamp";
             string sortDirection = sortDir ?? "ASC";
-            var searchD = new Dictionary<string, string>() { { "Default", "" } };
-
             Dictionary<string, string> searchDict;
+
             if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary == null)
-            { searchDict = searchD; }
+            { searchDict = new Dictionary<string, string>() { { "Default", "" } }; }
             else
             { searchDict = searchDictionary; }
+
             PagedDataModelCollection<LogMySqlDataModel> result = m_logMySqlRepository.PageLogMySql(pageSize, pageNum, sortColumn, sortDirection, searchDict);
             return View(result);
         }
@@ -88,6 +90,5 @@ namespace AsignioInternship.Controllers
             return View();
         }
 
-        private readonly ILogMySqlRepository m_logMySqlRepository;
     }
 }

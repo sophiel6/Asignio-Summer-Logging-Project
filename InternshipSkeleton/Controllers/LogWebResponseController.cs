@@ -10,6 +10,8 @@ namespace AsignioInternship.Controllers
 {
     public class LogWebResponseController : Controller
     {
+        private readonly ILogWebResponseRepository m_logRepository;
+
         public LogWebResponseController(ILogWebResponseRepository logRepository)
         {
             m_logRepository = (logRepository != null) ? logRepository : throw new ArgumentNullException();
@@ -22,11 +24,10 @@ namespace AsignioInternship.Controllers
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
-            var searchD = new Dictionary<string, string>() { { "Default", "" } };
-
             Dictionary<string, string> searchDict;
+
             if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary == null)
-            { searchDict = searchD; }
+            { searchDict = new Dictionary<string, string>() { { "Default", "" } }; }
             else
             { searchDict = searchDictionary; }
 
@@ -41,11 +42,10 @@ namespace AsignioInternship.Controllers
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
-            var searchD = new Dictionary<string, string>() { { "Default", "" } };
-
             Dictionary<string, string> searchDict;
+
             if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary == null)
-            { searchDict = searchD; }
+            { searchDict = new Dictionary<string, string>() { { "Default", "" } }; }
             else
             { searchDict = searchDictionary; }
 
@@ -91,7 +91,5 @@ namespace AsignioInternship.Controllers
         {
             return View();
         }
-
-        private readonly ILogWebResponseRepository m_logRepository;
     }
 }

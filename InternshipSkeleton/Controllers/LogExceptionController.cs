@@ -10,6 +10,8 @@ namespace AsignioInternship.Controllers
 {
     public class LogExceptionController : Controller
     {
+        private readonly ILogExceptionRepository m_logExceptionRepository;
+
         public LogExceptionController(ILogExceptionRepository logExceptionRepository)
         {
             m_logExceptionRepository = (logExceptionRepository != null) ? logExceptionRepository : throw new ArgumentNullException();
@@ -22,13 +24,13 @@ namespace AsignioInternship.Controllers
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
-            var searchD = new Dictionary<string, string>() {{"Default", ""  }};
-
             Dictionary<string, string> searchDict; 
+
             if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary==null)
-            { searchDict = searchD; }
+            { searchDict = new Dictionary<string, string>() { { "Default", "" } }; }
             else
             { searchDict = searchDictionary; }
+
             PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException(pageSize, 
                                                                                         pageNum, sortColumn, sortDirection, searchDict);
             return View(result);
@@ -40,13 +42,13 @@ namespace AsignioInternship.Controllers
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
-            var searchD = new Dictionary<string, string>() { {"Default", ""  }};
-
             Dictionary<string, string> searchDict;
+
             if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary == null)
-            { searchDict = searchD; }
+            { searchDict = new Dictionary<string, string>() { { "Default", "" } }; }
             else
             { searchDict = searchDictionary; }
+
             PagedDataModelCollection<CombinedLogExceptionDataModel> result = m_logExceptionRepository.CombinedPageLogException(pageSize,
                                                                                         pageNum, sortColumn, sortDirection, searchDict); 
             return View(result);
@@ -90,8 +92,6 @@ namespace AsignioInternship.Controllers
         {
             return View();
         }
-
-        private readonly ILogExceptionRepository m_logExceptionRepository;
     }
 }
 
@@ -99,7 +99,6 @@ namespace AsignioInternship.Controllers
  * To do - general
  * -add total number of logs on a page?
  * -comment code?
- * -better icon for marking as important?
  * 
  * problems: 
  * -Have to click some buttons multiple times for them to work (submit on AdvancedSearch, jump to page, etc.)

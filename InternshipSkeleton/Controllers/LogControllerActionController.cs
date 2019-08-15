@@ -10,6 +10,8 @@ namespace AsignioInternship.Controllers
 {
     public class LogControllerActionController : Controller
     {
+        private readonly ILogControllerActionRepository m_logControllerActionRepository;
+
         public LogControllerActionController(ILogControllerActionRepository logControllerActionRepository)
         {
             m_logControllerActionRepository = (logControllerActionRepository != null) ? logControllerActionRepository : throw new ArgumentNullException();
@@ -22,11 +24,10 @@ namespace AsignioInternship.Controllers
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
-            var searchD = new Dictionary<string, string>() { { "Default", "" } };
-
             Dictionary<string, string> searchDict;
+
             if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary == null)
-            { searchDict = searchD; }
+            { searchDict = new Dictionary<string, string>() { { "Default", "" } }; }
             else
             { searchDict = searchDictionary; }
 
@@ -41,11 +42,10 @@ namespace AsignioInternship.Controllers
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
-            var searchD = new Dictionary<string, string>() { { "Default", "" } };
-
             Dictionary<string, string> searchDict;
+
             if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary == null)
-            { searchDict = searchD; }
+            { searchDict = new Dictionary<string, string>() { { "Default", "" } }; }
             else
             { searchDict = searchDictionary; }
 
@@ -86,11 +86,10 @@ namespace AsignioInternship.Controllers
                 return Json(new { IsCreated = false, ErrorMessage = "Error" });
             }
         }
+
         public ActionResult AdvancedSearch()
         {
             return View();
         }
-
-        private readonly ILogControllerActionRepository m_logControllerActionRepository;
     }
 }

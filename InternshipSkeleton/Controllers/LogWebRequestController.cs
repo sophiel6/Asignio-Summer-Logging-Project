@@ -9,6 +9,8 @@ namespace AsignioInternship.Controllers
 {
     public class LogWebRequestController : Controller
     {
+        private readonly ILogWebRequestRepository m_logWebRequestRepository;
+
         public LogWebRequestController(ILogWebRequestRepository logWebRequestRepository)
         {
             m_logWebRequestRepository = (logWebRequestRepository != null) ? logWebRequestRepository : throw new ArgumentNullException();
@@ -21,13 +23,13 @@ namespace AsignioInternship.Controllers
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
-            var searchD = new Dictionary<string, string>() { { "Default", "" } };
-
             Dictionary<string, string> searchDict;
+
             if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary == null)
-            { searchDict = searchD; }
+            { searchDict = new Dictionary<string, string>() { { "Default", "" } }; }
             else
             { searchDict = searchDictionary; }
+
             PagedDataModelCollection<LogWebRequestDataModel> result = m_logWebRequestRepository.PageLogWebRequest(pageSize, pageNum, sortColumn, sortDirection, searchDict);
             return View(result);
         }
@@ -39,13 +41,13 @@ namespace AsignioInternship.Controllers
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
-            var searchD = new Dictionary<string, string>() { { "Default", "" } };
-
             Dictionary<string, string> searchDict;
+
             if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary == null)
-            { searchDict = searchD; }
+            { searchDict = new Dictionary<string, string>() { { "Default", "" } }; }
             else
             { searchDict = searchDictionary; }
+
             PagedDataModelCollection<LogWebRequestDataModel> result = m_logWebRequestRepository.PageLogWebRequest(pageSize, pageNum, sortColumn, sortDirection, searchDict);
             return View(result);
         }
@@ -88,7 +90,5 @@ namespace AsignioInternship.Controllers
         {
             return View();
         }
-
-        private readonly ILogWebRequestRepository m_logWebRequestRepository;
     }
 }

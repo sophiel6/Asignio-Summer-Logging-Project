@@ -59,8 +59,11 @@
 <!-- Paging stuff -->
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <label class="pageLabel"> Current page: @Model.PageNumber / @Model.TotalPages</label>
+        </div>
+        <div class="col-md-1">
+            Total results: @Model.TotalItems
         </div>
         <div class="col-md-4">
             <div class="btn-group">
@@ -68,7 +71,7 @@
 
                 <button type="button" class="btn btn-default" onclick="updateButton(((@id - 1) != 0) ? (@id - 1) : @id, '@sortBy', '@sortDir')">&lsaquo; Previous</button>
 
-                <button type="button" class="btn btn-default" onClick="updateButton(((@id + 1) <= @Model.TotalPages) ? (@id + 1) : @id, '@sortBy', '@sortDir')">Next &rsaquo;</button> 
+                <button type="button" class="btn btn-default" onClick="updateButton(((@id + 1) <= @Model.TotalPages) ? (@id + 1) : @id, '@sortBy', '@sortDir')">Next &rsaquo;</button>
 
                 <button type="button" class="btn btn-default" onclick="updateButton(@Model.TotalPages, '@sortBy', '@sortDir')">Last &raquo;</button>
             </div>
@@ -84,7 +87,7 @@
                 <div class="block">
                     @Html.TextBox("id")
                 </div>
-                <button type="button" id="btnSubmit" class="btn btn-default" >Jump to page</button>
+                <button type="button" id="btnSubmit" class="btn btn-default">Jump to page</button>
             </form>
         </div>
     </div>
@@ -220,6 +223,32 @@ else
               return false;
             }
         });
+
+        $("#btnSubmit").click(function () {
+            debugger;
+            var formData = $('form[name="pageJump"]').serializeArray();
+            var sortBy = formData[0].value;
+            var sortDirection = formData[1].value;
+            var page;
+            if (formData[2].value <= @Model.TotalPages) {
+                page = formData[2].value;
+            }
+            else {
+                page = @Model.PageNumber;
+            }
+
+            updateButton(page, sortBy, sortDirection, "", "");
+        }); 
+
+        $("#searchSubmit").click(function () {
+            var formData = $('form[name="searchForm"]').serializeArray();
+            var sortBy = formData[0].value;
+            var sortDirection = formData[1].value;
+            var searchBy = formData[2].value;
+            var searchInput = formData[3].value;
+
+            updateButton(1, sortBy, sortDirection, searchBy, searchInput);
+        });
     });
 
     function UpdateImportance(page, sortB, sortD) {
@@ -244,7 +273,6 @@ else
                 username: usernameValue,
                 logToUpdate: model,
 		    },
-
             success: function (result) {
                 document.getElementById("usernameForm").reset();
 
@@ -282,7 +310,6 @@ else
             data: {
                 logToUpdate: model,
             },
-
             success: function (result) {
                 currentTimeStamp = null;
                 currentLogID = null;
@@ -296,38 +323,11 @@ else
                     alert(result.ErrorMessage);
                 }
             },
-
             error: function (result) {
                 alert(result.ErrorMessage);
             }
         });
-    }
-
-    $("#btnSubmit").click(function () {
-        debugger;
-        var formData = $('form[name="pageJump"]').serializeArray();
-        var sortBy = formData[0].value;
-        var sortDirection = formData[1].value;
-        var page;
-        if (formData[2].value <= @Model.TotalPages) {
-            page = formData[2].value;
-        }
-        else {
-            page = @Model.PageNumber;
-        }
-
-        updateButton(page, sortBy, sortDirection, "", "");
-    });
-
-    $("#searchSubmit").click(function () {
-        var formData = $('form[name="searchForm"]').serializeArray();
-        var sortBy = formData[0].value;
-        var sortDirection = formData[1].value;
-        var searchBy = formData[2].value;
-        var searchInput = formData[3].value;
-
-        updateButton(1, sortBy, sortDirection, searchBy, searchInput);
-    });
+    };
 
     function updateButton(page, sortB, sortD, searchB, searchI) {
         currentid = page;

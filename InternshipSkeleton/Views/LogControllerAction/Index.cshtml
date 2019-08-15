@@ -60,7 +60,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4">
-            <label class="pageLabel"> Current page: @Model.PageNumber / @Model.TotalPages</label>
+            <label class="pageLabel">Current page: @Model.PageNumber / @Model.TotalPages</label> <br />
+            <label class="pageLabel">@Model.TotalItems results</label>
         </div>
         <div class="col-md-4">
             <div class="btn-group">
@@ -81,7 +82,7 @@
                 <div class="block">
                     @Html.Label("Page: ", new { @class = "mylabel" })
                 </div>
-                <div class="block">
+                <div class="block pageinputbox">
                     @Html.TextBox("id")
                 </div>
                 <button type="button" id="btnSubmit" class="btn btn-default">Jump to page</button>
@@ -223,6 +224,33 @@ else
                 return false;
             }
         });
+
+        $("#btnSubmit").click(function () {
+            debugger;
+            var formData = $('form[name="pageJump"]').serializeArray();
+            var sortBy = formData[0].value;
+            var sortDirection = formData[1].value;
+            var page;
+            if (formData[2].value <= @Model.TotalPages) {
+                page = formData[2].value;
+            }
+            else {
+                page = @Model.PageNumber;
+            }
+
+            updateButton(page, sortBy, sortDirection, "", "");
+        });
+
+        $("#searchSubmit").click(function () {
+            debugger;
+            var formData = $('form[name="searchForm"]').serializeArray();
+            var sortBy = formData[0].value;
+            var sortDirection = formData[1].value;
+            var searchBy = formData[2].value;
+            var searchInput = formData[3].value;
+
+            updateButton(1, sortBy, sortDirection, searchBy, searchInput);
+        });
     });
 
     function UpdateImportance(page, sortB, sortD) {
@@ -309,33 +337,6 @@ else
             }
         });
             }
-
-     $("#btnSubmit").click(function () {
-        debugger;
-        var formData = $('form[name="pageJump"]').serializeArray();
-        var sortBy = formData[0].value;
-        var sortDirection = formData[1].value;
-        var page;
-        if (formData[2].value <= @Model.TotalPages) {
-            page = formData[2].value;
-        }
-        else {
-            page = @Model.PageNumber;
-        }
-
-        updateButton(page, sortBy, sortDirection, "", "");
-    });
-
-    $("#searchSubmit").click(function () {
-        debugger;
-        var formData = $('form[name="searchForm"]').serializeArray();
-        var sortBy = formData[0].value;
-        var sortDirection = formData[1].value;
-        var searchBy = formData[2].value;
-        var searchInput = formData[3].value;
-
-        updateButton(1, sortBy, sortDirection, searchBy, searchInput);
-    });
 
     function updateButton(page, sortB, sortD, searchB, searchI) {
         currentid = page;

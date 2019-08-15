@@ -36,7 +36,7 @@ namespace AsignioInternship.Controllers
             return View(result);
         }
 
-         public ActionResult SearchIndex(int? id, Dictionary<string,string> searchDictionary, string sortBy, string sortDir)
+        public ActionResult SearchIndex(int? id, Dictionary<string,string> searchDictionary, string sortBy, string sortDir)
         {
             int pageNum = (id ?? 1);
             int pageSize = 20;

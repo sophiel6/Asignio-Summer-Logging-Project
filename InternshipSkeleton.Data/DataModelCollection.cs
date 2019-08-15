@@ -18,9 +18,6 @@ namespace AsignioInternship.Data
 
         public string SortBy { get; set; }
         public string SortDirection { get; set; }
-        //public string SearchBy { get; set; }
-        //public string SearchInput { get; set; }
-
         public IDictionary<string, string> SearchDictionary { get; set; }
 
     }

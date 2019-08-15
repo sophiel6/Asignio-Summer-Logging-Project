@@ -48,7 +48,7 @@
         @Html.ActionLink(linkText: "Undo search",
         actionName: "Index",
         controllerName: "Log",
-        routeValues: new { sortBy = sortBy, sortDir = sortDir, /*searchBy = "", searchInput = "",*/ id = 1 },
+        routeValues: new { sortBy = sortBy, sortDir = sortDir, id = 1 },
         htmlAttributes: new { @class = "btn btn-default" })
 
         @Html.ActionLink("Advanced Search", "AdvancedSearch", "Log")
@@ -213,9 +213,7 @@ else
         $("#example-modal").on("closed.zf.reveal", function () {
             exampleModalVisible = false;
         });
-    });
 
-    $(document).ready(function() {
         $(window).keydown(function(event){
             if(event.keyCode == 13) {
               event.preventDefault();

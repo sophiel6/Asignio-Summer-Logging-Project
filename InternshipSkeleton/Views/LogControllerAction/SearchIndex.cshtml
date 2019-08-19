@@ -68,7 +68,7 @@
                     if (sortBy == category)
                     {
                         sortB = sortBy;
-                        className = "selectedSortLink";<!-- If sortBy == the category name, make the link underlined -->
+                        className = "selectedSortLink";
 
                         if (sortDir == "ASC")
                         { sortD = "DESC"; }
@@ -144,7 +144,6 @@ else
 
     function openModal(UserID, TimeStamp, WebRequestID, ControllerName, ActionName) {
         event.preventDefault;
-        debugger;
         currentUserID = UserID;
         currentTimeStamp = TimeStamp;
         currentWebRequestID = WebRequestID;
@@ -152,6 +151,18 @@ else
         currentActionName = ActionName;
 
         exampleModal.open();
+    };
+
+    function closeModal() {
+        event.preventDefault;
+
+        currentUserID = null;
+        currentTimeStamp = null;
+        currentWebRequestID = null;
+        currentControllerName = null;
+        currentActionName = null;
+
+        exampleModal.close();
     };
 
     $(document).ready(function () {
@@ -165,18 +176,6 @@ else
             exampleModalVisible = false;
         });
     });
-
-    function closeModal() {
-        event.preventDefault;
-
-        currentUserID = null;
-        currentTimeStamp = null;
-        currentWebRequestID = null;
-        currentControllerName = null;
-        currentActionName = null;
-
-        exampleModal.close();
-        };
 
     function UpdateImportance(page, sortB, sortD) {
         currentid = page;
@@ -267,8 +266,6 @@ else
         currentid = page;
         currentsortBy = sortB;
         currentsortDir = sortD;
-
-        debugger;
 
         const form = document.createElement('form');
         form.method = 'post';

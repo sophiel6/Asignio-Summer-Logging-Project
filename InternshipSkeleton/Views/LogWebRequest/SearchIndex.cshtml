@@ -66,7 +66,7 @@
                     if (sortBy == category)
                     {
                         sortB = sortBy;
-                        className = "selectedSortLink";<!-- If sortBy == the category name, make the link underlined -->
+                        className = "selectedSortLink";
 
                         if (sortDir == "ASC")
                         { sortD = "DESC"; }
@@ -178,7 +178,6 @@ else
         currentsortBy = sortB;
         currentsortDir = sortD;
         usernameValue = $("[name=usernameEntry]").val();
-        debugger;
 
         var model = {
             TimeStamp: currentTimeStamp,
@@ -189,7 +188,6 @@ else
 
         $.ajax({
             method: "POST",
-            //async: false,
             url: "@Url.Action("UpdateImportance", "LogWebRequest")",
             dataType: "json",
             data: {
@@ -198,7 +196,6 @@ else
             },
 
             success: function (result) {
-
                 document.getElementById("usernameForm").reset();
 
                 currentTimeStamp = null;
@@ -207,8 +204,7 @@ else
                 currentRawURL = null;
 
                 if (result.IsCreated) {
-                    //window.location.reload();
-                    updateButton(currentid, currentsortBy, currentsortDir);
+                    window.location.reload();
                 }
                 else {
                     alert(result.ErrorMessage);
@@ -262,7 +258,6 @@ else
         currentid = page;
         currentsortBy = sortB;
         currentsortDir = sortD;
-        debugger;
 
         const form = document.createElement('form');
         form.method = 'post';

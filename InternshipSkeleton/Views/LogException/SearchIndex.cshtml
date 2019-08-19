@@ -67,7 +67,7 @@
                     if (sortBy == category)
                     {
                         sortB = sortBy;
-                        className = "selectedSortLink";<!-- If sortBy == the category name, make the link underlined -->
+                        className = "selectedSortLink";
 
                         if (sortDir == "ASC")
                         { sortD = "DESC"; }
@@ -149,7 +149,6 @@ else
 
     function openModal(UserID, EmailAddress, TimeStamp, WebRequestID, MethodName, Source) {
         event.preventDefault;
-        debugger;
         currentUserID = UserID;
         currentEmailAddress = EmailAddress;
         currentTimeStamp = TimeStamp;
@@ -159,18 +158,6 @@ else
 
         exampleModal.open();
     };
-
-    $(document).ready(function () {
-        exampleModal = new Foundation.Reveal($("#example-modal"));
-
-        $("#example-modal").on("open.zf.reveal", function () {
-            exampleModalVisible = true;
-        });
-
-        $("#example-modal").on("closed.zf.reveal", function () {
-            exampleModalVisible = false;
-        });
-    });
 
     function closeModal() {
         event.preventDefault;
@@ -185,11 +172,22 @@ else
         exampleModal.close();
     };
 
+    $(document).ready(function () {
+        exampleModal = new Foundation.Reveal($("#example-modal"));
+
+        $("#example-modal").on("open.zf.reveal", function () {
+            exampleModalVisible = true;
+        });
+
+        $("#example-modal").on("closed.zf.reveal", function () {
+            exampleModalVisible = false;
+        });
+    });
+
     function UpdateImportance(page, sortB, sortD) {
         currentid = page;
         currentsortBy = sortB;
         currentsortDir = sortD;
-        debugger;
         usernameValue = $("[name=usernameEntry]").val(); 
 
         var log = {
@@ -212,7 +210,6 @@ else
 
             success: function (result) {
                 document.getElementById("usernameForm").reset();
-                debugger;
                 currentUserID = null;
                 currentEmailAddress = null;
                 currentTimeStamp = null;
@@ -221,12 +218,10 @@ else
                 currentSource = null;
 
                 if (result.IsCreated) {
-                    //updateButton(currentid, currentsortBy, currentsortDir);
                     window.location.reload();
                 }
                 else {
                     alert(result.ErrorMessage);
-                    //updateButton(currentid, currentsortBy, currentsortDir);
                     window.location.reload();
                 }
             },
@@ -280,7 +275,6 @@ else
         currentid = page;
         currentsortBy = sortB;
         currentsortDir = sortD;
-        debugger;
 
         const form = document.createElement('form');
         form.method = 'post';

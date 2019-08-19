@@ -70,7 +70,7 @@
                     if (sortBy == category)
                     {
                         sortB = sortBy;
-                        className = "selectedSortLink";<!-- If sortBy == the category name, make the link underlined -->
+                        className = "selectedSortLink";
 
                         if (sortDir == "ASC")
                         { sortD = "DESC"; }
@@ -181,7 +181,6 @@ else
         currentid = page;
         currentsortBy = sortB;
         currentsortDir = sortD;
-        debugger;
         usernameValue = $("[name=usernameEntry]").val();
 
         var log = {
@@ -202,7 +201,6 @@ else
 
             success: function (result) {
                 document.getElementById("usernameForm").reset();
-                debugger;
                 currentTimeStamp = null;
                 currentLogID = null;
                 currentLevel = null;
@@ -262,7 +260,6 @@ else
         currentid = page;
         currentsortBy = sortB;
         currentsortDir = sortD;
-        debugger;
 
         const form = document.createElement('form');
         form.method = 'post';

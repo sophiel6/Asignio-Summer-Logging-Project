@@ -97,7 +97,6 @@ namespace AsignioInternship.Controllers
 
 /*
  * To do - general
- * -add total number of logs on a page?
  * -comment code?
  * 
  * problems: 

@@ -52,6 +52,9 @@
     width: 25% !important;
     display: inline-block;
 }
+button.disabled {
+    color: gray;
+}
 
 /* -----------------------Icons ---------------------------------------- */
 .filledIcon {
@@ -59,7 +62,6 @@
     display: block;
     margin: auto; 
 }
-
 .unfilledIcon {
     height: 75%;
     display: block;

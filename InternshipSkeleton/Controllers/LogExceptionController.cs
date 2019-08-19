@@ -99,6 +99,7 @@ namespace AsignioInternship.Controllers
  * To do - general
  * -add total number of logs on a page?
  * -comment code?
+ * -make page jump box smaller on all pages
  * 
  * problems: 
  * -Have to click some buttons multiple times for them to work (submit on AdvancedSearch, jump to page, etc.)

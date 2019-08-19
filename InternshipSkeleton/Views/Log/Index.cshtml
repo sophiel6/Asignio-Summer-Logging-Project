@@ -59,11 +59,8 @@
 <!-- Paging stuff -->
 <div class="container">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <label class="pageLabel"> Current page: @Model.PageNumber / @Model.TotalPages</label>
-        </div>
-        <div class="col-md-1">
-            Total results: @Model.TotalItems
         </div>
         <div class="col-md-4">
             <div class="btn-group">
@@ -107,7 +104,7 @@
                     if (sortBy == category)
                     {
                         sortB = sortBy;
-                        className = "selectedSortLink";<!-- If sortBy == the category name, make the link underlined -->
+                        className = "selectedSortLink";
 
                         if (sortDir == "ASC")
                         { sortD = "DESC"; }
@@ -217,7 +214,7 @@ else
             exampleModalVisible = false;
         });
 
-        $(window).keydown(function(event){
+        $(window).keydown(function(event){ /* keep the page from submitting when user presses Enter */
             if(event.keyCode == 13) {
               event.preventDefault();
               return false;
@@ -225,7 +222,6 @@ else
         });
 
         $("#btnSubmit").click(function () {
-            debugger;
             var formData = $('form[name="pageJump"]').serializeArray();
             var sortBy = formData[0].value;
             var sortDirection = formData[1].value;
@@ -257,7 +253,6 @@ else
         currentsortBy = sortB;
         currentsortDir = sortD;
 
-        debugger;
         var model = {
             TimeStamp: currentTimeStamp,
             LogID: currentLogID,
@@ -335,7 +330,6 @@ else
         currentsortDir = sortD;
         currentsearchBy = searchB;
         currentsearchInput = searchI;
-        debugger;
 
         const form = document.createElement('form');
         form.method = 'post';

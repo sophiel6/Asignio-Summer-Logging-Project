@@ -1,13 +1,12 @@
 ﻿<!-- LogMySql Advanced Search page -->
 
-
 @{
     ViewBag.Title = "AdvancedSearch";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h4>LogMySql - Advanced Search</h4>
-
+<!-- Input parameters: date range, Function, Message, Important, UserImportant-->
 
 <form name="myForm">
     @Html.Label("Date Range")
@@ -38,6 +37,7 @@
 
 
 <script>
+    /* setting today's date as end date for date range input */
     $(document).ready(function () {
         let today = new Date().toISOString().substr(0, 10);
         document.querySelector("#beginDate").max = today;
@@ -46,7 +46,6 @@
 
     $("#submitForm").click(function () {
         var formData = $('form[name="myForm"]').serializeArray();
-        debugger;
         var data = {};
         var index = 0;
         formData.forEach(function (pair) {

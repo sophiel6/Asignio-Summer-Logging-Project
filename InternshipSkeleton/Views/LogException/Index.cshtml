@@ -224,7 +224,7 @@ else
             exampleModalVisible = false;
         });
 
-        $(window).keydown(function(event){
+        $(window).keydown(function(event){ /* keep the page from submitting when user presses Enter */
             if(event.keyCode == 13) {
                 event.preventDefault();
                 return false;
@@ -238,7 +238,6 @@ else
         currentsortDir = sortD;
         usernameValue = $("[name=usernameEntry]").val();
 
-        debugger;
         var model = {
             UserID: currentUserID,
             EmailAddress: currentEmailAddress,
@@ -282,8 +281,7 @@ else
         });
     };
 
-    function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentWebRequestID,
-        currentMethodName, currentSource) {
+    function markUnimportant(currentUserID, currentEmailAddress, currentTimeStamp, currentWebRequestID, currentMethodName, currentSource) {
         var model = {
             UserID: currentUserID,
             EmailAddress: currentEmailAddress,
@@ -324,7 +322,6 @@ else
     };
 
     $("#btnSubmit").click(function () {
-        debugger;
         var formData = $('form[name="pageJump"]').serializeArray();
         var sortBy = formData[0].value;
         var sortDirection = formData[1].value;
@@ -335,12 +332,10 @@ else
         else {
             page = @Model.PageNumber;
         }
-
         updateButton(page, sortBy, sortDirection, "", "");
     });
 
     $("#searchSubmit").click(function () {
-        debugger;
         var formData = $('form[name="searchForm"]').serializeArray();
         var sortBy = formData[0].value;
         var sortDirection = formData[1].value;
@@ -356,7 +351,6 @@ else
         currentsortDir = sortD;
         currentsearchBy = searchB;
         currentsearchInput = searchI;
-        debugger;
 
         const form = document.createElement('form');
         form.method = 'post';

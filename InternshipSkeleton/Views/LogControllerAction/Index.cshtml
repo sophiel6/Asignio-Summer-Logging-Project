@@ -105,7 +105,7 @@
                     if (sortBy == category)
                     {
                         sortB = sortBy;
-                        className = "selectedSortLink";<!-- If sortBy == the category name, make the link underlined -->
+                        className = "selectedSortLink";
 
                         if (sortDir == "ASC")
                         { sortD = "DESC"; }
@@ -218,7 +218,7 @@ else
             exampleModalVisible = false;
         });
 
-        $(window).keydown(function(event){
+        $(window).keydown(function(event){ /* keep the page from submitting when user presses Enter */
             if(event.keyCode == 13) {
                 event.preventDefault();
                 return false;
@@ -226,7 +226,6 @@ else
         });
 
         $("#btnSubmit").click(function () {
-            debugger;
             var formData = $('form[name="pageJump"]').serializeArray();
             var sortBy = formData[0].value;
             var sortDirection = formData[1].value;
@@ -237,12 +236,10 @@ else
             else {
                 page = @Model.PageNumber;
             }
-
             updateButton(page, sortBy, sortDirection, "", "");
         });
 
         $("#searchSubmit").click(function () {
-            debugger;
             var formData = $('form[name="searchForm"]').serializeArray();
             var sortBy = formData[0].value;
             var sortDirection = formData[1].value;
@@ -266,7 +263,6 @@ else
             ControllerName: currentControllerName,
             ActionName: currentActionName,
         };
-        debugger;
         $.ajax({
             method: "POST",
             url: "@Url.Action("UpdateImportance", "LogControllerAction")",
@@ -336,7 +332,7 @@ else
                 alert(result.ErrorMessage);
             }
         });
-            }
+    }
 
     function updateButton(page, sortB, sortD, searchB, searchI) {
         currentid = page;
@@ -344,7 +340,6 @@ else
         currentsortDir = sortD;
         currentsearchBy = searchB;
         currentsearchInput = searchI;
-        debugger;
 
         const form = document.createElement('form');
         form.method = 'post';

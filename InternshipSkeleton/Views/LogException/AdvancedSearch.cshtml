@@ -7,12 +7,7 @@
 
 <h4>LogException - Advanced Search</h4>
 
-<!-- Email, Timestamp, Message, Method Name, Source, Stack Trace, Important (both IsImportant? and who marked as important) -->
-<!-- Email, Message, MethodName, Source, StackTrace - string search -->
-<!-- Timestamp - enter a range of dates -->
-<!-- Important - check box for IsImportant? -->
-<!-- https://alexkuznetsov.wordpress.com/2013/05/08/asp-net-mvc-pass-dictionary-data-from-view-to-controller/ -->
-
+<!-- Input parameters: Email, Timestamp, Message, Method Name, Source, Stack Trace, UserImportant, Important -->
 
 <form name="myForm">
     @Html.Label("Email")
@@ -49,6 +44,7 @@
 
 
 <script>
+    /* setting today's date as end date for date range input */
     $(document).ready(function () {
         let today = new Date().toISOString().substr(0, 10);
         document.querySelector("#beginDate").max = today;
@@ -57,7 +53,6 @@
 
     $("#submitForm").click(function () {
         var formData = $('form[name="myForm"]').serializeArray();
-        debugger;
         var data = {};
         var index = 0;
         formData.forEach(function (pair) {

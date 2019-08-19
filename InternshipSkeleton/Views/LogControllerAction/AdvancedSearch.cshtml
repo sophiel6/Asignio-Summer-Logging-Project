@@ -6,7 +6,7 @@
 }
 
 <h4>LogControllerAction - Advanced Search</h4>
-<!-- "EmailAddress", "TimeStamp", "ControllerName", "ActionName", "Parameters", "Important" -->
+<!-- Input parameters: EmailAddress, TimeStamp, ControllerName, ActionName, Parameters, UserImportant, Important -->
 
 <form name="myForm">
     @Html.Label("Email")
@@ -40,6 +40,7 @@
 
 
 <script>
+    /* setting today's date as end date for date range input */
     $(document).ready(function () {
         let today = new Date().toISOString().substr(0, 10);
         document.querySelector("#beginDate").max = today;
@@ -48,7 +49,6 @@
 
     $("#submitForm").click(function () {
         var formData = $('form[name="myForm"]').serializeArray();
-        debugger;
         var data = {};
         var index = 0;
         formData.forEach(function (pair) {

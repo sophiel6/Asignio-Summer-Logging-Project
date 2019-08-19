@@ -62,7 +62,7 @@ namespace AsignioInternship.Controllers
                 string success = "Successfully marked as important";
                 return Json(new { IsCreated = true, Content = success });
             }
-            else //update failed 
+            else //update failed - generally because the user entered email was not in the user database 
             {
                 return Json(new { IsCreated = false, ErrorMessage = "Email entered by the user was not found in user database" });
             }

@@ -65,7 +65,7 @@ namespace AsignioInternship.Controllers
                 string success = "Successfully marked as important";
                 return Json(new { IsCreated = true, Content = success });
             }
-            else //update failed 
+            else //update failed - generally because the user entered email was not in the user database 
             {
                 return Json(new { IsCreated = false, ErrorMessage = "Email entered by the user was not found in user database" });
             }
@@ -99,7 +99,6 @@ namespace AsignioInternship.Controllers
  * To do - general
  * -add total number of logs on a page?
  * -comment code?
- * -make page jump box smaller on all pages
  * 
  * problems: 
  * -Have to click some buttons multiple times for them to work (submit on AdvancedSearch, jump to page, etc.)

@@ -101,5 +101,4 @@ namespace AsignioInternship.Controllers
  * 
  * problems: 
  * -Have to click some buttons multiple times for them to work (submit on AdvancedSearch, jump to page, etc.)
- * 
  */

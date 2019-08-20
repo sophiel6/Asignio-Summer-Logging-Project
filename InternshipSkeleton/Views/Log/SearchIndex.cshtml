@@ -28,11 +28,11 @@
 <!-- Paging stuff -->
 <div class="container">
     <div class="row">
-        <div class="col-md-3">
-            <label class="pageLabel"> Current page: @Model.PageNumber / @Model.TotalPages</label>
+        <div class="col-md-2">
+            <label class="pageLabel">Page: @Model.PageNumber / @Model.TotalPages</label>
         </div>
         <div class="col-md-2">
-            <h4>Total results: @Model.TotalItems</h4>
+            <h5>Total results: @Model.TotalItems</h5>
         </div>
         <div class="col-md-4">
             <div class="btn-group">
@@ -48,7 +48,7 @@
         <div class="col-md-2">
             @Html.ActionLink("Back to table", "Index", null, new { @class = "btn btn-default" })
         </div>
-        <div class="col-md-1">
+        <div class="col-md-2">
             @Html.ActionLink("New Search", "AdvancedSearch")
         </div>
     </div>

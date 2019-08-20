@@ -18,7 +18,7 @@ namespace AsignioInternship.Controllers
 
         public ActionResult Index(int? id, string sortBy, string sortDir, Dictionary<string, string> searchDictionary)
         {
-            int pageNum = (id ?? 1);
+            int pageNum = id ?? 1;
             int pageSize = 20;
             string sortColumn = sortBy ?? "DateTimeStamp";
             string sortDirection = sortDir ?? "ASC";
@@ -32,9 +32,10 @@ namespace AsignioInternship.Controllers
             PagedDataModelCollection<LogMySqlDataModel> result = m_logMySqlRepository.PageLogMySql(pageSize, pageNum, sortColumn, sortDirection, searchDict);
             return View(result);
         }
+
         public ActionResult SearchIndex(int? id, string sortBy, string sortDir, Dictionary<string, string> searchDictionary)
         {
-            int pageNum = (id ?? 1);
+            int pageNum = id ?? 1;
             int pageSize = 20;
             string sortColumn = sortBy ?? "DateTimeStamp";
             string sortDirection = sortDir ?? "ASC";

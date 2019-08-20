@@ -19,13 +19,13 @@ namespace AsignioInternship.Controllers
 
         public ActionResult Index(int? id, string sortBy, string sortDir, Dictionary<string,string> searchDictionary)
         {
-            int pageNum = (id ?? 1);
+            int pageNum = id ?? 1;
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
             Dictionary<string, string> searchDict; 
 
-            if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary==null)
+            if (searchDictionary.Keys.ElementAt(0) == "controller" || searchDictionary == null)
             { searchDict = new Dictionary<string, string>() { { "Default", "" } }; }
             else
             { searchDict = searchDictionary; }
@@ -37,7 +37,7 @@ namespace AsignioInternship.Controllers
 
         public ActionResult SearchIndex(int? id, Dictionary<string,string> searchDictionary, string sortBy, string sortDir)
         {
-            int pageNum = (id ?? 1);
+            int pageNum = id ?? 1;
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
@@ -95,9 +95,9 @@ namespace AsignioInternship.Controllers
 }
 
 /*
- * To do - general
+ * To do:
  * -comment code?
  * 
- * problems: 
- * -Have to click some buttons multiple times for them to work (submit on AdvancedSearch, jump to page, etc.)
+ * Problems: 
+ * -have to click some buttons multiple times for them to work (submit on AdvancedSearch, jump to page, etc.)
  */

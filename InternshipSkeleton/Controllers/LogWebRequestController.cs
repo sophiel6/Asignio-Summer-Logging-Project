@@ -18,7 +18,7 @@ namespace AsignioInternship.Controllers
         
         public ActionResult Index(int? id, string sortBy, string sortDir, Dictionary<string, string> searchDictionary)
         {
-            int pageNum = (id ?? 1);
+            int pageNum = id ?? 1;
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
@@ -35,7 +35,7 @@ namespace AsignioInternship.Controllers
 
         public ActionResult SearchIndex(int? id, string sortBy, string sortDir, Dictionary<string, string> searchDictionary)
         {
-            int pageNum = (id ?? 1);
+            int pageNum = id ?? 1;
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";

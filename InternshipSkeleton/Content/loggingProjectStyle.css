@@ -21,6 +21,9 @@
     display: inline-block;
     margin: 0px;
 }
+.home {
+    text-align: center;
+}
 .mybutton {
     display: inline-block;
 }

@@ -62,8 +62,11 @@
 <!-- Paging stuff -->
 <div class="container">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-2">
             <label class="pageLabel">Page: @Model.PageNumber / @Model.TotalPages</label>
+        </div>
+        <div class="col-md-2">
+            <h5>@Model.TotalItems total results</h5>
         </div>
         <div class="col-md-4">
             <div class="btn-group">

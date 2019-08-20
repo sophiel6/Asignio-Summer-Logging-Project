@@ -8,7 +8,6 @@ namespace AsignioInternship.Data.CombinedLog
         {
             if (null != source)
             {
-
                 return new CombinedLogDataModel
                 {
                     UserID = GuidMapper.Map(source.UserID),
@@ -21,7 +20,6 @@ namespace AsignioInternship.Data.CombinedLog
                     Important = source.Important,
                 };
             }
-
             return null;
         }
 
@@ -41,8 +39,7 @@ namespace AsignioInternship.Data.CombinedLog
                     Important = source.Important,
                 };
             }
-
             return null;
-        }
+        } 
     }
 }

@@ -26,6 +26,7 @@ namespace AsignioInternship.Data.Log
                     sql.Append("from log ");
                     sql.Append(" INNER JOIN user on user.userID = log.userID ");
 
+                    //a boolean to keep track of whether sql string is at first search clause
                     bool FirstClause = true;
                     string dateString = "";
 
@@ -35,7 +36,7 @@ namespace AsignioInternship.Data.Log
 
                         if (!string.IsNullOrWhiteSpace(userInput))
                         {
-                            if (entry.Key == "Important")
+                            if (entry.Key == "Important") //only get logs that are marked as important
                             {
                                 if (!FirstClause)
                                 { sql.Append(string.Format("AND Important != \'\'")); }
@@ -43,7 +44,7 @@ namespace AsignioInternship.Data.Log
                                 { sql.Append(string.Format("WHERE Important != \'\'")); }
                                 FirstClause = false;
                             }
-                            else if (entry.Key == "TimeStamp") //format date
+                            else if (entry.Key == "TimeStamp") //get logs from one specific date
                             {
                                 if (userInput[0] != '\'')
                                 { userInput = string.Format("\'{0}\'", userInput); }
@@ -53,13 +54,13 @@ namespace AsignioInternship.Data.Log
                                 { sql.Append(string.Format("WHERE DATE(TimeStamp) = {0} ", userInput)); }
                                 FirstClause = false;
                             }
-                            else if (entry.Key == "beginDate") //format date 
+                            else if (entry.Key == "beginDate") //format date at beginning of range
                             {
                                 if (userInput[0] != '\'')
                                 { userInput = string.Format("\'{0}\'", userInput); }
                                 dateString = string.Format("DATE(TimeStamp) BETWEEN {0} AND ", userInput);
                             }
-                            else if (entry.Key == "endDate" && dateString != "")
+                            else if (entry.Key == "endDate" && dateString != "") //format date at end of range
                             {
                                 if (userInput[0] != '\'')
                                 { userInput = string.Format("\'{0}\'", userInput); }
@@ -70,7 +71,7 @@ namespace AsignioInternship.Data.Log
                                 { sql.Append(string.Format("WHERE {0} {1} ", dateString, userInput)); }
                                 FirstClause = false;
                             }
-                            else //if not a date
+                            else
                             {
                                 if (userInput.Contains("@")) //format email
                                 {
@@ -78,7 +79,7 @@ namespace AsignioInternship.Data.Log
                                     sections[1] = sections[1].Insert(0, "@@");
                                     userInput = string.Join("", sections);
                                 }
-                                string newKey = entry.Key;
+                                string newKey = entry.Key;  //formatting for "get logs marked as important by a specific username"
                                 if (entry.Key == "UserImportant")
                                 { newKey = "Important"; }
 
@@ -137,7 +138,7 @@ namespace AsignioInternship.Data.Log
                     Byte[] bytes = new Byte[16];
                     Guid allZeros = new Guid(bytes);
 
-                    Guid UserID = GetUserIDFromUsername(username);
+                    Guid UserID = GetUserIDFromUsername(username); //checking if username is in the User table
 
                     if (UserID != allZeros)
                     {
@@ -236,7 +237,6 @@ namespace AsignioInternship.Data.Log
                     }
                     else
                     {
-                        //not sure - for now returning a guid of all zeros
                         Byte[] allZeroByte = new Byte[16];
                         return new Guid(allZeroByte);
                     }

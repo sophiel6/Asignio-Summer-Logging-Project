@@ -14,143 +14,6 @@ namespace AsignioInternship.Data.LogException
                 : base(typeof(LogExceptionRepository))
         { }
 
-        /*public LogExceptionDataModel GetFromUserID(Guid UserID)
-        {
-            try
-            {
-                using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
-                {
-                    return db.FirstOrDefault<LogExceptionPoco>(LogExceptionPoco.SelectByIDSQL, GuidMapper.Map(UserID)).ToModel();
-                }
-            }
-            catch (Exception ex)
-            {
-                string errorMessage = ex.Message;
-            }
-            finally
-            { }
-
-            return null;
-        }
-
-        public IEnumerable<LogExceptionDataModel> GetAll()
-        {
-            try
-            {
-                using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
-                {
-                    return db.Fetch<LogExceptionPoco>(LogExceptionPoco.SelectAll).Select(S => S.ToModel());
-                }
-            }
-            catch (Exception ex)
-            {
-                string errorMessage = ex.Message;
-            }
-            finally
-            { }
-
-            return null;
-        }
-
-        public IEnumerable<LogExceptionDataModel> GetAllFromUserID(Guid UserID)
-        {
-            try
-            {
-                using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
-                {
-                    return db.Fetch<LogExceptionPoco>(LogExceptionPoco.SelectByIDSQL, GuidMapper.Map(UserID)).Select(S => S.ToModel());
-                }
-            }
-            catch (Exception ex)
-            {
-                string errorMessage = ex.Message;
-            }
-            finally
-            { }
-
-            return null;
-        } */
-
-        /*public PagedDataModelCollection<LogExceptionDataModel> PageLogException(string nameSearchPattern, int pageSize, int pageNumber, string sortColumn, string sortDirection)
-        {
-            using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
-            {
-                try
-                {
-                    PetaPoco.Sql sql = new PetaPoco.Sql();
-
-                    sql.Append(LogExceptionPoco.BaseSQL);
-
-                    if (!string.IsNullOrWhiteSpace(nameSearchPattern))
-                    {
-                        nameSearchPattern = string.Format("{0}", nameSearchPattern);
-
-                        sql.Append(LogExceptionPoco.PageUsersByUserIDSearchSQL, nameSearchPattern);
-                    }
-
-                    sql.Append(string.Format("ORDER BY {0} {1}", sortColumn, sortDirection));
-
-                    PetaPoco.Page<LogExceptionPoco> page = db.Page<LogExceptionPoco>(pageNumber, pageSize, sql);
-
-                    if (page == null)
-                    {
-                        return null;
-                    }
-
-                    return new PagedDataModelCollection<LogExceptionDataModel>()
-                    {
-                        Items = page.Items.Select(s => s.ToModel()),
-                        PageNumber = pageNumber,
-                        PageSize = pageSize,
-                        TotalItems = page.TotalItems,
-                        TotalPages = page.TotalPages,
-                        SortBy = sortColumn
-                    };
-                }
-                catch (Exception ex)
-                {
-                    string errorMessage = ex.Message;
-                }
-                finally
-                {
-                }
-            }
-
-            return null;
-        }
-
-        public IEnumerable<CombinedLogExceptionDataModel> ExampleQuery()
-        {
-            try
-            {
-                using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
-                {
-                    IEnumerable<LogExceptionDataModel> LogExceptionList = db.Fetch<LogExceptionPoco>(LogExceptionPoco.SelectAll).Select(S => S.ToModel());
-                    IEnumerable<UserDataModel> UsersList = db.Fetch<UserPoco>(UserPoco.SelectAll).Select(S => S.ToModel());
-                    IEnumerable<CombinedLogExceptionDataModel> CombinedLogExceptionList =
-                            LogExceptionList.Join(UsersList, user => user.UserID,
-                            logexception => logexception.UserID,
-                            (logexception, user) => new CombinedLogExceptionDataModel
-                            {
-                                EmailAddress = user.EmailAddress,
-                                TimeStamp = logexception.TimeStamp,
-                                WebRequestID = logexception.WebRequestID,
-                                Message = logexception.Message,
-                                MethodName = logexception.MethodName,
-                                Source = logexception.Source,
-                                StackTrace = logexception.StackTrace,
-                            });
-                    return (CombinedLogExceptionList);
-                }
-            }
-            catch (Exception ex)
-            {
-                string errorMessage = ex.Message;
-            }
-            return null;
-        }
-        */
-
         public PagedDataModelCollection<CombinedLogExceptionDataModel> CombinedPageLogException(int pageSize, int pageNum, string sortColumn, string sortDirection, Dictionary<string, string> searchDictionary)
         {
             using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
@@ -165,16 +28,16 @@ namespace AsignioInternship.Data.LogException
                     sql.Append(" from logexception ");
                     sql.Append(" INNER JOIN user on user.userID = logexception.userID ");
 
-                    bool FirstClause = true;
+                    bool FirstClause = true;    //a boolean to keep track of whether sql string is at first search clause
                     string dateString = "";
 
-                    foreach (KeyValuePair<string, string> entry in searchDictionary) //format time ranges, important
+                    foreach (KeyValuePair<string, string> entry in searchDictionary)
                     {
                         string userInput = entry.Value;
 
                         if (!string.IsNullOrWhiteSpace(userInput))
                         {
-                            if (entry.Key == "Important")
+                            if (entry.Key == "Important") //only get logs that are marked as important
                             {
                                 if (!FirstClause)
                                 { sql.Append(string.Format("AND Important != \'\'")); }
@@ -182,8 +45,7 @@ namespace AsignioInternship.Data.LogException
                                 { sql.Append(string.Format("WHERE Important != \'\'")); }
                                 FirstClause = false;
                             }
-
-                            else if (entry.Key == "TimeStamp") //format date
+                            else if (entry.Key == "TimeStamp") //get logs from one specific date
                             {
                                 if (userInput[0] != '\'')
                                 { userInput = string.Format("\'{0}\'", userInput); }
@@ -194,13 +56,13 @@ namespace AsignioInternship.Data.LogException
                                 FirstClause = false;
                             }
 
-                            else if (entry.Key == "beginDate") //format date range
+                            else if (entry.Key == "beginDate") //format beginning of date range
                             {
                                 if (userInput[0] != '\'')
                                 { userInput = string.Format("\'{0}\'", userInput); }
                                 dateString = string.Format("DATE(TimeStamp) BETWEEN {0} AND ", userInput);
                             }
-                            else if (entry.Key == "endDate" && dateString != "")
+                            else if (entry.Key == "endDate" && dateString != "") //format end of date range
                             {
                                 if (userInput[0] != '\'')
                                 { userInput = string.Format("\'{0}\'", userInput); }
@@ -211,7 +73,7 @@ namespace AsignioInternship.Data.LogException
                                 { sql.Append(string.Format("WHERE {0} {1} ", dateString, userInput)); }
                                 FirstClause = false;
                             }
-                            else //if not a date
+                            else 
                             {
                                 if (userInput.Contains("@")) //format email
                                 {
@@ -219,7 +81,7 @@ namespace AsignioInternship.Data.LogException
                                     sections[1] = sections[1].Insert(0, "@@");
                                     userInput = string.Join("", sections);
                                 }
-                                string newKey = entry.Key;
+                                string newKey = entry.Key; //formatting for "get logs marked as important by a specific username"
                                 if (entry.Key == "UserImportant")
                                 { newKey = "Important"; }
 
@@ -305,7 +167,6 @@ namespace AsignioInternship.Data.LogException
                          db.Execute(sql);
                          return 1;
                      }
-
                      else
                      { return 0; }
                  }
@@ -352,8 +213,7 @@ namespace AsignioInternship.Data.LogException
         }
 
         public Guid GetUserIDFromUsername(string username)
-        {   /* This function will search the user db for this username/Email - if it is found, it'll 
-             * return the corresponding UserID; if not, it'll return some default Guid */
+        {   
             try
             {
                 using (AsignioDatabase db = new AsignioDatabase(ConnectionStringName))
@@ -396,6 +256,5 @@ namespace AsignioInternship.Data.LogException
             Byte[] bytes = new Byte[16];
             return new Guid(bytes);
         }
-
     }
 }   

@@ -6,7 +6,7 @@ using System.Text;
 namespace AsignioInternship.Data.LogWebResponse
 {
     [PetaPoco.TableName("logwebresponse")]
-    [PetaPoco.PrimaryKey("UserID", autoIncrement = false)] //is this what I should have as primary key? it said ExampleID before
+    [PetaPoco.PrimaryKey("UserID", autoIncrement = false)]
     internal class LogWebResponsePoco
     {
         public DateTime TimeStamp { get; set; }

@@ -19,8 +19,7 @@ namespace AsignioInternship.Controllers
 
         public ActionResult Index(int? id, string sortBy, string sortDir, Dictionary<string, string> searchDictionary)
         {
-            int pageNum;
-            pageNum = (id ?? 1);
+            int pageNum = (id ?? 1);
             int pageSize = 20;
             string sortColumn = sortBy ?? "TimeStamp";
             string sortDirection = sortDir ?? "ASC";
@@ -58,7 +57,7 @@ namespace AsignioInternship.Controllers
             logToUpdate.Important = username;
             int updatePerformed = m_logRepository.Update(logToUpdate, username);
 
-            if (updatePerformed == 1) //update successfull
+            if (updatePerformed == 1) //update successful
             {
                 string success = "Successfully marked as important";
                 return Json(new { IsCreated = true, Content = success });

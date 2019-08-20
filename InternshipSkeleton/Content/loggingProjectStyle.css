@@ -24,6 +24,14 @@
 .mybutton {
     display: inline-block;
 }
+.undosearchButton {
+    background-color: #4CAF50 !important;
+    color: white !important;
+}
+.undosearchButton:disabled {
+    background-color: lightgrey !important;
+    color: gray !important;
+}
 .modalButton {
     padding: 10px 24px;
     margin: 10px;

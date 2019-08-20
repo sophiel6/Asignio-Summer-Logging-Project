@@ -57,7 +57,7 @@
         </div>
         <button type="button" id="searchSubmit" name="searchSubmit" class="btn btn-default mybutton">Search</button>
 
-        <button type="button" id="undoButton" class="btn btn-default" onclick="undoSearch('@sortBy', '@sortDir', 1)">Undo search</button>
+        <button type="button" id="undoButton" class="btn btn-default undosearchButton" onclick="undoSearch('@sortBy', '@sortDir', 1)">Undo search</button>
 
         @Html.ActionLink("Advanced Search", "AdvancedSearch", "LogException")
     </form>

@@ -143,8 +143,9 @@
                     <td>@currentRow.Message</td>
                     <td>@currentRow.MethodName</td>
                     <td>@currentRow.Source</td>
-                    <td>@currentRow.StackTrace 
-                        <br /> <img src="~/Content/ellipsis-button.png" class="ellipsisButton" onclick="openEllipsis('@currentRow.StackTrace');" />
+                    <td>
+                        @currentRow.StackTrace 
+                        <br /> <img src="~/Content/ellipsis-button.png" class="ellipsisButton" onclick="openEllipsis(`@currentRow.StackTrace`);" />
                     </td>
                     <td>
                         @if (currentRow.Important == null)
@@ -170,21 +171,22 @@ else
     <button type="button" class="close" aria-label="Close" onclick="closeModal()">
         <span aria-hidden="true">&times;</span>
     </button>
+
     <form id="usernameForm">
         Your Email: <input type="text" name="usernameEntry" />
     </form>
+
     <button class="modalButton" onclick="UpdateImportance(@id, '@sortBy', '@sortDir')">Update</button>
     <!-- <button class="modalButton" onclick="closeModal()">Cancel</button> -->
 </div>
 
-<div class="reveal" id="ellipsis-modal" data-close-on-click>
-    
+<div class="reveal large" id="ellipsis-modal" data-close-on-click>
     <button type="button" class="close" aria-label="Close" onclick="closeEllipsis()">
         <span aria-hidden="true">&times;</span>
     </button>
-
-    <div id="stackTrace"> </div>
+    <div id="ellipsisContent"> </div>
 </div>
+
 
 @section scripts
 {
@@ -241,8 +243,7 @@ else
     function openEllipsis(StackTrace) {
         event.preventDefault;
         currentStackTrace = StackTrace;
-        debugger;
-        $("#stackTrace").html(currentStackTrace); //writing the stack trace into a div in the modal
+        $("#ellipsisContent").html(currentStackTrace); //writing the stack trace into a div in the modal
         ellipsisModal.open();
     }
 

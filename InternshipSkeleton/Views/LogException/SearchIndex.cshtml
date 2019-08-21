@@ -98,7 +98,10 @@
                 <td>@currentRow.Message</td>
                 <td>@currentRow.MethodName</td>
                 <td>@currentRow.Source</td>
-                <td>@currentRow.StackTrace</td>
+                <td>
+                    @currentRow.StackTrace
+                    <br /> <img src="~/Content/ellipsis-button.png" class="ellipsisButton" onclick="openEllipsis(`@currentRow.StackTrace`);" />
+                </td>
                 <td>
                     @if (currentRow.Important == null)
                     {
@@ -134,10 +137,21 @@ else
     <button class="modalButton" onclick="UpdateImportance(@id, '@sortBy', '@sortDir')">Update</button>
 </div>
 
+<div class="reveal large" id="ellipsis-modal" data-close-on-click>
+    <button type="button" class="close" aria-label="Close" onclick="closeEllipsis()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <div id="stackTrace"> </div>
+</div>
+
 @section scripts {
     <script>
     var exampleModal;
     var exampleModalVisible = false;
+
+    var ellipsisModal;
+    var ellipsisModalVisible = false;
+    var currentStackTrace;
 
     var currentUserID = null;
     var currentEmailAddress = null;
@@ -177,15 +191,34 @@ else
         exampleModal.close();
     };
 
+    function openEllipsis(StackTrace) {
+        event.preventDefault;
+        currentStackTrace = StackTrace;
+        $("#stackTrace").html(currentStackTrace); //writing the stack trace into a div in the modal
+        ellipsisModal.open();
+    }
+
+    function closeEllipsis() {
+        //event.preventDefault;
+        currentStackTrace = null;
+        ellipsisModal.close();
+    }
+
     $(document).ready(function () {
         exampleModal = new Foundation.Reveal($("#example-modal"));
-
         $("#example-modal").on("open.zf.reveal", function () {
             exampleModalVisible = true;
         });
-
         $("#example-modal").on("closed.zf.reveal", function () {
             exampleModalVisible = false;
+        });
+
+        ellipsisModal = new Foundation.Reveal($("#ellipsis-modal"));
+        $("#ellipsis-modal").on("open.zf.reveal", function () {
+            ellipsisModalVisible = true;
+        });
+        $("#ellipsis-modal").on("closed.zf.reveal", function () {
+            ellipsisModalVisible = false;
         });
     });
 

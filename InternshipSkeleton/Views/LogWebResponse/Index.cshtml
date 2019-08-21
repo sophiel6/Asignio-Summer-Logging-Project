@@ -159,12 +159,14 @@ else
     <h2>No results found. </h2>
 }
 
-<div class="reveal" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out" style="display:none;">
+<div class="reveal tiny" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out" style="display:none;">
+    <button type="button" class="close" aria-label="Close" onclick="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
     <form id="usernameForm">
         Your Email: <input type="text" name="usernameEntry" />
     </form>
     <button class="modalButton" onclick="UpdateImportance(@id, '@sortBy', '@sortDir')">Update</button>
-    <button class="modalButton" onclick="closeModal()">Cancel</button>
 </div>
 
 @section scripts

@@ -63,6 +63,9 @@
     width: 25% !important;
     display: inline-block;
 }
+.exampleModal {
+    width: 200px !important;
+}
 
 /* -----------------------Icons ---------------------------------------- */
 .filledIcon {

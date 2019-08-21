@@ -94,8 +94,7 @@ namespace AsignioInternship.Controllers
     }
 }
 
-/*
- * To do:
+/* To do:
  * -comment code?
  * 
  * Problems: 

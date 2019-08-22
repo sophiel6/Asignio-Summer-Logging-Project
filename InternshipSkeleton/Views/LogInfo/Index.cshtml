@@ -58,8 +58,8 @@
         @Html.ActionLink("Advanced Search", "AdvancedSearch", "LogInfo")
     </form>
 <br />
-
 </div>
+
 <!-- Paging stuff -->
 <div class="container">
     <div class="row">
@@ -142,7 +142,7 @@
                     <td>
                         @currentRow.Object
                         @if (currentRow.Object.Contains('\n') || (currentRow.Object.Length >= 40))
-                            {<br /> <img src="~/Content/ellipsis-button.png" class="ellipsisButton" onclick="openEllipsis(`@currentRow.Object`);" />}
+                            {<br /> <img src="~/Content/ellipsis-button.png" class="ellipsisButton" onclick="openEllipsis('@currentRow.Object');" />}
                     </td>
                     <td>
                         @if (currentRow.Important == null)

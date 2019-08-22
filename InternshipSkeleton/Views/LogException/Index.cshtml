@@ -178,7 +178,6 @@ else
     </form>
 
     <button class="modalButton" onclick="UpdateImportance(@id, '@sortBy', '@sortDir')">Update</button>
-    <!-- <button class="modalButton" onclick="closeModal()">Cancel</button> -->
 </div>
 
 <div class="reveal large" id="ellipsis-modal" data-close-on-click>
@@ -197,7 +196,6 @@ else
 
     var ellipsisModal;
     var ellipsisModalVisible = false;
-    var currentStackTrace;
 
     var currentUserID = null;
     var currentEmailAddress = null;
@@ -243,19 +241,15 @@ else
 
     function openEllipsis(StackTrace) {
         event.preventDefault;
-        currentStackTrace = StackTrace;
-        $("#ellipsisContent").html(currentStackTrace); //writing the stack trace into a div in the modal
+        $("#ellipsisContent").html(StackTrace); //writing the stack trace into a div in the modal
         ellipsisModal.open();
     }
 
     function closeEllipsis() {
-        //event.preventDefault;
-        currentStackTrace = null;
         ellipsisModal.close();
     }
 
     $(document).ready(function () {
-
         exampleModal = new Foundation.Reveal($("#example-modal"));
         $("#example-modal").on("open.zf.reveal", function () {
             exampleModalVisible = true;

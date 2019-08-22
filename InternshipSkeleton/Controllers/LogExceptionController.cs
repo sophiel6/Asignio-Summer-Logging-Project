@@ -94,11 +94,3 @@ namespace AsignioInternship.Controllers
     }
 }
 
-/* To do:
- * -comment code?
- * 
- * Problems: 
- * -have to click some buttons multiple times for them to work (submit on AdvancedSearch, jump to page, etc.)
- * -modals don't close when you click outside
- * 
- */

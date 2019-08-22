@@ -168,7 +168,7 @@ else
     <h2> No results found. </h2>
 }
 
-<div class="reveal tiny" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out" style="display:none;">
+<div class="reveal-modal tiny" id="example-modal" data-close-on-click="true" data-animation-in="fade-in" data-animation-out="fade-out" style="display:none;">
     <button type="button" class="close" aria-label="Close" onclick="closeModal()">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -178,7 +178,7 @@ else
     <button class="modalButton" onclick="UpdateImportance(@id, '@sortBy', '@sortDir')">Update</button>
 </div>
 
-<div class="reveal large" id="ellipsis-modal" data-close-on-click>
+<div class="reveal large" id="ellipsis-modal" data-reveal>
     <button type="button" class="close" aria-label="Close" onclick="closeEllipsis()">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -385,7 +385,6 @@ else
     });
 
     function undoSearch(sortby, sortdir, page) {
-        debugger;
         var sortBy = sortby;
         var sortDirection = sortdir;
         var page = page;

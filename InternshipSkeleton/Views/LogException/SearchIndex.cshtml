@@ -89,7 +89,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (CombinedLogExceptionDataModel currentRow in Model.Items)
+           @foreach (CombinedLogExceptionDataModel currentRow in Model.Items)
             {
             <tr>
                 <td>@currentRow.EmailAddress</td>
@@ -100,7 +100,8 @@
                 <td>@currentRow.Source</td>
                 <td>
                     @currentRow.StackTrace
-                    <br /> <img src="~/Content/ellipsis-button.png" class="ellipsisButton" onclick="openEllipsis(`@currentRow.StackTrace`);" />
+                    @if (currentRow.StackTrace.Contains('\n') || (currentRow.StackTrace.Length >= 40))
+                        {<br /> <img src="~/Content/ellipsis-button.png" class="ellipsisButton" onclick="openEllipsis(`@currentRow.StackTrace`);" />}
                 </td>
                 <td>
                     @if (currentRow.Important == null)

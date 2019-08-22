@@ -99,4 +99,7 @@ namespace AsignioInternship.Controllers
  * 
  * Problems: 
  * -have to click some buttons multiple times for them to work (submit on AdvancedSearch, jump to page, etc.)
+ * -modals don't close when you click outside
+ * -LogInfo - some of the ellipses won't open - may need to set off quotes and stuff 
+ * 
  */

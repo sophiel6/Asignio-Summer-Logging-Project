@@ -129,28 +129,32 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (CombinedLogControllerActionDataModel currentRow in Model.Items)
+           @foreach (CombinedLogControllerActionDataModel currentRow in Model.Items)
             {
-                <tr>
-                    <td>@currentRow.EmailAddress</td>
-                    <td>@currentRow.TimeStamp</td>
-                    <td>@currentRow.WebRequestID</td>
-                    <td>@currentRow.ControllerName</td>
-                    <td>@currentRow.ActionName</td>
-                    <td>@currentRow.Parameters</td>
-                    <td>
-                        @if (currentRow.Important == null) 
-                        {
-                            <img src="~/Content/unfilledStar.png" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()', '@currentRow.TimeStamp.ToString()',
+            <tr>
+                <td>@currentRow.EmailAddress</td>
+                <td>@currentRow.TimeStamp</td>
+                <td>@currentRow.WebRequestID</td>
+                <td>@currentRow.ControllerName</td>
+                <td>@currentRow.ActionName</td>
+                <td>
+                    @currentRow.Parameters
+                    @if (currentRow.Parameters.Contains('\n') || (currentRow.Parameters.Length >= 40))
+                        {<br /> <img src="~/Content/ellipsis-button.png" class="ellipsisButton" onclick="openEllipsis(`@currentRow.Parameters`);" />}
+                </td>
+                <td>
+                    @if (currentRow.Important == null)
+                    {
+                        <img src="~/Content/unfilledStar.png" class="unfilledIcon" onclick="openModal('@currentRow.UserID.ToString()', '@currentRow.TimeStamp.ToString()',
                             '@currentRow.WebRequestID.ToString()', '@currentRow.ControllerName.ToString()','@currentRow.ActionName.ToString()')">
-                        }
-                        else
-                        {
-                            <img src="~/Content/filledStar.png" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()', '@currentRow.TimeStamp.ToString()',
+                    }
+                    else
+                    {
+                        <img src="~/Content/filledStar.png" class="filledIcon" onclick="markUnimportant('@currentRow.UserID.ToString()', '@currentRow.TimeStamp.ToString()',
                             '@currentRow.WebRequestID.ToString()', '@currentRow.ControllerName.ToString()','@currentRow.ActionName.ToString()')">
-                        }
-                    </td>
-                </tr>
+                    }
+                </td>
+            </tr>
             }
         </tbody>
     </table>
@@ -170,11 +174,21 @@ else
     <button class="modalButton" onclick="UpdateImportance(@id, '@sortBy', '@sortDir')">Update</button>
 </div>
 
+<div class="reveal large" id="ellipsis-modal" data-close-on-click>
+    <button type="button" class="close" aria-label="Close" onclick="closeEllipsis()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <div id="ellipsisContent"> </div>
+</div>
+
 @section scripts
 {
     <script language="javascript" type="text/javascript">
     var exampleModal;
     var exampleModalVisible = false;
+
+    var ellipsisModal;
+    var ellipsisModalVisible = false;
 
     var currentUserID = null;
     var currentTimeStamp = null;
@@ -215,16 +229,31 @@ else
         exampleModal.close();
     }
 
+    function openEllipsis(Parameters) {
+        event.preventDefault;
+        $("#ellipsisContent").html(Parameters); //writing the stack trace into a div in the modal
+        ellipsisModal.open();
+    }
+
+    function closeEllipsis() {
+        ellipsisModal.close();
+    }
+
     $(document).ready(function () {
-
         exampleModal = new Foundation.Reveal($("#example-modal"));
-
         $("#example-modal").on("open.zf.reveal", function () {
             exampleModalVisible = true;
         });
-
         $("#example-modal").on("closed.zf.reveal", function () {
             exampleModalVisible = false;
+        });
+
+        ellipsisModal = new Foundation.Reveal($("#ellipsis-modal"));
+        $("#ellipsis-modal").on("open.zf.reveal", function () {
+            ellipsisModalVisible = true;
+        });
+        $("#ellipsis-modal").on("closed.zf.reveal", function () {
+            ellipsisModalVisible = false;
         });
 
         $(window).keydown(function(event){ /* keep the page from submitting when user presses Enter */

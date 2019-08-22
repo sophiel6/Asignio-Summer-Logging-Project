@@ -23,7 +23,7 @@
         basicSearch = false;
     } 
 
-    List<String> categories = new List<String>() { "TimeStamp", "WebRequestID", "UserID", "RawURL", "Parameters", "Important" };
+    List<String> categories = new List<String>() { "TimeStamp", "WebRequestID", "RawURL", "Parameters", "Important" };
 
     bool noResults = (Model.TotalItems) == 0;
 
@@ -134,16 +134,22 @@
                 <tr>
                     <td>@currentRow.TimeStamp</td>
                     <td>@currentRow.WebRequestID</td>
-                    <td>@currentRow.UserID</td>
                     <td>
                         @currentRow.RawURL
-                        @if (currentRow.RawURL.Contains('\n') || (currentRow.RawURL.Length >= 40))
-                        {<br /> <img src="~/Content/ellipsis-button.png" class="ellipsisButton" onclick="openEllipsis(`@currentRow.RawURL`);" />}
+                        @if (!String.IsNullOrEmpty(currentRow.RawURL))
+                        {
+                            if (currentRow.RawURL.Contains('\n') || (currentRow.RawURL.Length >= 40))
+                            {<br /> <img src="~/Content/ellipsis-button.png" class="ellipsisButton" onclick="openEllipsis(`@currentRow.RawURL`);" />}
+                        }
+                         
                     </td>
                     <td>
                         @currentRow.Parameters
-                        @if (currentRow.Parameters.Contains('\n') || (currentRow.Parameters.Length >= 40))
-                        {<br /> <img src="~/Content/ellipsis-button.png" class="ellipsisButton" onclick="openEllipsis(`@currentRow.Parameters`);" />}
+                        @if (!String.IsNullOrEmpty(currentRow.Parameters))
+                        {
+                            if (currentRow.Parameters.Contains('\n') || (currentRow.Parameters.Length >= 40))
+                            {<br /> <img src="~/Content/ellipsis-button.png" class="ellipsisButton" onclick="openEllipsis(`@currentRow.Parameters`);" />}
+                        }
                     </td>
                     <td>
                         @if (currentRow.Important == null) 

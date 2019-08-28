@@ -29,7 +29,14 @@
 <div class="container">
     <div class="row">
         <div class="col-md-2">
-            <label class="pageLabel">Page: @Model.PageNumber / @Model.TotalPages</label>
+            @if (!noResults)
+            {
+                <label class="pageLabel">Page: @Model.PageNumber / @Model.TotalPages</label>
+            }
+            else
+            {
+                <label class="pageLabel">Page: 0 / 0</label>
+            }
         </div>
         <div class="col-md-2">
             <h5>Total results: @Model.TotalItems</h5>
